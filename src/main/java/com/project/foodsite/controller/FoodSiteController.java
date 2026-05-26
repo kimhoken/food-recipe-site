@@ -8,9 +8,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FoodSiteController {
     
-    @GetMapping("/")
-    public String food_main(){
-        return "test";
-    }
 
 }
