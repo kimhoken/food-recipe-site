@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
 </head>
 <body>
-
     <header>
         <div class="header-top">
             <div class="logo">
@@ -20,14 +20,14 @@
                 <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
             </div>
             <div class="user-menu">
-                <a href="${pageContext.request.contextPath}/login" class="menu-item">
+                <a href="/login.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
                     </span>
                     <div>로그인</div>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/join" class="menu-item">
+                <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
                     </span>
@@ -42,6 +42,8 @@
                 </a>
             </div>
         </div>
+
+        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용 --%>
         <ul class="nav-bar">
             <li class="active">홈</li>
             <li>레시피</li>
@@ -78,6 +80,20 @@
     <div class="container">
         <div class="section-title">지금 인기있는 레시피🔥</div>
         <div class="recipe-grid">
+        <%--
+            <c:forEach var="recipe" items=${view_recipes}>
+                <div class="recipe-card">
+                    <div class="recipe-img">이미지 들어가는 자리</div>
+                    <div class="rank-badge">1</div>
+                    <div class="recipe-info">
+                        <div class="recipe-name">${recipe.title}</div>
+                        <div class="recipe-author">👤 ${recipe.nickname}</div>
+                        <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
+                    </div>
+                </div> 
+            </c:forEach>
+            --%>
+            <%-- 위에 완성시 밑에 코드 삭제  --%>
             <div class="recipe-card">
                 <div class="recipe-img"></div>
                 <div class="rank-badge">1</div>
@@ -123,6 +139,7 @@
                     <div class="recipe-meta"><span class="star-rating">★ 4.6</span><span>조회수 7,654</span></div>
                 </div>
             </div>
+            <%-- ------------------------- --%>
         </div>
     </div>
 
@@ -133,19 +150,25 @@
                 <h3>냉장고 재료로<br>레시피 추천받기</h3>
                 <p>집에 있는 재료를 선택하면<br>만들 수 있는 요리를 추천해드려요!</p>
             </div>
-            <button class="ref-btn">재료 선택하기 &rarr;</button>
+            <button class="ref-btn" onClick="location.href='/fridge_list.do'">재료 선택하기 &rarr;</button>
         </div>
-        
+
+        <%-- 레시피중에 랜덤으로 뜨게하시 binding은 today로 --%>
         <div class="mid-box">
             <h3 class="box-title">오늘의 추천 레시피</h3>
             <div class="today-main">
+                <%-- <div class="today-main-img"> <img src="/images/${today.image}"/> </div> --%>
                 <div class="today-main-img"></div>
                 <div class="today-main-info">
+                    <%-- <h4>${today.title}</h4> --%>
                     <h4>오므라이스</h4>
+                    <%-- <p>${today.content}</p> --%>
                     <p>부드러운 계란과 새콤한 소스의 완벽한 조화!</p>
+                    <%-- <span class="author">👤 ${today.nickname}</span> --%>
                     <span class="author">👤 요리마스터</span>
                 </div>
-            </div>
+            </div>  
+            <%-- 이미지 작게 5개 나오는 자라 --%>
             <div class="today-sub-list">
                 <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
@@ -159,8 +182,24 @@
     <div class="container">
         <div class="section-title-space">
             <div class="section-title">최신 레시피 후기 </div>
+            <%-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 --%>
             <a href="#" class="more-btn">더보기 &gt;</a>
         </div>
+        <%-- 등록일자 기준으로 조회 --%>
+        <%-- 
+            <c:forEach var="recipe" items="${reg_recipes}" >
+                <div class="recipe-card">
+                <div class="recipe-img"></div>
+                <div class="recipe-info">
+                    <div class="recipe-name">${recipe.title}</div>
+                    <div class="recipe-author">👤 ${recipe.nickname}</div>
+                    <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
+                </div>
+            </div>
+            </c:forEach>
+        --%>
+
+        <%-- 위에 완성시 밑에 코드 삭제  --%>
         <div class="recipe-grid">
             <div class="recipe-card">
                 <div class="recipe-img"></div>
@@ -203,6 +242,7 @@
                 </div>
             </div>
         </div>
+        <%-- -------------------------- --%>
     </div>
 
 
