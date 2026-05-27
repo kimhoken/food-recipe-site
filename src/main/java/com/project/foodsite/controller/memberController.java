@@ -43,7 +43,7 @@ public class memberController {
     
 
     //로그인 페이지
-    @GetMapping(value = {"/","/login.do"})
+    @GetMapping("/login.do")
     public String loginpage() {
         return "/member/login";
     }
