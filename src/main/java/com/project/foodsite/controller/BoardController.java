@@ -19,7 +19,7 @@ public class BoardController {
     private final BoardDAO boardDao;
 
     //board list 조회
-    @GetMapping(value={"/", "/list.do"} )
+    @GetMapping("/list.do" )
     public String boardList(Model model){
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);

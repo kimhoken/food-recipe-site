@@ -18,7 +18,7 @@ public class ChatbotController {
     private final ChatbotDAO chatbotDao;
     
 
-    @GetMapping(value = {"/","/chatbot"})
+    @GetMapping("/chatbot")
     public String chatbotmain(){
         return "chatbot/chatbot_main";
     }
