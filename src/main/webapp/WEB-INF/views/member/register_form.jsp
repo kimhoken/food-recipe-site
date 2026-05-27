@@ -21,7 +21,7 @@
                     <th>아이디</th>
                     <td>
                         <input name="login_id" id="id"/>
-                        <input type="button" value="중복검사" onclick="" placeholder="아이디 입력하세요"/>
+                        <input type="button" value="중복검사" onclick="" placeholder="아이디 입력하세요!!"/>
                     </td>
                 </tr>
                 <tr>
