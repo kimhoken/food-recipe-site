@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.foodsite.dao.ChatbotDAO">
+	
+   <select id="selectParent" resultType="chatbot">
+        select id, parent_id, question, 
+            answer, depth, sort_order, use_yn 
+            from chatbot 
+            where parent_id is null and use_yn = 'Y'
+    </select>
+
+    <select id="selectSub" parameterType="int" resultType="chatbot">
+        select id, parent_id,
+            question, answer, 
+            depth, sort_order, use_yn 
+            from chatbot
+            where parent_id = #{parentId} and use_yn = 'Y'
+    </select>
+
+</mapper>
