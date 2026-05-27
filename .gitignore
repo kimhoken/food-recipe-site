@@ -50,3 +50,4 @@ src/main/resources/application-local.properties
 ### Logs ###
 *.log
 
+.application.properties
