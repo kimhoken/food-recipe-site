@@ -22,6 +22,7 @@ dependencies {
 
 	//이메일
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
 
 	// 비밀번호 암호화
 	implementation 'org.springframework.security:spring-security-crypto'

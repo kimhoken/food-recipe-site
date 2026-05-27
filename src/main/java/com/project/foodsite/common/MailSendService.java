@@ -36,7 +36,7 @@ public class MailSendService {
         
         String setForm = "kimhk441@naver.com";
         String toMail = email;
-        String title = "가입인증 이메일";
+        String title = "FoodSite 인증 이메일 입니다.";
 
         StringBuffer content = new StringBuffer();
         content.append("<h3>요청하신 인증번호 입니다.</h3>");
@@ -48,7 +48,7 @@ public class MailSendService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom(setForm);
+            helper.setFrom(setForm, "FoodSite");
             helper.setTo(toMail);
             helper.setSubject(title);
             helper.setText( content.toString(),true );
