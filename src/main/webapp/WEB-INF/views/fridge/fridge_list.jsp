@@ -100,15 +100,15 @@
                                         <span class="ing-name">${vo.ingredient_name}</span>
                                         <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
 
-                                        <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
+                                        <%-- <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})"> --%>
 
                                         <div class="expire-hover">
                                             <span>유통기한</span>
                                             <strong>${vo.expire_date}</strong>
                                             <div class="card-actions">
-                                                <input type="button" value="삭제"><br/>
-                                                <input type="button" value="수정">
+                                                <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                                <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
                                             </div>
                                         </div>
 
@@ -128,14 +128,14 @@
                                     <div class="ingredient-card">
                                         <span class="ing-name">${vo.ingredient_name}</span>
                                         <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
-                                        <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
-                                        <div class="expire-hover">
+                                        <%-- <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})"> --%>
+                                        <div class="expire-hover">  
                                             <span>유통기한</span>
                                             <strong>${vo.expire_date}</strong>
                                             <div class="card-actions">
-                                                <input type="button" value="삭제"><br/>
-                                                <input type="button" value="수정">
+                                                <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                                <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
                                             </div>
                                         </div>
                                     </div>

@@ -234,7 +234,7 @@ body {
 }
 
 /* ==========================================================================
-   5. 재료 카드 및 유통기한 Hover 효과 핵심 영역
+    5. 재료 카드 및 유통기한 Hover 효과 핵심 영역
    ========================================================================== */
 .ingredient-card {
     position: relative;
@@ -300,7 +300,7 @@ body {
     
     opacity: 0;
     transition: opacity 0.23s ease-in-out;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .expire-hover span {

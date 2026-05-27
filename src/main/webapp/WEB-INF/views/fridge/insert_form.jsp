@@ -56,7 +56,7 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.res == "success"){ 
+                    if(data.res == "success"){
                         alert("등록 성공");
                         //등록 성공 시 냉장고 리스트로 이동
                         location.href="/fridge_list.do"
@@ -73,9 +73,9 @@
 </head>
 <body>
     <div class="header-container">
-        <div class="logo-box">로고들어가는 자리</div>
+        <div class="logo-box"><a href="/"><img src="/images/Logo_2.png" alt="로고이미지" width="672" height="120"></a></div>
         <div class="header-right">
-            <button class="user-menu-btn">👤 로그인 / 회원가입</button>
+            <button class="user-menu-btn">👤 로그인</button>
         </div>
     </div>
 
