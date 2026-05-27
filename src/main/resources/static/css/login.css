@@ -1,0 +1,200 @@
+body {
+    margin: 0;
+    background: #f5f1eb;
+    font-family: Arial, sans-serif;
+}
+
+form {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.login-wrap {
+    width: 1400px;
+    padding: 850px;
+    background: white;
+    border-collapse: collapse;    
+    border-radius: 24px;
+    overflow: hidden;
+       
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-left{
+    width:68%;
+    position: relative;
+    padding: 0;
+}
+
+.login-img{
+    width: 100%;
+    height: 850px;
+    object-fit: cover;
+    display: block;
+}
+
+.left-text{
+    position:absolute;
+    top:130px;
+    left:80px;
+    color:#4B3525;
+}
+
+.left-text h1{
+    font-size:44px;
+    line-height:1.35;
+    margin:0;
+}
+
+.left-text p{
+    margin-top:35px;
+    font-size:20px;
+    line-height:1.7;
+}
+
+.login-right{
+    width:45%;
+    background:#FCFCFC;
+    padding:0 54px;
+}
+
+.login-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0 10px;
+    margin-top: -20px;
+}
+
+.login-table caption{
+    font-size:36px;
+    font-weight:bold;
+    color:#5A4636;
+    margin-bottom:40px;
+    text-align:left;
+}
+
+.login-table th{
+    text-align:left;
+    color:#5A4636;
+    font-size:16px;
+}
+
+.login-table input[name="login_id"],
+.login-table input[name="password"]{
+    width:100%;
+    height:55px;
+    border:1px solid #DDD6CE;
+    border-radius:10px;
+    padding-left:15px;
+    box-sizing:border-box;
+    font-size:16px;
+}
+
+.login-btn{
+    width:100%;
+    height:58px;
+    border:none;
+    border-radius:10px;
+    background:#6B4B35;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+    background:#5A3E28;
+}
+
+.sub-btn-area{
+    text-align:center;    
+}
+
+.sub-btn-area span{
+    font-size: 15px;
+    color: #747171;
+}
+
+.sub-btn{
+    border:none;
+    background:none;
+    color:#8A7565;
+    cursor:pointer;
+    font-size:13px;
+    margin:0 -3px;    
+}
+.regi-btn{
+    border:none;
+    background:none;
+    color:#99785f;
+    cursor:pointer;
+    font-size:13px;
+    margin:0 -5px; 
+    font-size: 15px;   
+}
+.idpwd-area{
+    text-align: right;
+    font-size: 12px;
+    padding-bottom: 15px;
+}
+
+.line-area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    padding: 12px 0px;  
+}
+
+.line{
+    width: 149px;;
+    height: 1px;
+    background: #e1dfdf;
+}
+.line-area span{
+    font-size: 12px;
+    color: #c7c3c3;
+    
+}
+
+.social-btn{
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 340px;
+    height: 45px;
+    font-size: 15px;
+    text-align: center;
+    margin: 10px 0;
+
+    background: white;
+  
+    cursor: pointer;
+       
+    border: 1px solid #E5E5E5;
+}
+
+.social-btn:focus,
+.social-btn:active,
+.social-btn:hover{
+    outline:none;
+    box-shadow:none;
+}
+
+.social-btn:hover{
+    background-color: #FCFCFC;
+}
+
+.social-btn img{
+    position: absolute;
+    left: 55px;
+    width:35px;
+    height:35px;
+}

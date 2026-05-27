@@ -1,5 +1,6 @@
 # food-recipe-site
 khteamproject
+<<<<<<< HEAD
 
 https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSAfR0/edit?gid=102766545#gid=102766545
 
@@ -57,3 +58,6 @@ UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f
 18. **스윗칠리닭강정**
 19. **고소포근계란말이**
 20. **블루베리그릭요거트**
+=======
+기능 명세서: https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSAfR0/edit?gid=102766545#gid=102766545
+>>>>>>> 0f9901fc84f8107ba8812a4d43a30bd08bd71269
