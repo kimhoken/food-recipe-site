@@ -29,9 +29,23 @@ public class BoardController {
     //board 검색
     @PostMapping("/search.do")
     public String boardSearch(Model model, String search){
+
+        System.out.println("검색어: " + search); //검색어 잘 들어오나?
+
         List<BoardVO> list = boardDao.search(search);
+
+        System.out.println("결과: " + list.size()); //DB에서 데이터가 뽑히나 확인
+
         model.addAttribute("list", list);
+        model.addAttribute("searchWord", search);  //검색어 보관
         return "/board/board_list";
     }
 
+    //recipe 등록
+    @GetMapping("/regiRecipe.do")
+    public String recipeForm(Model model){
+        String id = "1";
+        model.addAttribute("id", id); 
+        return "/board/board_regiRecipe";
+    }
 }

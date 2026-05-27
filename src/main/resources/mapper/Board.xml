@@ -11,10 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from board
     </select>
 
-     <select id="search" resultType="board" parameterType="String">
-        select * from board where 
-        title like '%'|| #{title} ||'%' or 
-        content like '%'|| #{content} ||'%'
+    <select id="search" resultType="board" parameterType="String">
+    <bind name="pattern" value="'%' + search + '%'" />
+       SELECT * FROM board 
+       WHERE title LIKE #{pattern} 
+       OR content LIKE #{pattern}
+
     </select>
 		
 </mapper>
