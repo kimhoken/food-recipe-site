@@ -47,10 +47,23 @@
     </head>
 
     <body>
-        <form action="/" method="post" enctype="multipart/form-data">
-
+        <form action="/myrecipe.do" method="post" enctype="multipart/form-data">
+            
+            <h1>필요한 재료</h1>
+            <h6>(모든 재료는 정량화하여 적어주세요.)</h6>    
+            
             <table border="1">
-                
+                <tbody id="ingredients">
+                    <tr>
+                        <td>
+                            <h3>[재료]</h3>
+                            <textarea name="vegetable" rows="5" cols="40"></textarea>
+                            <textarea name="meat" rows="5" cols="40"></textarea>
+                            <textarea name="seasonings" rows="5" cols="40"></textarea>
+                        </td>
+
+                    </tr>
+                </tbody>
             </table>
 
             <h1>조리 순서</h1>

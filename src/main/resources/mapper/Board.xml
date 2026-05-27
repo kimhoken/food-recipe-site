@@ -16,7 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        SELECT * FROM board 
        WHERE title LIKE #{pattern} 
        OR content LIKE #{pattern}
-
     </select>
 		
 </mapper>
