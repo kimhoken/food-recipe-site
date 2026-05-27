@@ -56,7 +56,7 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.res == "success"){
+                    if(data.res == "success"){ 
                         alert("등록 성공");
                         //등록 성공 시 냉장고 리스트로 이동
                         location.href="/fridge_list.do"

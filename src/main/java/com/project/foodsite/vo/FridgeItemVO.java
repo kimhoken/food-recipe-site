@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("fridge")
 public class FridgeItemVO {
-    private int fridgeId;
+    private int fridge_id;
     private String ingredient_name;
     private String quantity;
     private LocalDate expire_date;

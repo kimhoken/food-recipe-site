@@ -8,6 +8,58 @@
         <meta charset="UTF-8">
         <title>냉장고 파먹기</title>
         <link rel="stylesheet" type="text/css" href="/css/fridge.css">
+        <script>
+            function deleteItem(fridge_id){
+                if(confirm("삭제하시겠습니까?")){
+                    const url = "/delete_fridge.do";
+                    fetch(url, {
+                        method: "post",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body:JSON.stringify({
+                            id: fridge_id
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.result == "success"){
+                            alert("삭제되었습니다.")
+                            location.reload()
+                        }else{
+                            alert("삭제 실패...")
+                        }
+                    })
+                }
+            }
+
+            function modify(firdge_id){
+                const quantity = prompt("수량:");
+                //alert(quantity + "/" + firdge_id)
+                const url = "/modity.do";
+                const data = {
+                    firdge_id:firdge_id,
+                    quantity:quantity
+                }
+
+                fetch(url, {
+                    method: "post",
+                    headers: {
+                            "Content-Type": "application/json"
+                    },
+                    body:JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(js => {
+                    if(js.result == "success"){
+                        alert("수정되었습니다.");
+                        location.reload();
+                    }else{
+                        alert("수정 실패....");
+                    }
+                })
+            }
+        </script>
     </head>
     <body>
 
@@ -48,14 +100,18 @@
                                         <span class="ing-name">${vo.ingredient_name}</span>
                                         <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
 
+                                        <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
+
                                         <div class="expire-hover">
                                             <span>유통기한</span>
                                             <strong>${vo.expire_date}</strong>
                                             <div class="card-actions">
-                                                <button type="button" class="btn-edit" onClick="location.href='/food_update.do?id=${id}'">수정</button>
-                                                <button type="button" class="btn-delete" onClick="deleteItem('${id}')">삭제</button>
+                                                <input type="button" value="삭제"><br/>
+                                                <input type="button" value="수정">
                                             </div>
                                         </div>
+
                                     </div>
                                 </c:if>
                             </c:forEach>
@@ -72,13 +128,14 @@
                                     <div class="ingredient-card">
                                         <span class="ing-name">${vo.ingredient_name}</span>
                                         <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
-
+                                        <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
                                         <div class="expire-hover">
                                             <span>유통기한</span>
                                             <strong>${vo.expire_date}</strong>
                                             <div class="card-actions">
-                                                <button type="button" class="btn-edit" onClick="location.href='/food_update.do?id=${id}'">수정</button>
-                                                <button type="button" class="btn-delete" onClick="deleteItem('${id}')">삭제</button>
+                                                <input type="button" value="삭제"><br/>
+                                                <input type="button" value="수정">
                                             </div>
                                         </div>
                                     </div>

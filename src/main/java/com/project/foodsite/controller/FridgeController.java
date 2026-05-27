@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-
 @Controller
 @RequiredArgsConstructor
 public class FridgeController {
@@ -54,5 +53,34 @@ public class FridgeController {
 
         return map;
     }//insertFin
+
+    @PostMapping("/delete_fridge.do")
+    @ResponseBody
+    public Map<String, String> del(@RequestBody Map<String, String> map){
+        int res = fdao.deleteFridge(map.get("id"));
+        String result = "fail";
+
+        if(res == 1){
+            result = "success";
+        }
+        map.put("result", result);
+
+        return map;
+    }//del
+
+    @PostMapping("/modity.do")
+    @ResponseBody
+    public Map<String, String> modi(@RequestBody Map<String, String> map) {
+        int res = fdao.modify(map);
+        String result = "fail";
+
+        if(res != 0){
+            result = "success";
+        }
+        
+        map.put("result", result);
+        return map;
+    }
+    
     
 }
