@@ -50,3 +50,5 @@ src/main/resources/application-local.properties
 ### Logs ###
 *.log
 
+src/main/java/com/project/foodsite/controller/FoodSiteController.java
+.application.properties

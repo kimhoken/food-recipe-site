@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 기본패키지 + dao로 설정해야함
+    ex) com.kh.dept.dao.DeptDAO
+    -->
+<mapper namespace="com.project.foodsite.dao.FridgeItemDAO">
+	<select id="selectList" parameterType="int" resultType="fridge">
+        SELECT * FROM fridge_item WHERE member_id=#{id} ORDER BY expire_date
+    </select>
+
+    <insert id="insertFridge" parameterType="java.util.Map">
+        INSERT INTO fridge_item(ingredient_name, quantity, expire_date, created_date, freezer, member_id)
+        VALUES(
+            #{ingredient_name},
+            #{quantity},
+            #{expire_date},
+            now(),
+            #{freezer},
+            #{id}
+        )
+    </insert>
+
+    <delete id="deleteFridge" parameterType="String">
+        DELETE FROM fridge_item WHERE fridge_id = #{id}
+    </delete>
+
+    <update id="modify" parameterType="java.util.Map">
+        UPDATE fridge_item SET quantity = #{quantity} WHERE fridge_id=#{firdge_id}
+    </update>
+	
+</mapper>
