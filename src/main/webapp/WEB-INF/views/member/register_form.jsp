@@ -4,13 +4,32 @@
 <html>
 
     <head>
-      
+        <script>
+            function send(f){
+                
+            }
+        </script>
     </head>
 
     <body>
        <form>
             <table border="1" align="center">
                 <caption>회원 가입</caption>
+
+                <tr>
+                    <th>이름</th>
+                    <td>
+                        <input name="name"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>프로필</th>
+                    <td>
+                        <input name="photo" type="file"/>
+                    </td>
+                </tr>
+
                 <tr>
                     <th>별명</th>
                     <td>
