@@ -26,7 +26,7 @@ public class FridgeController {
      * 추후 파라미터로 member_ID를 받아서 진행
      * @return
      */
-    @GetMapping(value={"/", "/fridge_list.do"})
+    @GetMapping("/fridge_list.do")
     public String firdgeList(Model model) {
         int id=1;   //member_id
         List<FridgeItemVO> list = fdao.selectList(id);
