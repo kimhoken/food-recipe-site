@@ -81,14 +81,14 @@ public class memberController {
     
 
     //회원 가입 페이지
-    @GetMapping("/register_form.do")
+    @GetMapping("/join.do")
     public String registerpage(){
         return "/member/register_form";
     }
 
     @GetMapping("/main_page.do")
     public String mainPage(){
-        return "/member/main_page_test";
+        return "/main";
     }
 
 

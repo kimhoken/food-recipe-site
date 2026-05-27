@@ -20,21 +20,21 @@
                 <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
             </div>
             <div class="user-menu">
-                <a href="${pageContext.request.contextPath}/login" class="menu-item">
+                <a href="${pageContext.request.contextPath}/login.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
                     </span>
                     <div>로그인</div>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/join" class="menu-item">
+                <a href="${pageContext.request.contextPath}/join.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
                     </span>
                     <div>회원가입</div>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/mypage.png">
                     </span>

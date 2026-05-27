@@ -35,7 +35,7 @@
 
                         } else if (data.res == "login") {
                             alert("welcome " + data.nick + "!!");
-                            location.href = "/main_page.do";
+                            location.href = "/main_list.do";
 
                         } else {
                             alert("esteregg");
@@ -133,7 +133,7 @@
                             <tr>
                                 <td colspan="2" align="center" class="sub-btn-area">
                                     <span>계정이 없으신가요?</span>
-                                    <input class="regi-btn" type="button" value="회원가입" onclick="location.href='/register_form.do'" />
+                                    <input class="regi-btn" type="button" value="회원가입" onclick="location.href='/join.do'" />
                                 </td>
                             </tr>
                         </table>
