@@ -74,7 +74,7 @@
             <div class="category-item" data-category="diet"><div class="category-icon">💪</div>다이어트</div>
             <div class="category-item" data-category="easy"><div class="category-icon">⏱️</div>간단요리</div>
             <div class="category-item" data-category="baking"><div class="category-icon">🍞</div>베이킹</div>
-            <div class="category-item" data-category="all" id="btnAllCategory" >
+            <div class="category-item" data-category="all" id="btnAllCategory">
                 <div class="category-icon">⣿</div>전체보기
             </div>
       
