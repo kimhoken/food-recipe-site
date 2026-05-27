@@ -6,6 +6,7 @@ https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSA
 UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f&t=HCwJjh0RiASrjAoL-0
 
 유통기한 얼마 안남은거 색깔 다르게 표시하기
+냉장고의 재료로 레시피추천
 
 메인화면 + 검색
 레시피추천 + 레시피 후기
