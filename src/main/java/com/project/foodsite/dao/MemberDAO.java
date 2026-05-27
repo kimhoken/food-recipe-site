@@ -10,4 +10,6 @@ public interface MemberDAO {
 
     MemberVO getUserById(String id);
 
+    int userInsert(MemberVO vo);
+
 } 

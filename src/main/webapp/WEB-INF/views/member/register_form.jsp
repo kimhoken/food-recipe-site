@@ -38,12 +38,12 @@
 
                 let formData = new FormData(f);
 
-                fetech('/register.do',{
+                fetch('/register.do',{
                     method:'post',
                     body: formData
                 }).then(res => res.json())
                 .then(data => {
-                    if(data.result == 'success'){
+                    if(data.res== 1){
                         alert("회원 가입 성공!!");
                         location.href = '/login.do';
                     } else {

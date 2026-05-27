@@ -16,6 +16,6 @@ public class MemberVO {
     role, status, profile_img, login_type, provider, provider_id, name;
     private int member_id, report_count;
 
-    private MultipartFile profile_img_file;
+    private MultipartFile photo;
     private String filename;
 }

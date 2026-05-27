@@ -15,4 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from member where login_id = #{id}
     </select>        
 
+    <insert id="userInsert" parameterType="member">
+        insert into member (login_id, password, nickname, email, role, status, report_count, created_date, profile_img,name)         
+        values (#{login_id}, #{password}, #{nickname}, #{email}, #{role}, #{status}, 0, sysdate(), #{filename}, #{name})
+    </insert>
+
 </mapper>

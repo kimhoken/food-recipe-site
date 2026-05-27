@@ -1,6 +1,7 @@
 package com.project.foodsite.controller;
 
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.foodsite.common.MailSendService;
+import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.vo.MemberVO;
 
@@ -29,6 +33,8 @@ public class memberController {
     HttpSession httpSession;
 
     private final MemberDAO memberDAO;
+    private final MailSendService mss;
+    private final pwdSecurity pwdSecurity;
     
     //회원 리스트 출력
     @GetMapping(value = {"/member_list.do"})
@@ -86,10 +92,53 @@ public class memberController {
         return "/member/register_form";
     }
 
-    @GetMapping("/main_page.do")
-    public String mainPage(){
-        return "/main";
-    }
+   @PostMapping("/register.do")
+   @ResponseBody
+   public Map<String,Integer> register(MemberVO vo) throws Exception {
+
+        //비밀번호 암호화
+        String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
+        vo.setPassword(enc_pwd);
+
+        String savePath = System.getProperty("user.dir") + "/upload/";
+
+        File dir = new File(savePath);
+        if ( !dir.exists() ) {
+            dir.mkdirs();
+        }
+
+        MultipartFile photo = vo.getPhoto();
+        String filename = "no_file";
+
+       if(photo!=null && !photo.isEmpty()){
+
+            filename = photo.getOriginalFilename();
+            File saveFile = new File( savePath, filename );
+
+            if(saveFile.exists() ){
+                long time = System.currentTimeMillis();
+                filename= String.format("%d_%s", time,filename);
+
+                saveFile = new File(savePath,filename);
+
+            }
+
+            photo.transferTo(saveFile);
+
+        }
+
+        vo.setFilename(filename);
+        vo.setRole("User");
+        vo.setStatus("Active");
+        
+
+        int res = memberDAO.userInsert(vo);
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("res", res);
+        return map;
+   } 
+
 
 
 }
