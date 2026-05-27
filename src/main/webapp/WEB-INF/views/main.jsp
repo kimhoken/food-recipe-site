@@ -7,6 +7,8 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="/css/chatbot.css" />
+    <script src="/js/chatbot.js"></script>
 </head>
 <body>
     <header>
@@ -317,9 +319,7 @@
     </footer>
 
     <!-- 챗봇 -->
-    <button class="chatbot-fixed-btn">
-        <span>?</span>
-    </button>
+    <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
 </body>
 </html>
