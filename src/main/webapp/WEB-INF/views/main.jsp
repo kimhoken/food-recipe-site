@@ -16,9 +16,13 @@
                     <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
                 </a>
             </div>
-            <div class="search-bar">
-                <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
-            </div>
+            
+            <form action="${pageContext.request.contextPath}/search" method="get" class="search-bar-form">
+                <div class="search-bar">
+                    <input type="text" id="mainSearch" name="keyword" placeholder="재료, 요리명으로 검색해보세요!">
+                </div>
+            </form>
+            
             <div class="user-menu">
                 <a href="${pageContext.request.contextPath}/login" class="menu-item">
                     <span class="menu-icon">
@@ -59,23 +63,22 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container main-page">
         <div class="category-list">
-            <div class="category-item"><div class="category-icon">🍚</div>한식</div>
-            <div class="category-item"><div class="category-icon">🍝</div>양식</div>
-            <div class="category-item"><div class="category-icon">🍣</div>일식</div>
-            <div class="category-item"><div class="category-icon">🍳</div>중식</div>
-            <div class="category-item"><div class="category-icon">🍰</div>디저트</div>
-            <div class="category-item"><div class="category-icon">🥗</div>자취요리</div>
-            <div class="category-item"><div class="category-icon">💪</div>다이어트</div>
-            <div class="category-item"><div class="category-icon">⏱️</div>간단요리</div>
-            <div class="category-item"><div class="category-icon">🍞</div>베이킹</div>
-            <div class="category-item"><div class="category-icon">⣿</div>전체보기</div>
+            <div class="category-item" data-category="korean"><div class="category-icon">🍚</div>한식</div>
+            <div class="category-item" data-category="western"><div class="category-icon">🍝</div>양식</div>
+            <div class="category-item" data-category="japanese"><div class="category-icon">🍣</div>일식</div>
+            <div class="category-item" data-category="chinese"><div class="category-icon">🍳</div>중식</div>
+            <div class="category-item" data-category="dessert"><div class="category-icon">🍰</div>디저트</div>
+            <div class="category-item" data-category="single"><div class="category-icon">🥗</div>자취요리</div>
+            <div class="category-item" data-category="diet"><div class="category-icon">💪</div>다이어트</div>
+            <div class="category-item" data-category="easy"><div class="category-icon">⏱️</div>간단요리</div>
+            <div class="category-item" data-category="baking"><div class="category-icon">🍞</div>베이킹</div>
+            <div class="category-item" data-category="all"><div class="category-icon">⣿</div>전체보기</div>
         </div>
     </div>
 
-    <!-- 지금 인기 있는 레시피 5개씩 보여줄거임 -->
-    <div class="container">
+    <div class="container main-page">
         <div class="section-title">지금 인기있는 레시피🔥</div>
         <div class="recipe-grid">
             <div class="recipe-card">
@@ -126,14 +129,14 @@
         </div>
     </div>
 
-    <div class="container mid-sections">
+    <div class="container main-page mid-sections">
         <div class="mid-box refrigerator-box">
             <div>
                 <br/>
                 <h3>냉장고 재료로<br>레시피 추천받기</h3>
                 <p>집에 있는 재료를 선택하면<br>만들 수 있는 요리를 추천해드려요!</p>
             </div>
-            <button class="ref-btn">재료 선택하기 &rarr;</button>
+            <button class="ref-btn" id="btnRecipe">재료 선택하기 &rarr;</button>
         </div>
         
         <div class="mid-box">
@@ -156,7 +159,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container main-page">
         <div class="section-title-space">
             <div class="section-title">최신 레시피 후기 </div>
             <a href="#" class="more-btn">더보기 &gt;</a>
@@ -258,7 +261,7 @@
                         <span>상호 : KH 개발</span>
                         <span>대표자 : 장승연</span>
                         <span>개인정보관리책임자 : 장승연</span>
-                        <span>사업자 등록번호 : 144-81-35400</span>
+                        <span>사업자 등록번호 : 111-01-31111</span>
                     </p>
                     <p>
                         <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
@@ -269,15 +272,13 @@
                 </div>
                 
                 <div class="footer-logo-area">
-                    
                     <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- 챗봇 -->
-    <button class="chatbot-fixed-btn">
+    <button class="chatbot-fixed-btn" id="chatbotBtn">
         <span>?</span>
     </button>
 
