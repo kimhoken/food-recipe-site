@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 기본패키지 + dao로 설정해야함
+    ex) com.kh.dept.dao.DeptDAO
+ -->
+<mapper namespace="com.project.foodsite.dao.BoardDAO">
+	
+    <select id="selectAll" resultType="board">
+        select * from board
+    </select>
+
+    <select id="search" resultType="board" parameterType="String">
+    <bind name="pattern" value="'%' + search + '%'" />
+       SELECT * FROM board 
+       WHERE title LIKE #{pattern} 
+       OR content LIKE #{pattern}
+
+    </select>
+		
+</mapper>
