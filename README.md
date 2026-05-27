@@ -2,6 +2,18 @@
 khteamproject
 <<<<<<< HEAD
 
+-----------------------------------------------------------------------------------------------------------------------
+오늘 할 일 
+  - 검색바 클릭 시 외곽선 초록으로 고치고 검색 모양으로 변경 후 검색 바 안에 검색 svg넣기 
+  - 왼쪽 상단에 로고로 넣기 클릭 시 메인 화면으로 오게 
+  - 상단에 카테고리 마우스 hover 시, 색 이벤트 주기 
+  - 메인 ui 완성하기 (전체적인 구조만)
+------------------------------------------------------------------------------------------------------------------------
+0527 : 메인 페이지의 헤더와 메인 배너 레이아웃 구현(검색바, 유저메뉴-로그인, 회원가입, 마이페이지 배치완료)
+0528 : 
+=======
+<<<<<<< HEAD
+
 https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSAfR0/edit?gid=102766545#gid=102766545
 
 UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f&t=HCwJjh0RiASrjAoL-0
@@ -61,3 +73,4 @@ UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f
 =======
 기능 명세서: https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSAfR0/edit?gid=102766545#gid=102766545
 >>>>>>> 0f9901fc84f8107ba8812a4d43a30bd08bd71269
+>>>>>>> f1c54f46ff72d5bbc4b5a57ca1b64f1810ef1985
