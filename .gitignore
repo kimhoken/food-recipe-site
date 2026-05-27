@@ -52,4 +52,4 @@ src/main/resources/application-local.properties
 
 src/main/java/com/project/foodsite/controller/FoodSiteController.java
 
-.application.properties
+src/main/resources/.application.properties
