@@ -31,6 +31,7 @@ public class FridgeController {
         int id=1;   //member_id
         List<FridgeItemVO> list = fdao.selectList(id);
         model.addAttribute("list", list);
+        model.addAttribute("id", id);
         return "fridge/fridge_list";
     }
     
@@ -80,6 +81,13 @@ public class FridgeController {
         
         map.put("result", result);
         return map;
+    }
+
+    @GetMapping("/fridge_recommend.do")
+    public String rec(int id, Model model){
+        //레시피테이블에서 현재 있는 레시피가 포함된 재료를 불러옴
+        
+        return "fridge/fridge_recommend";
     }
     
     

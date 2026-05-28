@@ -201,3 +201,33 @@ body {
 .card-actions input[type="button"]:hover {
     background: #8d7b71; /* 호버 시 챗봇 브라운 컬러로 변경 */
 }
+
+/* ==========================================================================
+   레시피 추천 버튼 스타일 추가
+   ========================================================================== */
+.main-container > input[type="button"] {
+    display: block;
+    width: 200px;           /* 버튼 너비 */
+    margin: 30px auto 0;    /* 냉장고 박스 밑에 중앙 정렬 */
+    background-color: #5a7e4d; /* 재료 추가 버튼과 맞춘 메인 초록색 */
+    color: #fff;
+    border: none;
+    padding: 14px 0;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 30px;    /* 둥글둥글한 디자인 */
+    box-shadow: 0 4px 12px rgba(90, 126, 77, 0.2); /* 은은한 그림자 */
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+}
+
+.main-container > input[type="button"]:hover {
+    background-color: #4a663f; /* 호버 시 더 짙은 초록색 */
+    transform: translateY(-2px); /* 호버 시 살짝 위로 뜨는 효과 */
+    box-shadow: 0 6px 16px rgba(90, 126, 77, 0.3);
+}
+
+.main-container > input[type="button"]:active {
+    transform: translateY(0); /* 클릭했을 때 눌리는 느낌 */
+}

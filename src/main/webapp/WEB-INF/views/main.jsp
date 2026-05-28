@@ -7,6 +7,26 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <script>
+        const logout = ()=>{
+            if(confirm("로그아웃 하시겠습니까?")){ 
+                fetch("/logout.do", {
+                    method:"post",
+                    headers: { "Content-Type": "application/json" },
+                    body:JSON.stringify({
+                        id:"${user.member_id}"
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result == "success"){
+                        alert("로그아웃 되었습니다.")
+                        location.href="/main_list.do";
+                    }
+                })
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -30,10 +50,9 @@
                     </a>
                 </c:if>
                 <c:if test="${!empty user}">
-                    <a href="/logout.do" class="menu-item" id="login">
+                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
                         <span class="menu-icon">
                             <img src="${pageContext.request.contextPath}/images/login.png">
-                            <p>${user.nickname}님</p>
                         </span>
                         <div>로그아웃</div>
                     </a>
@@ -99,8 +118,8 @@
         <%--
             <c:forEach var="recipe" items=${view_recipes}>
                 <div class="recipe-card">
-                    <div class="recipe-img">이미지 들어가는 자리</div>
-                    <div class="rank-badge">1</div>
+                    <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
+                    <div class="rank-badge">${recipe.rank}</div>
                     <div class="recipe-info">
                         <div class="recipe-name">${recipe.title}</div>
                         <div class="recipe-author">👤 ${recipe.nickname}</div>
@@ -205,7 +224,7 @@
         <%-- 
             <c:forEach var="recipe" items="${reg_recipes}" >
                 <div class="recipe-card">
-                <div class="recipe-img"></div>
+                <div class="recipe-img"><img src="/images/${recipe.image}"/> </div>
                 <div class="recipe-info">
                     <div class="recipe-name">${recipe.title}</div>
                     <div class="recipe-author">👤 ${recipe.nickname}</div>

@@ -52,6 +52,11 @@
                 }
             })
         }
+
+        const reco= ()=>{
+            //멤버아이디를 넘겨 레시피 추천 화면으로 이동
+            location.href="/fridge_recommend.do?id=" + ${id};
+        }
     </script>
 </head>
 <body>
@@ -93,7 +98,7 @@
                     <div>마이페이지</div>
                 </a>
             </div>
-        </div>
+        </div> 
         <ul class="nav-bar">
             <li><a href="${pageContext.request.contextPath}/">홈</a></li>
             <li>레시피</li>
@@ -164,6 +169,7 @@
                 </div>
             </div>
         </div>
+        <input type="button" value="레시피 추천" onClick="reco()">
     </div>
 
     <footer>
