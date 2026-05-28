@@ -83,7 +83,9 @@
 
                             <tr>
                                 <td class="idpwd-area">
-                                    <button class="sub-btn" type="button" onclick="">아이디</button>/<input class="sub-btn" type="button" value="비밀번호 찾기" onclick="" />                                    
+                                    <button class="sub-btn" type="button" onclick="">아이디</button>
+                                    <span>/</span>
+                                    <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="" />                                    
                                 </td>
                             </tr>
         
