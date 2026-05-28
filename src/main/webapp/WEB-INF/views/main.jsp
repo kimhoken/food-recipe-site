@@ -6,6 +6,45 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+
+    <script>
+        //선택한 카테고리들 열기
+        function selectCategory(category){
+          //  location.href = "/recipe/list?category=" + category;
+        }
+
+        //전체보기 모달열기( 열릴 때 자동으로 첫 번째 카테고리 한식 데이터 호출 )
+        function openModal(){
+            document.getElementById("categoryModal").style.display='flex';
+            sideTabCategory('korean'); //한식 카테고리 가장 먼저 보여주기
+        }
+        //전체보기 모달닫기
+        function closeModal(){
+            document.getElementById("categoryModal").style.display='none';
+        }
+        //메뉴창 바깥 영역 클릭 시 닫히게 하기 
+        function closeModalOnOutside(event) {
+            const modal = document.getElementById("categoryModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        //카테고리 변경 함수
+        function sideTabCategory(category){
+            fetch('/getCategoryData.do?category=' + category)
+            .then( res => res.json() )
+            .then( data => {
+                document.getElementById("modalCategoryBody").innerHTML = data.categoryHtml;
+                document.querySelector(".modal-popular-section").innerHTML = data.popularHtml;
+                document.querySelector(".modal-banner-side").innerHTML = data.bannerHtml;
+            })
+            .catch( err =>{
+                console.error( err );
+            });
+        }
+      
+    </script>
+
 </head>
 <body>
 
@@ -54,30 +93,52 @@
             <li>커뮤니티</li>
             <li>냉장고 추천</li>
             <li>이벤트</li>
-        </ul>
+        </ul>     
     </header>
 
+    <!-- 메인 배너 -->
+
     <div class="main-banner-container">
-        <div class="max-container">
-            <div class="banner-image-side"></div>        
-        </div>
+    <div class="max-container">
+        <div class="banner-image-side">
+            <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+        </div>        
+    </div>
     </div>
 
     <div class="container main-page">
         <div class="category-list">
-            <div class="category-item" data-category="korean"><div class="category-icon">🍚</div>한식</div>
-            <div class="category-item" data-category="western"><div class="category-icon">🍝</div>양식</div>
-            <div class="category-item" data-category="japanese"><div class="category-icon">🍣</div>일식</div>
-            <div class="category-item" data-category="chinese"><div class="category-icon">🍳</div>중식</div>
-            <div class="category-item" data-category="dessert"><div class="category-icon">🍰</div>디저트</div>
-            <div class="category-item" data-category="single"><div class="category-icon">🥗</div>자취요리</div>
-            <div class="category-item" data-category="diet"><div class="category-icon">💪</div>다이어트</div>
-            <div class="category-item" data-category="easy"><div class="category-icon">⏱️</div>간단요리</div>
-            <div class="category-item" data-category="baking"><div class="category-icon">🍞</div>베이킹</div>
-            <div class="category-item" data-category="all" id="btnAllCategory">
+            <button type="button" class="category-item" data-category="korean" onclick="selectCategory('korean')">
+                <div class="category-icon">🍚</div>한식
+            </button>
+            <button type="button" class="category-item" data-category="western" onclick="selectCategory('western')">
+                <div class="category-icon">🍝</div>양식
+            </button>
+            <button type="button" class="category-item" data-category="chinese" onclick="selectCategory('chinese')">
+                <div class="category-icon">🍳</div>중식
+            </button>
+            <button type="button" class="category-item" data-category="japanese" onclick="selectCategory('japanese')">
+                <div class="category-icon">🍣</div>일식
+            </button>
+            <button type="button" class="category-item" data-category="asian" onclick="selectCategory('asian')">
+                <div class="category-icon">🌏</div>아시안 
+            </button>
+            <button type="button" class="category-item" data-category="diet" onclick="selectCategory('diet')">
+                <div class="category-icon">🥗</div>다이어트
+            </button>
+            <button type="button" class="category-item" data-category="easy" onclick="selectCategory('easy')">
+                <div class="category-icon">⏱️</div>초간단요리
+            </button>
+            <button type="button" class="category-item" data-category="dessert" onclick="selectCategory('dessert')">
+                <div class="category-icon">🍰</div>디저트
+            </button>
+            <button type="button" class="category-item" data-category="baking" onclick="selectCategory('baking')">
+                <div class="category-icon">🍞</div>베이킹
+            </button>
+
+            <button type="button" class="category-item" id="btnAllCategory" onclick="openModal()">
                 <div class="category-icon">⣿</div>전체보기
-            </div>
-      
+            </button>
         </div>
     </div>
 
@@ -285,6 +346,38 @@
     <button class="chatbot-fixed-btn" id="chatbotBtn">
         <span>?</span>
     </button>
+
+<!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
+    <div id="categoryModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
+    <div class="modal-content">
+        <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
+        
+        <div class="modal-body">
+            <div class="modal-sidebar">
+                <!-- 두 번째 인자(this): 방금 클릭한 <div> 태그 자신을 함수로 전달 (디자인 변경용) -->
+                <div class="sidebar-item" onclick="sideTabCategory('korean', this)">🍚 한식</div>
+                <div class="sidebar-item" onclick="sideTabCategory('western', this)">🍝 양식</div>
+                <div class="sidebar-item" onclick="sideTabCategory('chinese', this)">🍳 중식</div>
+                <div class="sidebar-item" onclick="sideTabCategory('japanese', this)">🍣 일식</div>
+                <div class="sidebar-item" onclick="sideTabCategory('asian', this)">🌏 아시안</div>
+                <div class="sidebar-item" onclick="sideTabCategory('healthy', this)">🌿 건강식/다이어트</div>
+                <div class="sidebar-item" onclick="sideTabCategory('easy', this)">⏱️ 초간단요리</div>
+                <div class="sidebar-item" onclick="sideTabCategory('dessert', this)">🍰 디저트</div>
+                <div class="sidebar-item" onclick="sideTabCategory('baking', this)">🍞 베이킹</div>
+                <div class="sidebar-item" onclick="sideTabCategory('drink', this)">☕ 음료/차</div>
+                <div class="sidebar-item" onclick="sideTabCategory('recommend', this)">⭐ 상황별 추천</div>
+            </div>
+            
+            <div class="modal-main">
+                <div id="modalCategoryBody" class="category-grid-container"></div>
+
+                <div class="modal-popular-section"></div>
+            </div>
+            
+            <div class="modal-banner-side"></div>
+        </div>
+     </div>
+     </div>
 
 </body>
 </html>
