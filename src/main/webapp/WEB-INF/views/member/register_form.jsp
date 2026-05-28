@@ -56,9 +56,7 @@
     </head>
 
     <body>
-       <form 
-            method="post"
-            enctype="multipart/form-data">
+       <form>            
             <table border="1" align="center">
                 <caption>회원 가입</caption>
 
@@ -69,17 +67,13 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <th>프로필</th>
-                    <td>
-                        <input name="photo" type="file"/>
-                    </td>
-                </tr>
+               
 
                 <tr>
-                    <th>별명</th>
+                    <th>닉네임</th>
                     <td>
-                        <input name="nickname"/>
+                        <input name="nickname" placeholder="별명을 입력하세요(ex 말랑포동푸딩)"/>
+                        <div id="nick_msg"></div>
                     </td>
                 </tr>
                 <tr>

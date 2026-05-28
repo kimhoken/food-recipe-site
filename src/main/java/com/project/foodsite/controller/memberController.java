@@ -99,39 +99,12 @@ public class memberController {
         //비밀번호 암호화
         String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
         vo.setPassword(enc_pwd);
-
-        String savePath = System.getProperty("user.dir") + "/upload/";
-
-        File dir = new File(savePath);
-        if ( !dir.exists() ) {
-            dir.mkdirs();
-        }
-
-        MultipartFile photo = vo.getPhoto();
-        String filename = "no_file";
-
-       if(photo!=null && !photo.isEmpty()){
-
-            filename = photo.getOriginalFilename();
-            File saveFile = new File( savePath, filename );
-
-            if(saveFile.exists() ){
-                long time = System.currentTimeMillis();
-                filename= String.format("%d_%s", time,filename);
-
-                saveFile = new File(savePath,filename);
-
-            }
-
-            photo.transferTo(saveFile);
-
-        }
-
+        String filename ="no_file";
+        
         vo.setFilename(filename);
         vo.setRole("User");
         vo.setStatus("Active");
         
-
         int res = memberDAO.userInsert(vo);
 
         Map<String,Integer> map = new HashMap<>();
