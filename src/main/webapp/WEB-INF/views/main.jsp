@@ -281,6 +281,7 @@
         </div>
     </footer>
 
+    <!-- 챗봇 -->
     <button class="chatbot-fixed-btn" id="chatbotBtn">
         <span>?</span>
     </button>
