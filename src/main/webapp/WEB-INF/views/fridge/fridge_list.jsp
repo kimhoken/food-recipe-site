@@ -52,6 +52,11 @@
                 }
             })
         }
+
+        const reco= ()=>{
+            //멤버아이디를 넘겨 레시피 추천 화면으로 이동
+            location.href="/fridge_recommend.do?id=" + ${id};
+        }
     </script>
 </head>
 <body>
@@ -67,10 +72,23 @@
                 <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
             </div>
             <div class="user-menu">
-                <a href="${pageContext.request.contextPath}/login" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
-                    <div>로그인</div>
-                </a>
+                <c:if test="${empty user}">
+                    <a href="/login.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그인</div>
+                    </a>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <a href="/logout.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                            <p>${user.nickname}님</p>
+                        </span>
+                        <div>로그아웃</div>
+                    </a>
+                </c:if>
                 <a href="${pageContext.request.contextPath}/join" class="menu-item">
                     <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
                     <div>회원가입</div>
@@ -80,7 +98,7 @@
                     <div>마이페이지</div>
                 </a>
             </div>
-        </div>
+        </div> 
         <ul class="nav-bar">
             <li><a href="${pageContext.request.contextPath}/">홈</a></li>
             <li>레시피</li>
@@ -151,6 +169,7 @@
                 </div>
             </div>
         </div>
+        <input type="button" value="레시피 추천" onClick="reco()">
     </div>
 
     <footer>
