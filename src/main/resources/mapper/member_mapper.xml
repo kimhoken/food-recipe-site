@@ -16,8 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>        
 
     <insert id="userInsert" parameterType="member">
-        insert into member (login_id, password, nickname, email, role, status, report_count, created_date, profile_img,name)         
+        insert into member (login_id, password, nickname, email, role, status, report_count, created_date, profile_img, name)         
         values (#{login_id}, #{password}, #{nickname}, #{email}, #{role}, #{status}, 0, sysdate(), #{filename}, #{name})
     </insert>
+
+    <select id="getUserNickname"
+            parameterType="String"
+            resultType = "member">
+        select * from member where nickname= #{nickname}
+    </select>        
 
 </mapper>

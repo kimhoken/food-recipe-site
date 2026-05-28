@@ -12,4 +12,6 @@ public interface MemberDAO {
 
     int userInsert(MemberVO vo);
 
+    MemberVO getUserNickname(String nickname);
+    
 } 
