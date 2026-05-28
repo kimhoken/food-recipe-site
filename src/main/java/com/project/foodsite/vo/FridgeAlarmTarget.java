@@ -21,5 +21,5 @@ public class FridgeAlarmTarget {
     // 알림 내용에 채워 넣을 냉장고 재료 정보
     private String ingredientName;
     private LocalDate expireDate;
-    private String memberId;
+    private String member_id;
 }

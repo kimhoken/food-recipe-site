@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("WebPushSubscription")
 public class WebPushSubscriptionVO {
-    private int userId; 
+    private int member_id; 
     private String endpoint;
     private String p256dh;
     private String auth;
