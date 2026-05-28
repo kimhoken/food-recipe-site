@@ -20,13 +20,27 @@
                 <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
             </div>
             <div class="user-menu">
-                <a href="/login.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/login.png">
-                    </span>
-                    <div>로그인</div>
-                </a>
-                
+                <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
+                <c:if test="${empty user}">
+                    <a href="/login.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그인</div>
+                    </a>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <a href="/logout.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                            <p>${user.nickname}님</p>
+                        </span>
+                        <div>로그아웃</div>
+                    </a>
+                </c:if>
+                <%-- ------------------------------------------ --%>
+
+
                 <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
@@ -43,14 +57,16 @@
             </div>
         </div>
 
-        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용 --%>
+        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
             <li class="active">홈</li>
             <li>레시피</li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li>커뮤니티</li>
-            <li>냉장고 추천</li>
+            <li>
+                <a href="/fridge_list.do">냉장고 추천</a>
+            </li>
             <li>이벤트</li>
         </ul>
     </header>
