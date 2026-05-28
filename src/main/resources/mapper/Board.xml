@@ -8,14 +8,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.project.foodsite.dao.BoardDAO">
 	
     <select id="selectAll" resultType="board">
-        select * from board
+        select b.*, m.nickname from board b, member m
+        WHERE b.member_id = m.member_id
     </select>
 
     <select id="search" resultType="board" parameterType="String">
     <bind name="pattern" value="'%' + search + '%'" />
-       SELECT * FROM board 
+       SELECT b.*, m.nickname FROM board b, member m 
        WHERE title LIKE #{pattern} 
        OR content LIKE #{pattern}
+       AND b.member_id = m.member_id
     </select>
 		
 </mapper>

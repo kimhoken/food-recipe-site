@@ -1,0 +1,218 @@
+/* 레시피 등록 폼 */
+
+body {
+    background-color: #F9F7F2; /* 메인 이미지의 따뜻한 배경색 */
+    color: #444;
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 1.5rem;
+    color: #333;
+    border-left: 5px solid #E77B4D; /* 메인 오렌지색 포인트 */
+    padding-left: 15px;
+    margin-bottom: 25px;
+    margin-top: 40px;
+}
+
+h1:first-of-type {
+    margin-top: 0;
+}
+
+/* 입력창 및 셀렉트 박스 */
+input[type="text"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, 
+select:focus, 
+textarea:focus {
+    outline: none;
+    border-color: #E77B4D;
+    box-shadow: 0 0 5px rgba(231, 123, 77, 0.2);
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+th {
+    background-color: #F2F2F2;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+    border-bottom: 2px solid #E77B4D;
+}
+
+td {
+    padding: 10px 5px;
+}
+
+/* 버튼 스타일 */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    transition: transform 0.2s, background-color 0.2s;
+    font-weight: bold;
+}
+
+/* 추가 버튼 (+) */
+button[type="button"] {
+    background-color: #6B8E23; /* 메인 이미지의 잎사귀 그린 색상 */
+    color: white;
+    padding: 8px 20px;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+button[type="button"]:hover {
+    background-color: #556B2F;
+    transform: translateY(-2px);
+}
+
+/* 등록 버튼 */
+button[type="submit"] {
+    background-color: #E77B4D; /* 메인 오렌지색 */
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    margin-top: 50px;
+    box-shadow: 0 4px 15px rgba(231, 123, 77, 0.3);
+}
+
+button[type="submit"]:hover {
+    background-color: #D35400;
+}
+
+/* 조리 순서 숫자 스타일 */
+.step-number {
+    font-weight: bold;
+    color: #E77B4D;
+    font-size: 1.2rem;
+    width: 40px;
+}
+
+/* 파일 업로드 스타일 */
+input[type="file"] {
+    font-size: 12px;
+    color: #888;
+}
+
+/* 간격 조절 */
+.ingredient-section {
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+/* 1. 수량과 셀렉트 박스 나란히 배치 및 사이즈 조절 */
+td.qty-cell {
+    display: flex;
+    gap: 8px; /* 입력창과 선택창 사이 간격 */
+    align-items: center;
+}
+
+/* 수량 입력창: 크기를 작게 조절 */
+input[name^="amount"] {
+    width: 70px !important;
+    text-align: center;
+}
+
+/* 단위 선택창: 크기를 적절하게 조절 */
+select[name$="Unit"] {
+    width: 120px !important;
+    padding: 8px 10px;
+}
+
+/* 2. 조리 순서 테이블 스타일 강화 */
+#stepBody tr {
+    border-bottom: 1px solid #eee;
+}
+
+/* 숫자 칸 스타일 */
+.step-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #E77B4D; /* 메인 오렌지 */
+    background-color: #FFF5F0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+/* 3. 파일 선택(input type="file") 스타일 */
+/* 파일 선택 버튼과 텍스트를 정돈 */
+input[type="file"] {
+    font-size: 13px;
+    color: #666;
+    background: #fdfdfd;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+}
+
+/* 브라우저 기본 '파일 선택' 버튼 스타일링 (일부 브라우저 지원) */
+input[type="file"]::file-selector-button {
+    background-color: #6B8E23; /* 포인트 그린 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 12px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #556B2F;
+}
+
+/* 4. 조리 과정 작성 textarea 스타일 */
+textarea[name="step"] {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+textarea[name="step"]:focus {
+    background-color: #fff;
+    border-color: #E77B4D;
+}

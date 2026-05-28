@@ -14,6 +14,8 @@ khteamproject
 =======
 <<<<<<< HEAD
 
+검색어 검색시 DB에서 membere_id가 같은거만 찾는게 아닌 검색어로 인햬 모든 닉네임으로 중복글이 발생하는 문제
+
 https://docs.google.com/spreadsheets/d/1FiHfSsP41-E2qVWzrG2ATKwZRWbIm22CbsuOsaSAfR0/edit?gid=102766545#gid=102766545
 
 UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f&t=HCwJjh0RiASrjAoL-0
