@@ -111,7 +111,8 @@ form {
 }
 
 .sub-btn-area{
-    text-align:center;    
+    text-align:center;
+    padding-top: 70px;    
 }
 
 .sub-btn-area span{
@@ -139,7 +140,11 @@ form {
 .idpwd-area{
     text-align: right;
     font-size: 12px;
-    padding-bottom: 15px;
+    padding-bottom: 15px;    
+}
+
+.idpwd-area span{
+    color: #8A7565;
 }
 
 .line-area{
