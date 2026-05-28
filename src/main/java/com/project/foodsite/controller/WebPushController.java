@@ -24,7 +24,7 @@ public class WebPushController {
         WebPushSubscriptionVO subscription = new WebPushSubscriptionVO();
         
         // 1. 임시로 테스트 유저 ID 세팅 (나중에 로그인 연동)
-        subscription.setUserId(1); 
+        subscription.setMember_id(1); 
         
         // 2. 최상위 endpoint 값 추출
         subscription.setEndpoint((String) payload.get("endpoint"));

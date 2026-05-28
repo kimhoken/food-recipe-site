@@ -6,10 +6,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.project.foodsite.dao.WebPushDAO">
 
     <insert id="upsertSubscription" parameterType="WebPushSubscription">
-        INSERT INTO web_push_subscription (endpoint, user_id, p256dh, auth)
-        VALUES (#{endpoint}, #{userId}, #{p256dh}, #{auth})
+        INSERT INTO web_push_subscription (endpoint, member_id, p256dh, auth)
+        VALUES (#{endpoint}, #{member_id}, #{p256dh}, #{auth})
         ON DUPLICATE KEY UPDATE
-            user_id = #{userId},
+            user_id = #{member_id},
             p256dh = #{p256dh},
             auth = #{auth}
     </insert>
@@ -21,9 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             s.auth,
             f.ingredient_name AS ingredientName,
             f.expire_date AS expireDate,
-            f.member_id AS memberId
+            f.member_id AS member_id
         FROM fridge_item f
-        INNER JOIN web_push_subscription s ON f.member_id = s.user_id
+        INNER JOIN web_push_subscription s ON f.member_id = s.member_id
         WHERE f.expire_date = CURDATE() + INTERVAL #{daysLeft} DAY
     </select>
 
