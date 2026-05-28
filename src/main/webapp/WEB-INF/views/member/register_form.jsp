@@ -9,7 +9,7 @@
             let id_vailed = false;
             let pwd_vailed = false;
             let email_vailed = true;
-            let nickname_vailed =true;
+            let nickname_vailed = true;
 
             window.onload = function(){
                 let nickname = document.getElementById("nickname");
