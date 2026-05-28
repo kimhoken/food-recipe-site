@@ -7,6 +7,8 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="/css/chatbot.css" />
+    <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
         const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
@@ -104,6 +106,7 @@
             .catch(err => console.error('서버 전송 실패:', err));
         }
     </script>
+ 
 </head>
 <body>
     <header>
@@ -144,7 +147,7 @@
                     <div>회원가입</div>
                 </a>
                 
-                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/mypage.png">
                     </span>
@@ -437,9 +440,7 @@
     </footer>
 
     <!-- 챗봇 -->
-    <button class="chatbot-fixed-btn">
-        <span>?</span>
-    </button>
+    <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
 </body>
 </html>
