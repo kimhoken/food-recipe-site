@@ -9,6 +9,104 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="/css/chatbot.css" />
     <script src="/js/chatbot.js"></script>
+    <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
+    <script>
+        const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
+        const logout = ()=>{
+            if(confirm("로그아웃 하시겠습니까?")){ 
+                fetch("/logout.do", {
+                    method:"post",
+                    headers: { "Content-Type": "application/json" },
+                    body:JSON.stringify({
+                        id:"${user.member_id}"
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result == "success"){
+                        alert("로그아웃 되었습니다.")
+                        location.href="/main_list.do";
+                    }
+                })
+            }
+            }
+        // base64 URL 소스를 Uint8Array로 변환하는 함수 (푸시 서버 인증용 필수 함수)
+        function urlB64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            window.addEventListener('load', function() {
+                // sw.js 파일 경로를 프로젝트 구조에 맞게 잘 지정해줘야 해!
+                navigator.serviceWorker.register('/js/alarm.js')
+                .then(function(registration) {
+                    console.log('서비스 워커 등록 성공:', registration);
+                    
+                    // 등록 성공 후 사용자에게 권한 요청 및 구독 진행
+                    requestNotificationPermission(registration);
+                })
+                .catch(function(error) {
+                    console.error('서비스 워커 등록 실패:', error);
+                });
+            });
+        }
+
+        // 3. 알림 권한 요청 및 구독 처리
+        function requestNotificationPermission(registration) {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                    console.log('알림 권한 허용됨');
+                    subscribeUser(registration);
+                } else {
+                    console.warn('알림 권한 거부됨');
+                }
+            });
+        }
+
+        // 4. 푸시 서버(FCM 등)로부터 구독 정보 받아오기
+        function subscribeUser(registration) {
+            const subscribeOptions = {
+                userVisibleOnly: true,
+                applicationServerKey: urlB64ToUint8Array(applicationServerKey)
+            };
+
+            registration.pushManager.subscribe(subscribeOptions)
+            .then(function(subscription) {
+                console.log('푸시 구독 성공:', JSON.stringify(subscription));
+                
+                // 5. 이 subscription 객체를 DB에 저장하기 위해 백엔드로 전송해야 해!
+                sendSubscriptionToServer(subscription);
+            })
+            .catch(function(error) {
+                console.error('푸시 구독 실패:', error);
+            });
+        }
+
+        // 6. 백엔드(Spring Boot)로 구독 정보 전송 (Ajax)
+        function sendSubscriptionToServer(subscription) {
+            // 여기에 Fetch API나 jQuery Ajax를 써서 Spring Boot 컨트롤러로 던져주면 돼.
+            fetch('/api/push/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(subscription)
+            })
+            .then(res => {
+                if(res.ok) console.log('서버에 구독 정보 저장 완료');
+            })
+            .catch(err => console.error('서버 전송 실패:', err));
+        }
+    </script>
+ 
 </head>
 <body>
     <header>
@@ -22,13 +120,26 @@
                 <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
             </div>
             <div class="user-menu">
-                <a href="/login.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/login.png">
-                    </span>
-                    <div>로그인</div>
-                </a>
-                
+                <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
+                <c:if test="${empty user}">
+                    <a href="/login.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그인</div>
+                    </a>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그아웃</div>
+                    </a>
+                </c:if>
+                <%-- ------------------------------------------ --%>
+
+
                 <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
@@ -45,14 +156,16 @@
             </div>
         </div>
 
-        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용 --%>
+        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
             <li class="active">홈</li>
             <li>레시피</li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li>커뮤니티</li>
-            <li>냉장고 추천</li>
+            <li>
+                <a href="/fridge_list.do">냉장고 추천</a>
+            </li>
             <li>이벤트</li>
         </ul>
     </header>
@@ -85,8 +198,8 @@
         <%--
             <c:forEach var="recipe" items=${view_recipes}>
                 <div class="recipe-card">
-                    <div class="recipe-img">이미지 들어가는 자리</div>
-                    <div class="rank-badge">1</div>
+                    <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
+                    <div class="rank-badge">${recipe.rank}</div>
                     <div class="recipe-info">
                         <div class="recipe-name">${recipe.title}</div>
                         <div class="recipe-author">👤 ${recipe.nickname}</div>
@@ -155,21 +268,29 @@
             <button class="ref-btn" onClick="location.href='/fridge_list.do'">재료 선택하기 &rarr;</button>
         </div>
 
-        <%-- 레시피중에 랜덤으로 뜨게하시 binding은 today로 --%>
         <div class="mid-box">
+            <%-- 레시피중에 랜덤으로 뜨게하기 binding은 today로 --%>
             <h3 class="box-title">오늘의 추천 레시피</h3>
             <div class="today-main">
-                <%-- <div class="today-main-img"> <img src="/images/${today.image}"/> </div> --%>
                 <div class="today-main-img"></div>
                 <div class="today-main-info">
-                    <%-- <h4>${today.title}</h4> --%>
                     <h4>오므라이스</h4>
-                    <%-- <p>${today.content}</p> --%>
                     <p>부드러운 계란과 새콤한 소스의 완벽한 조화!</p>
-                    <%-- <span class="author">👤 ${today.nickname}</span> --%>
                     <span class="author">👤 요리마스터</span>
                 </div>
             </div>  
+
+            <%-- 
+            <h3 class="box-title">오늘의 추천 레시피</h3>
+            <div class="today-main">
+                <div class="today-main-img"> <img src="/images/${today.image}"/> </div> 
+                <div class="today-main-info">
+                    <h4>${today.title}</h4> 
+                    <p>${today.content}</p> 
+                    <span class="author">👤 ${today.nickname}</span>
+                </div>
+            </div>   --%>
+
             <%-- 이미지 작게 5개 나오는 자라 --%>
             <div class="today-sub-list">
                 <div class="today-sub-thumb"></div>
@@ -191,7 +312,7 @@
         <%-- 
             <c:forEach var="recipe" items="${reg_recipes}" >
                 <div class="recipe-card">
-                <div class="recipe-img"></div>
+                <div class="recipe-img"><img src="/images/${recipe.image}"/> </div>
                 <div class="recipe-info">
                     <div class="recipe-name">${recipe.title}</div>
                     <div class="recipe-author">👤 ${recipe.nickname}</div>
