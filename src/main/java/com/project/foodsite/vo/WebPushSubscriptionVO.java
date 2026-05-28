@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Alias("board")
-public class BoardVO {
-    
-    private int board_id, member_id, view_count, recipe_id, img_id;
-    private String title, content, status, created_date, updated_date, nickname;
-    
+@Alias("WebPushSubscription")
+public class WebPushSubscriptionVO {
+    private int member_id; 
+    private String endpoint;
+    private String p256dh;
+    private String auth;
 }
