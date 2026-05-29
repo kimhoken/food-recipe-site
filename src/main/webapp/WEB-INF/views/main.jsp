@@ -355,6 +355,7 @@
         <div class="modal-body">
             <div class="modal-sidebar">
                 <!-- 두 번째 인자(this): 방금 클릭한 <div> 태그 자신을 함수로 전달 (디자인 변경용) -->
+                <div class="sidebar-item" onclick="sideTabCategory('recommend', this)">⭐ 상황별 추천</div>
                 <div class="sidebar-item" onclick="sideTabCategory('korean', this)">🍚 한식</div>
                 <div class="sidebar-item" onclick="sideTabCategory('western', this)">🍝 양식</div>
                 <div class="sidebar-item" onclick="sideTabCategory('chinese', this)">🍳 중식</div>
@@ -365,7 +366,6 @@
                 <div class="sidebar-item" onclick="sideTabCategory('dessert', this)">🍰 디저트</div>
                 <div class="sidebar-item" onclick="sideTabCategory('baking', this)">🍞 베이킹</div>
                 <div class="sidebar-item" onclick="sideTabCategory('drink', this)">☕ 음료/차</div>
-                <div class="sidebar-item" onclick="sideTabCategory('recommend', this)">⭐ 상황별 추천</div>
             </div>
             
             <div class="modal-main">
