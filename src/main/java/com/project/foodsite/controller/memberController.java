@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.MailSendService;
 import com.project.foodsite.common.NicknameGenerater;
-import com.project.foodsite.common.PwdSecurity;
+import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.vo.MemberVO;
 
@@ -34,7 +34,7 @@ public class memberController {
 
     private final MemberDAO memberDAO;
     private final MailSendService mss;
-    private final PwdSecurity pwdSecurity;
+    private final pwdSecurity pwdSecurity;
     private final NicknameGenerater nicknameGenerater;
 
     // 회원 리스트 출력

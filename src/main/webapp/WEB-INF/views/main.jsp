@@ -263,13 +263,15 @@
         <%--
             <c:forEach var="recipe" items=${view_recipes}>
                 <div class="recipe-card">
-                    <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
-                    <div class="rank-badge">${recipe.rank}</div>
-                    <div class="recipe-info">
-                        <div class="recipe-name">${recipe.title}</div>
-                        <div class="recipe-author">👤 ${recipe.nickname}</div>
-                        <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
-                    </div>
+                    <a href="/recipe_detail.do?id=${recipe.recipe_id}">
+                        <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
+                        <div class="rank-badge">${recipe.rank}</div>
+                        <div class="recipe-info">
+                            <div class="recipe-name">${recipe.title}</div>
+                            <div class="recipe-author">👤 ${recipe.nickname}</div>
+                            <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
+                        </div>
+                    </a>
                 </div> 
             </c:forEach>
             --%>

@@ -1,5 +1,6 @@
 package com.project.foodsite.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.FridgeItemDAO;
 import com.project.foodsite.vo.FridgeItemVO;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -43,10 +45,12 @@ public class FridgeController {
     
     @PostMapping("/food_insert.do")
     @ResponseBody
-    public Map<String, Object> insertFin(@RequestBody Map<String, Object> map){
-        int res = fdao.insertFridge(map);
+    public Map<String, Object> insertFin(@RequestBody List<FridgeItemVO> list){
+        Map<String, Object> map = new HashMap<>();
 
-        if(res == 1){
+        int res = fdao.insertFridge(list);
+        
+        if(res != 0){
             map.put("res", "success");
         }else{
             map.put("res", "fail");
