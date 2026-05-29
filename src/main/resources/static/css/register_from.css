@@ -1,0 +1,211 @@
+body{
+    margin:0;
+    background:#F5F3ED;
+    font-family:'Pretendard', sans-serif;
+}
+
+/* 전체 */
+.join-form{
+    margin:40px 0;
+}
+
+.join-wrap{
+    width:1200px;
+    margin:auto;
+
+    display:flex;
+
+    background:white;
+
+    border-radius:20px;
+    overflow:hidden;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+/* 왼쪽 이미지 */
+.join-left{
+    width:340px;
+    background:#F5F3ED;
+}
+
+.join-banner{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+}
+
+
+/* 오른쪽 */
+.join-right{
+    flex:1;
+    padding:40px 50px;
+}
+
+.join-title{
+    margin:0 0 30px 0;
+
+    font-size:32px;
+    font-weight:700;
+
+    color:#3F4F2D;
+}
+
+
+/* 테이블 */
+.join-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.join-table th{
+    width:140px;
+
+    padding:15px 0;
+
+    text-align:left;
+
+    vertical-align:top;
+
+    font-size:15px;
+    font-weight:600;
+
+    color:#333;
+}
+
+.join-table td{
+    padding:10px 0;
+}
+
+
+/* input */
+.input-box{
+    width:100%;
+    height:45px;
+
+    padding:0 15px;
+
+    border:1px solid #D8D3C9;
+    border-radius:8px;
+
+    box-sizing:border-box;
+
+    font-size:14px;
+
+    transition:0.2s;
+}
+
+.input-box:focus{
+    outline:none;
+
+    border-color:#556B3E;
+
+    box-shadow:0 0 0 3px rgba(85,107,62,0.1);
+}
+
+
+/* 메시지 공간 */
+.msg-space{
+    min-height:22px;
+
+    margin-top:6px;
+
+    font-size:13px;
+    color:#777;
+}
+
+
+/* 이메일 */
+.email-row{
+    display:flex;
+    gap:10px;
+
+    margin-bottom:8px;
+}
+
+.email-input{
+    flex:1;
+}
+
+
+/* 인증 버튼 */
+.sub-btn{
+    width:120px;
+    height:45px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#556B3E;
+    color:white;
+
+    cursor:pointer;
+
+    font-size:13px;
+    font-weight:600;
+}
+
+.sub-btn:hover{
+    background:#445531;
+}
+
+
+/* 하단 버튼 */
+.btn-area{
+    text-align:center;
+
+    padding-top:25px;
+}
+
+
+/* 회원가입 버튼 */
+.join-btn{
+    width:235px;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#556B3E;
+    color:white;
+
+    font-size:16px;
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+.join-btn:hover{
+    background:#445531;
+}
+
+
+/* 취소 버튼 */
+.cancel-btn{
+    width:120px;
+
+    height:50px;
+
+    margin-left:10px;
+
+    border:1px solid #D8D3C9;
+
+    border-radius:8px;
+
+    background:white;
+
+    color:#333;
+
+    font-size:15px;
+
+    cursor:pointer;
+}
+
+.cancel-btn:hover{
+    background:#F5F3ED;
+}
