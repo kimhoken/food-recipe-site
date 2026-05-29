@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class BoardVO {
     
     private int board_id, member_id, view_count, recipe_id, img_id;
-    private String title, content, status, created_date, updated_date;
+    private String title, content, status, created_date, updated_date, nickname;
     
 }

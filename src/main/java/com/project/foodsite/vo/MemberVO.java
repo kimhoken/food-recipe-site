@@ -1,6 +1,7 @@
 package com.project.foodsite.vo;
 
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +13,9 @@ import lombok.NoArgsConstructor;
 @Alias("member")
 public class MemberVO {
     private String login_id, password, nickname, email, 
-    role, status, profile_img, login_type, provider, provider_id;
+    role, status, profile_img, login_type, provider, provider_id, name;
     private int member_id, report_count;
 
+    private MultipartFile photo;
+    private String filename;
 }

@@ -6,7 +6,8 @@
 
     <head>
 
-        <!-- <link /> -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css"/> 
+
 
         <script>
             function send(f){       
@@ -28,17 +29,16 @@
             </form>
 
         <c:if test="${not empty list}">
-        <table border="1" align="center"> 
+        <table> 
             <thead>
                 
                 <tr>
                     <th>게시글 번호</th>
-                    <th>작성 회원 번호</th>
-                    <th>게시글 제목</th>
+                    <th>닉네임</th>
+                    <th>제목</th>
                     <th>게시글 내용</th>
                     <th>조회수</th>
                     <th>작성일</th>
-                    <th>수정일</th>
                 </tr>
             </thead>
 
@@ -47,12 +47,11 @@
                     <c:forEach var="board" items="${list}">
                         <tr>
                             <td>${board.board_id}</td>
-                            <td>${board.member_id}</td>
+                            <td>${board.nickname}</td>
                             <td>${board.title}</td>
                             <td>${board.content}</td>
                             <td>${board.view_count}</td>
                             <td>${board.created_date}</td>
-                            <td>${board.updated_date}</td>
                         </tr>
                     </c:forEach>         
             </tbody>
