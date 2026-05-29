@@ -116,8 +116,8 @@ public class memberController {
         String filename = "no_file";
 
         vo.setFilename(filename);
-        vo.setRole("User");
-        vo.setStatus("Active");
+        vo.setRole("USER");
+        vo.setStatus("yes");
 
         int res = memberDAO.userInsert(vo);
 
