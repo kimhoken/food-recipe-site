@@ -56,3 +56,6 @@ src/main/resources/application.properties
 
 ###임시 이미지 경로 업로드 방지###
 src/main/resources/static/upload/
+
+#배포키 업로드 방지
+chiken.pem
