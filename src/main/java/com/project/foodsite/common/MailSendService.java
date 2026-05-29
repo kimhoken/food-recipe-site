@@ -55,7 +55,7 @@ public class MailSendService {
 
             javaMailSender.send(message);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         return String.valueOf(authNumber);

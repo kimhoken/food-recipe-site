@@ -46,8 +46,8 @@
                 console.error( err );
             });
         }
-      
-      const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
+
+        const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
         const logout = ()=>{
             if(confirm("로그아웃 하시겠습니까?")){ 
                 fetch("/logout.do", {
@@ -141,7 +141,7 @@
             })
             .catch(err => console.error('서버 전송 실패:', err));
         }
-      
+        
     </script>
 
 </head>
