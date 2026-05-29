@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="css/register_form.css"/>
         <script>
             let id_vailed = false;
-            let pwd_vailed = false;
+            let pwd_vailed = true;
             let email_vailed = true;
             let nickname_vailed = true;
 
@@ -78,7 +78,7 @@
                         
                         if(data.pwd_msg == "no"){
 
-                            pwd_msg.innerHTML = '영문 특수문자 포함 10자 이상 포함되야 합니다.';
+                            pwd_msg.innerHTML = '영문 특수문자 포함 10자 이상 포함되야 합니다.';                            
 
                         }else if(data.pwd_msg == "yes"){
                             
