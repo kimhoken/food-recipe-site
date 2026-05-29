@@ -27,6 +27,15 @@ UI: https://www.figma.com/design/RcULf1u9QyC1kVDkdUMBZl/Untitled?node-id=0-1&p=f
 영양성분 상세보기(칼로리 )(시간나면 구현...?)
 음식 보관팁(시간나면....?)
 
+추가할 테이블(웹 푸시)
+CREATE TABLE web_push_subscription (
+    endpoint VARCHAR(500) PRIMARY KEY,       -- 기기별 고유 엔드포인트 URL (PK)
+    user_id VARCHAR(50) NOT NULL,            -- fridge_item의 member_id와 연결할 회원 ID/번호 (FK 역할)
+    p256dh VARCHAR(200) NOT NULL,            -- 암호화 공개키
+    auth VARCHAR(200) NOT NULL,              -- 인증 키
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 등록일
+);
+
 
 랜덤닉네임 리스트
 1. **말랑포동푸딩**
