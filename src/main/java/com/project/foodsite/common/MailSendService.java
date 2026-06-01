@@ -1,5 +1,7 @@
 package com.project.foodsite.common;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -16,9 +18,15 @@ public class MailSendService {
 
     private final JavaMailSender javaMailSender;
     private int authNumber;
+    private String token;
 
     public MailSendService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
+    }
+
+    // 사이트 주소+토큰 
+    public void makeToken(){
+        
     }
 
     // 인증번호 생성
@@ -28,21 +36,21 @@ public class MailSendService {
         authNumber = rand.nextInt(999999 - 111111 + 1) + 111111;
 
     }
-    
-    //메일 발송 
-    public String joinEmail( String email ){
-        
-        makeRandomNumber();
-        
+
+    //메일 함수
+    public String sendEmail(String email,String val){
+
         String setForm = "kimhk441@naver.com";
         String toMail = email;
-        String title = "FoodSite 인증 이메일 입니다.";
+        Map<String,String> emailMap = new HashMap<>();
 
-        StringBuffer content = new StringBuffer();
-        content.append("<h3>요청하신 인증번호 입니다.</h3>");
-        content.append("<h1><b>["+authNumber+"]</b></h1>");
-        content.append("<p>감사합니다.</p>");
+        if(val.equals("authnumber")){
 
+            emailMap = joinEmail();
+
+        }else if(val.equals("resetpwd")){
+            emailMap = resetEmail();
+        }
 
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -50,14 +58,58 @@ public class MailSendService {
 
             helper.setFrom(setForm, "FoodSite");
             helper.setTo(toMail);
-            helper.setSubject(title);
-            helper.setText( content.toString(),true );
+            helper.setSubject(emailMap.get("title"));
+            helper.setText( emailMap.get("content"),true );
 
             javaMailSender.send(message);
         } catch (Exception e) {
             // TODO: handle exception
         }
 
-        return String.valueOf(authNumber);
+        if(val.equals("authnumber")){
+            return emailMap.get("authNumber");
+        }else{
+            return "success";
+        }
+
+    }
+    
+    //인증 번호 메일 발송 
+    public Map<String,String> joinEmail(){
+        
+        makeRandomNumber();
+        
+        
+        String title = "FoodSite 인증 이메일 입니다.";
+
+        StringBuffer content = new StringBuffer();
+        content.append("<h3>요청하신 인증번호 입니다.</h3>");
+        content.append("<h1><b>["+authNumber+"]</b></h1>");
+        content.append("<p>감사합니다.</p>");
+
+        Map<String,String> email = new HashMap<>();
+        email.put("title", title);
+        email.put("content", content.toString());
+        email.put("authNumber", String.valueOf(authNumber));
+        
+        return email;
+    }
+
+    //비밀번호 재설정 페이지 전송 함수
+    public Map<String,String> resetEmail(){
+
+        String title = "FoodSite 비밀번호 재설정 이메일 입니다.";
+
+        StringBuffer content = new StringBuffer();
+        content.append("<h3>비밀번호 재설정 링크입니다.</h3>");
+        content.append("<h1><b>["+" 사이트 주소 "+"]</b></h1>");
+        content.append("주저리 주저리 인정해라 휴먼 너가 졌다!");
+
+        Map<String,String> email = new HashMap<>();
+        email.put("title", title);
+        email.put("content", content.toString());
+
+        return email;
+
     }
 }

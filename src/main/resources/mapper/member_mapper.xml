@@ -26,4 +26,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from member where nickname= #{nickname}
     </select>        
 
+    <select id="getUserEmail"
+            parameterType="String"
+            resultType = "member">
+        select * from member where email = #{email}
+    </select>        
+
 </mapper>
