@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="/css/chatbot.css" />
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
-
     <script>
+
         //선택한 카테고리들 열기
         function selectCategory(category){
           //  location.href = "/recipe/list?category=" + category;
@@ -48,24 +48,25 @@
         }
 
         const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
-        const logout = ()=>{
-            if(confirm("로그아웃 하시겠습니까?")){ 
+        const logout = () => {
+            if (confirm("로그아웃 하시겠습니까?")) {
                 fetch("/logout.do", {
-                    method:"post",
+                    method: "post",
                     headers: { "Content-Type": "application/json" },
-                    body:JSON.stringify({
-                        id:"${user.member_id}"
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
                     })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.result == "success"){
-                        alert("로그아웃 되었습니다.")
-                        location.href="/main_list.do";
-                    }
-                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
             }
-            }
+        }
+        
         // base64 URL 소스를 Uint8Array로 변환하는 함수 (푸시 서버 인증용 필수 함수)
         function urlB64ToUint8Array(base64String) {
             const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -540,8 +541,8 @@
             
             <div class="modal-banner-side"></div>
         </div>
-     </div>
-     </div>
+    </div>
+    </div>
 
 </body>
 </html>

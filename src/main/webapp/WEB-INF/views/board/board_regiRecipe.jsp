@@ -1,14 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-{%
-    <c:if test="${empty sessionScope.user}">
-        <script>
-            alert("로그인 후 작성가능합니다.")
-            location.href="/login.do"
-        </script>
-    </c:if>
-%}
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert("로그인후 이용해주세요.")
+        location.href="/login.do";
+    </script>
+</c:if>
 
 <!DOCTYPE html>
 <html>
@@ -189,8 +187,7 @@
             <li>이벤트</li>
         </ul>    
     </header>
-
-    <div class="container main-page">
+    <div class="container-main-page">
         <div class="recipe-regi-container">
             <form action="/myrecipe.do" method="post" enctype="multipart/form-data">
                 
@@ -310,7 +307,6 @@
                 <div align="center" style="margin-top: 15px;">
                     <button type="button" class="add-btn" onclick="addStep()">+ 조리 순서 추가</button>
                 </div>
-
                 <button type="submit" class="submit-btn">내 레시피 등록하기</button>
             </form>
         </div>

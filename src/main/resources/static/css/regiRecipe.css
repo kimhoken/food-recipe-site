@@ -1,9 +1,14 @@
 @charset "UTF-8";
 
+.container-main-page{
+    background-color: #F9F7F2;
+}
+
 /* 레시피 등록 컨테이너 (메인 페이지 컨테이너 안에 쏙 들어가게 스타일링) */
 .recipe-regi-container {
     max-width: 900px;
     margin: 40px auto;
+    margin-top: 0px;
     background: #fff;
     padding: 50px;
     border-radius: 16px;
