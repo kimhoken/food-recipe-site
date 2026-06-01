@@ -13,6 +13,9 @@
     </head>
 
     <body>
+        <form>            
+            <table border="1" align="center">
+                <caption>회원 가입</caption>
 
         
        <form class = "join-form">      

@@ -182,10 +182,10 @@ public class memberController {
 
        String res = mss.sendEmail(email,"authnumber");
 
-       Map<String,String> map = new HashMap<>();
-       map.put("authNumber", res);
+        Map<String,String> map = new HashMap<>();
+        map.put("authNumber", res);
 
-       return map;       
+        return map;       
         
     }
 

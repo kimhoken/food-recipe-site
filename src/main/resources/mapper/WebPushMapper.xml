@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INSERT INTO web_push_subscription (endpoint, member_id, p256dh, auth)
         VALUES (#{endpoint}, #{member_id}, #{p256dh}, #{auth})
         ON DUPLICATE KEY UPDATE
-            user_id = #{member_id},
+            member_id = #{member_id},
             p256dh = #{p256dh},
             auth = #{auth}
     </insert>

@@ -63,7 +63,7 @@ public class MailSendService {
 
             javaMailSender.send(message);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         if(val.equals("authnumber")){
