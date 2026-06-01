@@ -82,7 +82,7 @@ body{
 
 /* input */
 .input-box{
-    width:79%;
+    width:60%;
     height:45px;
 
     padding:0 15px;
@@ -120,7 +120,7 @@ body{
 /* 이메일 */
 .email-row{
     display:flex;
-    gap:10px;
+    gap:125px;
 
     margin-bottom:8px;
 }
