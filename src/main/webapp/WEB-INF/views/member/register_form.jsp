@@ -4,6 +4,7 @@
 <html>
 
     <head>
+        <title>오늘 뭐 먹지? - 회원가입</title>
         <link rel="stylesheet" href="css/register_form.css"/>
         <script>
             let id_vailed = false;
@@ -15,7 +16,6 @@
                 let nickname = document.getElementById("nickname");
                 nickname.value = '${nickname}';
             }
-
 
             let email_authnumer;
 
@@ -68,13 +68,13 @@
                 let pwd_check_msg =document.getElementById("pwd_check_msg");
 
                 fetch("/pwd_check.do",
-                      { method:'post',
+                    { method:'post',
                         headers:{'Content-Type': "application/x-www-form-urlencoded"},
                         body:'pwd='+ encodeURIComponent(pwd)+
                         '&pwd_check=' + encodeURIComponent(pwd_check) 
-                      })
-                      .then(res => res.json())
-                      .then(data =>{
+                    })
+                    .then(res => res.json())
+                    .then(data =>{
                         
                         if(data.pwd_msg == "no"){
 
@@ -103,7 +103,7 @@
                         }
 
                         
-                      })               
+                    })               
 
             }
 
@@ -201,12 +201,11 @@
                 let nick_msg = document.getElementById("nick_msg");
 
                 fetch("/check_nickname.do",
-
                     {method:'post',
-                     headers:{'Content-Type': "application/x-www-form-urlencoded"},
-                     body:'nickname='+nickname   
-
-                    }).then(res => res.json())
+                    headers:{'Content-Type': "application/x-www-form-urlencoded"},
+                    body:'nickname='+nickname   
+                    })
+                    .then(res => res.json())
                     .then(data =>{
 
                         if(data.nickname_msg == "yes"){
@@ -220,16 +219,13 @@
                             nickname_vailed = true;
 
                         }
-                    })
-                
-
-
+                })
             }
         </script>
     </head>
 
     <body>
-       <form>            
+        <form>            
             <table border="1" align="center">
                 <caption>회원 가입</caption>
 
@@ -291,7 +287,7 @@
                 </tr>
 
             </table>
-       </form>
+        </form>
     </body>
 
 </html>

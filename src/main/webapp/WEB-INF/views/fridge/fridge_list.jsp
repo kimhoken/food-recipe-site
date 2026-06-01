@@ -2,6 +2,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+{%
+    <c:if test="${empty sessionScope.user}">
+        <script>
+            alert("로그인후 이용해주세요.")
+            location.href="/login.do";
+        </script>
+    </c:if>
+%}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +64,7 @@
 
         const reco= ()=>{
             //멤버아이디를 넘겨 레시피 추천 화면으로 이동
-            location.href="/fridge_recommend.do?id=" + ${id};
+            location.href="/fridge_recommend.do?id=" + ${user.member_id};
         }
     </script>
 </head>
@@ -89,33 +98,37 @@
                         <div>로그아웃</div>
                     </a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}/join" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
+                <a href="/register_form.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/login.png">
+                    </span>
                     <div>회원가입</div>
                 </a>
-                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/mypage.png"></span>
+                
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/mypage.png">
+                    </span>
                     <div>마이페이지</div>
                 </a>
             </div>
         </div> 
         <ul class="nav-bar">
-            <li><a href="${pageContext.request.contextPath}/">홈</a></li>
-            <li>레시피</li>
+            <li><a href="/main_list.do">홈</a></li>
+            <li ><a href="/list.do">레시피</a></li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li>커뮤니티</li>
-            <li class="active">냉장고 추천</li>
+            <li class="active"><a href="/fridge_list.do">냉장고 추천</a></li>
             <li>이벤트</li>
-        </ul>
+        </ul> 
     </header>
 
     <div class="container main-container">
         <div class="fridge-wrapper">
             <div class="fridge-title-area">
                 <%-- 로그인시 접속가능한 공간 --%>
-                <%-- OO을 닉네임이 뜨게 변경 --%>
-                <div class="user-title">OO님의 현재 냉장고 재료 </div>
+                <div class="user-title">${user.nickname}님의 현재 냉장고 재료 </div>
                 <button class="add-btn" onClick="location.href='/food_insert.do?id=1'">재료 추가</button>
             </div>
 

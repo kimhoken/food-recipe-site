@@ -59,3 +59,5 @@ src/main/resources/static/upload/
 
 #배포키 업로드 방지
 chiken.pem
+
+src/main/resources/data.sql

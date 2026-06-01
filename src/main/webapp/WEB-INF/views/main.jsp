@@ -154,9 +154,9 @@
                 </a>
             </div>
             
-            <form action="${pageContext.request.contextPath}/search" method="get" class="search-bar-form">
+            <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                 <div class="search-bar">
-                    <input type="text" id="mainSearch" name="keyword" placeholder="재료, 요리명으로 검색해보세요!">
+                    <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
                 </div>
             </form>
             
@@ -180,7 +180,6 @@
                 </c:if>
                 <%-- ------------------------------------------ --%>
 
-
                 <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
@@ -200,10 +199,14 @@
         <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
             <li class="active">홈</li>
-            <li>레시피</li>
+            <li>
+                <a href="/list.do"> 레시피</a>
+            </li>
             <li>카테고리</li>
             <li>랭킹</li>
-            <li>커뮤니티</li>
+            <li>커뮤니티
+                
+            </li>
             <li>
                 <a href="/fridge_list.do">냉장고 추천</a>
             </li>

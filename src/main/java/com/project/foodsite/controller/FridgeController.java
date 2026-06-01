@@ -25,15 +25,19 @@ public class FridgeController {
     private final FridgeItemDAO fdao;
 
     /**
-     * 추후 파라미터로 member_ID를 받아서 진행
-     * @return
+     * @param member_id jsp에서 넘어오는 member_Id
+     * @param model binding을 위한 model
+     * @return jsp 페이지 forwarding
      */
     @GetMapping("/fridge_list.do")
-    public String firdgeList(Model model) {
-        int id=1;   //member_id
+    public String firdgeList(Model model, String member_id) {
+        int id = 0;
+        //로그인을 안해도 페이지로는 넘어가게 처리, 페이지에서 로그인 여부 확인함
+        if(member_id != null && !member_id.isEmpty())
+            id = Integer.parseInt(member_id);     
+
         List<FridgeItemVO> list = fdao.selectList(id);
         model.addAttribute("list", list);
-        model.addAttribute("id", id);
         return "fridge/fridge_list";
     }
     
@@ -90,7 +94,7 @@ public class FridgeController {
     @GetMapping("/fridge_recommend.do")
     public String rec(int id, Model model){
         //레시피테이블에서 현재 있는 레시피가 포함된 재료를 불러옴
-        
+        model.addAttribute("id", id);
         return "fridge/fridge_recommend";
     }
     
