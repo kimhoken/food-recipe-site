@@ -28,5 +28,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{member_id},#{title},#{content},NOW(), 0 )
 
     </insert>
+    <!-- 공지사항 삭제 -->
+    <delete id="notice_delete" parameterType="int">
+        delete from notice
+        where notice_id = #{notice_id}
+    </delete>
 
+    <update id="notice_update" parameterType="notice">
+        UPDATE notice
+        SET title = #{title},
+            content = #{content}
+        WHERE notice_id = #{notice_id}
+        AND member_id = #{member_id}
+    </update>
 </mapper>
