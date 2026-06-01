@@ -4,8 +4,8 @@
 <html>
 
     <head>
-        <link rel="stylesheet" href="css/register_from.css"/>
         <link rel="stylesheet" href="css/main.css"/>
+        <link rel="stylesheet" href="css/register_from.css"/>
         <script>
             const nickname = '${nickname}';
         </script>
@@ -13,9 +13,7 @@
     </head>
 
     <body>
-        <form>            
-            <table border="1" align="center">
-                <caption>회원 가입</caption>
+      
 
         
        <form class = "join-form">      
