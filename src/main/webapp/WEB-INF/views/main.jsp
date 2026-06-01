@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/chatbot.css" />
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
-
     <script>
  /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
     // 선택한 카테고리들 열기
@@ -77,6 +76,21 @@ function sideTabCategory(category) {
                 html += "    </ul>";
                 html += "</div>"; // .menu-group 닫기
             }
+        }
+        //카테고리 변경 함수
+        function sideTabCategory(category){
+            fetch('/getCategoryData.do?category=' + category)
+            .then( res => res.json() )
+            .then( data => {
+                document.getElementById("modalCategoryBody").innerHTML = data.categoryHtml;
+                document.querySelector(".modal-popular-section").innerHTML = data.popularHtml;
+                document.querySelector(".modal-banner-side").innerHTML = data.bannerHtml;
+            })
+            .catch( err =>{
+                console.error( err );
+            });
+        }
+
 
             // 모달창 알맹이 구역(category-grid-wrapper)에 정확히 조립된 리스트 밀어넣기
             document.getElementById("modalCategoryBody").innerHTML = html;
@@ -105,21 +119,22 @@ function sideTabCategory(category) {
         const logout = ()=>{
             if(confirm("로그아웃 하시겠습니까?")){ 
                 fetch("/logout.do", {
-                    method:"post",
+                    method: "post",
                     headers: { "Content-Type": "application/json" },
-                    body:JSON.stringify({
-                        id:"${user.member_id}"
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
                     })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.result == "success"){
-                        alert("로그아웃 되었습니다.")
-                        location.href="/main_list.do";
-                    }
-                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
             }
-            }
+        }
+        
         // base64 URL 소스를 Uint8Array로 변환하는 함수 (푸시 서버 인증용 필수 함수)
         function urlB64ToUint8Array(base64String) {
             const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -195,7 +210,7 @@ function sideTabCategory(category) {
             })
             .catch(err => console.error('서버 전송 실패:', err));
         }
-      
+        
     </script>
 
 </head>
@@ -208,9 +223,9 @@ function sideTabCategory(category) {
                 </a>
             </div>
             
-            <form action="${pageContext.request.contextPath}/search" method="get" class="search-bar-form">
+            <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                 <div class="search-bar">
-                    <input type="text" id="mainSearch" name="keyword" placeholder="재료, 요리명으로 검색해보세요!">
+                    <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
                 </div>
             </form>
             
@@ -234,7 +249,6 @@ function sideTabCategory(category) {
                 </c:if>
                 <%-- ------------------------------------------ --%>
 
-
                 <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
@@ -254,10 +268,14 @@ function sideTabCategory(category) {
         <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
             <li class="active">홈</li>
-            <li>레시피</li>
+            <li>
+                <a href="/list.do"> 레시피</a>
+            </li>
             <li>카테고리</li>
             <li>랭킹</li>
-            <li>커뮤니티</li>
+            <li>커뮤니티
+                
+            </li>
             <li>
                 <a href="/fridge_list.do">냉장고 추천</a>
             </li>
@@ -317,13 +335,15 @@ function sideTabCategory(category) {
         <%--
             <c:forEach var="recipe" items=${view_recipes}>
                 <div class="recipe-card">
-                    <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
-                    <div class="rank-badge">${recipe.rank}</div>
-                    <div class="recipe-info">
-                        <div class="recipe-name">${recipe.title}</div>
-                        <div class="recipe-author">👤 ${recipe.nickname}</div>
-                        <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
-                    </div>
+                    <a href="/recipe_detail.do?id=${recipe.recipe_id}">
+                        <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
+                        <div class="rank-badge">${recipe.rank}</div>
+                        <div class="recipe-info">
+                            <div class="recipe-name">${recipe.title}</div>
+                            <div class="recipe-author">👤 ${recipe.nickname}</div>
+                            <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
+                        </div>
+                    </a>
                 </div> 
             </c:forEach>
             --%>

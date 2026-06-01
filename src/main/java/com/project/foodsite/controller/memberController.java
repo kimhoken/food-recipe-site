@@ -179,12 +179,12 @@ public class memberController {
     @ResponseBody
     public Map<String,String> emailCheck(String email) {
 
-       String res = mss.joinEmail(email);
+        String res = mss.joinEmail(email);
 
-       Map<String,String> map = new HashMap<>();
-       map.put("authNumber", res);
+        Map<String,String> map = new HashMap<>();
+        map.put("authNumber", res);
 
-       return map;       
+        return map;       
         
     }
     

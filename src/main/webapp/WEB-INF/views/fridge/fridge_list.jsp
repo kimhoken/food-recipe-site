@@ -2,6 +2,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert("로그인후 이용해주세요.")
+        location.href="/login.do";
+    </script>
+</c:if>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +17,8 @@
     <title>오늘 뭐 먹지? - 냉장고 파먹기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fridge.css">
+    <link rel="stylesheet" href="/css/chatbot.css" />
+    <script src="/js/chatbot.js"></script>
     <script>
         function deleteItem(fridge_id){
             if(confirm("삭제하시겠습니까?")){
@@ -55,7 +65,26 @@
 
         const reco= ()=>{
             //멤버아이디를 넘겨 레시피 추천 화면으로 이동
-            location.href="/fridge_recommend.do?id=" + ${id};
+            location.href="/fridge_recommend.do?id=" + ${user.member_id};
+        }
+
+        const logout = () => {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                fetch("/logout.do", {
+                    method: "post",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
+            }
         }
     </script>
 </head>
@@ -81,41 +110,44 @@
                     </a>
                 </c:if>
                 <c:if test="${!empty user}">
-                    <a href="/logout.do" class="menu-item" id="login">
+                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
                         <span class="menu-icon">
                             <img src="${pageContext.request.contextPath}/images/login.png">
-                            <p>${user.nickname}님</p>
                         </span>
                         <div>로그아웃</div>
                     </a>
                 </c:if>
-                <a href="${pageContext.request.contextPath}/join" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
+                <a href="/register_form.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/login.png">
+                    </span>
                     <div>회원가입</div>
                 </a>
-                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/mypage.png"></span>
+                
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/mypage.png">
+                    </span>
                     <div>마이페이지</div>
                 </a>
             </div>
         </div> 
         <ul class="nav-bar">
-            <li><a href="${pageContext.request.contextPath}/">홈</a></li>
-            <li>레시피</li>
+            <li><a href="/main_list.do">홈</a></li>
+            <li ><a href="/list.do">레시피</a></li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li>커뮤니티</li>
-            <li class="active">냉장고 추천</li>
+            <li class="active"><a href="/fridge_list.do">냉장고 추천</a></li>
             <li>이벤트</li>
-        </ul>
+        </ul> 
     </header>
 
     <div class="container main-container">
         <div class="fridge-wrapper">
             <div class="fridge-title-area">
                 <%-- 로그인시 접속가능한 공간 --%>
-                <%-- OO을 닉네임이 뜨게 변경 --%>
-                <div class="user-title">OO님의 현재 냉장고 재료 </div>
+                <div class="user-title">${user.nickname}님의 현재 냉장고 재료 </div>
                 <button class="add-btn" onClick="location.href='/food_insert.do?id=1'">재료 추가</button>
             </div>
 
@@ -181,19 +213,61 @@
                         <div class="cs-btn">📞 1833-8307</div>
                         <div class="cs-btn">💬 1:1문의하기</div>
                     </div>
+                    <div class="hours-info">
+                        <p><strong>운영시간</strong></p>
+                        <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
+                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
+                    </div>
+                </div>
+                <div class="sns-icons">
+                    <span class="sns-icon">▶</span>
+                    <span class="sns-icon">★</span>
+                    <span class="sns-icon">☆</span>
+                    <span class="sns-icon">◆</span>
+                    <span class="sns-icon">♬</span>
                 </div>
             </div>
         </div>
+
         <div class="footer-nav-bar">
             <div class="footer-container">
                 <div class="nav-links">
                     <a href="#"><strong>이용약관</strong></a>
                     <a href="#"><strong>개인정보처리방침</strong></a>
+                    <a href="/notice.do">공지사항</a>
+                    <a href="#">자주묻는질문</a>
                     <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
                 </div>
             </div>
         </div>
+
+        <div class="footer-container">
+            <div class="footer-bottom-row">
+                <div class="company-info">
+                    <h4>주식회사 코코짱짱</h4>
+                    <p>
+                        <span>상호 : KH 개발</span>
+                        <span>대표자 : 장승연</span>
+                        <span>개인정보관리책임자 : 장승연</span>
+                        <span>사업자 등록번호 : 111-01-31111</span>
+                    </p>
+                    <p>
+                        <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
+                        <span>전화 : 1833-1234</span>
+                        <span>팩스 : 031-8017-1800</span>
+                    </p>
+                    <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
+                </div>
+                
+                <div class="footer-logo-area">
+                    <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <!-- 챗봇 -->
+    <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
 </body>
 </html>
