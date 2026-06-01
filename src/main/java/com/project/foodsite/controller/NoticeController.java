@@ -62,4 +62,47 @@ public class NoticeController {
 
         return "redirect:notice.do";
     }
+
+    @GetMapping("/notice_delete.do")
+    public String noticeDelete(int notice_id) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:/notice.do";
+        }
+
+        noticeDao.notice_delete(notice_id);
+
+        return "redirect:/notice.do";
+    }
+
+    @GetMapping("/notice_update.do")
+    public String noticeUpdate_form(int notice_id, Model model) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:/notice.do";
+        }
+
+        NoticeVO vo = noticeDao.noticeView(notice_id);
+        model.addAttribute("notice", vo);
+
+        return "notice/update_form";
+    }
+
+    @PostMapping("/notice_update.do")
+    public String noticeUpdate_fin(NoticeVO vo) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:/notice.do";
+        }
+
+        noticeDao.notice_update(vo);
+
+        return "redirect:/notice_detail.do?notice_id=" + vo.getNotice_id();
+    }
 }
