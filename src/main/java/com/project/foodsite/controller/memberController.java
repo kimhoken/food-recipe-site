@@ -1,6 +1,7 @@
 package com.project.foodsite.controller;
 
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,9 @@ import com.project.foodsite.common.MailSendService;
 import com.project.foodsite.common.NicknameGenerater;
 import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
+import com.project.foodsite.dao.TokenDAO;
 import com.project.foodsite.vo.MemberVO;
+import com.project.foodsite.vo.TokenVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,9 @@ public class memberController {
     private final MailSendService mss;
     private final pwdSecurity pwdSecurity;
     private final NicknameGenerater nicknameGenerater;
+    private final TokenDAO tokenDAO;
+   
+
 
     // 회원 리스트 출력
     @GetMapping(value = { "/member_list.do" })
@@ -257,12 +263,69 @@ public class memberController {
     @ResponseBody
     public Map<String,String> resetpwd(String email){
 
+        MemberVO membervo = memberDAO.getUserEmail(email);
+
         String res = mss.sendEmail(email, "resetpwd");
 
+
+        
+        TokenVO vo = new TokenVO();
+        vo.setMember_id(membervo.getMember_id());
+        vo.setToken(res);
+        vo.setExpire_date(LocalDateTime.now().plusMinutes(30));
+
+        int msg_res = tokenDAO.insertToken(vo);
+
         Map<String,String> map = new HashMap<>();
-        map.put("result", res);
+
+        if(msg_res > 0){
+            map.put("result", "success");
+        }else{
+            map.put("result", "fail");
+        }
+
         return map;
     }
 
+    //비밀번호 재설정 페이지 전송 함수
+    @GetMapping("/resetpwd.do")
+    public String resetpwd_form(String token, Model model){
 
+        TokenVO vo = tokenDAO.getToken(token);
+
+       if(vo != null){
+            
+            if(vo.getExpire_date().isBefore(LocalDateTime.now()) || vo.getUsed().equals("yes")){
+                model.addAttribute("msg", "토큰이 만료되었습니다.");                
+            }
+        
+            MemberVO membervo = memberDAO.getUserByMemberId(vo.getMember_id());
+
+            model.addAttribute("member",membervo);
+            
+       }else{
+            model.addAttribute("msg", "토큰이 존재하지 않습니다.");}
+       
+
+        return "member/resetpwd_form";
+    }   
+
+    @PostMapping("/repwd.do")
+    @ResponseBody
+    public String repwd(int member_id, String password){
+
+        String enc_pwd = pwdSecurity.pwdEncoding(password);
+
+        MemberVO vo = new MemberVO();
+        vo.setMember_id(member_id);
+        vo.setPassword(enc_pwd);
+
+        int res = memberDAO.userUpdate(vo);
+
+        if(res > 0){
+            return "success";
+        }else{
+            return "fail";
+        }
+    }
 }
