@@ -1,10 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
 <html>
     <head>
-
+        <script>
+            function deleteNotice() {
+                if (confirm("삭제하시겠습니까?")) {
+                    location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+                }
+            }
+        </script>
     </head>
     <body>
 
@@ -37,9 +44,9 @@
             </tr>
         </table>
 
-        <c:if test="${user.role eq 'ADMIN'}">
+        <c:if test="${sessionScope.user.role eq 'ADMIN'}">
             <input type="button" value="수정" onclick="location.href='notice_update.do?notice_id=${notice.notice_id}'" />
-            <input type="button" value="삭제" onclick="location.href='notice_delete.do?notice_id=${notice.notice_id}'" />
+            <input type="button" value="삭제" onclick="deleteNotice()" />
         </c:if>
 
         <input type="button" value="목록" onclick="history.back()" />

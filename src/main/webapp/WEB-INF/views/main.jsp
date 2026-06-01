@@ -471,7 +471,7 @@
                 <div class="nav-links">
                     <a href="#"><strong>이용약관</strong></a>
                     <a href="#"><strong>개인정보처리방침</strong></a>
-                    <a href="#">공지사항</a>
+                    <a href="/notice.do">공지사항</a>
                     <a href="#">자주묻는질문</a>
                     <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
                 </div>

@@ -9,4 +9,6 @@ public interface NoticeDAO {
     List<NoticeVO> selectAll();
     NoticeVO noticeView(int notice_id);
     int notice_insert(NoticeVO vo);
+    int notice_delete(int notice_id);
+    int notice_update(NoticeVO vo);
 }
