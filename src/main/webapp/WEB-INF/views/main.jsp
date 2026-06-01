@@ -58,7 +58,7 @@ function sideTabCategory(category) {
         .then(res => res.json())
         .then(data => {
             var list = data.catList;
-            var html = ""; // 💡 깨끗하게 알맹이만 조립하기 시작합니다.
+            var html = ""; 
 
             for (var i = 0; i < list.length; i++) {
                 html += "<div class='menu-group'>";
@@ -66,36 +66,19 @@ function sideTabCategory(category) {
                 // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
                 html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
                 html += "    <ul>";
-                
-                // 나중에 서버에서 상세 서브 메뉴 데이터를 넘겨주면 이 부분을 다시 반복문으로 돌리면 됩니다!
+ 
                 html += "        <li><a href='#'>김치찌개</a></li>";
                 html += "        <li><a href='#'>된장찌개</a></li>";
                 html += "        <li><a href='#'>미역국</a></li>";
                 html += "        <li><a href='#'>순두부찌개</a></li>";
                 html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
                 html += "    </ul>";
-                html += "</div>"; // .menu-group 닫기
+                html += "</div>";
             }
-        }
-        //카테고리 변경 함수
-        function sideTabCategory(category){
-            fetch('/getCategoryData.do?category=' + category)
-            .then( res => res.json() )
-            .then( data => {
-                document.getElementById("modalCategoryBody").innerHTML = data.categoryHtml;
-                document.querySelector(".modal-popular-section").innerHTML = data.popularHtml;
-                document.querySelector(".modal-banner-side").innerHTML = data.bannerHtml;
-            })
-            .catch( err =>{
-                console.error( err );
-            });
-        }
 
-
-            // 모달창 알맹이 구역(category-grid-wrapper)에 정확히 조립된 리스트 밀어넣기
             document.getElementById("modalCategoryBody").innerHTML = html;
             
-            // 우측 배너 영역 채우기 (사진과 동일한 디자인 레이아웃)
+            // 우측 배너 영역 
             document.querySelector(".modal-banner-side").innerHTML = 
                 "<div class='banner-img-box'>" +
                 "    <img src='/images/main.png' alt='추천 요리' style='width:100%; height:100%; object-fit:cover; border-radius:12px;'> gap" +
@@ -108,7 +91,7 @@ function sideTabCategory(category) {
         })
         .catch(err => {
             console.error("데이터를 가져오는 도중 에러 발생:", err);
-            // 에러 시 화면이 굳어버리지 않게 사용자 안내 메시지 띄워주기
+
             document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
         });
 }
