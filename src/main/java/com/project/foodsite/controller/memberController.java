@@ -211,6 +211,12 @@ public class memberController {
 
     }
     
+    @GetMapping("/find.do")
+    public String findpage(String select, Model model){
+        model.addAttribute("select",select);
+        return "member/findpage";
+    }
+
 
 
 
