@@ -74,15 +74,15 @@
 
                             <tr>
                                 <td>
-                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요" />
+                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요"  />
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="idpwd-area">
-                                    <button class="sub-btn" type="button" onclick="">아이디</button>
+                                    <button class="sub-btn" type="button" onclick="location.href='find.do?select=id'">아이디</button>
                                     <span>/</span>
-                                    <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="" />                                    
+                                    <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="location.href='find.do?select=pwd'"/>                                    
                                 </td>
                             </tr>
         
