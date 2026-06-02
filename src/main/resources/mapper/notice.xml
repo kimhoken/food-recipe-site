@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <!-- 조회 기록 추가 -->
     <insert id="viewHistory">
-        INSERT IGNORE INTO notice_view_history (
+        INSERT IGNORE INTO notice_view (
             notice_id, member_id
         ) VALUES (
             #{notice_id}, #{member_id}
