@@ -116,8 +116,8 @@ public class memberController {
         String filename = "no_file";
 
         vo.setFilename(filename);
-        vo.setRole("User");
-        vo.setStatus("Active");
+        vo.setRole("USER");
+        vo.setStatus("yes");
 
         int res = memberDAO.userInsert(vo);
 
@@ -174,12 +174,13 @@ public class memberController {
         return map;
 
     }
+
     //인증 번호 메일 전송 함수
     @PostMapping("/mail_check.do")
     @ResponseBody
     public Map<String,String> emailCheck(String email) {
 
-        String res = mss.joinEmail(email);
+       String res = mss.sendEmail(email,"authnumber");
 
         Map<String,String> map = new HashMap<>();
         map.put("authNumber", res);
@@ -187,7 +188,8 @@ public class memberController {
         return map;       
         
     }
-    
+
+    //닉네임 중복 검사 함수
     @PostMapping("/check_nickname.do")
     @ResponseBody
     public Map<String,String> nicknameCheck(String nickname){
@@ -208,13 +210,59 @@ public class memberController {
         map.put("nickname", nickname);
 
         return map;
+    }
+
+    //아이디, 비밀번호 찾기 페이지
+    @GetMapping("/find.do")
+    public String findpage(String select, Model model){
+        model.addAttribute("select",select);
+        return "member/findpage";
+    }
+
+    //회원 이메일 존재 여부 함수
+    @PostMapping("/emailfind.do")
+    @ResponseBody
+    public Map<String,String> findemail(String email){
+
+        MemberVO vo = memberDAO.getUserEmail(email);
+        
+        String res = "no";
+
+        if(vo != null){
+            res = "yes";
+        }
+
+        Map<String,String> map = new HashMap<>();
+
+        map.put("email",email);
+        map.put("result",res);
+
+        return map;
+        
+    }
+
+    // 이메일로 회원 정보 조회
+    @PostMapping("/findid.do")
+    @ResponseBody
+    public String findid(String email){
+        
+        MemberVO vo = memberDAO.getUserEmail(email);
+
+        return vo.getLogin_id();
 
     }
-    
 
+    //이메일 재설정 링크 보내는 함수
+    @PostMapping("/resetpwd.do")
+    @ResponseBody
+    public Map<String,String> resetpwd(String email){
 
+        String res = mss.sendEmail(email, "resetpwd");
 
-
+        Map<String,String> map = new HashMap<>();
+        map.put("result", res);
+        return map;
+    }
 
 
 }
