@@ -61,3 +61,4 @@ src/main/resources/static/upload/
 chiken.pem
 
 src/main/resources/data.sql
+src/main/resources/data_schema.sql

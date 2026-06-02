@@ -133,12 +133,16 @@
             </div>
         </div> 
         <ul class="nav-bar">
-            <li><a href="/main_list.do">홈</a></li>
-            <li ><a href="/list.do">레시피</a></li>
+            <li class="active">홈</li>
+            <li>
+                <a href="/list.do"> 레시피</a>
+            </li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li>커뮤니티</li>
-            <li class="active"><a href="/fridge_list.do">냉장고 추천</a></li>
+            <li>
+                <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
+            </li>
             <li>이벤트</li>
         </ul> 
     </header>

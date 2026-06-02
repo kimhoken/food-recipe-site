@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.foodsite.dao.*;
 import com.project.foodsite.vo.*;
+
+import java.time.LocalDate;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class Recommand {
     * 2. 콘텐츠 기반 필터링
     * 3. 협업 필터링
     * 4. 태그 스코어링
-    * 5. 장바구니 알고리즘
+    * 5. 장바구니 알고리즘 
     */
 
     /*
@@ -62,7 +64,7 @@ public class Recommand {
         //레시피테이블의 갯수를 가지고옴
         int size = recipeDAO.size();
 
-        //등록된 레시피가 5개 이하일 경우
+        //등록된 레시피가 5개 미만일 경우
         if(size<5){
             return recipeDAO.selectAll();
         }
@@ -90,5 +92,36 @@ public class Recommand {
         return list;
     }//randomList
 
+    /**
+     * 현재 냉장고의 재료로 레시피 추천받는 알고리즘
+     * @return 레시피VO
+     */
+    public List<RecipeVO> recomedList(){
+        //나중에는 파라미터로 받아서 냉장고의 재료를 불러옴
+        int member_id = 1;
+        List<FridgeItemVO> fridgeList = fridgeItemDAO.selectList(member_id);
+        
+        //냉장고의 재료가 포함된 레시피를 모두 불러옴
+        List<RecipeVO> recipeList = recipeDAO.selectAny(fridgeList);
+        
+        int maxScore = Integer.MIN_VALUE;
+        List<RecipeVO> resList = new LinkedList<>();
+
+        //YYYY-MM-DD
+        String today = LocalDate.now().toString();
+        StringTokenizer st = new StringTokenizer(today, "-");
+        int todayYear = Integer.parseInt(st.nextToken());
+        int todayMonth = Integer.parseInt(st.nextToken());
+        int todayDay = Integer.parseInt(st.nextToken());
+
+        for(RecipeVO item : recipeList){
+            int score = 0;
+            int recipe_id = item.getRecipe_id();
+            List<IngredientVO> ingredientList = ingredientDAO.selectList(recipe_id);
+
+        }
+
+        return resList;
+    }//RecipeVO
 
 }
