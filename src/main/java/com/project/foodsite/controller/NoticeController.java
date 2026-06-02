@@ -27,7 +27,7 @@ public class NoticeController {
     private final NoticeDAO noticeDao;
     private final HttpSession session;
 
-   @GetMapping("/notice.do")
+    @GetMapping("/notice.do")
     public String getArticleList(
             Model model,
             @RequestParam(value = "page", defaultValue = "1") int page) {

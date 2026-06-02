@@ -89,13 +89,13 @@
 
             <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
             <ul class="nav-bar">
-                <li class="active">홈</li>
+                <li><a href="/main_list.do">홈</a></li>
                 <li>
-                    <a href="/list.do"> 레시피</a>
+                    레시피
                 </li>
                 <li>카테고리</li>
                 <li>랭킹</li>
-                <li>커뮤니티</li>
+                <li class="active"><a href="/list.do">커뮤니티</a> </li>
                 <li>
                     <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
                 </li>

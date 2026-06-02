@@ -250,30 +250,23 @@
 
         <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
-            <li class="active">홈</li>
-            <li>
-                <a href="/list.do"> 레시피</a>
-            </li>
+            <li class="active"><a href="/main_list.do">홈</a></li>
+            <li>레시피</li>
             <li>카테고리</li>
             <li>랭킹</li>
-            <li>커뮤니티
-                
-            </li>
-            <li>
-                <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
-            </li>
+            <li><a href="/list.do">커뮤니티</a></li>
+            <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
             <li>이벤트</li>
-        </ul>     
+        </ul>
     </header>
 
     <!-- 메인 배너 -->
-
     <div class="main-banner-container">
-    <div class="max-container">
-        <div class="banner-image-side">
-            <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
-        </div>        
-    </div>
+        <div class="max-container">
+            <div class="banner-image-side">
+                <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+            </div>        
+        </div>
     </div>
 
     <div class="container main-page">
