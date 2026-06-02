@@ -17,6 +17,12 @@
 
     <script>
         function send(f) {
+            //유효성 검사
+            if(f.title.value.trim() === "") {
+                alert("제목을 입력해주세요.");
+                f.title.focus();
+                return false;
+            }
             f.submit();
         }
 
@@ -29,7 +35,7 @@
                 <td><input type="text" name="vegetableName" placeholder="예: 양파"/></td>
                 <td class="qty-cell">
                     <input type="text" name="amountV" placeholder="수량" />
-                    <select name="unit">
+                    <select name="unitV">
                         <option value="개">개</option>
                         <option value="쪽">쪽 (예: 마늘)</option>
                         <option value="대">대 (예: 대파)</option>
@@ -56,7 +62,7 @@
                     <td><input type="text" name="meatName" /></td>
                             <td class="qty-cell">
                               <input type="text" name="amountM" />
-                              <select name="unit">
+                              <select name="unitM">
                                 <option value="g">g (그램)</option>
                                 <option value="kg">kg (킬로그램)</option>
                                 <option value="근">근 (600g)</option>
@@ -82,7 +88,7 @@
                         <td><input type="text" name="seasoningName" /></td>
                         <td class="qty-cell">
                             <input type="text" name="amountS" />
-                            <select name="unit">
+                            <select name="unitS">
                                 <option value="큰술">큰술 (tbsp)</option>
                                 <option value="작은술">작은술 (tsp)</option>
                                 <option value="컵">컵 (Cup)</option>
@@ -171,8 +177,8 @@
         </head>
 
         <body>
-            <form action="/myrecipe.do" method="post" enctype="multipart/form-data">
-
+            <form action="/myrecipe.do" method="post" enctype="multipart/form-data" >
+                <input type="hidden" name="memberId" value="${sessionScope.user.member_id}" />    
                 <h1>제목
                     <input type="text" name="title" />
                 </h1>
@@ -198,7 +204,7 @@
                                         <td><input type="text" name="vegetableName" placeholder="예: 마늘" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountV" />
-                                            <select name="unit">
+                                            <select name="unitV">
                                                 <option value="개">개</option>
                                                 <option value="쪽">쪽 (예: 마늘)</option>
                                                 <option value="대">대 (예: 대파)</option>
@@ -226,7 +232,7 @@
                                         <td><input type="text" name="meatName" placeholder="예: 소고기(양지)" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountM" />
-                                            <select name="unit">
+                                            <select name="unitM">
                                                 <option value="g">g (그램)</option>
                                                 <option value="kg">kg (킬로그램)</option>
                                                 <option value="근">근 (600g)</option>
@@ -251,10 +257,10 @@
                                         <th>사용량</th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="seasoingName" placeholder="예: 간장" /></td>
+                                        <td><input type="text" name="seasoningName" placeholder="예: 간장" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountS" />
-                                            <select name="unit">
+                                            <select name="unitS">
                                                 <option value="큰술">큰술 (tbsp)</option>
                                                 <option value="작은술">작은술 (tsp)</option>
                                                 <option value="컵">컵 (Cup)</option>

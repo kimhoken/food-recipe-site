@@ -17,4 +17,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM recipe ORDER BY created_date DESC
     </select>
 
+    <insert id="insertRecipe" parameterType="RecipeDTO">
+        INSERT INTO recipe (title, thumbnail, member_id, nutrition_id, category_id) 
+        VALUES (#{title}, #{mainImgName}, #{memberId}, 1, 1)
+    </insert> 
+
+    <select id="getLastRecipeId" resultType="int">
+        select recipe_id from recipe order by recipe_id desc LIMIT 1
+    </select>
+
+    <!-- 재료담기 -->
+    <insert id="insertVegetable" parameterType="RecipeDTO">
+        INSERT INTO ingredient (recipe_id, vegetable_name, amount, unit, type) 
+        <foreach collection="vegetableName" item="vege"  separator="," index="i" >
+          VALUES (#{recipeId}, #{vege}, #{amountV[i]}, #{unitV[i]},  '채소')
+        </foreach>
+    </insert>
+
+    <insert id="insertMeat" parameterType="RecipeDTO">
+        INSERT INTO ingredient (recipe_id, meat_name, amount, unit, type) 
+        <foreach collection="meatName" item="meat"  separator="," index="i" >
+            VALUES (#{recipeId}, #{meat}, #{amountM[i]}, #{unitM[i]},  '육류')
+        </foreach>
+    </insert>
+
+    <insert id="insertSeasoning" parameterType="RecipeDTO">
+        INSERT INTO ingredient (recipe_id, seasoning_name, amount, unit, type) 
+        <foreach collection="seasoningName" item="seasoning"  separator="," index="i" >
+         VALUES (#{recipeId}, #{seasoning}, #{amountS[i]}, #{unitS[i]},  '양념')
+        </foreach>
+    </insert>
+    
+    
 </mapper>
