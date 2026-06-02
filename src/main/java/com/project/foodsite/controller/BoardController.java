@@ -38,8 +38,7 @@ public class BoardController {
 
     //recipe 등록
     @GetMapping("/regiRecipe.do")
-    public String recipeForm(Model model){
-        String id = "1";
+    public String recipeForm(Model model, String id){
         model.addAttribute("id", id); 
         return "/board/board_regiRecipe";
     }
