@@ -10,7 +10,9 @@
 
             <script>
 
+                //내 레시피 등록 버튼
                 function send(f) {
+
                     f.submit();
                 }
 
@@ -21,9 +23,9 @@
 
                     newRow.innerHTML = `
                         <td><input type="text" name="vegetableName"/></td>
-                        <td>
+                        <td class="qty-cell">
                             <input type="text" name="amountV" />
-                            <select name="vegeUnit">
+                            <select name="unit">
                                 <option value="개">개</option>
                                 <option value="쪽">쪽 (예: 마늘)</option>
                                 <option value="대">대 (예: 대파)</option>
@@ -48,9 +50,9 @@
 
                     newRow.innerHTML = `
                     <td><input type="text" name="meatName" /></td>
-                            <td>
+                            <td class="qty-cell">
                               <input type="text" name="amountM" />
-                              <select name="meatUnit">
+                              <select name="unit">
                                 <option value="g">g (그램)</option>
                                 <option value="kg">kg (킬로그램)</option>
                                 <option value="근">근 (600g)</option>
@@ -74,9 +76,9 @@
 
                     newRow.innerHTML = `
                         <td><input type="text" name="seasoningName" /></td>
-                        <td>
+                        <td class="qty-cell">
                             <input type="text" name="amountS" />
-                            <select name="seasoningUnit">
+                            <select name="unit">
                                 <option value="큰술">큰술 (tbsp)</option>
                                 <option value="작은술">작은술 (tsp)</option>
                                 <option value="컵">컵 (Cup)</option>
@@ -102,14 +104,27 @@
                 }
 
 
+                //조리순서 번호를 1부터 다시 매기는 함수
+                function updateStepNumbers(){
+                    //stepBody 안에 있는 모든 .step-number 요소를 가져와 
+                    //띄어쓰기-> 자식 선택!
+                    const steps = document.querySelectorAll('#stepBody .step-number');
+
+                    steps.forEach(
+                        (steps, index) => {
+                            //index는 0부터 시작이라 +1해서 넣어
+                            steps.innerHTML = index + 1;
+                        }
+                    );
+                }
+
+                //조리순서 추가 함수
                 function addStep() {
                     const tbody = document.getElementById('stepBody');
-                    const rowCount = tbody.rows.length; // 현재 행 개수 확인
-                    const nextStep = rowCount + 1;      // 다음 순서 번호
-
                     // 새로운 행(tr) 생성
                     const newRow = document.createElement('tr');
 
+                    //처음부터 번호 계산 x, updateStepNumbers: 선 생성 번호매김 후 처리
                     newRow.innerHTML = `
                         <td align = "center"> <div class="step-number">\${ nextStep }</div> </td >
                         <td>
@@ -117,22 +132,28 @@
                         </td>
                         
                         <td>
+                            <div class="step-content">
                             <textarea name="step" rows="5" cols="50" 
                             placeholder="다음 조리 과정을 입력하세요."></textarea>
-                            <button type="button" onclick="removeRow2(this)" class="x-btn">X</button>
+                            <button type="button" onclick="removeRow2(this)" class="x-btn2">X</button>
+                            </div>
                         </td>
                     `;
 
                     // tbody에 추가
                     tbody.appendChild(newRow);
+
+                    //추가 후 번호 갱신
+                    updateStepNumbers();
                 }
 
                 //원하는 줄 삭제
                 function removeRow2(btn) {
                     const row = btn.closest('tr');
-
-                    // 찾은 줄 삭제
+                    //찾은 줄 삭제
                     row.remove();
+                    //선택한 줄 삭제 후 번호 재정렬
+                    updateStepNumbers();
                 }
 
             </script>
@@ -152,9 +173,12 @@
                     <input type="text" name="title" />
                 </h1>
 
-                <td>
-                    <input type="file" name="img" />
-                </td>
+                <h1>대표 이미지
+                    <td>
+                        <input type="file" name="mainImg"/>
+                    </td> 
+                </h1>
+                
 
                 <h1>필요한 재료</h1>
 
@@ -172,7 +196,7 @@
                                         <td><input type="text" name="vegetableName" placeholder="예: 마늘" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountV" />
-                                            <select name="vegeUnit">
+                                            <select name="unit">
                                                 <option value="개">개</option>
                                                 <option value="쪽">쪽 (예: 마늘)</option>
                                                 <option value="대">대 (예: 대파)</option>
@@ -203,7 +227,7 @@
                                         <td><input type="text" name="meatName" placeholder="예: 소고기(양지)" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountM" />
-                                            <select name="meatUnit">
+                                            <select name="unit">
                                                 <option value="g">g (그램)</option>
                                                 <option value="kg">kg (킬로그램)</option>
                                                 <option value="근">근 (600g)</option>
@@ -233,7 +257,7 @@
                                         <td><input type="text" name="seasoingName" placeholder="예: 간장" /></td>
                                         <td class="qty-cell">
                                             <input type="text" name="amountS" />
-                                            <select name="seasoningUnit">
+                                            <select name="unit">
                                                 <option value="큰술">큰술 (tbsp)</option>
                                                 <option value="작은술">작은술 (tsp)</option>
                                                 <option value="컵">컵 (Cup)</option>
@@ -269,20 +293,22 @@
                             </td>
 
                             <td>
+                                <div class="step-content">
                                 <textarea name="step" rows="5" cols="50" style="resize: none;"
                                     placeholder="예) 먼저 팬에 기름을 두르고 마늘 기름을 내주세요."></textarea>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <br />
+                <br/>
                 <div align="center">
                     <button type="button" onclick="addStep()">+</button>
                 </div>
 
-                <br />
-                <button type="submit">내 레시피 등록하기</button>
+                <br/>
+                <button type="submit" onclick="send(this.form)">내 레시피 등록하기</button>
             </form>
         </body>
 

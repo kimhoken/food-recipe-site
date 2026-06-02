@@ -78,7 +78,7 @@ td {
 button {
     cursor: pointer;
     border: none;
-    border-radius: 25px;
+    border-radius:20px;
     transition: transform 0.2s, background-color 0.2s;
     font-weight: bold;
 }
@@ -92,14 +92,14 @@ button[type="button"] {
     margin-top: 10px;
 }
 
-button[type="button"]:hover {
+/*button[type="button"]:hover {
     background-color: #556B2F;
     transform: translateY(-2px);
-}
+}*/
 
 /* 등록 버튼 */
 button[type="submit"] {
-    background-color: #E77B4D; /* 메인 오렌지색 */
+    background-color: #E77B4D;
     color: white;
     width: 100%;
     padding: 15px;
@@ -135,7 +135,7 @@ input[type="file"] {
 /* 1. 수량과 셀렉트 박스 나란히 배치 및 사이즈 조절 */
 td.qty-cell {
     display: flex;
-    gap: 8px; /* 입력창과 선택창 사이 간격 */
+    gap: 10px; /* 입력창과 선택창 사이 간격 */
     align-items: center;
 }
 
@@ -216,3 +216,51 @@ textarea[name="step"]:focus {
     background-color: #fff;
     border-color: #E77B4D;
 }
+
+/* 텍스트 영역과 버튼을 감싸는 컨테이너 */
+.step-content{
+    position: relative; /* 버튼의 기준점이 됩니다 */
+    display: flex;
+    align-items: center;
+}
+
+/* 재료 옆 X 버튼 (x-btn) 전용 스타일 */
+button.x-btn {
+    /* 1. 기존 초록색 버튼 스타일 초기화 */
+    background-color: transparent !important; /* 배경 투명 */
+    padding: 0 5px !important;                /* 안쪽 여백 최소화 */
+    margin-top: 0 !important;                 /* 상단 여백 제거 */
+    box-shadow: none !important;              /* 그림자 제거 */
+    width: auto !important;                   /* 너비 자동 */
+    
+    /* 2. 원하는 사이즈 및 색상 설정 */
+    color: #6B8E23;       
+    font-size: 16px;     
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle; /* 입력창과 세로 위치 맞춤 */
+}
+
+/* 마우스를 올렸을 때 효과 */
+button.x-btn:hover {
+    background-color: transparent !important;
+    color: #4b6318; /* 호버 시 조금 더 진한 색상 */
+    transform: scale(1.1);
+}
+
+/* X 버튼 스타일 수정 */
+button.x-btn2 {
+    position: absolute;
+    right: -25px; /* 텍스트박스 오른쪽 밖으로 이동 */
+    top: 45%;
+    transform: translateY(-50%); /* 세로 중앙 정렬 */
+    background-color: transparent;
+    border: none;
+    color: #6B8E23;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+}
+
+

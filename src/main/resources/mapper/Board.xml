@@ -19,5 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        OR content LIKE #{pattern}
        AND b.member_id = m.member_id
     </select>
+
+    <insert id="insertRecipe" parameterType="RecipeDTO">
+        INSERT INTO board (unit) 
+        VALUES (#{vegiUnit})
+    </insert> 
 		
 </mapper>
