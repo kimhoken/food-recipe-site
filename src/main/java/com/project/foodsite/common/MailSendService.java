@@ -1,5 +1,7 @@
 package com.project.foodsite.common;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -17,17 +19,15 @@ import jakarta.mail.internet.MimeMessage;
 public class MailSendService {
 
     private final JavaMailSender javaMailSender;
-    private int authNumber;
+    private int authNumber;    
     private String token;
+    private final String siteurl = "http://localhost:5000/resetpwd.do?token=";
 
     public MailSendService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
-    }
-
-    // 사이트 주소+토큰 
-    public void makeToken(){
         
     }
+   
 
     // 인증번호 생성
     public void makeRandomNumber() {
@@ -36,6 +36,20 @@ public class MailSendService {
         authNumber = rand.nextInt(999999 - 111111 + 1) + 111111;
 
     }
+
+    
+    //토큰 생성 
+    public void createToken() {
+        SecureRandom secureRandom = new SecureRandom();
+
+        byte[] bytes = new byte[32];
+        secureRandom.nextBytes(bytes);
+
+        token = Base64.getUrlEncoder()
+                    .withoutPadding()
+                    .encodeToString(bytes);
+    }
+
 
     //메일 함수
     public String sendEmail(String email,String val){
@@ -69,7 +83,7 @@ public class MailSendService {
         if(val.equals("authnumber")){
             return emailMap.get("authNumber");
         }else{
-            return "success";
+            return emailMap.get("token");
         }
 
     }
@@ -100,14 +114,17 @@ public class MailSendService {
 
         String title = "FoodSite 비밀번호 재설정 이메일 입니다.";
 
+        createToken();
+
         StringBuffer content = new StringBuffer();
         content.append("<h3>비밀번호 재설정 링크입니다.</h3>");
-        content.append("<h1><b>["+" 사이트 주소 "+"]</b></h1>");
+        content.append("<h1><b>[<a href='"+siteurl+token+"'>비밀번호 재설정</a>]</b></h1>");
         content.append("주저리 주저리 인정해라 휴먼 너가 졌다!");
 
         Map<String,String> email = new HashMap<>();
         email.put("title", title);
         email.put("content", content.toString());
+        email.put("token", token);
 
         return email;
 

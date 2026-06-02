@@ -15,4 +15,8 @@ public interface MemberDAO {
     MemberVO getUserNickname(String nickname);
     
     MemberVO getUserEmail(String email);
+
+    MemberVO getUserByMemberId(int member_id);
+
+    int userUpdate(MemberVO vo);
 } 

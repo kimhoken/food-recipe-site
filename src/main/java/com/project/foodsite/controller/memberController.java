@@ -1,6 +1,7 @@
 package com.project.foodsite.controller;
 
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,9 @@ import com.project.foodsite.common.MailSendService;
 import com.project.foodsite.common.NicknameGenerater;
 import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
+import com.project.foodsite.dao.TokenDAO;
 import com.project.foodsite.vo.MemberVO;
+import com.project.foodsite.vo.TokenVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,9 @@ public class memberController {
     private final MailSendService mss;
     private final pwdSecurity pwdSecurity;
     private final NicknameGenerater nicknameGenerater;
+    private final TokenDAO tokenDAO;
+   
+
 
     // 회원 리스트 출력
     @GetMapping(value = { "/member_list.do" })
@@ -255,14 +261,82 @@ public class memberController {
     //이메일 재설정 링크 보내는 함수
     @PostMapping("/resetpwd.do")
     @ResponseBody
-    public Map<String,String> resetpwd(String email){
+    public Map<String,String> resetpwd(String email, String login_id){
+
+        MemberVO membervo = memberDAO.getUserEmail(email);
+
+        Map<String,String> map = new HashMap<>();
+
+        // 이메일과 아이디로 membervo 같은지 판별
+        if(!membervo.getLogin_id().equals(login_id)){
+            map.put("result", "fail");
+            return map;
+        }
 
         String res = mss.sendEmail(email, "resetpwd");
 
-        Map<String,String> map = new HashMap<>();
-        map.put("result", res);
+
+        
+        TokenVO vo = new TokenVO();
+        vo.setMember_id(membervo.getMember_id());
+        vo.setToken(res);
+        vo.setExpire_date(LocalDateTime.now().plusMinutes(30));
+
+        int msg_res = tokenDAO.insertToken(vo);
+
+
+        if(msg_res > 0){
+            map.put("result", "success");
+        }else{
+            map.put("result", "fail");
+        }
+
         return map;
     }
 
+    //비밀번호 재설정 페이지 전송 함수
+    @GetMapping("/resetpwd.do")
+    public String resetpwd_form(String token, Model model){
 
+        TokenVO vo = tokenDAO.getToken(token);
+
+       if(vo != null){
+            
+            if(vo.getExpire_date().isBefore(LocalDateTime.now()) || vo.getUsed().equals("yes")){
+                model.addAttribute("msg", "토큰이 만료되었습니다.");                
+            }
+        
+            MemberVO membervo = memberDAO.getUserByMemberId(vo.getMember_id());
+
+            model.addAttribute("member" , membervo);
+            model.addAttribute("token" , vo);
+            
+       }else{
+            model.addAttribute("msg", "토큰이 존재하지 않습니다.");}
+       
+
+        return "member/resetpwd_form";
+    }   
+
+    //비밀번호 재설정 함수
+    @PostMapping("/repwd.do")
+    @ResponseBody
+    public String repwd(int member_id, String password, int token_id){
+
+        String enc_pwd = pwdSecurity.pwdEncoding(password);
+
+        MemberVO vo = new MemberVO();
+        vo.setMember_id(member_id);
+        vo.setPassword(enc_pwd);
+        
+        int res = memberDAO.userUpdate(vo);
+        
+        if(res > 0){
+            //재설정 완료후 토큰 삭제
+            tokenDAO.deletetoken(token_id);
+            return "success";
+        }else{
+            return "fail";
+        }
+    }
 }

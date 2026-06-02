@@ -30,6 +30,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             parameterType="String"
             resultType = "member">
         select * from member where email = #{email}
-    </select>        
+    </select>      
+
+    <select id="getUserByMemberId"
+            parameterType="int"
+            resultType = "member">
+        select * from member where member_id = #{member_id}
+    </select>   
+
+    <update id="userUpdate" parameterType="member">
+        update member set password = #{password}
+        where member_id = #{member_id}
+    </update>    
 
 </mapper>
