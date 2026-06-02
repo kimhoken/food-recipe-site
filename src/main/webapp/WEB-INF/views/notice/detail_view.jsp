@@ -3,16 +3,17 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
-<html>
+    <html>
     <head>
-        <script>
-            function deleteNotice() {
-                if (confirm("삭제하시겠습니까?")) {
-                    location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+            <script>
+                function deleteNotice() {
+                    if (confirm("삭제하시겠습니까?")) {
+                        location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+                    }
                 }
-            }
-        </script>
+            </script>
     </head>
+    
     <body>
 
         <table border="1">
@@ -34,8 +35,12 @@
             <tr>
                 <th>내용</th>
                 <td>
-                    <img src="${image_list}" style="max-width: 200px; max-height: 200px;" />
-                    ${notice.content}    
+                    <c:if test="${not empty img}">
+                        <img src="/upload/${img.image_list}" style="max-width: 200px; max-height: 200px;" />
+                        <br>
+                    </c:if>
+
+                    ${notice.content}
                 </td>
             </tr>
 

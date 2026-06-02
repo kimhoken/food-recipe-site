@@ -18,6 +18,8 @@ public interface NoticeDAO {
     //공지추가
     int notice_insert(NoticeVO vo);
     int img_insert(ImgVO img);
+    ImgVO img_select(int img_id);
+    int img_max_id();
     //공지삭제
     int notice_delete(int notice_id);
     //공지수정
