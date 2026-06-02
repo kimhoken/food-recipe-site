@@ -29,7 +29,7 @@
                 <td><input type="text" name="vegetableName" placeholder="예: 양파"/></td>
                 <td class="qty-cell">
                     <input type="text" name="amountV" placeholder="수량" />
-                    <select name="vegeUnit">
+                    <select name="unit">
                         <option value="개">개</option>
                         <option value="쪽">쪽 (예: 마늘)</option>
                         <option value="대">대 (예: 대파)</option>
@@ -46,156 +46,143 @@
             table.appendChild(newRow);
         }
 
-        // 2. 육류 추가
-        function addStepM() {
-            const table = document.getElementById('meatT');
-            const newRow = document.createElement('tr');
 
-            newRow.innerHTML = `
-                <td><input type="text" name="meatName" placeholder="예: 돼지고기"/></td>
-                <td class="qty-cell">
-                    <input type="text" name="amountM" placeholder="수량" />
-                    <select name="meatUnit">
-                        <option value="g">g (그램)</option>
-                        <option value="kg">kg (킬로그램)</option>
-                        <option value="근">근 (600g)</option>
-                        <option value="마리">마리 (예: 닭고기)</option>
-                        <option value="팩">팩</option>
-                        <option value="장">장 (예: 슬라이스 햄)</option>
-                        <option value="토막">토막 (예: 생선)</option>
-                        <option value="적당량">적당량</option>
-                    </select>
-                    <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                </td>
-            `;
-            table.appendChild(newRow);
-        }
+                //2. 육류 추가
+                function addStepM() {
+                    const table = document.getElementById('meatT');
+                    const newRow = document.createElement('tr');
 
-        // 3. 양념 추가
-        function addStepS() {
-            const table = document.getElementById('seasoningT');
-            const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                    <td><input type="text" name="meatName" /></td>
+                            <td class="qty-cell">
+                              <input type="text" name="amountM" />
+                              <select name="unit">
+                                <option value="g">g (그램)</option>
+                                <option value="kg">kg (킬로그램)</option>
+                                <option value="근">근 (600g)</option>
+                                <option value="마리">마리 (예: 닭고기)</option>
+                                <option value="팩">팩</option>
+                                <option value="장">장 (예: 슬라이스 햄)</option>
+                                <option value="토막">토막 (예: 생선)</option>
+                                <option value="적당량">적당량</option>
+                              </select>
+                            <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
+                            </td>
+                    `;
+                    table.appendChild(newRow);
+                }
 
-            newRow.innerHTML = `
-                <td><input type="text" name="seasoningName" placeholder="예: 고추장"/></td>
-                <td class="qty-cell">
-                    <input type="text" name="amountS" placeholder="수량" />
-                    <select name="seasoningUnit">
-                        <option value="큰술">큰술 (tbsp)</option>
-                        <option value="작은술">작은술 (tsp)</option>
-                        <option value="컵">컵 (Cup)</option>
-                        <option value="ml">ml (밀리리터)</option>
-                        <option value="꼬집">꼬집</option>
-                        <option value="적당량">적당량</option>
-                        <option value="약간">약간</option>
-                        <option value="방울">방울</option>
-                    </select> 
-                    <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                </td>
-            `;
-            table.appendChild(newRow);
-        }
 
-        // 원하는 줄 삭제
-        function removeRow(btn) {
-            const row = btn.closest('tr');
-            row.remove();
-        }
+                //3. 양념 추가
+                function addStepS() {
+                    const table = document.getElementById('seasoningT');
+                    const newRow = document.createElement('tr');
 
-        // 조리 순서 추가
-        function addStep() {
-            const tbody = document.getElementById('stepBody');
-            const rowCount = tbody.rows.length;
-            const nextStep = rowCount + 1;
+                    newRow.innerHTML = `
+                        <td><input type="text" name="seasoningName" /></td>
+                        <td class="qty-cell">
+                            <input type="text" name="amountS" />
+                            <select name="unit">
+                                <option value="큰술">큰술 (tbsp)</option>
+                                <option value="작은술">작은술 (tsp)</option>
+                                <option value="컵">컵 (Cup)</option>
+                                <option value="ml">ml (밀리리터)</option>
+                                <option value="꼬집">꼬집</option>
+                                <option value="적당량">적당량</option>
+                                <option value="약간">약간</option>
+                                <option value="방울">방울</option>
+                            </select> 
+                            <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
+                        </td>
+                    `;
+                    table.appendChild(newRow);
+                }
 
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td align="center"><div class="step-number">\${nextStep}</div></td>
-                <td><input type="file" name="img"/></td>
-                <td style="display:flex; align-items:center; gap:10px;">
-                    <textarea name="step" rows="4" placeholder="다음 조리 과정을 입력하세요."></textarea>
-                    <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                </td>
-            `;
-            tbody.appendChild(newRow);
-        }
-    </script>
-</head>
+                //채소, 육류, 양념 원하는 줄 삭제
+                function removeRow(btn) {
+                    // .closest('tr')는 버튼에서 가장 가까운 줄(tr)을 찾음
+                    const row = btn.closest('tr');
 
-<body>
-    <header>
-        <div class="header-top">
-            <div class="logo">
-                <a href="${pageContext.request.contextPath}/">
-                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
-                </a>
-            </div>
-            
-            <form action="${pageContext.request.contextPath}/search" method="get" class="search-bar-form">
-                <div class="search-bar">
-                    <input type="text" id="mainSearch" name="keyword" placeholder="재료, 요리명으로 검색해보세요!">
-                </div>
-            </form>
-            
-            <div class="user-menu">
-                <c:if test="${empty user}">
-                    <a href="/login.do" class="menu-item" id="login">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/login.png">
-                        </span>
-                        <div>로그인</div>
-                    </a>
-                </c:if>
-                <c:if test="${!empty user}">
-                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/login.png">
-                        </span>
-                        <div>로그아웃</div>
-                    </a>
-                </c:if>
+                    // 찾은 줄 삭제
+                    row.remove();
+                }
 
-                <a href="/register_form.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/login.png">
-                    </span>
-                    <div>회원가입</div>
-                </a>
-                
-                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/mypage.png">
-                    </span>
-                    <div>마이페이지</div>
-                </a>
-            </div>
-        </div>
 
-        <ul class="nav-bar">
-            <li>
-                <a href="/main_list.do">홈</a>
-            </li>
-            <li class="active">
-                <a href="/list.do"> 레시피</a>
-            </li>
-            <li>카테고리</li>
-            <li>랭킹</li>
-            <li>커뮤니티</li>
-            <li>
-                <a href="/fridge_list.do">냉장고 추천</a>
-            </li>
-            <li>이벤트</li>
-        </ul>    
-    </header>
-    <div class="container-main-page">
-        <div class="recipe-regi-container">
+                //조리순서 번호를 1부터 다시 매기는 함수
+                function updateStepNumbers(){
+                    //stepBody 안에 있는 모든 .step-number 요소를 가져와 
+                    //띄어쓰기-> 자식 선택!
+                    const steps = document.querySelectorAll('#stepBody .step-number');
+
+                    steps.forEach(
+                        (steps, index) => {
+                            //index는 0부터 시작이라 +1해서 넣어
+                            steps.innerHTML = index + 1;
+                        }
+                    );
+                }
+
+                //조리순서 추가 함수
+                function addStep() {
+                    const tbody = document.getElementById('stepBody');
+                    // 새로운 행(tr) 생성
+                    const newRow = document.createElement('tr');
+
+                    //처음부터 번호 계산 x, updateStepNumbers: 선 생성 번호매김 후 처리
+                    newRow.innerHTML = `
+                        <td align = "center"> <div class="step-number">\${ nextStep }</div> </td >
+                        <td>
+                            <input type="file" name="img"/>
+                        </td>
+                        
+                        <td>
+                            <div class="step-content">
+                            <textarea name="step" rows="5" cols="50" 
+                            placeholder="다음 조리 과정을 입력하세요."></textarea>
+                            <button type="button" onclick="removeRow2(this)" class="x-btn2">X</button>
+                            </div>
+                        </td>
+                    `;
+
+                    // tbody에 추가
+                    tbody.appendChild(newRow);
+
+                    //추가 후 번호 갱신
+                    updateStepNumbers();
+                }
+
+                //원하는 줄 삭제
+                function removeRow2(btn) {
+                    const row = btn.closest('tr');
+                    //찾은 줄 삭제
+                    row.remove();
+                    //선택한 줄 삭제 후 번호 재정렬
+                    updateStepNumbers();
+                }
+
+            </script>
+
+            <style>
+                textarea {
+                    resize: none;
+                }
+            </style>
+
+        </head>
+
+        <body>
             <form action="/myrecipe.do" method="post" enctype="multipart/form-data">
-                
-                <h1>레시피 제목</h1>
-                <input type="text" name="title" placeholder="레시피의 이름을 입력해주세요 (예: 초간단 크림 파스타)" />
 
-                <h1 style="margin-top: 30px;">대표 이미지</h1>
-                <input type="file" name="img" style="margin-bottom: 20px;" />
+                <h1>제목
+                    <input type="text" name="title" />
+                </h1>
+
+                <h1>대표 이미지
+                    <td>
+                        <input type="file" name="mainImg"/>
+                    </td> 
+                </h1>
+                
 
                 <h1>필요한 재료</h1>
                 <table>
@@ -210,8 +197,8 @@
                                     <tr>
                                         <td><input type="text" name="vegetableName" placeholder="예: 마늘" /></td>
                                         <td class="qty-cell">
-                                            <input type="text" name="amountV" placeholder="수량" />
-                                            <select name="vegeUnit">
+                                            <input type="text" name="amountV" />
+                                            <select name="unit">
                                                 <option value="개">개</option>
                                                 <option value="쪽">쪽 (예: 마늘)</option>
                                                 <option value="대">대 (예: 대파)</option>
@@ -238,8 +225,8 @@
                                     <tr>
                                         <td><input type="text" name="meatName" placeholder="예: 소고기(양지)" /></td>
                                         <td class="qty-cell">
-                                            <input type="text" name="amountM" placeholder="수량" />
-                                            <select name="meatUnit">
+                                            <input type="text" name="amountM" />
+                                            <select name="unit">
                                                 <option value="g">g (그램)</option>
                                                 <option value="kg">kg (킬로그램)</option>
                                                 <option value="근">근 (600g)</option>
@@ -266,8 +253,8 @@
                                     <tr>
                                         <td><input type="text" name="seasoingName" placeholder="예: 간장" /></td>
                                         <td class="qty-cell">
-                                            <input type="text" name="amountS" placeholder="수량" />
-                                            <select name="seasoningUnit">
+                                            <input type="text" name="amountS" />
+                                            <select name="unit">
                                                 <option value="큰술">큰술 (tbsp)</option>
                                                 <option value="작은술">작은술 (tsp)</option>
                                                 <option value="컵">컵 (Cup)</option>
@@ -283,31 +270,41 @@
                                 <div align="center">
                                     <button type="button" class="add-btn" onclick="addStepS()">+ 양념/장류 추가</button>
                                 </div>
+
+                </table>
+                </tbody>
+                </table>
+
+                <h1>조리 순서</h1>
+                <table>
+                    <tbody id="stepBody">
+
+                        <tr>
+                            <td align="center">
+                                <div class="step-number">1</div>
+                            </td>
+
+                            <td>
+                                <input type="file" name="img" />
+                            </td>
+
+                            <td>
+                                <div class="step-content">
+                                <textarea name="step" rows="5" cols="50" style="resize: none;"
+                                    placeholder="예) 먼저 팬에 기름을 두르고 마늘 기름을 내주세요."></textarea>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
 
-                <h1>조리 순서</h1>
-                <table style="margin-top: 15px;">
-                    <tbody id="stepBody">
-                        <tr>
-                            <td align="center" width="60">
-                                <div class="step-number">1</div>
-                            </td>
-                            <td width="220">
-                                <input type="file" name="img" />
-                            </td>
-                            <td>
-                                <textarea name="step" rows="4" placeholder="예) 먼저 팬에 기름을 두르고 마늘 기름을 내주세요."></textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div align="center" style="margin-top: 15px;">
-                    <button type="button" class="add-btn" onclick="addStep()">+ 조리 순서 추가</button>
+                <br/>
+                <div align="center">
+                    <button type="button" onclick="addStep()">+</button>
                 </div>
-                <button type="submit" class="submit-btn">내 레시피 등록하기</button>
+
+                <br/>
+                <button type="submit" onclick="send(this.form)">내 레시피 등록하기</button>
             </form>
         </div>
     </div>
