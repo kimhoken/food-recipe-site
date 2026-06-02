@@ -27,12 +27,20 @@
             </tr>
 
             <tr>
-                <th>내용</th>
-                <td>${notice.content}</td>
+                <th>작성자</th>
+                <td>${notice.member_id}</td>
             </tr>
 
             <tr>
-                <th>등록일</th>
+                <th>내용</th>
+                <td>
+                    <img src="${image_list}" style="max-width: 200px; max-height: 200px;" />
+                    ${notice.content}    
+                </td>
+            </tr>
+
+            <tr>
+                <th>작성일</th>
                 <td>
                     <fmt:formatDate value="${notice.created_date}" pattern="yyyy-MM-dd HH:mm:ss" />
                 </td>

@@ -1,13 +1,19 @@
 package com.project.foodsite.controller;
 
+import java.io.File;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.dao.NoticeDAO;
+import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.NoticeVO;
 
@@ -21,21 +27,106 @@ public class NoticeController {
     private final NoticeDAO noticeDao;
     private final HttpSession session;
 
-    @GetMapping("/notice.do")
-    public String getArticleList(Model model) {
-        List<NoticeVO> notice = noticeDao.selectAll();
+   @GetMapping("/notice.do")
+    public String getArticleList(
+            Model model,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        int pageSize = 8;   // 한 페이지에 보여줄 글 개수
+        int pageBlock = 5;   // 페이지 번호 개수
+
+        int start = (page - 1) * pageSize;
+
+        List<NoticeVO> notice = noticeDao.selectList(start, pageSize);
+        int totalCount = noticeDao.notice_count();
+
+        int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+
+        int startPage = ((page - 1) / pageBlock) * pageBlock + 1;
+        int endPage = startPage + pageBlock - 1;
+
+        if (endPage > totalPage) {
+            endPage = totalPage;
+        }
+
+        String pageMenu = "";
+
+        if (startPage > 1) {
+            pageMenu += "<a href='notice.do?page=" + (startPage - 1) + "'>◀</a> ";
+        }
+
+        for (int i = startPage; i <= endPage; i++) {
+            if (i == page) {
+                pageMenu += "<b>[" + i + "]</b> ";
+            } else {
+                pageMenu += "<a href='notice.do?page=" + i + "'>[" + i + "]</a> ";
+            }
+        }
+
+        if (endPage < totalPage) {
+            pageMenu += "<a href='notice.do?page=" + (endPage + 1) + "'>▶</a>";
+        }
+
         model.addAttribute("notice", notice);
+        model.addAttribute("page", page);                   
+        model.addAttribute("pageMenu", pageMenu);
+
         return "notice/notice_list";
+    }
+    @GetMapping("/notice_delete.do")
+    public String noticeDelete(int notice_id) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:notice.do";
+        }
+
+        noticeDao.notice_delete(notice_id);
+
+        return "redirect:notice.do";
     }
 
     @GetMapping("/notice_detail.do")
     public String viewNotice(Model model, int notice_id) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user != null) {
+
+            int result = noticeDao.viewHistory(
+                    notice_id,
+                    user.getMember_id()
+            );
+
+            if (result > 0) {
+                noticeDao.userViewCount(notice_id);
+            }
+
+        } else {
+
+            String viewedNotice = (String) session.getAttribute("viewedNotice");
+
+            if (viewedNotice == null) {
+                viewedNotice = "";
+            }
+
+            String currentNotice = "[" + notice_id + "]";
+
+            if (!viewedNotice.contains(currentNotice)) {
+                noticeDao.userViewCount(notice_id);
+                viewedNotice += currentNotice;
+                session.setAttribute("viewedNotice", viewedNotice);
+            }
+        }
+
         NoticeVO vo = noticeDao.noticeView(notice_id);
         model.addAttribute("notice", vo);
+
         return "notice/detail_view";
     }
 
-    @GetMapping("/notice_add.do")
+   @GetMapping("/notice_add.do")
     public String noticeAdd_form() {
 
         MemberVO user = (MemberVO) session.getAttribute("user");
@@ -48,35 +139,44 @@ public class NoticeController {
     }
 
     @PostMapping("/notice_add.do")
-    public String noticeAdd_fin(NoticeVO vo) {
+public String noticeAdd_fin(
+        NoticeVO vo,
+        @RequestParam(value = "images", required = false) MultipartFile image) throws Exception {
 
-        MemberVO user = (MemberVO) session.getAttribute("user");
+    MemberVO user = (MemberVO) session.getAttribute("user");
 
-        if (user == null || !"ADMIN".equals(user.getRole())) {
-            return "redirect:notice.do";
-        }
-
-        vo.setMember_id(user.getMember_id());
-
-        noticeDao.notice_insert(vo);
-
+    if (user == null || !"ADMIN".equals(user.getRole())) {
         return "redirect:notice.do";
     }
 
-    @GetMapping("/notice_delete.do")
-    public String noticeDelete(int notice_id) {
+    vo.setMember_id(user.getMember_id());
 
-        MemberVO user = (MemberVO) session.getAttribute("user");
+    if (image != null && !image.isEmpty()) {
+        String savePath = "C:/upload/";
 
-        if (user == null || !"ADMIN".equals(user.getRole())) {
-            return "redirect:/notice.do";
+        File uploadDir = new File(savePath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
         }
 
-        noticeDao.notice_delete(notice_id);
+        String originalName = image.getOriginalFilename();
+        String storedName = System.currentTimeMillis() + "_" + originalName;
 
-        return "redirect:/notice.do";
+        File saveFile = new File(uploadDir, storedName);
+        image.transferTo(saveFile);
+
+        ImgVO img = new ImgVO();
+        img.setImage_list("/upload/" + storedName);
+
+        noticeDao.img_insert(img);
+
+        vo.setImg_id(img.getImg_id());
     }
 
+    noticeDao.notice_insert(vo);
+
+    return "redirect:notice.do";
+}
     @GetMapping("/notice_update.do")
     public String noticeUpdate_form(int notice_id, Model model) {
 
