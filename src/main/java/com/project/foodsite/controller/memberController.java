@@ -301,7 +301,8 @@ public class memberController {
         
             MemberVO membervo = memberDAO.getUserByMemberId(vo.getMember_id());
 
-            model.addAttribute("member",membervo);
+            model.addAttribute("member" , membervo);
+            model.addAttribute("token" , vo);
             
        }else{
             model.addAttribute("msg", "토큰이 존재하지 않습니다.");}
@@ -310,19 +311,22 @@ public class memberController {
         return "member/resetpwd_form";
     }   
 
+    //비밀번호 재설정 함수
     @PostMapping("/repwd.do")
     @ResponseBody
-    public String repwd(int member_id, String password){
+    public String repwd(int member_id, String password, int token_id){
 
         String enc_pwd = pwdSecurity.pwdEncoding(password);
 
         MemberVO vo = new MemberVO();
         vo.setMember_id(member_id);
         vo.setPassword(enc_pwd);
-
+        
         int res = memberDAO.userUpdate(vo);
-
+        
         if(res > 0){
+            //재설정 완료후 토큰 삭제
+            tokenDAO.deletetoken(token_id);
             return "success";
         }else{
             return "fail";

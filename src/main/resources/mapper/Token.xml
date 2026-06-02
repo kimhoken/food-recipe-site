@@ -13,5 +13,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM password_reset_token WHERE token = #{token}
     </select>    
     
+    <delete id="deletetoken">
+        delete from password_reset_token where token_id =#{token_id}
+    </delete>
+
 
 </mapper>
