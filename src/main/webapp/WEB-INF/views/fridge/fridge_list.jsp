@@ -135,11 +135,13 @@
         <ul class="nav-bar">
             <li class="active">홈</li>
             <li>
-                <a href="/list.do"> 레시피</a>
+                 레시피</a>
             </li>
             <li>카테고리</li>
             <li>랭킹</li>
-            <li>커뮤니티</li>
+            <li>
+                <a href="/list.do">커뮤니티</a>
+                </li>
             <li>
                 <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
             </li>
