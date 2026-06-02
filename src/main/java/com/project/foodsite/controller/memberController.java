@@ -261,9 +261,17 @@ public class memberController {
     //이메일 재설정 링크 보내는 함수
     @PostMapping("/resetpwd.do")
     @ResponseBody
-    public Map<String,String> resetpwd(String email){
+    public Map<String,String> resetpwd(String email, String login_id){
 
         MemberVO membervo = memberDAO.getUserEmail(email);
+
+        Map<String,String> map = new HashMap<>();
+
+        // 이메일과 아이디로 membervo 같은지 판별
+        if(!membervo.getLogin_id().equals(login_id)){
+            map.put("result", "fail");
+            return map;
+        }
 
         String res = mss.sendEmail(email, "resetpwd");
 
@@ -276,7 +284,6 @@ public class memberController {
 
         int msg_res = tokenDAO.insertToken(vo);
 
-        Map<String,String> map = new HashMap<>();
 
         if(msg_res > 0){
             map.put("result", "success");
