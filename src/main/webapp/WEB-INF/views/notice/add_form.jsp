@@ -30,7 +30,7 @@
 
     <h2>공지사항 등록</h2>
 
-    <form action="notice_add.do" method="post">
+    <form action="notice_add.do" method="post" enctype="multipart/form-data">
         <table border="1">
             <tr>
                 <th>공지사항 제목</th>
@@ -43,6 +43,12 @@
                 <th>공지사항 내용</th>
                 <td>
                     <textarea name="content" rows="10" cols="50"></textarea>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="file" name="images" />
                 </td>
             </tr>
 

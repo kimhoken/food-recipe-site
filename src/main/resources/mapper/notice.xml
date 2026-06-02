@@ -6,9 +6,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.project.foodsite.dao.NoticeDAO">
 
     <!-- 공지사항 목록 -->
-    <select id="selectAll" resultType="notice">
-        select * from notice
-        order by notice_id desc
+   <select id="selectList" resultType="notice">
+        SELECT *
+        FROM notice
+        ORDER BY notice_id DESC
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+    <select id="notice_count" resultType="int">
+        SELECT COUNT(*)
+        FROM notice
     </select>
 
     <!-- 공지사항 상세정보 -->
@@ -18,22 +25,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from notice 
         where notice_id = #{notice_id}
     </select>
+    <!-- 조회 기록 추가 -->
+    <insert id="viewHistory">
+        INSERT IGNORE INTO notice_view_history (
+            notice_id, member_id
+        ) VALUES (
+            #{notice_id}, #{member_id}
+        )
+    </insert>
+    <!-- 조회수 증가 -->
+    <update id="userViewCount" parameterType="int">
+        UPDATE notice
+        SET view_count = view_count + 1
+        WHERE notice_id = #{notice_id}
+    </update>
 
     <!-- 공지사항 등록 -->
-    <insert id="notice_insert"
-            parameterType="notice">
-        insert into notice (
-            member_id, title, content,created_date, view_count
-        )values (
-            #{member_id},#{title},#{content},NOW(), 0 )
 
+    <insert id="img_insert" parameterType="img"
+            useGeneratedKeys="true"
+            keyProperty="img_id">
+        INSERT INTO img (
+            image_list
+        ) VALUES (
+            #{image_list}
+        )
     </insert>
+
+    <insert id="notice_insert" parameterType="notice"
+            useGeneratedKeys="true"
+            keyProperty="notice_id">
+        INSERT INTO notice (
+            member_id, title, content, created_date, updated_date, view_count
+        ) VALUES (
+            #{member_id}, #{title}, #{content}, NOW(), NOW(), 0
+        )
+    </insert>
+ 
     <!-- 공지사항 삭제 -->
     <delete id="notice_delete" parameterType="int">
         delete from notice
         where notice_id = #{notice_id}
     </delete>
 
+    <!-- 공지사항 수정 -->
     <update id="notice_update" parameterType="notice">
         UPDATE notice
         SET title = #{title},
