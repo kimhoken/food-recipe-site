@@ -1,52 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.RecipeDAO">
 
-    <select id="size" resultType="int">
-        SELECT COUNT(*) FROM recipe
-    </select>
-	
-    <select id="selectOne" parameterType="int" resultType="recipe">
-        SELECT *, RANK() OVER(ORDER BY created_date DESC) as rank FROM recipe
-        WHERE rank = #{num}
-    </select>
-    
-    <select id="selectAll">
-        SELECT * FROM recipe ORDER BY created_date DESC
-    </select>
+    <select id="size" resultType="int"> SELECT COUNT(*) FROM recipe </select>
 
-    <insert id="insertRecipe" parameterType="RecipeDTO">
-        INSERT INTO recipe (title, thumbnail, member_id, nutrition_id, category_id) 
-        VALUES (#{title}, #{mainImgName}, #{memberId}, 1, 1)
-    </insert> 
+    <select id="selectOne" parameterType="int" resultType="recipe"> SELECT *, RANK() OVER(ORDER BY
+        created_date DESC) as rank FROM recipe WHERE rank = #{num} </select>
 
-    <select id="getLastRecipeId" resultType="int">
-        select recipe_id from recipe order by recipe_id desc LIMIT 1
-    </select>
+    <select id="selectAll"> SELECT * FROM recipe ORDER BY created_date DESC </select>
+
+    <insert id="insertRecipe" parameterType="RecipeDTO"> INSERT INTO recipe (title, thumbnail,
+        member_id, nutrition_id, category_id) VALUES (#{title}, #{mainImgName}, #{memberId}, 1, 1) </insert>
+
+    <select id="getLastRecipeId" resultType="int"> select recipe_id from recipe order by recipe_id
+        desc LIMIT 1 </select>
 
     <!-- 재료담기 -->
-    <insert id="insertVegetable" parameterType="RecipeDTO">
-        INSERT INTO ingredient (recipe_id, vegetable_name, amount, unit, type) 
-        <foreach collection="vegetableName" item="vege"  separator="," index="i" >
-          VALUES (#{recipeId}, #{vege}, #{amountV[i]}, #{unitV[i]},  '채소')
-        </foreach>
+    <insert id="insertVegetable" parameterType="java.util.Map"> 
+        INSERT INTO ingredient (recipe_id, ingredient_name, quantity, unit, type) 
+        VALUES (#{recipeId}, #{vegeName}, #{vegeAmount}, #{vegeUnit}, '채소') 
     </insert>
 
-    <insert id="insertMeat" parameterType="RecipeDTO">
-        INSERT INTO ingredient (recipe_id, meat_name, amount, unit, type) 
-        <foreach collection="meatName" item="meat"  separator="," index="i" >
-            VALUES (#{recipeId}, #{meat}, #{amountM[i]}, #{unitM[i]},  '육류')
-        </foreach>
+    <insert id="insertMeat" parameterType="java.util.Map"> 
+        INSERT INTO ingredient (recipe_id, ingredient_name, quantity, unit, type) 
+        VALUES (#{recipeId}, #{meatName}, #{meatAmount}, #{meatUnit}, '육류') 
     </insert>
 
-    <insert id="insertSeasoning" parameterType="RecipeDTO">
-        INSERT INTO ingredient (recipe_id, seasoning_name, amount, unit, type) 
-        <foreach collection="seasoningName" item="seasoning"  separator="," index="i" >
-         VALUES (#{recipeId}, #{seasoning}, #{amountS[i]}, #{unitS[i]},  '양념')
-        </foreach>
+    <insert id="insertSeasoning" parameterType="java.util.Map"> 
+        INSERT INTO ingredient (recipe_id, ingredient_name, quantity, unit, type) 
+        VALUES (#{recipeId}, #{seasoningName}, #{seasoningAmount}, #{seasoningUnit}, '양념') 
     </insert>
-    
-    
+
+
 </mapper>
