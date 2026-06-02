@@ -171,7 +171,11 @@
                 }
 
 
-                function openModal(val) {
+                function openModal(val, btn) {
+
+                    document.querySelectorAll(".tab-btn").forEach(e => e.classList.remove("active"));
+                    btn.classList.add("active");
+
                     document.getElementById("findModal").style.display = "block";
 
                     document.getElementById("id_find").style.display = "none";
@@ -201,9 +205,9 @@
                     <input type="button" class="modal-class" value="X" onclick="closeModal()" />
 
                     <div id="find-tab">
-                        <input type="button" class="tab-btn active" onclick="openModal('id')" value="아이디 찾기" />
+                        <input type="button" class="tab-btn" onclick="openModal('id',this)" value="아이디 찾기" />
     
-                        <input type="button" class="tab-btn active" onclick="openModal('pwd')" value="비밀번호 찾기" />
+                        <input type="button" class="tab-btn" onclick="openModal('pwd',this)" value="비밀번호 찾기" />
                     </div>
                     
                     <div id="id_find">
