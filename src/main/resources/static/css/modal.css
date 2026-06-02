@@ -1,0 +1,205 @@
+/* 배경 */
+.modal-wrap{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    z-index:9999;
+}
+
+/* 모달 */
+#modal-box{
+    width:500px;
+    min-height:500px;
+    background:#fffaf5;
+    border-radius:18px;
+    padding:30px;
+    box-sizing:border-box;
+
+    position:relative;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+}
+#modal-box form{
+    height: auto;
+}
+
+/* 닫기 버튼 */
+
+
+.modal-class {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 99999;
+    
+    width: 35px;
+    height: 35px;
+
+    color:#6a4a35;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* 테이블 */
+#modal-box table{
+    width:100%;
+    border:none;
+    border-collapse:collapse;
+}
+
+/* 제목 */
+#modal-box caption{
+    font-size:28px;
+    font-weight:bold;
+    color:#6a4a35;
+    margin-bottom:25px;
+    padding-top:10px;
+}
+
+/* th */
+#modal-box th{
+    border:none;
+    text-align:left;
+    padding:10px 0;
+    color:#5a412f;
+    font-size:15px;
+    width:90px;
+}
+
+/* td */
+#modal-box td{
+    border:none;
+    padding:10px 0;
+}
+
+/* 입력창 */
+#modal-box input[type=text],
+#modal-box input[type=password],
+#modal-box input[type=email],
+#modal-box input[type=number],
+#modal-box input[name=email],
+#modal-box input[name=login_id]{
+
+    width:220px;
+    height:45px;
+
+    border:1px solid #d9d2ca;
+    border-radius:10px;
+
+    padding:0 15px;
+    font-size:14px;
+    box-sizing:border-box;
+}
+
+/* 안내문 */
+#email_msg,
+#id_msg{
+    margin-top:5px;
+    font-size:13px;
+    color:#888;
+}
+
+/* 인증번호 영역 */
+#authNumber{
+    margin-top:10px;
+}
+
+/* 인증번호 전송 */
+#email_send{
+    width:calc(100% - 30px);
+    height:42px;
+
+    margin-top:10px;
+
+    border:1px solid #8a6548;
+    border-radius:10px;
+
+    background:white;
+    color:#8a6548;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* 인증번호 확인 */
+#authNumber input[type=button]{
+    width:calc(100% - 30px);
+    height:42px;
+
+    margin-top:10px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#8a6548;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* 아이디 찾기, 비밀번호 찾기 버튼 */
+#modal-box td[colspan="2"] input{
+
+    width:200px;
+    height:48px;
+
+    margin-top:15px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#7b563d;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* 숨김 */
+#pwd_find{
+    display:none;
+}
+
+.find-tab{
+    width:380px;
+    height:45px;
+
+    margin:20px auto 25px auto;
+
+    display:flex;
+
+    border-radius:10px;
+    overflow:hidden;
+
+    background:#f3eee8;
+}
+
+.tab-btn{
+    flex:1;
+
+    border:none;
+
+    background:#f3eee8;
+
+    color:#5b3a24;
+
+    width: 150px;
+    height: 50px;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.tab-btn.active{
+    background:#7b563d;
+    color:white;
+}
