@@ -43,8 +43,12 @@
                 
             </c:forEach>
 
+            <tr>
+                <td colspan="5" align="center">
+                    ${pageMenu}
+                </td>
+            </tr>
 
-           
             <c:if test="${user.role eq 'ADMIN'}">
                 <input type="button" value="공지등록" onclick="location.href='notice_add.do'">
             </c:if>
