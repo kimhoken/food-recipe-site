@@ -12,6 +12,9 @@ import com.project.foodsite.vo.BoardVO;
 
 import lombok.RequiredArgsConstructor;
 
+import com.project.foodsite.dto.RecipeDTO;
+
+
 @Controller
 @RequiredArgsConstructor 
 public class BoardController {
@@ -36,11 +39,25 @@ public class BoardController {
         return "/board/board_list";
     }
 
-    //recipe 등록
+    //recipe 등록 폼
     @GetMapping("/regiRecipe.do")
     public String recipeForm(Model model){
         String id = "1";
         model.addAttribute("id", id); 
         return "/board/board_regiRecipe";
     }
+
+    //내 레시피 등록하기
+    @PostMapping("/myrecipe.do")
+    public String registerRecipe(RecipeDTO dto){
+        //등록 데이터 잘 들어오는지 확인용
+        System.out.println("등록하려는 레시피의 제목" + dto.getTitle());
+        System.out.println("등록하려는 레시피의 재료" + dto.getVegetableName().size());  
+        System.out.println("등록하려는 재료의 양" + dto.getAmountV()); 
+        
+        boardDao.insertRecipe(dto);
+        
+        return "redirect:/list.do";
+    }
+ 
 }
