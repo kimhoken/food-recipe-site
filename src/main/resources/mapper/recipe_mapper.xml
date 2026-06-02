@@ -17,4 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM recipe ORDER BY created_date DESC
     </select>
 
+    <select id="selectAny" resultType="recipe" >
+        SELECT DISTINCT r.*
+        FROM recipe r
+        JOIN ingredient i ON r.recipe_id = i.recipe_id
+        WHERE i.ingredient_name IN
+        <foreach collection="list" item="item" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

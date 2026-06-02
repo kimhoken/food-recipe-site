@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.foodsite.dao.*;
 import com.project.foodsite.vo.*;
+
+import java.time.LocalDate;
 import java.util.*;
 
 import lombok.RequiredArgsConstructor;
@@ -62,7 +64,7 @@ public class Recommand {
         //레시피테이블의 갯수를 가지고옴
         int size = recipeDAO.size();
 
-        //등록된 레시피가 5개 이하일 경우
+        //등록된 레시피가 5개 미만일 경우
         if(size<5){
             return recipeDAO.selectAll();
         }
@@ -90,5 +92,41 @@ public class Recommand {
         return list;
     }//randomList
 
+    /**
+     * 현재 냉장고의 재료로 레시피 추천받는 알고리즘
+     * @return 레시피VO
+     */
+    public RecipeVO recomedList(){
+        //나중에는 파라미터로 받아서 냉장고의 재료를 불러옴
+        int member_id = 1;
+        List<FridgeItemVO> fridgeList = fridgeItemDAO.selectList(member_id);
+        
+        //냉장고의 재료가 포함된 레시피를 모두 불러옴
+        List<RecipeVO> recipeList = recipeDAO.selectAny(fridgeList);
+        LinkedList<Integer> scoreList = new LinkedList<>();
+
+        //YYYY-MM-DD
+        String today = LocalDate.now().toString();
+        StringTokenizer st = new StringTokenizer(today, "-");
+        int todayYear = Integer.parseInt(st.nextToken());
+        int todayMonth = Integer.parseInt(st.nextToken());
+        int todayDay = Integer.parseInt(st.nextToken());
+
+        for(FridgeItemVO item : fridgeList){
+            String expire = item.getExpire_date().toString();
+            st = new StringTokenizer(expire, "-");
+            int exprieYear = Integer.parseInt(st.nextToken());
+            int expireMonth = Integer.parseInt(st.nextToken());
+            int expireDay = Integer.parseInt(st.nextToken());
+
+            int score = expireDay - todayDay;
+            if(score <= 3){
+                score = 30;
+            }else if(score <= 7){
+                score = 10;
+            }
+        }
+
+    }//RecipeVO
 
 }
