@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("fridge")
 public class FridgeItemVO {
-    private int fridge_id;
+    private Integer fridge_id;
     private String ingredient_name;
     private String quantity;
     private LocalDate expire_date;
     private LocalDate created_date;
     private boolean freezer;
-    private int memberId;
+    private Integer member_id;
 }

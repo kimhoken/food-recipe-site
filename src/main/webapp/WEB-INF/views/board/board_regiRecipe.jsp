@@ -1,46 +1,50 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        <!DOCTYPE html>
-        <html>
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert("로그인후 이용해주세요.")
+        location.href="/login.do";
+    </script>
+</c:if>
 
-        <head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>오늘 뭐먹지? - 레시피 작성하기</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/regiRecipe.css" />
 
-            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/regiRecipe.css" />
+    <script>
+        function send(f) {
+            f.submit();
+        }
 
-            <script>
+        // 1. 채소 추가
+        function addStepV() {
+            const table = document.getElementById('ingreT');
+            const newRow = document.createElement('tr');
 
-                //내 레시피 등록 버튼
-                function send(f) {
-
-                    f.submit();
-                }
-
-                //1. 채소 추가
-                function addStepV() {
-                    const table = document.getElementById('ingreT');
-                    const newRow = document.createElement('tr');
-
-                    newRow.innerHTML = `
-                        <td><input type="text" name="vegetableName"/></td>
-                        <td class="qty-cell">
-                            <input type="text" name="amountV" />
-                            <select name="unit">
-                                <option value="개">개</option>
-                                <option value="쪽">쪽 (예: 마늘)</option>
-                                <option value="대">대 (예: 대파)</option>
-                                <option value="통">통 (예: 양배추)</option>
-                                <option value="줌">줌 (예: 시금치)</option>
-                                <option value="g">g (그램)</option>
-                                <option value="약간">약간</option>
-                                <option value="뿌리">뿌리</option>
-                                <option value="봉지">봉지</option>
-                            </select>
-                            <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                        </td>    
-                    `;
-                    table.appendChild(newRow);
-                }
+            newRow.innerHTML = `
+                <td><input type="text" name="vegetableName" placeholder="예: 양파"/></td>
+                <td class="qty-cell">
+                    <input type="text" name="amountV" placeholder="수량" />
+                    <select name="unit">
+                        <option value="개">개</option>
+                        <option value="쪽">쪽 (예: 마늘)</option>
+                        <option value="대">대 (예: 대파)</option>
+                        <option value="통">통 (예: 양배추)</option>
+                        <option value="줌">줌 (예: 시금치)</option>
+                        <option value="g">g (그램)</option>
+                        <option value="약간">약간</option>
+                        <option value="뿌리">뿌리</option>
+                        <option value="봉지">봉지</option>
+                    </select>
+                    <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
+                </td>    
+            `;
+            table.appendChild(newRow);
+        }
 
 
                 //2. 육류 추가
@@ -181,7 +185,6 @@
                 
 
                 <h1>필요한 재료</h1>
-
                 <table>
                     <tbody id="ingredients">
                         <tr>
@@ -191,7 +194,6 @@
                                         <th>채소</th>
                                         <th>수량</th>
                                     </tr>
-
                                     <tr>
                                         <td><input type="text" name="vegetableName" placeholder="예: 마늘" /></td>
                                         <td class="qty-cell">
@@ -210,11 +212,9 @@
                                         </td>
                                     </tr>
                                 </table>
-
                                 <div align="center">
-                                    <button type="button" onclick="addStepV()"> 채소 추가 (+) </button>
+                                    <button type="button" class="add-btn" onclick="addStepV()">+ 채소 추가</button>
                                 </div>
-
 
                                 <br />
                                 <table id="meatT">
@@ -222,7 +222,6 @@
                                         <th>육류</th>
                                         <th>수량/중량</th>
                                     </tr>
-
                                     <tr>
                                         <td><input type="text" name="meatName" placeholder="예: 소고기(양지)" /></td>
                                         <td class="qty-cell">
@@ -242,9 +241,8 @@
                                 </table>
 
                                 <div align="center">
-                                    <button type="button" onclick="addStepM()"> 육류 추가 (+) </button>
+                                    <button type="button" class="add-btn" onclick="addStepM()">+ 육류 추가</button>
                                 </div>
-
 
                                 <br />
                                 <table id="seasoningT">
@@ -252,7 +250,6 @@
                                         <th>양념/장류</th>
                                         <th>사용량</th>
                                     </tr>
-
                                     <tr>
                                         <td><input type="text" name="seasoingName" placeholder="예: 간장" /></td>
                                         <td class="qty-cell">
@@ -270,9 +267,8 @@
                                         </td>
                                     </tr>
                                 </table>
-
                                 <div align="center">
-                                    <button type="button" onclick="addStepS()"> 양념/장류 추가 (+) </button>
+                                    <button type="button" class="add-btn" onclick="addStepS()">+ 양념/장류 추가</button>
                                 </div>
 
                 </table>
@@ -310,6 +306,7 @@
                 <br/>
                 <button type="submit" onclick="send(this.form)">내 레시피 등록하기</button>
             </form>
-        </body>
-
-        </html>
+        </div>
+    </div>
+</body>
+</html>

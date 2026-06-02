@@ -1,68 +1,71 @@
-/* 레시피 등록 폼 */
+@charset "UTF-8";
 
-body {
-    background-color: #F9F7F2; /* 메인 이미지의 따뜻한 배경색 */
-    color: #444;
-    font-family: 'Noto Sans KR', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
+.container-main-page{
+    background-color: #F9F7F2;
 }
 
-form {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+/* 레시피 등록 컨테이너 (메인 페이지 컨테이너 안에 쏙 들어가게 스타일링) */
+.recipe-regi-container {
+    max-width: 900px;
+    margin: 40px auto;
+    margin-top: 0px;
+    background: #fff;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
 }
 
 /* 제목 스타일 */
-h1 {
-    font-size: 1.5rem;
-    color: #333;
-    border-left: 5px solid #E77B4D; /* 메인 오렌지색 포인트 */
+.recipe-regi-container h1 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    border-left: 5px solid #5a7e4d; /* 메인 포인트 그린 */
     padding-left: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     margin-top: 40px;
+    font-weight: 700;
 }
 
-h1:first-of-type {
+.recipe-regi-container h1:first-of-type {
     margin-top: 0;
 }
 
 /* 입력창 및 셀렉트 박스 */
-input[type="text"], 
-select, 
-textarea {
+.recipe-regi-container input[type="text"], 
+.recipe-regi-container select, 
+.recipe-regi-container textarea {
     width: 100%;
-    padding: 10px 15px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
+    padding: 12px 15px;
+    margin: 4px 0;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 14px;
-    transition: all 0.3s ease;
+    background: #f8fafc;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+    resize: none;
 }
 
-input[type="text"]:focus, 
-select:focus, 
-textarea:focus {
+.recipe-regi-container input[type="text"]:focus, 
+.recipe-regi-container select:focus, 
+.recipe-regi-container textarea:focus {
     outline: none;
-    border-color: #E77B4D;
-    box-shadow: 0 0 5px rgba(231, 123, 77, 0.2);
+    border-color: #5a7e4d;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(90, 126, 77, 0.1);
 }
 
 /* 테이블 스타일 */
-table {
+.recipe-regi-container table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-th {
-    background-color: #F2F2F2;
+.recipe-regi-container th {
+    background-color: #f1f5f9;
     padding: 12px;
     text-align: left;
     font-size: 14px;
@@ -89,35 +92,104 @@ button[type="button"] {
     color: white;
     padding: 8px 20px;
     font-size: 13px;
-    margin-top: 10px;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
 }
 
-/*button[type="button"]:hover {
-    background-color: #556B2F;
-    transform: translateY(-2px);
-}*/
+.recipe-regi-container td {
+    padding: 8px 5px;
+}
+
+/* 수량 및 셀렉트 박스 나란히 배치 */
+.qty-cell {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.qty-cell input[name^="amount"] {
+    width: 80px !important;
+    text-align: center;
+}
+
+.qty-cell select[name$="Unit"] {
+    width: 130px !important;
+}
+
+/* 버튼 스타일 (추가 버튼) */
+.add-btn {
+    background-color: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
 
 /* 등록 버튼 */
 button[type="submit"] {
     background-color: #E77B4D;
-    color: white;
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    margin-top: 50px;
-    box-shadow: 0 4px 15px rgba(231, 123, 77, 0.3);
 }
 
-button[type="submit"]:hover {
-    background-color: #D35400;
+/* 삭제 버튼 (X) */
+.x-btn {
+    background-color: #ef4444; /* 경고 느낌의 빨간색 */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.x-btn:hover {
+    background-color: #dc2626;
+}
+
+/* 폼 제출 등록 버튼 */
+.submit-btn {
+    background-color: #5a7e4d; /* 메인 포인트 그린 */
+    color: white;
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    margin-top: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 12px rgba(90, 126, 77, 0.2);
+}
+
+.submit-btn:hover {
+    background-color: #4a663f;
+    transform: translateY(-2px);
 }
 
 /* 조리 순서 숫자 스타일 */
 .step-number {
-    font-weight: bold;
-    color: #E77B4D;
     font-size: 1.2rem;
-    width: 40px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #5a7e4d;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 /* 파일 업로드 스타일 */
@@ -179,19 +251,24 @@ input[type="file"] {
     background: #fdfdfd;
     border: 1px dashed #ccc;
     padding: 10px;
+    color: #64748b;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    padding: 8px;
     border-radius: 8px;
-    width: 200px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* 브라우저 기본 '파일 선택' 버튼 스타일링 (일부 브라우저 지원) */
 input[type="file"]::file-selector-button {
-    background-color: #6B8E23; /* 포인트 그린 */
-    color: white;
+    background-color: #e2e8f0;
+    color: #475569;
     border: none;
-    border-radius: 5px;
-    padding: 5px 12px;
+    border-radius: 6px;
+    padding: 6px 12px;
     cursor: pointer;
     margin-right: 10px;
+    font-weight: 600;
     transition: 0.2s;
 }
 
@@ -262,5 +339,4 @@ button.x-btn2 {
     cursor: pointer;
     padding: 5px;
 }
-
 

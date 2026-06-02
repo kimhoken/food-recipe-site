@@ -2,147 +2,233 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert("로그인후 이용해주세요.")
+        location.href="/login.do";
+    </script>
+</c:if>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>냉장고 재료 등록</title>
-        <link rel="stylesheet" type="text/css" href="/css/fridge_form.css">
-        <script>
-            const send = (f) => {
-                const ingredient_name = f.ingredient_name.value;
-                const quantity = f.quantity.value;
-                const expire_date = f.expire_date.value;
-                let freezer = f.freezer.value;
-                const id = f.id.value;
-                
-                if(!ingredient_name.trim()){
-                    alert("재료이름은 필수입력사항입니다.");
-                    return;
-                }
-                
-                if(!quantity.trim()){
-                    alert("수량을 입력해주세요");
-                    return;
-                }
-                
-                if(expire_date == ''){
-                    alert("유통기한을 입력해주세요.");
-                    return;
-                }
-                
-                if(freezer == 'true'){
-                    freezer = true;
-                }else{
-                    freezer = false;
-                }
-                
-                const url = "/food_insert.do";
-                const method="post";
-                const data = {
-                    id: id,
-                    ingredient_name: ingredient_name,
-                    quantity: quantity,
-                    expire_date: expire_date,
-                    freezer: freezer
-                };
-                
-                fetch(url, {
-                    method:method,
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if(data.res == "success"){
-                        alert("등록 성공");
-                        //등록 성공 시 냉장고 리스트로 이동
-                        location.href="/fridge_list.do"
-                    }else{
-                        alert("등록 실패");
-                    }
-                }).catch(err => {
-                alert("서버 통신 에러... 서버를 확인해주세요")
-                console.log(err)
-            })
+<head>
+    <meta charset="UTF-8">
+    <title>오늘 뭐 먹지? - 재료 등록</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fridge_form.css">
+    <script>
+        // 추가한 재료들을 모아둘 빈 배열
+        let ingredientList = [];
+
+        // 1. 목록에 추가하는 함수
+        const addToList = (f) => {
+            const ingredient_name = f.ingredient_name.value;
+            const quantity = f.quantity.value;
+            const expire_date = f.expire_date.value;
+            let freezer = f.freezer.value;
             
+            // 유효성 검사
+            if(!ingredient_name.trim()){
+                alert("재료이름은 필수입력사항입니다."); 
+                return; 
+            }
+
+            if(!quantity.trim()){ 
+                alert("수량을 입력해주세요"); 
+                return; 
+            }
+            
+            if(expire_date == ''){ 
+                alert("유통기한을 입력해주세요."); 
+                return; 
+            }
+            
+            // 객체 만들어서 배열에 쏙 넣기
+            const data = {
+                member_id: f.id.value,
+                ingredient_name: ingredient_name,
+                quantity: quantity,
+                expire_date: expire_date,
+                freezer: freezer == 'true' ? true : false
+            };
+
+            console.log(data.member_id);
+            console.log(data.ingredient_name);
+            console.log(data.freezer);
+            
+            ingredientList.push(data);
+            
+            // 오른쪽 목록 UI 업데이트
+            updateListUI();
+            
+            // 다음 입력을 위해 폼 비우기 (작성 편의성)
+            f.ingredient_name.value = '';
+            f.quantity.value = '';
+            f.expire_date.value = '';
+            f.ingredient_name.focus();
+        }
+
+        // 2. 화면에 추가된 목록을 그려주는 함수
+        const updateListUI = () => {
+            const listContainer = document.getElementById('added-list');
+            listContainer.innerHTML = ''; // 일단 비우고 다시 그리기
+
+            ingredientList.forEach((item, index) => {
+                const li = document.createElement('li');
+                const place = item.freezer ? "냉동" : "냉장";
+                li.innerHTML = `
+                    <div class="item-info">
+                        <strong>` + item.ingredient_name +`</strong> (` + item.quantity + `) - ` + item.expire_date + `까지 [` + place + `]
+                    </div>
+                    <button type="button" class="btn-remove" onclick="removeItem(` + index + `)">삭제</button>`;
+                listContainer.appendChild(li);
+            });
+        }
+
+        // 3. 목록에서 빼고 싶을 때 쓰는 함수
+        const removeItem = (index) => {
+            ingredientList.splice(index, 1); // 배열에서 해당 인덱스 삭제
+            updateListUI(); // 화면 다시 그리기
+        }
+
+        // 4. 마지막에 한 번에 서버로 전송하는 함수
+        const submitAll = () => {
+            if(ingredientList.length === 0){
+                alert("등록할 재료를 먼저 목록에 추가해주세요!");
+                return;
+            }
+            //여기 부분부터 백엔드에서 리스트로 받아서 처리하게 변경
+            const url = "/food_insert.do";
+
+            console.log(ingredientList.length);
+
+            fetch(url, {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                // 배열을 통째로 JSON으로 바꿔서 전송 (List 파라미터로 감)
+                body: JSON.stringify(ingredientList)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.res == "success"){
+                    alert("등록 성공");
+                    location.href="/fridge_list.do";
+                } else {
+                    alert("등록 실패");
+                }
+            })
+            .catch(err => {
+                alert("서버 통신 에러... 서버를 확인해주세요");
+                console.log(err);
+            });
         }
     </script>
 </head>
 <body>
-    <div class="header-container">
-        <div class="logo-box"><a href="/"><img src="/images/Logo_2.png" alt="로고이미지" width="672" height="120"></a></div>
-        <div class="header-right">
-            <button class="user-menu-btn">👤 로그인</button>
-        </div>
-    </div>
 
-    <nav class="nav-bar">
-        <ul class="nav-links">
-            <li><a href="#">레시피</a></li>
-            <li> | </li>
-            <li class="active"><a href="#">냉장고 파먹기 </a></li>
-            <li> | </li>
-            <li><a href="#">나만의 레시피</a></li>
-            <li> | </li>
-            <li><a href="#">키친가이드</a></li>
-        </ul>
-    </nav>
-
-    <div class="main-container">
-        <div class="fridge-wrapper">
-            <div class="form-card-container">
-                <h2 class="form-card-title">새로운 재료 등록</h2>
-
-                <form>
-                    <input type="hidden" value="${id}" name="id">
-
-                    <div class="form-input-group">
-                        <label for="ingredient_name">재료 이름</label>
-                        <input type="text" id="ingredient_name" name="ingredient_name" placeholder="식재료 이름을 입력하세요 (예: 우유)">
-                    </div>
-
-                    <div class="form-input-group">
-                        <label for="quantity">재료 수량</label>
-                        <input type="text" id="quantity" name="quantity" placeholder="갯수나 용량을 입력하세요 (예: 2개, 500g)">
-                    </div>
-
-                    <div class="form-input-group">
-                        <label for="expire_date">유통기한</label>
-                        <input type="date" id="expire_date" name="expire_date">
-                    </div>
-
-                    <div class="form-input-group">
-                        <label for="freezer">보관 장소</label>
-                        <select id="freezer" name="freezer">
-                            <option value="false">냉장실</option>
-                            <option value="true">냉동실</option>
-                        </select>
-                    </div>
-
-                    <div class="form-button-group">
-                        <input type="button" class="btn-submit" value="등록" onClick="send(this.form)">
-                        <input type="button" class="btn-cancel" value="취소" onClick="history.back()">
-                    </div>
-                </form>
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <a href="${pageContext.request.contextPath}/">
+                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
+            </div>
+            <div class="user-menu">
+                <a href="${pageContext.request.contextPath}/login" class="menu-item">
+                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
+                    <div>로그인</div>
+                </a>
+                <a href="${pageContext.request.contextPath}/join" class="menu-item">
+                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
+                    <div>회원가입</div>
+                </a>
+                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
+                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/mypage.png"></span>
+                    <div>마이페이지</div>
+                </a>
             </div>
         </div>
+        <ul class="nav-bar">
+            <li><a href="${pageContext.request.contextPath}/">홈</a></li>
+            <li>레시피</li>
+            <li>카테고리</li>
+            <li>랭킹</li>
+            <li>커뮤니티</li>
+            <li class="active">냉장고 추천</li>
+            <li>이벤트</li>
+        </ul>
+    </header>
+
+    <div class="container main-container">
+        <div class="form-card-container">
+            <h2 class="form-card-title">새로운 재료 입력</h2>
+            <form>
+                <input type="hidden" value="${id}" name="id">
+                <div class="form-input-group">
+                    <label for="ingredient_name">재료 이름</label>
+                    <input type="text" id="ingredient_name" name="ingredient_name" placeholder="식재료 이름을 입력하세요 (예: 우유)">
+                </div>
+                <div class="form-input-group">
+                    <label for="quantity">재료 수량</label>
+                    <input type="text" id="quantity" name="quantity" placeholder="갯수나 용량을 입력하세요 (예: 2개, 500g)">
+                </div>
+                <div class="form-input-group">
+                    <label for="expire_date">유통기한</label>
+                    <input type="date" id="expire_date" name="expire_date">
+                </div>
+                <div class="form-input-group">
+                    <label for="freezer">보관 장소(실외보관은 냉장으로 이용해주세요!!!)</label>
+                    <select id="freezer" name="freezer">
+                        <option value="false">냉장실</option>
+                        <option value="true">냉동실</option>
+                    </select>
+                </div>
+                <div class="form-button-group">
+                    <input type="button" class="btn-submit" value=" 목록에 추가" onClick="addToList(this.form)">
+                </div>
+            </form>
+        </div>
+
+        <div class="list-card-container">
+            <h2 class="form-card-title">등록 대기 목록</h2>
+            
+            <ul id="added-list" class="added-list-area">
+
+            </ul>
+            
+            <div class="form-button-group">
+                <input type="button" class="btn-submit final-submit" value="한 번에 등록하기" onClick="submitAll()">
+                <input type="button" class="btn-cancel" value="취소" onClick="history.back()">
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <span>회사 소개 . 광고/제휴</span>
-                <span>개인정보처리방침</span>
-                <span>이용약관</span>
-                <span>고객센터</span>
+        <div class="footer-container">
+            <div class="footer-top-row">
+                <div class="cs-section">
+                    <h3>고객센터</h3>
+                    <div class="cs-buttons">
+                        <div class="cs-btn">📞 1833-8307</div>
+                        <div class="cs-btn">💬 1:1문의하기</div>
+                    </div>
+                </div>
             </div>
-            <p>대충 Copyright 만개의레시피 Inc. All Rights Reserved 이런거 들어가는 자리</p>
+        </div>
+        <div class="footer-nav-bar">
+            <div class="footer-container">
+                <div class="nav-links">
+                    <a href="#"><strong>이용약관</strong></a>
+                    <a href="#"><strong>개인정보처리방침</strong></a>
+                    <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
+                </div>
+            </div>
         </div>
     </footer>
-
 
 </body>
 </html>

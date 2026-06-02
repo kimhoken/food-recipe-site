@@ -2,164 +2,272 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${empty sessionScope.user}">
+    <script>
+        alert("로그인후 이용해주세요.")
+        location.href="/login.do";
+    </script>
+</c:if>
+
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>냉장고 파먹기</title>
-        <link rel="stylesheet" type="text/css" href="/css/fridge.css">
-        <script>
-            function deleteItem(fridge_id){
-                if(confirm("삭제하시겠습니까?")){
-                    const url = "/delete_fridge.do";
-                    fetch(url, {
-                        method: "post",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body:JSON.stringify({
-                            id: fridge_id
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if(data.result == "success"){
-                            alert("삭제되었습니다.")
-                            location.reload()
-                        }else{
-                            alert("삭제 실패...")
-                        }
-                    })
-                }
-            }
-
-            function modify(firdge_id){
-                const quantity = prompt("수량:");
-                //alert(quantity + "/" + firdge_id)
-                const url = "/modity.do";
-                const data = {
-                    firdge_id:firdge_id,
-                    quantity:quantity
-                }
-
+<head>
+    <meta charset="UTF-8">
+    <title>오늘 뭐 먹지? - 냉장고 파먹기</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fridge.css">
+    <link rel="stylesheet" href="/css/chatbot.css" />
+    <script src="/js/chatbot.js"></script>
+    <script>
+        function deleteItem(fridge_id){
+            if(confirm("삭제하시겠습니까?")){
+                const url = "/delete_fridge.do";
                 fetch(url, {
                     method: "post",
-                    headers: {
-                            "Content-Type": "application/json"
-                    },
-                    body:JSON.stringify(data)
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: fridge_id })
                 })
                 .then(res => res.json())
-                .then(js => {
-                    if(js.result == "success"){
-                        alert("수정되었습니다.");
+                .then(data => {
+                    if(data.result == "success"){
+                        alert("삭제되었습니다.");
                         location.reload();
                     }else{
-                        alert("수정 실패....");
+                        alert("삭제 실패...");
                     }
                 })
             }
-        </script>
-    </head>
-    <body>
+        }
 
-        <div class="header-container">
-            <div class="logo-box"><a href="/"><img src="/images/Logo_2.png" alt="로고이미지" width="672" height="120"></a></div>
-            <div class="header-right">
-                <button class="user-menu-btn">👤 로그인</button>
+        function modify(fridge_id){
+            const quantity = prompt("수량:");
+            if(quantity === null) return; // 취소 클릭 시
+            
+            const url = "/modity.do";
+            const data = { firdge_id: fridge_id, quantity: quantity };
+
+            fetch(url, {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(js => {
+                if(js.result == "success"){
+                    alert("수정되었습니다.");
+                    location.reload();
+                }else{
+                    alert("수정 실패....");
+                }
+            })
+        }
+
+        const reco= ()=>{
+            //멤버아이디를 넘겨 레시피 추천 화면으로 이동
+            location.href="/fridge_recommend.do?id=" + ${user.member_id};
+        }
+
+        const logout = () => {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                fetch("/logout.do", {
+                    method: "post",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="logo">
+                <a href="${pageContext.request.contextPath}/">
+                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
+            </div>
+            <div class="user-menu">
+                <c:if test="${empty user}">
+                    <a href="/login.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그인</div>
+                    </a>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그아웃</div>
+                    </a>
+                </c:if>
+                <a href="/register_form.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/login.png">
+                    </span>
+                    <div>회원가입</div>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/mypage.png">
+                    </span>
+                    <div>마이페이지</div>
+                </a>
+            </div>
+        </div> 
+        <ul class="nav-bar">
+            <li><a href="/main_list.do">홈</a></li>
+            <li ><a href="/list.do">레시피</a></li>
+            <li>카테고리</li>
+            <li>랭킹</li>
+            <li>커뮤니티</li>
+            <li class="active"><a href="/fridge_list.do">냉장고 추천</a></li>
+            <li>이벤트</li>
+        </ul> 
+    </header>
+
+    <div class="container main-container">
+        <div class="fridge-wrapper">
+            <div class="fridge-title-area">
+                <%-- 로그인시 접속가능한 공간 --%>
+                <div class="user-title">${user.nickname}님의 현재 냉장고 재료 </div>
+                <button class="add-btn" onClick="location.href='/food_insert.do?id=1'">재료 추가</button>
+            </div>
+
+            <div class="fridge-content">
+                <div class="fridge-side freezer-side">
+                    <div class="side-title">냉동실 </div>
+                    <div class="item-grid">
+                        <c:forEach var="vo" items="${list}">
+                            <c:if test="${vo.freezer eq true}">
+                                <div class="ingredient-card">
+                                    <span class="ing-name">${vo.ingredient_name}</span>
+                                    <span class="ing-qty">${vo.quantity}</span>
+                                    
+                                    <div class="expire-hover">
+                                        <span>유통기한</span>
+                                        <strong>${vo.expire_date}</strong>
+                                        <div class="card-actions">
+                                            <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
+                                            <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="fridge-side total-fridge-side">
+                    <div class="side-title">냉장실 </div>
+                    <div class="item-grid">
+                        <c:forEach var="vo" items="${list}">
+                            <c:if test="${vo.freezer ne true}">
+                                <div class="ingredient-card">
+                                    <span class="ing-name">${vo.ingredient_name}</span>
+                                    <span class="ing-qty">${vo.quantity}</span>
+                                    
+                                    <div class="expire-hover">
+                                        <span>유통기한</span>
+                                        <strong>${vo.expire_date}</strong>
+                                        <div class="card-actions">
+                                            <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
+                                            <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="button" value="레시피 추천" onClick="reco()">
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top-row">
+                <div class="cs-section">
+                    <h3>고객센터</h3>
+                    <div class="cs-buttons">
+                        <div class="cs-btn">📞 1833-8307</div>
+                        <div class="cs-btn">💬 1:1문의하기</div>
+                    </div>
+                    <div class="hours-info">
+                        <p><strong>운영시간</strong></p>
+                        <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
+                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
+                    </div>
+                </div>
+                <div class="sns-icons">
+                    <span class="sns-icon">▶</span>
+                    <span class="sns-icon">★</span>
+                    <span class="sns-icon">☆</span>
+                    <span class="sns-icon">◆</span>
+                    <span class="sns-icon">♬</span>
+                </div>
             </div>
         </div>
 
-        <nav class="nav-bar">
-            <ul class="nav-links">
-                <li><a href="#">레시피</a></li>
-                <li> | </li>
-                <li class="active"><a href="#">냉장고 파먹기 </a></li>
-                <li> | </li>
-                <li><a href="#">나만의 레시피</a></li>
-                <li> | </li>
-                <li><a href="#">키친가이드</a></li>
-            </ul>
-        </nav>
-
-        <div class="main-container">
-            <div class="fridge-wrapper">
-                <div class="fridge-title-area">
-                    <div class="user-title">OO님의 현재 냉장고 재료</div>
-                    <button class="add-btn" onClick="location.href='/food_insert.do?id=1'">재료추가</button>
+        <div class="footer-nav-bar">
+            <div class="footer-container">
+                <div class="nav-links">
+                    <a href="#"><strong>이용약관</strong></a>
+                    <a href="#"><strong>개인정보처리방침</strong></a>
+                    <a href="/notice.do">공지사항</a>
+                    <a href="#">자주묻는질문</a>
+                    <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
                 </div>
-
-                <div class="fridge-content">
-
-                    <div class="freezer-side">
-                        <div class="side-title">냉동실</div>
-                        <div class="item-grid">
-                            <c:forEach var="vo" items="${list}">
-                                <c:if test="${vo.freezer eq true}">
-                                    <div class="ingredient-card">
-                                        <span class="ing-name">${vo.ingredient_name}</span>
-                                        <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
-
-                                        <%-- <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})"> --%>
-
-                                        <div class="expire-hover">
-                                            <span>유통기한</span>
-                                            <strong>${vo.expire_date}</strong>
-                                            <div class="card-actions">
-                                                <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                                <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </c:if>
-                            </c:forEach>
-                        </div>
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div class="fridge-side">
-                        <div class="side-title">냉장실</div>
-                        <div class="item-grid">
-                            <c:forEach var="vo" items="${list}">
-                                <c:if test="${vo.freezer ne true}">
-                                    <div class="ingredient-card">
-                                        <span class="ing-name">${vo.ingredient_name}</span>
-                                        <span class="ing-qty" style="font-size: 12px; color: #666;">${vo.quantity}</span>
-                                        <%-- <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        <input type="button" value="수정" onClick="modify(${vo.fridge_id})"> --%>
-                                        <div class="expire-hover">  
-                                            <span>유통기한</span>
-                                            <strong>${vo.expire_date}</strong>
-                                            <div class="card-actions">
-                                                <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                                <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:if>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
         </div>
 
-        <footer>
-            <div class="footer-content">
-                <div class="footer-links">
-                    <span>회사 소개 . 광고/제휴</span>
-                    <span>개인정보처리방침</span>
-                    <span>이용약관</span>
-                    <span>고객센터</span>
+        <div class="footer-container">
+            <div class="footer-bottom-row">
+                <div class="company-info">
+                    <h4>주식회사 코코짱짱</h4>
+                    <p>
+                        <span>상호 : KH 개발</span>
+                        <span>대표자 : 장승연</span>
+                        <span>개인정보관리책임자 : 장승연</span>
+                        <span>사업자 등록번호 : 111-01-31111</span>
+                    </p>
+                    <p>
+                        <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
+                        <span>전화 : 1833-1234</span>
+                        <span>팩스 : 031-8017-1800</span>
+                    </p>
+                    <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
                 </div>
-                <p>대충 Copyright 만개의레시피 Inc. All Rights Reserved 이런거 들어가는 자리</p>
+                
+                <div class="footer-logo-area">
+                    <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
+                </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
-    </body>
+    <!-- 챗봇 -->
+    <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
+
+</body>
 </html>

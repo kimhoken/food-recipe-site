@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.ChatbotDAO">
 	
-   <select id="selectParent" resultType="chatbot">
+    <select id="selectParent" resultType="chatbot">
         select id, parent_id, question, 
             answer, depth, sort_order, use_yn 
             from chatbot 

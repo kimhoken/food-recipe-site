@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.foodsite.dao.RecipeDAO">
+
+    <select id="size" resultType="int">
+        SELECT COUNT(*) FROM recipe
+    </select>
+	
+    <select id="selectOne" parameterType="int" resultType="recipe">
+        SELECT *, RANK() OVER(ORDER BY created_date DESC) as rank FROM recipe
+        WHERE rank = #{num}
+    </select>
+    
+    <select id="selectAll">
+        SELECT * FROM recipe ORDER BY created_date DESC
+    </select>
+
+</mapper>

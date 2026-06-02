@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.foodsite.dao.CategoryDAO">
+    
+    <select id="getCategoryList" parameterType="String" resultType="category">
+        SELECT 
+            category_id,
+            category_name AS categoryName,
+            sub_category_name AS subCategoryName,
+            sort_order
+        FROM category
+        WHERE category_name = #{category}
+        ORDER BY sort_order ASC
+    </select>
+        
+</mapper>
