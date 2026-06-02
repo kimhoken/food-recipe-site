@@ -4,6 +4,7 @@
     <html>
 
     <head>
+        <title>오늘 뭐 먹지? - 로그인</title>
         <link rel="stylesheet" href="/css/login.css" />
         <script>
             //로그인 유효성 및 로그인 상태
@@ -26,15 +27,14 @@
                     .then(res => res.json())
                     .then(data => {
 
-
                         if (data.res == "no_id") {
-                            alert("Wrong id");
+                            alert("아이디가 없거나 틀렸습니다.");
 
                         } else if (data.res == "no_pwd") {
-                            alert("Wrong pwd.");
+                            alert("비밀번호가 틀렸습니다.");
 
                         } else if (data.res == "login") {
-                            alert("welcome " + data.nick + "!!");
+                            alert("환영합니다 " + data.nick + "님!!");
                             location.href = "/main_list.do";
 
                         } else {
@@ -43,9 +43,6 @@
                     })
 
             }
-
-            
-
 
         </script>
     </head>
@@ -77,15 +74,15 @@
 
                             <tr>
                                 <td>
-                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요" />
+                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요"  />
                                 </td>
                             </tr>
 
                             <tr>
                                 <td class="idpwd-area">
-                                    <button class="sub-btn" type="button" onclick="">아이디</button>
+                                    <button class="sub-btn" type="button" onclick="location.href='find.do?select=id'">아이디</button>
                                     <span>/</span>
-                                    <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="" />                                    
+                                    <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="location.href='find.do?select=pwd'"/>                                    
                                 </td>
                             </tr>
         
@@ -105,32 +102,22 @@
                                     </div>
 
                                     <button type="button" class="social-btn" type="button"  onclick="" >
-
                                         <img src="images/naver.png" />
-                                        
                                         <span>네이버로 로그인</span>
-                                        
                                     </button>
                                     
-                                    
-                                    
                                     <button type="button" class="social-btn" type="button"  onclick="" >
-                                        
                                         <img src="images/kakao.png"/>
-                                        
                                         <span>카카오로 로그인</span>
                                     </button>
                                     
-                                    
                                     <button type="button" class="social-btn" type="button"  onclick="" >
-                                        
                                         <img src="images/google.png" />
                                         <span>구글로 로그인</span>
                                     </button>
-                                    
-
                                 </td>
                             </tr>
+                            
                             <!-- 회원가입  -->
                             <tr>
                                 <td colspan="2" align="center" class="sub-btn-area">
