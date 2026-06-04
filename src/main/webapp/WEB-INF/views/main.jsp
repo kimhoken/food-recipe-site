@@ -12,12 +12,30 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
-        /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
-        // 선택한 카테고리들 열기
-        function selectCategory(category){
-            // location.href = "/recipe/list?category=" + category;
-        }
+ /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+    // 선택한 카테고리들 열기
+    function selectCategory(category){
+        // location.href = "/recipe/list?category=" + category;
+    }
 
+    // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
+    function openModal(){
+        document.getElementById("categoryModal").style.display = 'flex';
+        sideTabCategory('상황별추천'); 
+    }
+
+    // 전체보기 모달 닫기
+    function closeModal(){
+        document.getElementById("categoryModal").style.display = 'none';
+    }
+
+    // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
+     function closeModalOnOutside(event) {
+        const modal = document.getElementById("categoryModal");
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
         // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
         function openModal(){
             document.getElementById("categoryModal").style.display = 'flex';
@@ -29,13 +47,29 @@
             document.getElementById("categoryModal").style.display = 'none';
         }
 
-        // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
-        function closeModalOnOutside(event) {
-            const modal = document.getElementById("categoryModal");
-            if (event.target === modal) {
-                closeModal();
+        fetch('/category.do?category=' + category)
+        .then(res => res.json())
+        .then(data => {
+            var list = data.catList;
+            var html = ""; 
+
+            for (var i = 0; i < list.length; i++) {
+                html += "<div class='menu-group'>";
+                
+                // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
+                html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
+                html += "    <ul>";
+ 
+                html += "        <li><a href='#'>김치찌개</a></li>";
+                html += "        <li><a href='#'>된장찌개</a></li>";
+                html += "        <li><a href='#'>순두부찌개</a></li>";
+                html += "        <li><a href='#'>부대찌개</a></li>";
+                html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
+                html += "    </ul>";
+                html += "</div>";
             }
-        }
+        })
+    
 
         //왼쪽 사이드바 클릭 감지
         function handleSidebarClick(event) {
@@ -251,8 +285,10 @@
 
         <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
-            <li class="active"><a href="/main_list.do">홈</a></li>
-            <li>레시피</li>
+            <li class="active">홈</li>
+            <li>
+                <a href="/recipe_list.do"> 레시피</a>
+            </li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
