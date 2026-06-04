@@ -10,7 +10,7 @@ public interface RecipeDAO {
     int size();
     RecipeVO selectOne(int num);
     List<RecipeVO> selectAll();
-    List<RecipeVO> selectAny(List<FridgeItemVO> fridgeList);
+    List<RecipeVO> selectAny(String fridgeList);
 
     //레시피 목록 조회(카테고리, 조리시간, 정렬 조건 적용)
     List<RecipeVO> selectRecipeList(RecipeSearchDTO searchDTO);
