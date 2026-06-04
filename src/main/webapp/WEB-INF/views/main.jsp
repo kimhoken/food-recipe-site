@@ -7,6 +7,7 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
     <link rel="stylesheet" href="/css/chatbot.css" />
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
@@ -20,7 +21,7 @@
     // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
     function openModal(){
         document.getElementById("categoryModal").style.display = 'flex';
-        sideTabCategory('recommend'); 
+        sideTabCategory('상황별추천'); 
     }
 
     // 전체보기 모달 닫기
@@ -69,8 +70,8 @@ function sideTabCategory(category) {
  
                 html += "        <li><a href='#'>김치찌개</a></li>";
                 html += "        <li><a href='#'>된장찌개</a></li>";
-                html += "        <li><a href='#'>미역국</a></li>";
                 html += "        <li><a href='#'>순두부찌개</a></li>";
+                html += "        <li><a href='#'>부대찌개</a></li>";
                 html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
                 html += "    </ul>";
                 html += "</div>";
@@ -252,7 +253,7 @@ function sideTabCategory(category) {
         <ul class="nav-bar">
             <li class="active">홈</li>
             <li>
-                <a href="/list.do"> 레시피</a>
+                <a href="/recipe_list.do"> 레시피</a>
             </li>
             <li>카테고리</li>
             <li>랭킹</li>
@@ -510,7 +511,7 @@ function sideTabCategory(category) {
                     <div class="hours-info">
                         <p><strong>운영시간</strong></p>
                         <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
+                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>              
                     </div>
                 </div>
                 <div class="sns-icons">
@@ -570,7 +571,7 @@ function sideTabCategory(category) {
         
         <div class="modal-body">
             <div class="modal-sidebar" onclick="handleSidebarClick(event)">
-                <div class="sidebar-item active" data-cat="상황별 추천">⭐ 상황별 추천</div>
+                <div class="sidebar-item active" data-cat="상황별추천">⭐ 상황별 추천</div>
                 <div class="sidebar-item" data-cat="한식">🍚 한식</div>
                 <div class="sidebar-item" data-cat="양식">🍝 양식</div>
                 <div class="sidebar-item" data-cat="중식">🍳 중식</div>
