@@ -51,10 +51,6 @@
                 expire_date: expire_date,
                 freezer: freezer == 'true' ? true : false
             };
-
-            console.log(data.member_id);
-            console.log(data.ingredient_name);
-            console.log(data.freezer);
             
             ingredientList.push(data);
             

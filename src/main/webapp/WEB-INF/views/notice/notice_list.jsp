@@ -5,14 +5,19 @@
 <!DOCTYPE html>
 <html lang="ko">
     <head>
-    
+       <link rel="stylesheet" href="/css/notice.css">
+       <link rel="stylesheet" href="/css/main.css">
     </head>
 
-     <body>
-        <h2>공지사항 목록</h2>
-        <p>새로운 소식과 안내사항을 전달해드립니다</p>
+    <body>
+        <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
 
-        <table border="1" align="center">
+        <div class="notice-wrap">
+            <div class="notice-title">
+                <h2>공지사항</h2>
+                <p>오늘 뭐 먹지의 새로운 소식과<br>유용한 정보를 확인해보세요.</p>
+            </div>
+        <table border="1">
                 
             <tr>
                 <th>번호</th>
@@ -43,13 +48,18 @@
                 
             </c:forEach>
 
-
-           
-            <c:if test="${user.role eq 'ADMIN'}">
-                <input type="button" value="공지등록" onclick="location.href='notice_add.do'">
-            </c:if>
+            <tr>
+                <td colspan="5" align="center">
+                    ${pageMenu}
+                </td>
+            </tr>
               
         </table>
+
+        <c:if test="${user.role eq 'ADMIN'}">
+            <input type="button" value="공지등록" onclick="location.href='notice_add.do'">
+        </c:if>
+
     </body>
 
 </html>

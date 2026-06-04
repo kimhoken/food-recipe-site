@@ -3,16 +3,17 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
-<html>
+    <html>
     <head>
-        <script>
-            function deleteNotice() {
-                if (confirm("삭제하시겠습니까?")) {
-                    location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+            <script>
+                function deleteNotice() {
+                    if (confirm("삭제하시겠습니까?")) {
+                        location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+                    }
                 }
-            }
-        </script>
+            </script>
     </head>
+    
     <body>
 
         <table border="1">
@@ -27,12 +28,24 @@
             </tr>
 
             <tr>
-                <th>내용</th>
-                <td>${notice.content}</td>
+                <th>작성자</th>
+                <td>${notice.member_id}</td>
             </tr>
 
             <tr>
-                <th>등록일</th>
+                <th>내용</th>
+                <td>
+                    <c:if test="${not empty img}">
+                        <img src="/upload/${img.image_list}" style="max-width: 200px; max-height: 200px;" />
+                        <br>
+                    </c:if>
+
+                    ${notice.content}
+                </td>
+            </tr>
+
+            <tr>
+                <th>작성일</th>
                 <td>
                     <fmt:formatDate value="${notice.created_date}" pattern="yyyy-MM-dd HH:mm:ss" />
                 </td>

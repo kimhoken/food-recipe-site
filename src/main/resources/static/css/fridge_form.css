@@ -111,7 +111,6 @@ body {
 .added-list-area {
     list-style: none;
     padding: 0;
-    height: 315px;
     max-height: 315px;
     margin: 0 0 35px 0;
     flex-grow: 1;
