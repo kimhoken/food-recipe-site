@@ -29,7 +29,7 @@
     font-weight: 300; line-height: 1;
 }
 
-/* 바디 레이아웃 설정 (중요: 좌-중-우 요소들이 나란히 정렬되도록 고정) */
+/* 바디 레이아웃 설정  */
 .modal-body { 
     display: flex; 
     height: 600px; 
@@ -42,37 +42,43 @@
     background: #eeedea; 
     border-right: 1px solid #eaeaea; 
     
-    /* 1. 상하 패딩을 줄여서 첫 아이템이 너무 내려오지 않게 조절 */
     padding: 15px 0; 
     
     display: flex; 
     flex-direction: column; 
-    
-    /* 2. 아이템 간격을 살짝 좁혀서 전체 높이 축소 */
+
     gap: 2px;
     flex-shrink: 0; 
-    
-    /* 3. 혹시 모를 잘림 방지: 높이를 부모에 맞추고 넘치면 스크롤 생성 */
+
     height: 100%; 
     overflow-y: auto; 
 }
 
 .sidebar-item { 
-    /* 4. 위아래 패딩을 14px -> 12px로 살짝 줄여 콤팩트하게 변경 */
     padding: 12px 24px; 
     font-size: 15px; 
     color: #444; 
     cursor: pointer; 
     background: transparent; 
     transition: all 0.2s ease; 
-    
-    /* 5. 아이콘과 텍스트가 세로 중앙 정렬되도록 추가 */
     display: flex;
     align-items: center;
 }
+.sidebar-item:hover {
+    background: #e4e3df;  
+    color: #222;        
+}
 
-.sidebar-item:not(.active):hover { background: #e5e4e0; color: #111; }
-.sidebar-item.active { background: #fcfbf9 !important; color: #222; font-weight: bold; }
+/* 클릭해서 고정되었을 때 스타일 */
+.sidebar-item.active { 
+    background: #e4e3df !important;  
+    color: #222; 
+    font-weight: bold;            
+
+    padding-left: 24px;              
+    border-left: none;
+    box-shadow: inset 2px 0 4px rgba(0,0,0,0.02); 
+}
 
 /* 4. 중앙 메인 카테고리 구역*/
 .modal-main { 

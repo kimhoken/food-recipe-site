@@ -27,4 +27,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </select>
 
+
+    <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
+        SELECT * FROM recipe ORDER BY created_date DESC      
+    </select>
 </mapper>

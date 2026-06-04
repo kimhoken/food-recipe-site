@@ -36,40 +36,6 @@
             closeModal();
         }
     }
-        // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
-        function openModal(){
-            document.getElementById("categoryModal").style.display = 'flex';
-            sideTabCategory('recommend'); 
-        }
-
-        // 전체보기 모달 닫기
-        function closeModal(){
-            document.getElementById("categoryModal").style.display = 'none';
-        }
-
-        fetch('/category.do?category=' + category)
-        .then(res => res.json())
-        .then(data => {
-            var list = data.catList;
-            var html = ""; 
-
-            for (var i = 0; i < list.length; i++) {
-                html += "<div class='menu-group'>";
-                
-                // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
-                html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
-                html += "    <ul>";
- 
-                html += "        <li><a href='#'>김치찌개</a></li>";
-                html += "        <li><a href='#'>된장찌개</a></li>";
-                html += "        <li><a href='#'>순두부찌개</a></li>";
-                html += "        <li><a href='#'>부대찌개</a></li>";
-                html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
-                html += "    </ul>";
-                html += "</div>";
-            }
-        })
-    
 
         //왼쪽 사이드바 클릭 감지
         function handleSidebarClick(event) {
@@ -79,6 +45,7 @@
             // 카테고리명(data-cat 값) 전달
             sideTabCategory(item.dataset.cat); 
         }
+        
 
         // 카테고리 변경 및 스타일 적용 함수
         function sideTabCategory(category) { 
@@ -130,7 +97,9 @@
                     document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
                 });
         }
-        
+             document.querySelector('.modal-sidebar')?.addEventListener('click', handleSidebarClick);
+
+
         /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
         
         const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
@@ -606,7 +575,7 @@
                 <div class="sidebar-item" data-cat="중식">🍳 중식</div>
                 <div class="sidebar-item" data-cat="일식">🍣 일식</div>
                 <div class="sidebar-item" data-cat="아시안">🌏 아시안</div>
-                <div class="sidebar-item" data-cat="건강식/다이어트">🌿 건강식/다이어트</div>
+                <div class="sidebar-item" data-cat="건강식/다이어트">🥗 건강식/다이어트</div>
                 <div class="sidebar-item" data-cat="초간단요리">⏱️ 초간단요리</div>
                 <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
                 <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>

@@ -16,7 +16,7 @@ public class RecipeVO {
     private String title;
     private String thumbnail;
     private String cooking_time;
-    private String diffuculty;
+    private String difficulty;
     private int view_count;
     private int like_count;
     private String status;
