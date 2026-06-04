@@ -16,7 +16,7 @@ public class NoticeVO {
 
     private int notice_id;
     private int member_id;
-    private int img_id;
+    private Integer img_id;
 
     private String title;
     private String content;
