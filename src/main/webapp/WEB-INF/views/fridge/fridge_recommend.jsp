@@ -106,7 +106,7 @@
 
         <div class="container main-page">
             <div class="section-title">
-                ${sessionScope.user.nickname} 님을 위한 추천 레시피!
+                ${sessionScope.user.nickname}님을 위한 추천 레시피!
                 <p>이런 메뉴는 어떠신가요?</p>
             </div>
             <div class="recipe-grid">

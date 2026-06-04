@@ -99,8 +99,7 @@ public class FridgeController {
 
     @GetMapping("/fridge_recommend.do")
     public String rec(int id, Model model){
-        List<RecipeVO> list = recommand.recomedList(id);
-        model.addAttribute("list", list);
+        model.addAttribute("list", recommand.recomedList(id));
         model.addAttribute("id", id);
         return "fridge/fridge_recommend";
     }
