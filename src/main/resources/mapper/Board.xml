@@ -15,8 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="search" resultType="board" parameterType="String">
     <bind name="pattern" value="'%' + search + '%'" />
         SELECT b.*, m.nickname FROM board b, member m 
-        WHERE title LIKE #{pattern} 
-        OR content LIKE #{pattern}
+        WHERE (title LIKE #{pattern} OR content LIKE #{pattern})
         AND b.member_id = m.member_id
     </select>
 

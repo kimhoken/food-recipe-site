@@ -18,13 +18,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectAny" resultType="recipe" >
+        <bind name="pattern" value="'%' + ingredient_name + '%'" />
         SELECT DISTINCT r.*
         FROM recipe r
         JOIN ingredient i ON r.recipe_id = i.recipe_id
-        WHERE i.ingredient_name IN
-        <foreach collection="list" item="item" open="(" separator="," close=")" >
-            #{item}
-        </foreach>
+        WHERE i.ingredient_name LIKE #{pattern}
     </select>
 
 

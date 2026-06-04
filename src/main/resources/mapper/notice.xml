@@ -3,18 +3,19 @@
 
 <mapper namespace="com.project.foodsite.dao.NoticeDAO">
 
-    <!-- 공지사항 목록 -->
+    <!-- 전체 공지 조회 -->
     <select id="selectList" resultType="notice">
         select *
         from notice
+        where title like concat('%', #{search_text}, '%') 
         order by notice_id desc
         limit #{start}, #{pageSize}
     </select>
-
-    <!-- 공지사항 개수 -->
+    <!-- 검색 결과 게시글 개수 조회 -->
     <select id="notice_count" resultType="int">
         select count(*)
         from notice
+        where title like concat('%', #{search_text}, '%')
     </select>
 
     <!-- 공지사항 상세 -->
@@ -43,7 +44,10 @@
     </update>
 
     <!-- 이미지 등록 -->
-    <insert id="img_insert" parameterType="img">
+    <insert id="img_insert" 
+            parameterType="img" 
+            useGeneratedKeys="true"
+            keyProperty="img_id">
         insert into img (
             image_list
         ) values (
