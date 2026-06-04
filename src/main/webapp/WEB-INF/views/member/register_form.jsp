@@ -21,7 +21,9 @@
 
                 <!-- 왼쪽 이미지 영역 -->
                 <div class="join-left">
-                    <div class="join-icon">🍲</div>
+                    <div class="join-icon">
+                        <img src="/images/cooking-pot.png">
+                    </div>
 
                     <h2>
                         오늘의 한 끼,<br>
@@ -35,7 +37,11 @@
                         더 맛있는 하루를 만들어보세요.
                     </p>
 
-                    <div class="join-bottom-icon">🍴 🍚</div>
+                    <div class="join-bottom">
+                        <img src="/images/fork.png"/>   
+                        <img src="/images/cooking-pot2.png"/>                     
+                        <img src="/images/bowl.png"/>
+                    </div>
                 </div>
                 
                 <div class="join-right">

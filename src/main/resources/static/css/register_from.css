@@ -26,8 +26,80 @@ body{
 
 /* 왼쪽 이미지 */
 .join-left{
-    width:340px;
-    background:#F5F3ED;
+    width:380px;
+
+    background:#FAF8F4;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    padding:70px 35px;
+
+    position:relative;
+}
+
+.join-icon{
+    margin-bottom:40px;
+}
+
+.join-icon img{
+    width:90px;
+}
+
+.join-main-title{
+    margin:0;
+
+    font-size:42px;
+    font-weight:500;
+
+    color:#111;
+}
+
+.join-sub-title{
+    margin-top:10px;
+    margin-bottom:30px;
+
+    font-size:48px;
+    font-weight:700;
+
+    color:#68774D;
+}
+
+.join-line{
+    width:45px;
+    height:2px;
+
+    background:#68774D;
+
+    margin:30px auto;
+}
+
+.join-desc{
+    font-size:22px;
+
+    line-height:1.8;
+
+    color:#222;
+}
+
+.join-bottom{
+    position:absolute;
+
+    width:100%;
+
+    bottom:60px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    opacity:0.12;
+}
+
+.join-bottom img{
+    width:90px;
+
+    margin:0 5px;
 }
 
 .join-banner{
