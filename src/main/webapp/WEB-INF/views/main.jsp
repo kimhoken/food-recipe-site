@@ -7,15 +7,16 @@
 <head>
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
     <link rel="stylesheet" href="/css/chatbot.css" />
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
-        /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
-        // 선택한 카테고리들 열기
-        function selectCategory(category){
-            // location.href = "/recipe/list?category=" + category;
-        }
+ /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+    // 선택한 카테고리들 열기
+    function selectCategory(category){
+        // location.href = "/recipe/list?category=" + category;
+    }
 
         // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
         function openModal(){
@@ -23,18 +24,18 @@
             sideTabCategory('상황별추천'); 
         }
 
-        // 전체보기 모달 닫기
-        function closeModal(){
-            document.getElementById("categoryModal").style.display = 'none';
-        }
+    // 전체보기 모달 닫기
+    function closeModal(){
+        document.getElementById("categoryModal").style.display = 'none';
+    }
 
-        // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
-        function closeModalOnOutside(event) {
-            const modal = document.getElementById("categoryModal");
-            if (event.target === modal) {
-                closeModal();
-            }
+    // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
+     function closeModalOnOutside(event) {
+        const modal = document.getElementById("categoryModal");
+        if (event.target === modal) {
+            closeModal();
         }
+    }
 
         //왼쪽 사이드바 클릭 감지
         function handleSidebarClick(event) {
@@ -44,6 +45,7 @@
             // 카테고리명(data-cat 값) 전달
             sideTabCategory(item.dataset.cat); 
         }
+        
 
         // 카테고리 변경 및 스타일 적용 함수
         function sideTabCategory(category) { 
@@ -95,7 +97,9 @@
                     document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
                 });
         }
-        
+             document.querySelector('.modal-sidebar')?.addEventListener('click', handleSidebarClick);
+
+
         /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
         
         const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
@@ -250,8 +254,10 @@
 
         <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
-            <li class="active"><a href="/main_list.do">홈</a></li>
-            <li>레시피</li>
+            <li class="active">홈</li>
+            <li>
+                <a href="/recipe_list.do"> 레시피</a>
+            </li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
@@ -380,7 +386,7 @@
                 <h3>냉장고 재료로<br>레시피 추천받기</h3>
                 <p>집에 있는 재료를 선택하면<br>만들 수 있는 요리를 추천해드려요!</p>
             </div>
-            <button class="ref-btn" onClick="location.href='/fridge_list.do'">재료 선택하기 &rarr;</button>
+            <button class="ref-btn" onClick="location.href='/fridge_list.do?member_id=${sessionScope.user.member_id}'">재료 선택하기 &rarr;</button>
         </div>
 
         <div class="mid-box">
@@ -503,7 +509,7 @@
                     <div class="hours-info">
                         <p><strong>운영시간</strong></p>
                         <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
+                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>              
                     </div>
                 </div>
                 <div class="sns-icons">
@@ -556,7 +562,7 @@
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
-<!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
+    <!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
     <div id="categoryModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
     <div class="modal-content">
         <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
@@ -569,25 +575,25 @@
                 <div class="sidebar-item" data-cat="중식">🍳 중식</div>
                 <div class="sidebar-item" data-cat="일식">🍣 일식</div>
                 <div class="sidebar-item" data-cat="아시안">🌏 아시안</div>
-                <div class="sidebar-item" data-cat="건강식/다이어트">🌿 건강식/다이어트</div>
+                <div class="sidebar-item" data-cat="건강식/다이어트">🥗 건강식/다이어트</div>
                 <div class="sidebar-item" data-cat="초간단요리">⏱️ 초간단요리</div>
                 <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
                 <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>
                 <div class="sidebar-item" data-cat="음료/차">☕ 음료/차</div>
-            </div>
-            
-            <div class="modal-main">
-            <div id="modalCategoryBody" class="category-grid-wrapper"></div>
+            </div>  
                 
-            </div>
-            
-            <div class="modal-banner-side">
+                <div class="modal-main">
+                <div id="modalCategoryBody" class="category-grid-wrapper"></div>
+                    
+                </div>
+                
+                <div class="modal-banner-side">
 
+                </div>
             </div>
+
         </div>
-
-     </div>
-     </div>
+    </div>
 
 </body>
 </html>

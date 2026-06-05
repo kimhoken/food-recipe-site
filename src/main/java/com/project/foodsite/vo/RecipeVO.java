@@ -16,7 +16,7 @@ public class RecipeVO {
     private String title;
     private String thumbnail;
     private String cooking_time;
-    private String diffuculty;
+    private String difficulty;
     private int view_count;
     private int like_count;
     private String status;
@@ -28,6 +28,11 @@ public class RecipeVO {
     private int category_id;
 
     //불러올때 필요한것 추가
-    private String nickname;    //member_id로 닉네임 불러옴
+    private String nickname;        //member_id로 닉네임 불러옴
+    private int score = 0;          //추천시스템에 점수를 저장할 때 사용
+
+    public void addScore(int score){
+        this.score += score;
+    }
 
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.FridgeItemDAO;
+import com.project.foodsite.util.Recommand;
 import com.project.foodsite.vo.FridgeItemVO;
+import com.project.foodsite.vo.RecipeVO;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class FridgeController {
     
     private final FridgeItemDAO fdao;
+    private final Recommand recommand;
 
     /**
      * @param member_id jsp에서 넘어오는 member_Id
@@ -93,7 +99,7 @@ public class FridgeController {
 
     @GetMapping("/fridge_recommend.do")
     public String rec(int id, Model model){
-        //레시피테이블에서 현재 있는 레시피가 포함된 재료를 불러옴
+        model.addAttribute("list", recommand.recomedList(id));
         model.addAttribute("id", id);
         return "fridge/fridge_recommend";
     }
