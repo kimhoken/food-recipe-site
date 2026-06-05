@@ -37,7 +37,7 @@
                 closeModal();
             }
         }
-    }
+    
 
         //왼쪽 사이드바 클릭 감지
         function handleSidebarClick(event) {
