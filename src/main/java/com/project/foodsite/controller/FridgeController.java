@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -15,9 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.foodsite.dao.FridgeItemDAO;
 import com.project.foodsite.util.Recommand;
 import com.project.foodsite.vo.FridgeItemVO;
-import com.project.foodsite.vo.RecipeVO;
 
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,6 +94,12 @@ public class FridgeController {
         return map;
     }
 
+    /**
+     * 냉장고의 재료로 레시피를 추천해주는 매핑
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/fridge_recommend.do")
     public String rec(int id, Model model){
         model.addAttribute("list", recommand.recomedList(id));

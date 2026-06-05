@@ -131,9 +131,8 @@
         }
 
         // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
+        if ('serviceWorker' in navigator && 'PushManager' in window && ${sessionScope.user.member_id} != null) {
             window.addEventListener('load', function() {
-                // sw.js 파일 경로를 프로젝트 구조에 맞게 잘 지정해줘야 해!
                 navigator.serviceWorker.register('/js/alarm.js')
                 .then(function(registration) {
                     console.log('서비스 워커 등록 성공:', registration);

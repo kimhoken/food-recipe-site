@@ -1,7 +1,10 @@
 package com.project.foodsite.controller;
 
 import com.project.foodsite.util.WebPushService;
+import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.WebPushSubscriptionVO;
+
+import jakarta.servlet.http.HttpSession;
 
 import java.util.Map;
 
@@ -16,15 +19,18 @@ public class WebPushController {
     @Autowired
     private WebPushService webPushService;
 
+    @Autowired
+    private HttpSession session;
+
     // 1. 프런트(JSP)에서 "알림 허용" 누르면 기기 정보를 받아서 DB에 저장하는 주소
     // JSP 코드의 fetch('/api/push/register') 이 부분이랑 연결
     @PostMapping("/register")
     public ResponseEntity<?> registerSubscription(@RequestBody Map<String, Object> payload) {
         try {
             WebPushSubscriptionVO subscription = new WebPushSubscriptionVO();
+            MemberVO user = (MemberVO)session.getAttribute("user");
             
-            // 1. 임시로 테스트 유저 ID 세팅 (나중에 로그인 연동)
-            subscription.setMember_id(1); 
+            subscription.setMember_id(user.getMember_id()); 
             
             // 2. 최상위 endpoint 값 추출
             subscription.setEndpoint((String) payload.get("endpoint"));
