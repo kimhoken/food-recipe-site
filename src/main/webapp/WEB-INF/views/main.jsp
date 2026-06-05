@@ -386,7 +386,7 @@
                 <h3>냉장고 재료로<br>레시피 추천받기</h3>
                 <p>집에 있는 재료를 선택하면<br>만들 수 있는 요리를 추천해드려요!</p>
             </div>
-            <button class="ref-btn" onClick="location.href='/fridge_list.do'">재료 선택하기 &rarr;</button>
+            <button class="ref-btn" onClick="location.href='/fridge_list.do?member_id=${sessionScope.user.member_id}'">재료 선택하기 &rarr;</button>
         </div>
 
         <div class="mid-box">
@@ -562,7 +562,7 @@
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
-<!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
+    <!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
     <div id="categoryModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
     <div class="modal-content">
         <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
@@ -580,20 +580,20 @@
                 <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
                 <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>
                 <div class="sidebar-item" data-cat="음료/차">☕ 음료/차</div>
-            </div>
-            
-            <div class="modal-main">
-            <div id="modalCategoryBody" class="category-grid-wrapper"></div>
+            </div>  
                 
-            </div>
-            
-            <div class="modal-banner-side">
+                <div class="modal-main">
+                <div id="modalCategoryBody" class="category-grid-wrapper"></div>
+                    
+                </div>
+                
+                <div class="modal-banner-side">
 
+                </div>
             </div>
+
         </div>
-
-     </div>
-     </div>
+    </div>
 
 </body>
 </html>
