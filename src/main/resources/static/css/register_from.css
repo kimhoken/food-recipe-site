@@ -39,12 +39,30 @@ body{
     position:relative;
 }
 
+
+
+.join-font{
+    
+    font-size: 25px;    
+    color:  #556b3e;
+
+}
+
+.join-font span{
+    font-weight: bold;
+}
+
 .join-icon{
     margin-bottom:40px;
 }
 
 .join-icon img{
-    width:90px;
+    width:120px;
+    border: 1px solid black;
+    border-radius: 60px;
+    margin: 35px;
+    background-color: #F8F4EC;
+    
 }
 
 .join-main-title{
@@ -192,14 +210,13 @@ body{
 /* 이메일 */
 .email-row{
     display:flex;
-    gap:125px;
+    align-items: center;
+    gap:20px;
 
     margin-bottom:8px;
 }
 
-.email-input{
-    flex:1;
-}
+
 
 
 /* 인증 버튼 */

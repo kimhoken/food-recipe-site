@@ -214,7 +214,7 @@
                     <div id="id_find">
                         <form class="find-form">
 
-                            <img src="/images/guest_user.png" class="find-img" />
+                            <img src="/images/identity-card.png" class="find-img" />
 
                             <h3 class="find-title">아이디 찾기</h3>
 
@@ -259,7 +259,7 @@
 
                     <div id="pwd_find">
                         <form class="find-form">
-                            <img src="/images/pwd_find.png" class="find-img" />
+                            <img src="/images/padlock.png" class="find-img" />
 
                             <h3 class="find-title">비밀번호 찾기</h3>
 

@@ -21,21 +21,23 @@
 
                 <!-- 왼쪽 이미지 영역 -->
                 <div class="join-left">
-                    <div class="join-icon">
-                        <img src="/images/cooking-pot.png">
-                    </div>
-
-                    <h2>
-                        오늘의 한 끼,<br>
-                        <span>맛있게 시작하세요!</span>
-                    </h2>
-
-                    <div class="join-line"></div>
-
-                    <p>
-                        다양한 레시피와 함께<br>
-                        더 맛있는 하루를 만들어보세요.
-                    </p>
+                    
+                        <div class="join-icon">
+                            <img src="/images/lid_bowl.png">
+                        </div>
+                        
+                        <p class="join-font">
+                            오늘의 한 끼,<br>
+                            <span>맛있게 시작하세요!</span>
+                        </p>
+    
+                        <div class="join-line"></div>
+    
+                        <p>
+                            다양한 레시피와 함께<br>
+                            더 맛있는 하루를 만들어보세요.
+                        </p>
+                    
 
                     <div class="join-bottom">
                         <img src="/images/fork.png"/>   
