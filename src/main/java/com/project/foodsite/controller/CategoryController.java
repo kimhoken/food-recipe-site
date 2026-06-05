@@ -16,25 +16,21 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class CategoryController {
-    
-    private final CategoryDAO categoryDao;
 
-    //사이드바 카테고리 메뉴 선택  
-     @GetMapping("/category.do")
-     @ResponseBody
-     public Map<String, Object> getCategory(String category){
-        Map<String, Object> resultMap = new HashMap<>();
+   private final CategoryDAO categoryDao;
 
-        List<CategoryVO> catList = categoryDao.getCategoryList(category); //소분류 리스트 
+   // 사이드바 카테고리 메뉴 선택
+   @GetMapping("/category.do")
+   @ResponseBody
+   public Map<String, Object> getCategory(String category) {
+      Map<String, Object> resultMap = new HashMap<>();
 
-        resultMap.put("catList", catList);
+      List<CategoryVO> catList = categoryDao.getCategoryList(category); // 소분류 리스트
 
-        return resultMap;
-        
-     }
+      resultMap.put("catList", catList);
 
+      return resultMap;
 
-
-
+   }
 
 }

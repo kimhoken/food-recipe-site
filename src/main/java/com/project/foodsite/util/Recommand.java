@@ -138,16 +138,11 @@ public class Recommand {
             List<RecipeVO> list = recipeDAO.selectAny(ingredient);
             int score = getScore(item.getExpire_date());
 
-            //유통기한이 2일 이하이면 30점, 일주일 이하면 20점, 그 외는 10점
-            int diff = score - now <= 2 ? 30 : score-now <= 7 ? 20 : 10;
+            //유통기한이 3일 이하이면 30점, 일주일 이하면 20점, 그 외는 10점
+            int diff = score - now <= 3 ? 30 : score-now <= 7 ? 20 : 10;
 
             for(RecipeVO recipe : list){
                 int recipeId = recipe.getRecipe_id();
-
-                //좋아요 수, 조회수도 점수에 반영
-                diff += recipe.getLike_count();
-                diff += recipe.getView_count();
-
                 //기존에 맵에 있는 레시피라면 점수만 추가하고 없는 레시피이면 점수 추가 후 맵에 추가
                 if(map.containsKey(recipeId)){
                     map.get(recipeId).addScore(diff);
@@ -163,6 +158,13 @@ public class Recommand {
 
         //점수 높은 순으로 정렬
         Collections.sort(recipeList, (e1, e2) -> {
+            //점수가 같으면 조회수가 높은 순으로 정렬
+            if(e1.getScore() == e2.getScore()){
+                //조회수가 같으면 좋아요가 높은 순으로 정렬
+                if(e1.getLike_count() == e2.getLike_count())
+                    return e2.getLike_count() - e1.getLike_count();
+                return e2.getView_count() - e1.getView_count();
+            }
             return e2.getScore() - e1.getScore();
         });
 
