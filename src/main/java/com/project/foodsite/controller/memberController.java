@@ -25,6 +25,8 @@ import com.project.foodsite.vo.TokenVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -57,7 +59,7 @@ public class memberController {
     // 로그인 페이지
     @GetMapping("/login.do")
     public String loginpage() {
-        return "/member/login";
+        return "member/login";
     }
 
     // 로그인
@@ -98,6 +100,24 @@ public class memberController {
         
         boolean sys=true;
         String nickname = "no_name";
+
+        MemberVO socialUser = (MemberVO) httpSession.getAttribute("socialUser");
+
+        if(socialUser != null){
+
+            model.addAttribute("socialUser", socialUser);
+            model.addAttribute("isSocial", true);
+
+            if(socialUser.getNickname() != null){
+
+                nickname = socialUser.getNickname();
+                sys = false;
+
+            }
+        } else{
+            model.addAttribute("isSocial", false);
+        }
+        
         while(sys){
             nickname = nicknameGenerater.createnickname(); 
             MemberVO vo = memberDAO.getUserNickname(nickname);
@@ -109,17 +129,25 @@ public class memberController {
 
         model.addAttribute("nickname",nickname);
 
-        return "/member/register_form";
+        return "member/register_form";
     }
     //회원가입 
     @PostMapping("/register.do")
     @ResponseBody
     public Map<String, Integer> register(MemberVO vo) throws Exception {
+        
 
-        // 비밀번호 암호화
-        String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
-        vo.setPassword(enc_pwd);
+        if(vo.getPassword() != null && !vo.getPassword().isEmpty()){
+            // 비밀번호 암호화
+            String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
+            vo.setPassword(enc_pwd);            
+        }
+
         String filename = "no_file";
+
+        if(vo.getLogin_id() == null && vo.getPassword() == null){
+            vo.setProvider(filename);
+        }
 
         vo.setFilename(filename);
         vo.setRole("USER");
@@ -339,4 +367,6 @@ public class memberController {
             return "fail";
         }
     }
+    
+    
 }

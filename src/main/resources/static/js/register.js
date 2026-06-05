@@ -1,11 +1,27 @@
 let id_vailed = false;
 let pwd_vailed = true;
-let email_vailed = true;
+let email_vailed = false;
 let nickname_vailed = true;
 
  window.onload = function () {
+
             let nicknames = document.getElementById("nickname");
-            nicknames.value =  nickname;}
+            nicknames.value =  nickname;
+
+            let emails = document.getElementById("email");
+            let names = document.getElementById("name");
+
+            if(email != null){              
+                emails.readOnly = true;  
+                emails.value = email; 
+                email_vailed = true;
+                id_vailed = true;
+            }
+
+            if(names != null){
+                names.value = name; 
+            }
+        }
 
 
 let email_authnumer;
@@ -114,9 +130,7 @@ function send(f) {
         return;
     }
 
-    let name = f.name.value;
-    let login_id = f.login_id.value;
-    let password = f.password.value;
+    let name = f.name.value;       
     let email = f.email.value;
 
     if (name == "") {
@@ -125,11 +139,7 @@ function send(f) {
         return;
     }
 
-    if (login_id == "") {
-        alert("아이디를 입력하세요!!");
-        f.login_id.focus();
-        return;
-    }
+    
 
     if (email == "") {
         alert("이메일을 입력하세요!!");

@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
 <!DOCTYPE html>
 <html>
@@ -6,8 +8,11 @@
     <head>
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/register_from.css"/>
-        <script>
+        <script>            
             const nickname = '${nickname}';
+            const name = '${socialUser.name}';
+            const email = '${socialUser.email}';            
+
         </script>
         <script src="/js/register.js"></script>
     </head>
@@ -16,7 +21,11 @@
       
 
         
-       <form class = "join-form">      
+       <form class = "join-form">   
+            <c:if test="{not empty socialUser}">
+                <input type="hidden" value="${socialUser.provider}" name="provider"/>
+                <input type="hidden" value="${socialUser.provider_id}" name="provider_id"/>
+            </c:if> 
             <div class="join-wrap">
 
                 <!-- 왼쪽 이미지 영역 -->
@@ -54,7 +63,7 @@
                         <tr>
                             <th>이름</th>
                             <td>
-                                <input name="name" class="input-box" placeholder="이름입력하세요 Ex) 홍길동"/>
+                                <input name="name" id="name" class="input-box" placeholder="이름입력하세요 Ex) 홍길동"/>
                                 <div class="msg-space"></div>
                             </td>
                         </tr>
@@ -66,40 +75,42 @@
                                 <div id="nick_msg" class="msg-space"></div>
                             </td>
                         </tr>
-                        <tr>
-                            <th>아이디</th>
-                            <td>
-                                <input name="login_id" id="id" 
-                                       placeholder="아이디 입력하세요" onchange="status(); id_check()"
-                                       class="input-box"/>
-                                <div id="id_msg" class="msg-space"></div>                        
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>비밀번호</th>
-                            <td>
-                                <input name="password" type="password" id="pwd" 
-                                placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
-                                class="input-box"/>
-                                <div id="pwd_msg" class="msg-space"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>비밀번호 확인</th>
-                            <td>
-                                <input id="pwd_check" type="password" 
-                                placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
-                                class="input-box"/>
-                                <div id="pwd_check_msg" class="msg-space"></div>
-                            </td>
-                        </tr>
+                        <c:if test="${ empty socialUser }">
+                            <tr>
+                                <th>아이디</th>
+                                <td>
+                                    <input name="login_id" id="id" 
+                                           placeholder="아이디 입력하세요" onchange="status(); id_check()"
+                                           class="input-box"/>
+                                    <div id="id_msg" class="msg-space"></div>                        
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호</th>
+                                <td>
+                                    <input name="password" type="password" id="pwd" 
+                                    placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
+                                    class="input-box"/>
+                                    <div id="pwd_msg" class="msg-space"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비밀번호 확인</th>
+                                <td>
+                                    <input id="pwd_check" type="password" 
+                                    placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
+                                    class="input-box"/>
+                                    <div id="pwd_check_msg" class="msg-space"></div>
+                                </td>
+                            </tr>
+                        </c:if>
         
                         <tr>
                             <th>이메일</th>
                                 <form class="email-form">
                                     <td>
                                         <div class="email-row">
-                                            <input name="email" class="input-box email-input" placeholder="이메일 입력하세요 Ex) example@sample.com"/>
+                                            <input name="email" id="email" class="input-box email-input" placeholder="이메일 입력하세요 Ex) example@sample.com"/>
                                             <input type="button" value="본인인증" class="sub-btn" onclick="mailcheck(this.form)"/>
                                         </div>
                                         <div class="msg-space"></div>

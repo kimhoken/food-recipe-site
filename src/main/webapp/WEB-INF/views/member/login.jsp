@@ -104,7 +104,7 @@
                                         <div class="line"></div>
                                     </div>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/naver'">
                                         <img src="images/naver.png" />
                                         <span>네이버로 로그인</span>
                                     </button>

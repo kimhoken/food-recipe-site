@@ -20,7 +20,7 @@
         // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
         function openModal(){
             document.getElementById("categoryModal").style.display = 'flex';
-            sideTabCategory('recommend'); 
+            sideTabCategory('상황별추천'); 
         }
 
         // 전체보기 모달 닫기
@@ -563,7 +563,7 @@
         
         <div class="modal-body">
             <div class="modal-sidebar" onclick="handleSidebarClick(event)">
-                <div class="sidebar-item active" data-cat="상황별 추천">⭐ 상황별 추천</div>
+                <div class="sidebar-item active" data-cat="상황별추천">⭐ 상황별 추천</div>
                 <div class="sidebar-item" data-cat="한식">🍚 한식</div>
                 <div class="sidebar-item" data-cat="양식">🍝 양식</div>
                 <div class="sidebar-item" data-cat="중식">🍳 중식</div>
