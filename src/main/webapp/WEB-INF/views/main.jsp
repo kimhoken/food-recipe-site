@@ -306,7 +306,7 @@
             </button>
 
             <button type="button" class="category-item" id="btnAllCategory" onclick="openModal()">
-                <div class="category-icon">⣿</div>전체보기
+                <div class="category-icon">☰</div>전체보기
             </button>
         </div>
     </div>
@@ -425,7 +425,7 @@
 
     <div class="container main-page">
         <div class="section-title-space">
-            <div class="section-title">최신 레시피 후기 </div>
+            <div class="section-title">최신 레시피 후기 </div> 
             <%-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 --%>
             <a href="#" class="more-btn">더보기 &gt;</a>
         </div>
@@ -533,6 +533,8 @@
                 </div>
             </div>
         </div>
+
+        
 
         <div class="footer-container">
             <div class="footer-bottom-row">
