@@ -7,8 +7,8 @@ import com.project.foodsite.vo.NoticeVO;
 
 public interface NoticeDAO {
     //전체공지
-    List<NoticeVO> selectList(int start, int pageSize);
-    int notice_count();
+    List<NoticeVO> selectList(int start, int pageSize, String search_text);
+    int notice_count(String search_text);
     //공지상세정보
     NoticeVO noticeView(int notice_id);
     // 조회 기록 추가

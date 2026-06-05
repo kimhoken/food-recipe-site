@@ -1,94 +1,235 @@
 body {
     margin: 0;
-    background: #faf8f3;
+    background: #f8f5ee;
     font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    color: #2f2f2f;
 }
 
 .notice-wrap {
-    width: 88%;
+    width: 100%;
     margin: 0 auto 80px;
-    padding-top: 20px;
 }
 
+/* 제목 영역 */
 .notice-title {
-    height: 190px;
-    padding-left: 35px;
+    width: 78%;
+    height: 150px;
+    margin: 0 auto;
+    padding-top: 32px;
+    text-align: center;
+}
+
+.notice-label {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 999px;
+    background: #efe7d8;
+    color: #7a6f5c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    margin-bottom: 8px;
 }
 
 .notice-title h2 {
     margin: 0;
-    padding-top: 18px;
-    margin-left: 50px;
-    font-size: 42px;
+    font-size: 40px;
     font-weight: 800;
+    letter-spacing: -1.4px;
+    color: #2f2b25;
 }
 
-.notice-title h2::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 42px;
-    background: #4f7f3a;
-    border-radius: 10px;
-    margin-right: 24px;
-    vertical-align: middle;
+
+/* 게시판 전체 박스 */
+.notice-content {
+    width: 78%;
+    margin: -5px auto 0;
+    padding: 28px 36px 34px;
+    background: #fffdf8;
+    border: 1px solid #eee7dc;
+    border-radius: 24px;
+    box-shadow: 0 14px 38px rgba(84, 70, 50, 0.08);
 }
 
-.notice-title p {
-    margin: 15px 0 0 35px;
-    font-size: 18px;
-    margin-left: 70px;
-    line-height: 1.7;
+/* 검색창 */
+.notice-top {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 22px;
 }
 
-table {
-    width: 90%;
-    margin: -20px auto 0 auto;
+.notice-search-box form {
+    width: 360px;
+    height: 44px;
+    padding: 0 16px 0 20px;
+    border: 1px solid #e2d8c9;
+    border-radius: 999px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.notice-search-box input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #333;
+}
+
+.notice-search-box input::placeholder {
+    color: #aaa096;
+}
+
+.notice-search-box button {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* 테이블 박스 */
+.table-radius-box {
+    overflow: hidden;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #eee8de;
+}
+
+/* 테이블 */
+.notice-table {
+    width: 100%;
     border-collapse: collapse;
     background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+}
+
+.notice-table th {
+    height: 54px;
+    background: #f1ece3;
+    color: #2f2f2f;
+    font-size: 15px;
+    font-weight: 700;
     border: none;
 }
 
-th {
-    height: 50px;
-    background: #f3f0eb;
-    font-size: 16px;
-}
-
-td {
-    height: 48px;
+.notice-table td {
+    height: 60px;
+    border: none;
     border-bottom: 1px solid #eee;
     text-align: center;
-    font-size: 15px;
+    font-size: 14px;
+    color: #333;
 }
 
-td a {
-    color: #222;
+.notice-table th:nth-child(1),
+.notice-table td:nth-child(1) {
+    width: 9%;
+}
+
+.notice-table th:nth-child(2),
+.notice-table td:nth-child(2) {
+    width: 49%;
+}
+
+.notice-table th:nth-child(3),
+.notice-table td:nth-child(3) {
+    width: 13%;
+}
+
+.notice-table th:nth-child(4),
+.notice-table td:nth-child(4) {
+    width: 16%;
+}
+
+.notice-table th:nth-child(5),
+.notice-table td:nth-child(5) {
+    width: 13%;
+}
+
+.notice-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 28px;
+}
+
+.notice-table a {
+    color: #2f2f2f;
     text-decoration: none;
 }
 
-td a:hover {
-    color: #4f7f3a;
+.notice-table a:hover {
+    color: #6f7f55;
     font-weight: 600;
 }
 
-td:nth-child(2) {
-    text-align: left;
-    padding-left: 25px;
+.no-result {
+    height: 130px !important;
+    color: #9b948b !important;
+    font-size: 15px !important;
 }
 
-input[type="button"] {
-    margin-top: -25px;
-    padding: 11px 22px;
+/* 페이징 + 공지등록 */
+.paging-row td {
+    height: 76px;
+    border-bottom: none !important;
+}
+
+.paging-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+}
+
+.page-menu {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.notice-write-btn {
+    position: absolute;
+    right: 40px;
+    top: 6px;
+    padding: 12px 22px;
     border: none;
-    border-radius: 8px;
-    background: #4f7f3a;
-    color: white;
+    border-radius: 999px;
+    background: #6f7f55;
+    color: #fff;
+    font-size: 14px;
     cursor: pointer;
-    float: right;
-    margin-right: 74px;
-    margin-bottom: 12px;
+}
+
+.notice-write-btn:hover {
+    background: #5d6d47;
+}
+
+.paging-row a,
+.paging-row b,
+.paging-row strong,
+.paging-row span {
+    display: inline-block;
+    min-width: 34px;
+    height: 34px;
+    line-height: 34px;
+    margin: 0 4px;
+    border-radius: 50%;
+    color: #6d665d;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.paging-row a:hover {
+    background: #f1ece3;
+    color: #6f7f55;
+}
+
+.paging-row b,
+.paging-row strong,
+.paging-row .now {
+    background: #6f7f55;
+    color: #fff;
 }

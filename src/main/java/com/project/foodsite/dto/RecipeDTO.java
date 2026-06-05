@@ -35,6 +35,6 @@ public class RecipeDTO {
     private List<String> amountS;
     private List<String> seasoningUnit;
 
-    //조리순서
+    //조리순서(단계)
     private List<String> step; 
 }
