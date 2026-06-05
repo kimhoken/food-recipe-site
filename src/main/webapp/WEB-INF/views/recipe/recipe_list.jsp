@@ -12,6 +12,56 @@
 </head>
 <body>
 
+   <header>
+        <div class="header-top">
+            <div class="logo">
+                <a href="${pageContext.request.contextPath}/">
+                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
+                </a>
+            </div>
+            
+            <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
+                <div class="search-bar">
+                    <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                </div>
+            </form>
+            
+            <div class="user-menu">
+                <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
+                <c:if test="${empty user}">
+                    <a href="/login.do" class="menu-item" id="login">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그인</div>
+                    </a>
+                </c:if>
+                <c:if test="${!empty user}">
+                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>로그아웃</div>
+                    </a>
+                </c:if>
+                <%-- ------------------------------------------ --%>
+
+                <a href="/register_form.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/login.png">
+                    </span>
+                    <div>회원가입</div>
+                </a>
+                
+                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                    <span class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/images/mypage.png">
+                    </span>
+                    <div>마이페이지</div>
+                </a>
+            </div>
+        </div>
+
 <div class="recipe-container">
 
     <!-- 왼쪽 -->
