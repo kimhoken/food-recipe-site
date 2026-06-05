@@ -213,6 +213,7 @@
             <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                 <div class="search-bar">
                     <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                    <button type="submit">⌕</button>
                 </div>
             </form>
             
@@ -252,9 +253,8 @@
             </div>
         </div>
 
-        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
-            <li class="active">홈</li>
+            <li>홈</li>
             <li>
                 <a href="/recipe_list.do"> 레시피</a>
             </li>
