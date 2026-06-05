@@ -3,43 +3,33 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<c:if test="${empty sessionScope.user}">
-    <script>
-        alert("로그인후 이용해주세요.")
-        location.href="/login.do";
-    </script>
-</c:if>
-
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>오늘 뭐 먹지? - 냉장고 레시피 추천</title>
+        
+        <style>
+            /* 버튼을 담을 상자 크기 지정 */
+            .spline-toggle-box {
+                width: 100%;  /* 버튼 너비 (화면 보면서 원하는 대로 조절해!) */
+                height: 100%;  /* 버튼 높이 */
+                
+                /* 필요하다면 위치 조정을 위한 속성들 추가 */
+                display: inline-block;
+                /* position: absolute; top: 20px; right: 20px; 이런 식으로 쓸 수도 있어 */
+            }
+            
+            /* 3D 뷰어가 상자 크기에 딱 맞게 렌더링되도록 100%로 설정 */
+            .spline-toggle-box spline-viewer {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="/css/chatbot.css" />
         <script src="/js/chatbot.js"></script>
-        <script>
-            //로그아웃에 사용하는 함수
-            //html안에 넣어서 사용!!
-            const logout = () => {
-                if (confirm("로그아웃 하시겠습니까?")) {
-                    fetch("/logout.do", {
-                        method: "post",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            id: "${user.member_id}"
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.result == "success") {
-                            alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
-                        }
-                    })
-                }
-            }
-        </script>
+        <script type="module" src="/js/Toggle.js"></script>
+        <title>오늘 뭐먹지? - 이스터에그</title>
     </head>
     <body>
         <header>
@@ -94,54 +84,27 @@
 
             <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
             <ul class="nav-bar">
-                <li><a href="/main_list.do">홈</a></li>
+                <li class="active"><a href="/main_list.do">홈</a></li>
                 <li>레시피</li>
                 <li>카테고리</li>
                 <li>랭킹</li>
                 <li><a href="/list.do">커뮤니티</a></li>
-                <li class="active"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+                <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
                 <li>이벤트</li>
             </ul>
         </header>
 
-        <div class="container main-page">
-            <div class="section-title">
-                ${sessionScope.user.nickname}님을 위한 추천 레시피!
-                <p>이런 메뉴는 어떠신가요?</p>
-            </div>
-            <div class="recipe-grid">
-                <c:forEach var="recipe" items="${list}" varStatus="status">
-                    <div class="recipe-card">
-                        <%-- /recipe_detail.do?id=${recipe.recipe_id} --%>
-                        <a href="#">
-                            <div class="recipe-img">
-                                <%-- 실제 이미지가 들어갈 때 주석 해제하고 사용해 --%>
-                                <%-- <img src="/upload/images/${recipe.thumbnail}" alt="레시피 썸네일 이미지"> --%>
-                            </div>
-
-                            <%-- 순위 뱃지 적용 --%>
-                            <div class="rank-badge">${status.index + 1}</div>
-                            <div class="recipe-info">
-                                <div class="recipe-name">${recipe.title}</div>
-                                <div class="recipe-author">👤 ${recipe.nickname}</div>
-                                <div class="recipe-meta">
-                                    <span class="star-rating">★ 4.8</span>
-                                    <span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-
+        <canvas id="canvas3d"></canvas>
+        
+        <!-- 챗봇 -->
+        <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
         <footer>
             <div class="footer-container">
                 <div class="footer-top-row">
                     <div class="cs-section">
                         <h3>고객센터</h3>
                         <div class="cs-buttons">
-                            <div class="cs-btn">📞 1833-8307</div>
+                            <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
                             <div class="cs-btn">💬 1:1문의하기</div>
                         </div>
                         <div class="hours-info">
@@ -196,9 +159,5 @@
                 </div>
             </div>
         </footer>
-
-        <!-- 챗봇 -->
-        <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
-
     </body>
 </html>

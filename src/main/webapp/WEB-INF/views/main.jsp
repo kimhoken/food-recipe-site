@@ -9,31 +9,33 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
     <link rel="stylesheet" href="/css/chatbot.css" />
+
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
- /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
-    // 선택한 카테고리들 열기
-    function selectCategory(category){
-        // location.href = "/recipe/list?category=" + category;
-    }
+        /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+        // 선택한 카테고리들 열기
+        function selectCategory(category){
+            //location.href = "/recipe/list?category=" + category;
+        }
 
-    // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
-    function openModal(){
-        document.getElementById("categoryModal").style.display = 'flex';
-        sideTabCategory('상황별추천'); 
-    }
+        // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
+        function openModal(){
+            document.getElementById("categoryModal").style.display = 'flex';
+            sideTabCategory('상황별추천'); 
+        }
 
-    // 전체보기 모달 닫기
-    function closeModal(){
-        document.getElementById("categoryModal").style.display = 'none';
-    }
+        // 전체보기 모달 닫기
+        function closeModal(){
+            document.getElementById("categoryModal").style.display = 'none';
+        }
 
-    // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
-     function closeModalOnOutside(event) {
-        const modal = document.getElementById("categoryModal");
-        if (event.target === modal) {
-            closeModal();
+        // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
+        function closeModalOnOutside(event) {
+            const modal = document.getElementById("categoryModal");
+            if (event.target === modal) {
+                closeModal();
+            }
         }
     }
 
@@ -59,12 +61,11 @@
             fetch('/category.do?category=' + category)
                 .then(res => res.json())
                 .then(data => {
-                    var list = data.catList;
-                    var html = ""; 
+                    let list = data.catList;
+                    let html = ""; 
 
-                    for (var i = 0; i < list.length; i++) {
+                    for (var i = 0; i < list.length ; i++) {
                         html += "<div class='menu-group'>";
-                        
                         // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
                         html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
                         html += "    <ul>";
@@ -134,10 +135,10 @@
             return outputArray;
         }
 
+        const member_id = '${sessionScope.user.member_id}';
         // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
+        if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null ) {
             window.addEventListener('load', function() {
-                // sw.js 파일 경로를 프로젝트 구조에 맞게 잘 지정해줘야 해!
                 navigator.serviceWorker.register('/js/alarm.js')
                 .then(function(registration) {
                     console.log('서비스 워커 등록 성공:', registration);
@@ -199,7 +200,6 @@
         }
         
     </script>
-
 </head>
 <body>
     <header>
@@ -265,7 +265,7 @@
             <li>이벤트</li>
         </ul>
     </header>
-
+    
     <!-- 메인 배너 -->
     <div class="main-banner-container">
         <div class="max-container">
@@ -503,7 +503,7 @@
                 <div class="cs-section">
                     <h3>고객센터</h3>
                     <div class="cs-buttons">
-                        <div class="cs-btn">📞 1833-8307</div>
+                        <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
                         <div class="cs-btn">💬 1:1문의하기</div>
                     </div>
                     <div class="hours-info">
@@ -561,32 +561,32 @@
         </div>
     </footer>
 
+
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
     <!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
     <div id="categoryModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
-    <div class="modal-content">
-        <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
-        
-        <div class="modal-body">
-            <div class="modal-sidebar" onclick="handleSidebarClick(event)">
-                <div class="sidebar-item active" data-cat="상황별추천">⭐ 상황별 추천</div>
-                <div class="sidebar-item" data-cat="한식">🍚 한식</div>
-                <div class="sidebar-item" data-cat="양식">🍝 양식</div>
-                <div class="sidebar-item" data-cat="중식">🍳 중식</div>
-                <div class="sidebar-item" data-cat="일식">🍣 일식</div>
-                <div class="sidebar-item" data-cat="아시안">🌏 아시안</div>
-                <div class="sidebar-item" data-cat="건강식/다이어트">🥗 건강식/다이어트</div>
-                <div class="sidebar-item" data-cat="초간단요리">⏱️ 초간단요리</div>
-                <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
-                <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>
-                <div class="sidebar-item" data-cat="음료/차">☕ 음료/차</div>
-            </div>  
+        <div class="modal-content">
+            <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
+            
+            <div class="modal-body">
+                <div class="modal-sidebar" onclick="handleSidebarClick(event)">
+                    <div class="sidebar-item active" data-cat="상황별추천">⭐ 상황별 추천</div>
+                    <div class="sidebar-item" data-cat="한식">🍚 한식</div>
+                    <div class="sidebar-item" data-cat="양식">🍝 양식</div>
+                    <div class="sidebar-item" data-cat="중식">🍳 중식</div>
+                    <div class="sidebar-item" data-cat="일식">🍣 일식</div>
+                    <div class="sidebar-item" data-cat="아시안">🌏 아시안</div>
+                    <div class="sidebar-item" data-cat="건강식/다이어트">🌿 건강식/다이어트</div>
+                    <div class="sidebar-item" data-cat="초간단요리">⏱️ 초간단요리</div>
+                    <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
+                    <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>
+                    <div class="sidebar-item" data-cat="음료/차">☕ 음료/차</div>
+                </div>
                 
                 <div class="modal-main">
-                <div id="modalCategoryBody" class="category-grid-wrapper"></div>
-                    
+                    <div id="modalCategoryBody" class="category-grid-wrapper"></div>
                 </div>
                 
                 <div class="modal-banner-side">
