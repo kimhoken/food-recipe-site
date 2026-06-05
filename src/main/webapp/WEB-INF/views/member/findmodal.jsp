@@ -39,7 +39,7 @@
                         .then(res => res.json())
                         .then(data => {
                             alert("인증번호가 발송되었습니다.");
-                            authNumber.style.display = "inline-block";
+                            authNumber.style.display = "block";
                             email_authnumer = data.authNumber;
 
                         })
@@ -85,6 +85,7 @@
 
                 //이메일 유효성 검사
                 function check() {
+                    
                     let email = document.getElementById("email").value;
                     let email_msg = document.getElementById("email_msg");
                     let email_send = document.getElementById("email_send");
@@ -173,8 +174,8 @@
 
                 function openModal(val, btn) {
 
-                    document.querySelectorAll(".tab-btn").forEach(e => e.classList.remove("active"));
-                    btn.classList.add("active");
+                    // document.querySelectorAll(".tab-btn").forEach(e => e.classList.remove("active"));
+                    // btn.classList.add("active");
 
                     document.getElementById("findModal").style.display = "block";
 
@@ -189,7 +190,7 @@
                 }
 
                 function closeModal() {
-                    
+
                     document.getElementById("findModal").style.display = "none";
                 }
 
@@ -204,75 +205,93 @@
 
                     <input type="button" class="modal-class" value="X" onclick="closeModal()" />
 
-                    <div id="find-tab">
-                        <input type="button" class="tab-btn" onclick="openModal('id',this)" value="아이디 찾기" />
-    
-                        <input type="button" class="tab-btn" onclick="openModal('pwd',this)" value="비밀번호 찾기" />
-                    </div>
-                    
+                    <!-- <div id="find-tab">
+                        <input type="button" id ="tab-btn" class="tab-btn" onclick="openModal('id',this)" value="아이디 찾기" />
+
+                        <input type="button" id="tab-btn" class="tab-btn" onclick="openModal('pwd',this)" value="비밀번호 찾기" />
+                    </div> -->
+
                     <div id="id_find">
-                        <form>
-                            <table border="1" align="center">
-                                <caption>아이디 찾기</caption>
+                        <form class="find-form">
 
-                                <tr>
-                                    <th>이메일</th>
-                                    <td>
-                                        <input name="email" id="email" oninput="status('email'); check()">
-                                        <input id="email_send" type="button" value="인증번호 전송"
+                            <h3 class="find-title">아이디 찾기</h3>
+
+                            <div class="row">
+
+                                <div class="find-row">
+
+                                    <span class="find-label">이메일</span>
+
+                                    <div class="find-control">
+                                        <input name="email" id="email" class="find-input"
+                                            oninput="status('email'); check()">
+                                        <input id="email_send" class="find-sub-btn" type="button" value="인증번호 전송"
                                             onclick="mailcheck(this.form)" style="display: none;" />
-                                        <div id="email_msg">Ex) sample@naver.com</div>
-                                        
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <td>
-                                        <div id="authNumber" style="display: none;">
-                                            <input id="authnumber" type="number" placeholder="인증번호 6자리" maxlength="6" />
-                                            <input type="button" value="인증번호 확인" onclick="change_input()" />
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
 
-                                <tr>
-                                    <td colspan="2" align="center">
-                                        <input type="button" onclick="findid(this.form)" value="아이디 찾기" />
-                                    </td>
-                                </tr>
-                            </table>
+                                    <div id="msg">Ex) sample@naver.com</div>
+
+                                </div>
+
+                                <div id="authNumber" class="find-row" style="display: none;">
+
+                                    <span class="find-label">인증번호</span>
+
+                                    <div class="find-control">
+                                        <input id="authnumber" class="find-input" type="number" placeholder="인증번호 6자리"
+                                            maxlength="6" />
+                                        <input type="button" class="find-check-btn" value="인증번호 확인"
+                                            onclick="change_input()" />
+                                    </div>
+                                    <div id="email_msg"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <input id="find_id_btn" class="find-main-btn" type="button" onclick="findid(this.form)"
+                                    value="아이디 찾기" />
+                            </div>
+
                         </form>
                     </div>
 
                     <div id="pwd_find">
-                        <form>
-                            <table border="1" align="center">
-                                <caption>비밀번호 찾기</caption>
-                                <tr>
-                                    <th>아이디</th>
-                                    <td>
-                                        <input name="login_id" id="id" oninput="status('id'); check_id()"
+                        <form class="find-form">
+
+                            <h3 class="find-title">비밀번호 찾기</h3>
+
+                            <div class="row">
+
+                                <div class="find-row">
+                                    <span class="find-label">아이디</span>
+    
+                                    <div class="find-control">
+                                        <input class="find-input" name="login_id" id="id" oninput="status('id'); check_id()"
                                             placeholder="아이디 입력하세요" />
-                                        <div id="id_msg"></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>이메일</th>
-                                    <td>
-                                        <input placeholder="이메일 입력" name="email" id="email"
+                                    </div>
+    
+                                    <div class="find-msg" id="id_msg"></div>
+                                </div>
+    
+    
+                                <div class="find-row">
+                                    <span class="find-label">이메일</span>
+    
+                                    <div class="find-control">
+                                        <input class="find-input" placeholder="이메일 입력" name="email" id="email"
                                             oninput="status('email'); check()" />
-                                        <div id="email_msg"></div>
-                                    </td>
-                                </tr>
+                                    </div>
+    
+                                    <div class="find-msg" id="email_msg"></div>
+                                </div>
 
-                                <tr>
-                                    <td colspan="2" align="center">
-                                        <input type="button" value="비밀번호 찾기" onclick="resetpwd(this.form)" />
-                                    </td>
-                                </tr>
+                            </div>
 
-                            </table>
+
+                            <input id="find_pwd_btn" class="find-main-btn" type="button" value="비밀번호 찾기"
+                                onclick="resetpwd(this.form)" />
+
+
                         </form>
                     </div>
                 </div>
