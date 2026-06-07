@@ -199,7 +199,7 @@
                     
                     <div class="footer-logo-area">
                         <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
-                    </div>
+                    </div> 
                 </div>
             </div>
     </footer>

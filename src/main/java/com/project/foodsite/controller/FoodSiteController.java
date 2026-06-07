@@ -49,6 +49,11 @@ public class FoodSiteController {
         session.setAttribute("user", vo);
         return "redirect:/main_list.do";
     }
+
+    @GetMapping("/hidden.do")
+    public String hidden(){
+        return "fridge/hidden";
+    }
     
 
 }

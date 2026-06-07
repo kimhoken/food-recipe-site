@@ -18,7 +18,7 @@ public class Recommand {
     * 1. 전체 공개 상태인 레시피 중 무작위로 카드 UI 형태로 추출하여 메인에 노출한다.   -> 대충 레시피중에 몇개 뽑기 --> 완료
     * 2. 사용자들이 작성한 최신 후기나 평점 높은 후기를 메인 화면에 슬라이더 형태로 보여준다.   -> 작성날짜가 최신인걸로 뽑기
     * 3. 최근에 추가된 레시피를 기준으로 정렬해 최신 레시피를 제공  -> 이거도 작성날짜/수정날짜가 최신인걸로 뽑기(desc로)
-    * 4. 레시피중에서 랜덤으로 골라서 추천한다.     -> 랜덤으로 뽑기 --> 완료
+    * 4. 레시피중에서 랜덤으로 골라서 추천한다.             -> 랜덤으로 뽑기 --> 완료
     * 5. 조회수를 기준으로 조회수가 높은 레시피를 추천한다. -> 조회수 기준으로 레시피 뽑기
 
     /*
@@ -138,16 +138,11 @@ public class Recommand {
             List<RecipeVO> list = recipeDAO.selectAny(ingredient);
             int score = getScore(item.getExpire_date());
 
-            //유통기한이 2일 이하이면 30점, 일주일 이하면 20점, 그 외는 10점
-            int diff = score - now <= 2 ? 30 : score-now <= 7 ? 20 : 10;
+            //유통기한이 3일 이하이면 30점, 일주일 이하면 20점, 그 외는 10점
+            int diff = score - now <= 3 ? 30 : score-now <= 7 ? 20 : 10;
 
             for(RecipeVO recipe : list){
                 int recipeId = recipe.getRecipe_id();
-
-                //좋아요 수, 조회수도 점수에 반영
-                diff += recipe.getLike_count();
-                diff += recipe.getView_count();
-
                 //기존에 맵에 있는 레시피라면 점수만 추가하고 없는 레시피이면 점수 추가 후 맵에 추가
                 if(map.containsKey(recipeId)){
                     map.get(recipeId).addScore(diff);
@@ -163,13 +158,19 @@ public class Recommand {
 
         //점수 높은 순으로 정렬
         Collections.sort(recipeList, (e1, e2) -> {
+            //점수가 같으면 조회수가 높은 순으로 정렬
+            if(e1.getScore() == e2.getScore()){
+                //조회수가 같으면 좋아요가 높은 순으로 정렬
+                if(e1.getLike_count() == e2.getLike_count())
+                    return e2.getLike_count() - e1.getLike_count();
+                return e2.getView_count() - e1.getView_count();
+            }
             return e2.getScore() - e1.getScore();
         });
 
         System.out.println("------------------------레시피 불러오기 성공------------------------");
-        System.out.println("------------------------갯수: " + recipeList.size() + "-------------------------------------");
         
-        //점수가 높은 레시피 5개 추천 5개 보다 적으면 그거까지만 추천
+        //점수가 높은 레시피 10개 추천 10개 보다 적으면 그거까지만 추천
         return recipeList.subList(0, Math.min(10, recipeList.size()));
     }//RecipeVO
 

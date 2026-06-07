@@ -3,66 +3,76 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
-    <html>
-    <head>
-            <script>
-                function deleteNotice() {
-                    if (confirm("삭제하시겠습니까?")) {
-                        location.href = "notice_delete.do?notice_id=${notice.notice_id}";
-                    }
-                }
-            </script>
-    </head>
-    
-    <body>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/notice_detail.css">
 
-        <table border="1">
-            <tr>
-                <th></th>
-                <td>${notice.notice_id}</td>
-            </tr>
+    <script>
+        function deleteNotice() {
+            if (confirm("삭제하시겠습니까?")) {
+                location.href = "notice_delete.do?notice_id=${notice.notice_id}";
+            }
+        }
+    </script>
+</head>
 
-            <tr>
-                <th>제목</th>
-                <td>${notice.title}</td>
-            </tr>
+<body>
+    <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
 
-            <tr>
-                <th>작성자</th>
-                <td>${notice.member_id}</td>
-            </tr>
+    <main class="notice-detail-page">
 
-            <tr>
-                <th>내용</th>
-                <td>
-                    <c:if test="${not empty img}">
-                        <img src="/upload/${img.image_list}" style="max-width: 200px; max-height: 200px;" />
-                        <br>
-                    </c:if>
+        <section class="detail-head">
+            <span>NOTICE DETAIL</span>
+            <h2>공지사항</h2>
+        </section>
 
-                    ${notice.content}
-                </td>
-            </tr>
+        <section class="detail-card">
 
-            <tr>
-                <th>작성일</th>
-                <td>
-                    <fmt:formatDate value="${notice.created_date}" pattern="yyyy-MM-dd HH:mm:ss" />
-                </td>
-            </tr>
+            <div class="detail-title-area">
+                <p class="detail-no">NO. ${notice.notice_id}</p>
+                <h3>${notice.title}</h3>
 
-            <tr>
-                <th>조회수</th>
-                <td>${notice.view_count}</td>
-            </tr>
-        </table>
+                <div class="detail-meta">
+                    <span>작성자 ${notice.member_id}</span>
+                    <span>
+                        <fmt:formatDate value="${notice.created_date}" pattern="yyyy-MM-dd HH:mm:ss" />
+                    </span>
+                    <span>조회수 ${notice.view_count}</span>
+                </div>
+            </div>
 
-        <c:if test="${sessionScope.user.role eq 'ADMIN'}">
-            <input type="button" value="수정" onclick="location.href='notice_update.do?notice_id=${notice.notice_id}'" />
-            <input type="button" value="삭제" onclick="deleteNotice()" />
-        </c:if>
+            <div class="detail-content">
+                <c:if test="${not empty img}">
+                    <div class="detail-img-box">
+                        <img src="/upload/${img.image_list}" />
+                    </div>
+                </c:if>
 
-        <input type="button" value="목록" onclick="history.back()" />
+                <p>${notice.content}</p>
+            </div>
 
-    </body>
+            <div class="detail-btn-area">
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                    <input type="button"
+                           class="edit-btn"
+                           value="수정"
+                           onclick="location.href='notice_update.do?notice_id=${notice.notice_id}'">
+
+                    <input type="button"
+                           class="delete-btn"
+                           value="삭제"
+                           onclick="deleteNotice()">
+                </c:if>
+
+                <input type="button"
+                       class="list-btn"
+                       value="목록"
+                       onclick="location.href='notice.do'">
+            </div>
+
+        </section>
+
+    </main>
+</body>
 </html>

@@ -2,84 +2,91 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <!DOCTYPE html>
-<html>
-    <head>
-        <script>
-            function send(f) {
-                let title = f.title.value.trim();
-                let content = f.content.value.trim();
+<html lang="ko">
+<head>
 
-                if (title === "") {
-                    alert("공지사항 제목을 입력하세요.");
-                    f.title.focus();
-                    return;
-                }
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/notice_update.css">
 
-                if (content === "") {
-                    alert("공지사항 내용을 입력하세요.");
-                    f.content.focus();
-                    return;
-                }
+    <script>
+        function send(f) {
+            let title = f.title.value.trim();
+            let content = f.content.value.trim();
 
-                f.submit();
+            if (title === "") {
+                alert("공지사항 제목을 입력하세요.");
+                f.title.focus();
+                return;
             }
 
-            function deleteImg() {
-                let image_div = document.getElementById("image_div");
-                let ori_img_id = document.getElementById("ori_img_id");
-
-                ori_img_id.value = "";
-                image_div.style.display = "none";
+            if (content === "") {
+                alert("공지사항 내용을 입력하세요.");
+                f.content.focus();
+                return;
             }
-        </script>
-    </head>
 
-    <body>
+            f.submit();
+        }
 
-        <form action="notice_update.do" method="post" enctype="multipart/form-data">
+        function deleteImg() {
+            let image_div = document.getElementById("image_div");
+            let ori_img_id = document.getElementById("ori_img_id");
 
-            <input type="hidden" name="notice_id" value="${notice.notice_id}"/>
+            ori_img_id.value = "";
+            image_div.style.display = "none";
+        }
+    </script>
+</head>
 
-            <input type="hidden" name="ori_img_id" value="${notice.img_id}" id="ori_img_id"/>
+<body>
+    <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
 
-            <table border="1">
-                <caption>공지사항 수정</caption>
+    <main class="notice-update-page">
 
-                <tr>
-                    <th>공지사항 제목</th>
-                    <td>
-                        <input type="text" name="title" value="${notice.title}">
-                    </td>
-                </tr>
+        <section class="update-head">
+            <span>NOTICE EDIT</span>
+            <h2>공지사항 수정</h2>
+        </section>
 
-                <tr>
-                    <th>공지사항 내용</th>
-                    <td>
-                        <textarea name="content" rows="10" cols="50">${notice.content}</textarea>
-                    </td>
-                </tr>
+        <section class="update-card">
+            <form action="notice_update.do" method="post" enctype="multipart/form-data">
 
-                <tr>
-                    <td>
-                        <c:if test="${not empty img}">
-                            <div id="image_div">
-                                <img src="/upload/${img.image_list}" width="100"/>
-                                <input type="button" value="X" onclick="deleteImg()"/>
-                            </div>
-                        </c:if>
+                <input type="hidden" name="notice_id" value="${notice.notice_id}">
+                <input type="hidden" name="ori_img_id" value="${notice.img_id}" id="ori_img_id">
 
-                        <input type="file" name="images"/>
-                    </td>
-                </tr>
+                <div class="form-group">
+                    <label>제목</label>
+                    <input type="text" name="title" value="${notice.title}">
+                </div>
 
-                <tr>
-                    <td>
-                        <input type="button" value="수정완료" onclick="send(this.form)"/>
-                        <input type="button" value="뒤로가기" onclick="history.back()"/>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                <div class="form-group">
+                    <label>내용</label>
+                    <textarea name="content">${notice.content}</textarea>
+                </div>
 
-    </body>
+                <div class="form-group">
+                    <label>이미지</label>
+
+                    <c:if test="${not empty img}">
+                        <div id="image_div" class="current-img-box">
+                            <img src="/upload/${img.image_list}">
+                            <button type="button" onclick="deleteImg()">이미지 삭제</button>
+                        </div>
+                    </c:if>
+
+                    <div class="file-box">
+                        <input type="file" name="images">
+                    </div>
+                </div>
+
+                <div class="btn-area">
+                    <button type="button" class="submit-btn" onclick="send(this.form)">수정완료</button>
+                    <button type="button" class="back-btn" onclick="history.back()">뒤로가기</button>
+                </div>
+
+            </form>
+        </section>
+
+    </main>
+</body>
 </html>
