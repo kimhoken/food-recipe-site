@@ -13,26 +13,7 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
- /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
-   
-    
 
-        // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
-        function openModal(){
-            document.getElementById("categoryModal").style.display = 'flex';
-            sideTabCategory('상황별추천'); 
-        }
-
-    // 전체보기 모달 닫기
-    function closeModal(){
-        document.getElementById("categoryModal").style.display = 'none';
-    }
-
-    // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
-     function closeModalOnOutside(event) {
-        const modal = document.getElementById("categoryModal");
-        if (event.target === modal) {
-            closeModal();
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
         // 선택한 카테고리들 열기
         function selectCategory(category){
