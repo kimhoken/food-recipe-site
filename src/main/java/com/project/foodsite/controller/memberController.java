@@ -144,10 +144,7 @@ public class memberController {
         }
 
         String filename = "no_file";
-
-        if(vo.getLogin_id() == null && vo.getPassword() == null){
-            vo.setProvider(filename);
-        }
+       
 
         vo.setFilename(filename);
         vo.setRole("USER");

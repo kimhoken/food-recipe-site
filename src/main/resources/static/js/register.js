@@ -12,7 +12,7 @@ let nickname_vailed = true;
             let names = document.getElementById("name");
 
             if(email != null){              
-                emails.readOnly = true;  
+                emails.readOnly = false;  
                 emails.value = email; 
                 email_vailed = true;
                 id_vailed = true;

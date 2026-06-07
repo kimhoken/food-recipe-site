@@ -109,12 +109,12 @@
                                         <span>네이버로 로그인</span>
                                     </button>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/kakao'">
                                         <img src="images/kakao.png" />
                                         <span>카카오로 로그인</span>
                                     </button>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/google'">
                                         <img src="images/google.png" />
                                         <span>구글로 로그인</span>
                                     </button>

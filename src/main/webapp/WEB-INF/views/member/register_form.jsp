@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/register_from.css"/>
         <script>            
+            console.log('${socialUser.provider}');
+            console.log('${socialUser.provider_id}');
+
             const nickname = '${nickname}';
             const name = '${socialUser.name}';
             const email = '${socialUser.email}';            
@@ -22,7 +25,7 @@
 
         
        <form class = "join-form">   
-            <c:if test="{not empty socialUser}">
+            <c:if test="${not empty socialUser}">
                 <input type="hidden" value="${socialUser.provider}" name="provider"/>
                 <input type="hidden" value="${socialUser.provider_id}" name="provider_id"/>
             </c:if> 
