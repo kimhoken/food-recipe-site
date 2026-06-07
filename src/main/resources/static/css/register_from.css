@@ -167,6 +167,7 @@ body{
 
 .join-table td{
     padding:10px 0;
+    position:relative;
 }
 
 
@@ -215,8 +216,6 @@ body{
 
     margin-bottom:8px;
 }
-
-
 
 
 /* 인증 버튼 */
@@ -297,4 +296,34 @@ body{
 
 .cancel-btn:hover{
     background:#F5F3ED;
+}
+
+.pwd-wrap{
+    position:relative;
+    width:60%;
+}
+
+.pwd-wrap .input-box{
+    width:100%;
+    padding-right:45px;
+}
+
+.toggle{
+    position:absolute;
+    top:35%;
+    right:240px;
+    transform:translateY(-50%);
+    width:24px;
+    height:24px;
+    padding:0;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    z-index:999;
+}
+
+.toggle img{
+    width:22px;
+    height:22px;
+    display:block;
 }

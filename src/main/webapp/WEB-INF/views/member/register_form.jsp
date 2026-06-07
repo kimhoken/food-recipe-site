@@ -9,9 +9,7 @@
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/register_from.css"/>
         <script>            
-            console.log('${socialUser.provider}');
-            console.log('${socialUser.provider_id}');
-
+            
             const nickname = '${nickname}';
             const name = '${socialUser.name}';
             const email = '${socialUser.email}';            
@@ -20,10 +18,7 @@
         <script src="/js/register.js"></script>
     </head>
 
-    <body>
-      
-
-        
+    <body>        
        <form class = "join-form">   
             <c:if test="${not empty socialUser}">
                 <input type="hidden" value="${socialUser.provider}" name="provider"/>
@@ -57,7 +52,8 @@
                         <img src="/images/bowl.png"/>
                     </div>
                 </div>
-                
+
+                <!-- 오른쪽 회원가입 영역 -->
                 <div class="join-right">
 
                     <h2 class="join-title">회원가입</h2>
@@ -91,9 +87,21 @@
                             <tr>
                                 <th>비밀번호</th>
                                 <td>
-                                    <input name="password" type="password" id="pwd" 
-                                    placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
-                                    class="input-box"/>
+                                    
+                                    <div class="pwd-warp">
+                                        <input name="password" type="password" id="pwd" 
+                                        placeholder="비밀번호 입력하세요" onchange="pwd_checks()"
+                                        class="input-box"/>
+    
+                                        <button type="button" id="visual" class="toggle" onclick="viewpwd()">
+                                                <img src="/images/visibility.png"/>
+                                            </button>
+    
+                                        <button type="button" id="unvisual" class="toggle" onclick="viewpwd()">
+                                                <img src="/images/unvisibility.png"/>
+                                            </button>
+                                    </div>
+
                                     <div id="pwd_msg" class="msg-space"></div>
                                 </td>
                             </tr>

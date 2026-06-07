@@ -3,6 +3,7 @@ let pwd_vailed = true;
 let email_vailed = false;
 let nickname_vailed = true;
 
+
  window.onload = function () {
 
             let nicknames = document.getElementById("nickname");
@@ -21,6 +22,8 @@ let nickname_vailed = true;
             if(names != null){
                 names.value = name; 
             }
+            let unvisual = document.getElementById("unvisual");
+            unvisual.style.display = "none";
         }
 
 
@@ -225,4 +228,22 @@ function nick() {
             }
         })
 
+}
+
+
+function viewpwd() {
+
+    let pwd = document.getElementById("pwd");
+    let visual = document.getElementById("visual");
+    let unvisual = document.getElementById("unvisual");
+
+    if (pwd.type === "password") {
+        pwd.type = "text";
+        visual.style.display = "none";
+        unvisual.style.display = "block";
+    } else {
+        pwd.type = "password";
+        visual.style.display = "block";
+        unvisual.style.display = "none";
+    }
 }

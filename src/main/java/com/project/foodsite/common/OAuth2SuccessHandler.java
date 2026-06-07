@@ -22,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final MemberDAO memberDAO;
-
+    
+    // 소셜 로그인 성공 시 처리할 로직 구현
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
             HttpServletResponse response,
@@ -70,6 +71,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     }
 
+    // 네이버 사용자 정보 추출
     private MemberVO getNaverUser(Map<String, Object> attributes) {
 
         Map<String, Object> naver = (Map<String, Object>) attributes.get("response");
@@ -87,6 +89,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     }
 
+    // 카카오 사용자 정보 추출
     private MemberVO getKakaoUser(Map<String,Object> attributes) {
 
         Map<String,Object> kakao = (Map<String, Object>) attributes.get("kakao_account");
@@ -104,6 +107,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         return vo;
     }
 
+    // 구글 사용자 정보 추출
     private MemberVO getGoogleUser(Map<String, Object> attributes) {
 
         MemberVO vo = new MemberVO();

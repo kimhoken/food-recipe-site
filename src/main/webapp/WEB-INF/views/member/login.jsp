@@ -44,6 +44,24 @@
                         }
                     })
             }
+
+            function viewpwd() {
+
+                let pwd = document.getElementById("pwd");
+                let visual = document.getElementById("visual");
+                let unvisual = document.getElementById("unvisual");
+
+                if (pwd.type === "password") {
+                    pwd.type = "text";
+                    visual.style.display = "none";
+                    unvisual.style.display = "block";
+                } else {
+                    pwd.type = "password";
+                    visual.style.display = "block";
+                    unvisual.style.display = "none";
+                }
+            }
+
             
         </script>
     </head>
@@ -75,7 +93,19 @@
 
                             <tr>
                                 <td>
-                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요" />
+                                    <div class="pwd-warp">
+
+                                        <input type="password" name="password" id="pwd" placeholder="비밀번호를 입력하세요" />
+    
+                                        <button type="button" id="visual" class="toggle" onclick="viewpwd()">
+                                            <img src="/images/visibility.png"/>
+                                        </button>
+        
+                                        <button type="button" id="unvisual" class="toggle" onclick="viewpwd()">
+                                            <img src="/images/unvisibility.png"/>
+                                        </button>
+
+                                    </div>
                                 </td>
                             </tr>
 
