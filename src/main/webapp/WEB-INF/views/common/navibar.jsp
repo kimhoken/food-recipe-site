@@ -2,6 +2,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+<script>
+    const logout = ()=>{
+            if(confirm("로그아웃 하시겠습니까?")){ 
+                fetch("/logout.do", {
+                    method: "post",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
+            }
+        }
+</script>
+
 
 <header>
     <div class="header-top">

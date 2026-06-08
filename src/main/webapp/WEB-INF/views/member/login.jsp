@@ -44,6 +44,24 @@
                         }
                     })
             }
+
+            function viewpwd() {
+
+                let pwd = document.getElementById("pwd");
+                let visual = document.getElementById("visual");
+                let unvisual = document.getElementById("unvisual");
+
+                if (pwd.type === "password") {
+                    pwd.type = "text";
+                    visual.style.display = "none";
+                    unvisual.style.display = "block";
+                } else {
+                    pwd.type = "password";
+                    visual.style.display = "block";
+                    unvisual.style.display = "none";
+                }
+            }
+
             
         </script>
     </head>
@@ -75,7 +93,19 @@
 
                             <tr>
                                 <td>
-                                    <input type="password" name="password" placeholder="비밀번호를 입력하세요" />
+                                    <div class="pwd-warp">
+
+                                        <input type="password" name="password" id="pwd" placeholder="비밀번호를 입력하세요" />
+    
+                                        <button type="button" id="visual" class="toggle" onclick="viewpwd()">
+                                            <img src="/images/visibility.png"/>
+                                        </button>
+        
+                                        <button type="button" id="unvisual" class="toggle" onclick="viewpwd()">
+                                            <img src="/images/unvisibility.png"/>
+                                        </button>
+
+                                    </div>
                                 </td>
                             </tr>
 
@@ -104,17 +134,17 @@
                                         <div class="line"></div>
                                     </div>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/naver'">
                                         <img src="images/naver.png" />
                                         <span>네이버로 로그인</span>
                                     </button>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/kakao'">
                                         <img src="images/kakao.png" />
                                         <span>카카오로 로그인</span>
                                     </button>
 
-                                    <button type="button" class="social-btn" type="button" onclick="">
+                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/google'">
                                         <img src="images/google.png" />
                                         <span>구글로 로그인</span>
                                     </button>

@@ -13,6 +13,7 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
+
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
         // 선택한 카테고리들 열기
         function selectCategory(category){

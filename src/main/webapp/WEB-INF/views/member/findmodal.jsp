@@ -214,6 +214,8 @@
                     <div id="id_find">
                         <form class="find-form">
 
+                            <img src="/images/identity-card.png" class="find-img" />
+
                             <h3 class="find-title">아이디 찾기</h3>
 
                             <div class="row">
@@ -257,6 +259,7 @@
 
                     <div id="pwd_find">
                         <form class="find-form">
+                            <img src="/images/padlock.png" class="find-img" />
 
                             <h3 class="find-title">비밀번호 찾기</h3>
 
@@ -264,7 +267,6 @@
 
                                 <div class="find-row">
                                     <span class="find-label">아이디</span>
-    
                                     <div class="find-control">
                                         <input class="find-input" name="login_id" id="id" oninput="status('id'); check_id()"
                                             placeholder="아이디 입력하세요" />
