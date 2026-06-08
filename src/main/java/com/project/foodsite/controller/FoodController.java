@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.CategoryDAO;
-import com.project.foodsite.dao.FoodDAO;
 import com.project.foodsite.vo.CategoryVO;
 import com.project.foodsite.vo.FoodVO;
 
@@ -20,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class FoodController {
 
     private final CategoryDAO categoryDao;
-    private final FoodDAO foodDao;
 
     @GetMapping("/category.do")
     @ResponseBody
@@ -31,7 +29,8 @@ public class FoodController {
         List<CategoryVO> catList = categoryDao.getCategoryList(category);
 
         //대분류에 속하는 음식 리스트 조회
-        List<FoodVO> foodList = foodDao.foodListCategory(category);
+        // List<FoodVO> foodList = foodDao.foodListCategory(category);
+        List<FoodVO> foodList = categoryDao.foodListCategory(category);
 
         map.put("catList", catList);
         map.put("foodList", foodList);
