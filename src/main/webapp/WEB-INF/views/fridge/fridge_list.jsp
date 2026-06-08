@@ -44,8 +44,8 @@
             const quantity = prompt("수량:");
             if(quantity === null) return; // 취소 클릭 시
             
-            const url = "/modity.do";
-            const data = { firdge_id: fridge_id, quantity: quantity };
+            const url = "/modify.do";
+            const data = { fridge_id: fridge_id, quantity: quantity };
 
             fetch(url, {
                 method: "post",
@@ -176,7 +176,7 @@
                                         <div class="card-actions">
                                             <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
                                             <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        </div>
+                                        </div> 
                                     </div>
                                 </div>
                             </c:if>

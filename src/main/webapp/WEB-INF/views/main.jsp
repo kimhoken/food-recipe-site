@@ -70,11 +70,14 @@
                         // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
                         html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
                         html += "    <ul>";
-        
+                            
+                        
+
                         html += "        <li><a href='#'>김치찌개</a></li>";
                         html += "        <li><a href='#'>된장찌개</a></li>";
                         html += "        <li><a href='#'>미역국</a></li>";
                         html += "        <li><a href='#'>순두부찌개</a></li>";
+                        
                         html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
                         html += "    </ul>";
                         html += "</div>";
@@ -214,6 +217,7 @@
             <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                 <div class="search-bar">
                     <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                    <button type="submit">⌕</button>
                 </div>
             </form>
             
@@ -253,9 +257,8 @@
             </div>
         </div>
 
-        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
-            <li class="active">홈</li>
+            <li>홈</li>
             <li>
                 <a href="/recipe_list.do"> 레시피</a>
             </li>
