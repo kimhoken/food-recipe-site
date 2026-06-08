@@ -64,22 +64,21 @@
                     let list = data.catList;
                     let html = ""; 
 
-                    for (var i = 0; i < list.length ; i++) {
+                    for (var i = 0; i < list.length-4 ; i++) {
                         html += "<div class='menu-group'>";
                         // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
-                        html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
-                        html += "    <ul>";
-                            
+                        html += "<h3>" + list[i].subCategoryName + "</h3>"; 
+                        html += "<ul>";
                         
-
-                        html += "        <li><a href='#'>김치찌개</a></li>";
-                        html += "        <li><a href='#'>된장찌개</a></li>";
-                        html += "        <li><a href='#'>미역국</a></li>";
-                        html += "        <li><a href='#'>순두부찌개</a></li>";
+                        html += "<li><a href='#'>" + list[i].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+1].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+2].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+3].foodName + "</a></li>";
                         
-                        html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
-                        html += "    </ul>";
+                        html += "<li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
+                        html += "</ul>";
                         html += "</div>";
+                        i+=4;
                     }
 
                     document.getElementById("modalCategoryBody").innerHTML = html;

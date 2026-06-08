@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.foodsite.dao.RecipeDAO;
-import com.project.foodsite.dto.RecipeDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -24,8 +23,6 @@ public class RecipeController {
         List<RecipeVO> recipeList = recipeDao.selectRecipeList(searchDTO);
         model.addAttribute("recipeList", recipeList);
         return "recipe/recipe_list";
-    
-    
     }
 
     

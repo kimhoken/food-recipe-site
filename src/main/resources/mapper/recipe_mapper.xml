@@ -9,8 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 	
     <select id="selectOne" parameterType="int" resultType="recipe">
-        SELECT *, RANK() OVER(ORDER BY created_date DESC) as rank FROM recipe
-        WHERE rank = #{num}
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        WHERE recipe_id = #{num}
     </select>
     
     <select id="selectAll">
@@ -26,8 +27,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE i.ingredient_name LIKE #{pattern}
     </select>
 
-
     <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
-        SELECT * FROM recipe ORDER BY created_date DESC      
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY created_date DESC LIMIT 5    
     </select>
+
+    <select id="selectRecently" resultType="recipe">
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY created_date DESC LIMIT 5
+    </select>
+
+    <select id="selectViewCount" resultType="recipe" >
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY view_count DESC, like_count DESC LIMIT 5
+    </select>
+
 </mapper>
