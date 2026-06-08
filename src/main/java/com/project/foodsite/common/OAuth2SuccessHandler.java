@@ -47,8 +47,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             socialUser = getGoogleUser(attributes);
         }
 
-        System.out.println("provider = " + provider);
-        System.out.println("attributes = " + attributes);
+        
 
         if (socialUser == null) {
             response.sendRedirect("/login.do?error");
@@ -83,7 +82,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         vo.setEmail((String) naver.get("email"));
         vo.setName((String) naver.get("name"));
         vo.setNickname((String) naver.get("nickname"));
-        vo.setLogin_type("Social");
+        vo.setLogin_type("SOCIAL");
 
         return vo;
 
@@ -102,7 +101,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         vo.setProvider_id(String.valueOf(attributes.get("id")));
         vo.setEmail((String) kakao.get("email"));        
         vo.setNickname((String) profile.get("nickname"));
-        vo.setLogin_type("Social");
+        vo.setLogin_type("SOCIAL");
 
         return vo;
     }
@@ -117,7 +116,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         vo.setEmail((String) attributes.get("email"));
         vo.setName((String) attributes.get("name"));
         vo.setNickname((String) attributes.get("name"));
-        vo.setLogin_type("Social");
+        vo.setLogin_type("SOCIAL");
 
         return vo;
     }

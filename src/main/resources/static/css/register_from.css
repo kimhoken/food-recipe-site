@@ -28,6 +28,8 @@ body{
 .join-left{
     width:380px;
 
+    min-height: 680px;
+
     background:#FAF8F4;
 
     text-align:center;

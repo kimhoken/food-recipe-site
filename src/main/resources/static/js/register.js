@@ -4,27 +4,31 @@ let email_vailed = false;
 let nickname_vailed = true;
 
 
- window.onload = function () {
+window.onload = function () {
 
-            let nicknames = document.getElementById("nickname");
-            nicknames.value =  nickname;
+    let nicknames = document.getElementById("nickname");
+    nicknames.value = nickname;
 
-            let emails = document.getElementById("email");
-            let names = document.getElementById("name");
+    let emails = document.getElementById("email");
+    let names = document.getElementById("name");
+    let social_button = document.getElementById("soical_button");
+    let social_row = document.getElementById("soical_row");
 
-            if(email != null){              
-                emails.readOnly = false;  
-                emails.value = email; 
-                email_vailed = true;
-                id_vailed = true;
-            }
 
-            if(names != null){
-                names.value = name; 
-            }
-            let unvisual = document.getElementById("unvisual");
-            unvisual.style.display = "none";
-        }
+    if (provider != null && provider !== "") {
+        emails.readOnly = true;
+        emails.value = email;
+        email_vailed = true;
+        id_vailed = true;
+        names.value = name;
+        social_button.style.display = "none";
+        social_row.style.display = "none";
+    }
+
+
+    let unvisual = document.getElementById("unvisual");
+    unvisual.style.display = "none";
+}
 
 
 let email_authnumer;
@@ -133,7 +137,7 @@ function send(f) {
         return;
     }
 
-    let name = f.name.value;       
+    let name = f.name.value;
     let email = f.email.value;
 
     if (name == "") {
@@ -142,7 +146,7 @@ function send(f) {
         return;
     }
 
-    
+
 
     if (email == "") {
         alert("이메일을 입력하세요!!");

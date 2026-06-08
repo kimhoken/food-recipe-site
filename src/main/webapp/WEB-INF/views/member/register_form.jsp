@@ -12,7 +12,8 @@
             
             const nickname = '${nickname}';
             const name = '${socialUser.name}';
-            const email = '${socialUser.email}';            
+            const email = '${socialUser.email}';
+            const provider = '${socialUser.provider}';            
 
         </script>
         <script src="/js/register.js"></script>
@@ -23,6 +24,7 @@
             <c:if test="${not empty socialUser}">
                 <input type="hidden" value="${socialUser.provider}" name="provider"/>
                 <input type="hidden" value="${socialUser.provider_id}" name="provider_id"/>
+                <input type="hidden" value="${socialUser.login_type}" name="login_type"/>
             </c:if> 
             <div class="join-wrap">
 
@@ -122,10 +124,10 @@
                                     <td>
                                         <div class="email-row">
                                             <input name="email" id="email" class="input-box email-input" placeholder="이메일 입력하세요 Ex) example@sample.com"/>
-                                            <input type="button" value="본인인증" class="sub-btn" onclick="mailcheck(this.form)"/>
+                                            <input type="button" id="soical_button" value="본인인증" class="sub-btn" onclick="mailcheck(this.form)"/>
                                         </div>
                                         <div class="msg-space"></div>
-                                        <div class="email-row">
+                                        <div id="soical_row" class="email-row">
 
                                             <input id="authnumber" type="number" placeholder="인증번호 6자리" maxlength="6" class="input-box email-input"/>
                                             <input type="button" value="인증번호 확인" class="sub-btn" onclick="change_input()"/>

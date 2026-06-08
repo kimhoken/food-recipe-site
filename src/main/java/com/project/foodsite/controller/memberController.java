@@ -136,7 +136,10 @@ public class memberController {
     @ResponseBody
     public Map<String, Integer> register(MemberVO vo) throws Exception {
         
-
+        if(vo.getLogin_type() == null){
+            vo.setLogin_type("LOCAL");
+        }
+        
         if(vo.getPassword() != null && !vo.getPassword().isEmpty()){
             // 비밀번호 암호화
             String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
