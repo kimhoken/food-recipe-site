@@ -24,5 +24,10 @@ public class RecipeController {
         List<RecipeVO> recipeList = recipeDao.selectRecipeList(searchDTO);
         model.addAttribute("recipeList", recipeList);
         return "recipe/recipe_list";
+    
+    
     }
+
+    
+
 }

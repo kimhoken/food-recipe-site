@@ -1,5 +1,7 @@
 package com.project.foodsite.vo;
 
+import java.util.List;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 @Alias("category")
 public class CategoryVO {
     private int category_id,sort_order; // 카테고리번호, 출력순서
-    private String categoryName, subCategoryName; //대분류,소분류
+    private String categoryName, subCategoryName; //중분류,소분류
     
 }
