@@ -24,7 +24,10 @@ public class FoodController {
         //카테고리 리스트 안에 전부 넣어서 넘김
         List<CategoryVO> list = categoryDao.selectCategoryFood(category);
         map.put("catList", list);
+
+        //정렬순서를 사용한다면?
         
+
         // map.put("catList", catList);
         // map.put("foodList", foodList);
 

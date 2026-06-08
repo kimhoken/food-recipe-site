@@ -64,7 +64,7 @@
                     let list = data.catList;
                     let html = ""; 
 
-                    for (var i = 0; i < list.length-4 ; i++) {
+                    for (let i = 0; i < list.length-4 ; i+=4) {
                         html += "<div class='menu-group'>";
                         // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
                         html += "<h3>" + list[i].subCategoryName + "</h3>"; 
@@ -78,7 +78,6 @@
                         html += "<li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
                         html += "</ul>";
                         html += "</div>";
-                        i+=4;
                     }
 
                     document.getElementById("modalCategoryBody").innerHTML = html;
