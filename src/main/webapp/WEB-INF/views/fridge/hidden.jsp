@@ -43,6 +43,7 @@
                 <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                     <div class="search-bar">
                         <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                        <button type="submit">⌕</button>
                     </div>
                 </form>
 

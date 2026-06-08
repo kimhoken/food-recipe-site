@@ -1,8 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-
 <header>
     <div class="header-top">
         <div class="logo">
@@ -14,6 +12,7 @@
         <form action="${pageContext.request.contextPath}/search" method="get" class="search-bar-form">
             <div class="search-bar">
                 <input type="text" id="mainSearch" name="keyword" placeholder="재료, 요리명으로 검색해보세요!">
+                <button type="submit">⌕</button>
             </div>
         </form>
 
