@@ -19,9 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectAny" resultType="recipe" >
         <bind name="pattern" value="'%' + ingredient_name + '%'" />
-        SELECT DISTINCT r.*
+        SELECT DISTINCT r.*, m.nickname
         FROM recipe r
         JOIN ingredient i ON r.recipe_id = i.recipe_id
+        JOIN member m ON r.member_id = m.member_id
         WHERE i.ingredient_name LIKE #{pattern}
     </select>
 
