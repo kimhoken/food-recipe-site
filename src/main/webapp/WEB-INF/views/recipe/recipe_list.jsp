@@ -221,8 +221,6 @@
     <section class="recipe-area">
 
         <div class="recipe-header">
-
-            <h2>전체 레시피</h2>
             
             <select class="sort-select"
                     name="sort">
