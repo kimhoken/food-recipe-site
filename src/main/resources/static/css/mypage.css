@@ -1,0 +1,269 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F8F9F5;
+    color: #222;
+    font-family: Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.mypage-wrap {
+    width: 1400px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+}
+
+.mypage-left {
+    width: 250px;
+    min-height: calc(100vh - 36px);
+    background: #fff;
+    border-radius: 18px;
+    padding: 24px 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+}
+
+.logo-box {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.logo-box img {
+    width: 180px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.profile-mini {
+    padding: 24px 0;
+    text-align: center;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.profile-img,
+.main-profile-img {
+    background: #E9EFE2;
+    border-radius: 50%;
+}
+
+.profile-img {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 12px;
+}
+
+.profile-mini strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.profile-mini p {
+    font-size: 13px;
+    color: #777;
+}
+
+.menu-section {
+    padding: 20px 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.sub-title {
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #888;
+}
+
+.menu-item {
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    padding-left: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: #EEF5E8;
+    color: #2F7D32;
+}
+
+.logout-btn {
+    width: 100%;
+    height: 46px;
+    margin-top: 24px;
+    border: 1px solid #6FAF64;
+    border-radius: 10px;
+    background: #fff;
+    color: #2F7D32;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #EEF5E8;
+}
+
+.mypage-right {
+    width: calc(100% - 278px);
+    flex-shrink: 1;
+    padding: 18px 0;
+    flex: 1;
+    padding: 18px 10px;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h2 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #666;
+    font-size: 15px;
+}
+
+.main-box {
+    background: #fff;
+    border-radius: 18px;
+    padding: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.main-left{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.main-profile-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.main-profile-text h3{
+    margin:0 0 10px 0;
+}
+
+.main-profile-text p{
+    margin:0 0 10px 0;
+}
+
+.main-profile-img {
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#E9EFE2;
+}
+
+.main-profile-img img{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+
+.edit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #D7DCD1;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.edit-btn:hover {
+    background: #F4F7F0;
+}
+
+.main-tag {
+    display: flex;
+    gap: 18px;
+}
+
+.tag-card{
+    width:140px;
+    text-align:center;
+}
+
+.tag-card img{
+    width:32px;
+    height:32px;
+    margin-bottom:8px;
+}
+
+.count-link{
+    display:block;
+    font-size:30px;
+    font-weight:bold;
+    color:#556B3E;
+    text-decoration:none;
+    margin-bottom:6px;
+}
+
+.count-link:hover{
+    text-decoration:underline;
+    color:#6E8551;
+}
+
+.tag-card span{
+    font-size:14px;
+    color:#555;
+}
+
+.content-box {
+    margin-top: 24px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.content-box h3 {
+    font-size: 22px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.info-row {
+    display: flex;
+    padding: 18px 8px;
+    border-bottom: 1px solid #EEF0EC;
+}
+
+.info-row span {
+    width: 160px;
+    font-weight: 700;
+    color: #555;
+}
+
+.info-row p {
+    color: #333;
+}
