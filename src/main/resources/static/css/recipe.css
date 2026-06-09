@@ -112,4 +112,52 @@ a { text-decoration: none; color: inherit; }
     color:white;
     cursor:pointer;
 }
+/* 페이징 */
+.paging {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 40px;
+}
 
+.paging a {
+    display: inline-block;
+    padding: 7px 13px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.paging a:hover {
+    background-color: #f0f0f0;
+}
+
+.paging a.active {
+    background-color: #4a7c59;  /* 사이트 메인 색상에 맞게 변경하세요 */
+    color: white;
+    border-color: #4a7c59;
+    font-weight: bold;
+}
+
+.paging a.disabled {
+    color: #ccc;
+    border-color: #eee;
+    pointer-events: none;  /* 클릭 막기 */
+    cursor: default;
+}
+
+.paging .arrow {
+    font-size: 12px;
+}
+
+/* 조리시간 선택 후 결과 없을 때 메시지 */
+.empty-msg {
+    text-align: center;
+    color: #888;
+    font-size: 15px;
+    padding: 60px 0;
+}
