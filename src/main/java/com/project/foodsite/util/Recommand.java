@@ -16,16 +16,21 @@ public class Recommand {
     /*
     * 만들어야할 추천 알고리즘
     * 1. 전체 공개 상태인 레시피 중 무작위로 카드 UI 형태로 추출하여 메인에 노출한다.   -> 대충 레시피중에 몇개 뽑기 --> 완료
-    * 2. 사용자들이 작성한 최신 후기나 평점 높은 후기를 메인 화면에 슬라이더 형태로 보여준다.   -> 작성날짜가 최신인걸로 뽑기
+    * 2. 사용자들이 작성한 최신 후기나 평점 높은 후기를 메인 화면에 슬라이드 형태로 보여준다.   -> 일단 평점을 기준으로 뽑고 나중에 댓글기능 생기면 댓글 어쩌구 저쩌구
     * 3. 최근에 추가된 레시피를 기준으로 정렬해 최신 레시피를 제공  -> 이거도 작성날짜/수정날짜가 최신인걸로 뽑기(desc로)
     * 4. 레시피중에서 랜덤으로 골라서 추천한다.             -> 랜덤으로 뽑기 --> 완료
     * 5. 조회수를 기준으로 조회수가 높은 레시피를 추천한다. -> 조회수 기준으로 레시피 뽑기
-
+    * 6. 사용자가 가진 식재료들을 체크박스나 아이콘으로 선택하면 해당 재료가 포함된 레시피를 필터링하여 보여준다. -> 점수 시스템 알고리즘으로 구현
+    */
+    
     /*
     * 완성한 알고리즘
     * 1. 전체 공개 상태인 레시피 중 무작위로 카드 UI 형태로 추출하여 메인에 노출한다.   -> 대충 레시피중에 몇개 뽑기
     * 4. 레시피중에서 랜덤으로 골라서 추천한다.     -> 랜덤으로 뽑기
     * 6. 사용자가 가진 식재료들을 체크박스나 아이콘으로 선택하면 해당 재료가 포함된 레시피를 필터링하여 보여준다. -> 점수 시스템 알고리즘으로 구현
+    * 3. 최근에 추가된 레시피를 기준으로 정렬해 최신 레시피를 제공  -> 이거도 작성날짜/수정날짜가 최신인걸로 뽑기(desc로)
+    * 5. 조회수를 기준으로 조회수가 높은 레시피를 추천한다. -> 조회수 기준으로 레시피 뽑기
+    * 2. 사용자들이 작성한 최신 후기나 평점 높은 후기를 메인 화면에 슬라이드 형태로 보여준다.   -> 일단 평점을 기준으로 뽑고 댓글 기눙 추가되면 변경예정
     */
     
     //냉장고 테이블
@@ -37,42 +42,10 @@ public class Recommand {
     //랜덤함수
     private Random rand = new Random();
     
-    /**
-     * 랜덤으로 레시피 5개 뽑아줌
-     * @return List<RecipeVO> 형태의 레시피 5개
-     */
-    public List<RecipeVO> randomList(){
-        int[] arr = new int[5];
-
-        //레시피테이블의 갯수를 가지고옴
+    public RecipeVO randomList(){
+        //레시피의 갯수를 불러옴
         int size = recipeDAO.size();
-
-        //등록된 레시피가 5개 미만일 경우
-        if(size<5){
-            return recipeDAO.selectAll();
-        }
-
-        for(int i=0 ; i<arr.length ; i++){
-            //배열에 랜덤값 부여
-            arr[i] = rand.nextInt(size - 1);
-
-            //값이 있는지 확인 후 있으면 다시 랜덤값 부여
-            for(int j=0 ; i<i ; j++){
-                if(arr[i] == arr[j]){
-                    arr[i] = rand.nextInt(size - 1);
-                    i--;
-                    break;
-                }
-            }
-        }
-
-        //랜덤값으로 하나씩 불러와 리스트에 담음
-        List<RecipeVO> list = new ArrayList<>();
-        for(int i=0 ; i<5 ; i++){
-            list.add(recipeDAO.selectOne(arr[i]));
-        }
-
-        return list;
+        return recipeDAO.selectOne(rand.nextInt(1, size));
     }//randomList
 
     private int getScore(LocalDate Date){
@@ -173,5 +146,13 @@ public class Recommand {
         //점수가 높은 레시피 10개 추천 10개 보다 적으면 그거까지만 추천
         return recipeList.subList(0, Math.min(10, recipeList.size()));
     }//RecipeVO
+
+    public List<RecipeVO> recentlyList(){
+        return recipeDAO.selectRecently();
+    }
+
+    public List<RecipeVO> viewCountList(){
+        return recipeDAO.selectViewCount();
+    }
 
 }

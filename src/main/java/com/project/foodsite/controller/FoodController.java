@@ -1,8 +1,6 @@
 package com.project.foodsite.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +22,9 @@ public class FoodController {
     @ResponseBody
     public Map<String, Object> getCategory(String category) {
         Map<String, Object> map = new HashMap<>();
+        //카테고리 리스트 안에 전부 넣어서 넘김
+        List<CategoryVO> list = categoryDao.selectCategoryFood(category);    //
+        map.put("catList", list);                                       //
 
         //중분류(국/찌개 등) 리스트 조회
         List<CategoryVO> catList = categoryDao.getCategoryList(category);
@@ -33,6 +34,9 @@ public class FoodController {
 
         map.put("catList", catList);
         map.put("foodList", foodList);
+        //정렬순서를 사용한다면?
+        // map.put("catList", catList);
+        // map.put("foodList", foodList);
 
         return map;
     }

@@ -1,3 +1,15 @@
+
+.contnet-wrap{
+    min-height: 800px;
+
+    background-image: url('/images/resetpage_bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 73%;
+    display: flex;
+    align-items: center;
+}
+
 .find-form {
     width: 480px;
     margin: 80px auto;
@@ -70,4 +82,50 @@
 
 .find-main-btn:hover {
     background: #8D8D73;
+}
+
+
+.token-box {
+    width: 420px;
+    margin: 90px auto 0;
+    padding: 45px 40px;
+
+    text-align: center;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #E1DED4;
+    border-radius: 18px;
+
+    box-shadow: 0 18px 40px rgba(80, 70, 50, 0.12);
+}
+
+.token-icon {
+    font-size: 42px;
+    margin-bottom: 16px;
+}
+
+.token-box h2 {
+    margin: 0;
+    font-size: 25px;
+    color: #0F1F33;
+}
+
+.token-box p {
+    margin: 16px 0 30px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #6B7280;
+}
+
+.token-btn {
+    width: 220px;
+    height: 48px;
+
+    border: none;
+    border-radius: 8px;
+    background: #A7A58E;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
 }

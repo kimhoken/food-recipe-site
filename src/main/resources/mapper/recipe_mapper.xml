@@ -4,20 +4,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.RecipeDAO">
 
+    <!-- 전체 레시피 개수 조회 -->
     <select id="size" resultType="int">
         SELECT COUNT(*) FROM recipe
     </select>
     
+    <!-- 특정 레시피 1개 상세 조회 -->
     <select id="selectOne" parameterType="int" resultType="recipe">
-        SELECT *, RANK() OVER(ORDER BY created_date DESC) as rank FROM recipe
-        WHERE rank = #{num}
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        WHERE recipe_id = #{num}
     </select>
     
+    <!-- 전체 레시피 목록 조회 (최신순) -->
     <select id="selectAll">
         SELECT * FROM recipe ORDER BY created_date DESC
     </select>
 
-    <select id="selectAny" resultType="recipe" >
+    <!-- 냉장고 재료로 레시피 검색 -->
+    <select id="selectAny" resultType="recipe">
         <bind name="pattern" value="'%' + ingredient_name + '%'" />
         SELECT DISTINCT r.*, m.nickname
         FROM recipe r
@@ -26,41 +31,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE i.ingredient_name LIKE #{pattern}
     </select>
 
+    <!-- 레시피 필터링 결과 총 개수 조회 (페이징 처리용) -->
     <select id="selectRecipeCount" parameterType="RecipeSearchDTO" resultType="int">
-    SELECT COUNT(*) 
-    FROM recipe r
-    JOIN category c ON r.category_id = c.category_id
-    <where>
-        <if test="category != null and category != ''">
-            c.category_name = #{category}
-        </if>
-        <if test="maxCookTime > 0 and maxCookTime != 9999">
-            AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
-        </if>
-    </where>
-</select>
+        SELECT COUNT(*) 
+        FROM recipe r
+        JOIN category c ON r.category_id = c.category_id
+        <where>
+            <if test="category != null and category != ''">
+                c.category_name = #{category}
+            </if>
+            <if test="maxCookTime > 0 and maxCookTime != 9999">
+                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
+            </if>
+        </where>
+    </select>
 
-<select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
-    SELECT r.* FROM recipe r
-    JOIN category c ON r.category_id = c.category_id
-    <where>
-        <if test="category != null and category != ''">
-            c.category_name = #{category}
-        </if>
-        <if test="maxCookTime > 0 and maxCookTime != 9999">
-            AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
-        </if>
-    </where>
-    <!-- 조리시간 선택 시 최신순, 미선택 시 조리시간 오름차순 -->
-    <choose>
-        <when test="maxCookTime == 0">
-            ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
-        </when>
-        <otherwise>
-            ORDER BY r.created_date DESC
-        </otherwise>
-    </choose>
-    LIMIT 9 OFFSET #{offset}
-</select>
+    <!-- 카테고리/조리시간 필터링 레시피 목록 조회 (페이징 처리 포함) -->
+    <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
+        SELECT r.* FROM recipe r
+        JOIN category c ON r.category_id = c.category_id
+        <where>
+            <if test="category != null and category != ''">
+                c.category_name = #{category}
+            </if>
+            <if test="maxCookTime > 0 and maxCookTime != 9999">
+                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
+            </if>
+        </where>
+        <choose>
+            <!-- 조리시간 미선택 시 조리시간 오름차순 정렬 -->
+            <when test="maxCookTime == 0">
+                ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
+            </when>
+            <!-- 조리시간 선택 시 최신순 정렬 -->
+            <otherwise>
+                ORDER BY r.created_date DESC
+            </otherwise>
+        </choose>
+        LIMIT 9 OFFSET #{offset}
+    </select>
+
+    <!-- 최근 등록된 레시피 5개 조회 (메인페이지용) -->
+    <select id="selectRecently" resultType="recipe">
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY created_date DESC LIMIT 5
+    </select>
+
+    <!-- 조회수/좋아요순 인기 레시피 5개 조회 (메인페이지용) -->
+    <select id="selectViewCount" resultType="recipe">
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY view_count DESC, like_count DESC LIMIT 5
+    </select>
 
 </mapper>

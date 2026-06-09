@@ -13,6 +13,7 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
+
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
         // 선택한 카테고리들 열기
         function selectCategory(category){
@@ -64,21 +65,19 @@
                     let list = data.catList;
                     let html = ""; 
 
-                    for (var i = 0; i < list.length ; i++) {
+                    for (let i = 0; i < list.length-4 ; i+=4) {
                         html += "<div class='menu-group'>";
                         // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
-                        html += "    <h3>" + list[i].subCategoryName + "</h3>"; 
-                        html += "    <ul>";
-                            
+                        html += "<h3>" + list[i].subCategoryName + "</h3>"; 
+                        html += "<ul>";
                         
-
-                        html += "        <li><a href='#'>김치찌개</a></li>";
-                        html += "        <li><a href='#'>된장찌개</a></li>";
-                        html += "        <li><a href='#'>미역국</a></li>";
-                        html += "        <li><a href='#'>순두부찌개</a></li>";
+                        html += "<li><a href='#'>" + list[i].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+1].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+2].foodName + "</a></li>";
+                        html += "<li><a href='#'>" + list[i+3].foodName + "</a></li>";
                         
-                        html += "        <li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
-                        html += "    </ul>";
+                        html += "<li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
+                        html += "</ul>";
                         html += "</div>";
                     }
 

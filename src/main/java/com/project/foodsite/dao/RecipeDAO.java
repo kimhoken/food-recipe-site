@@ -3,7 +3,6 @@ package com.project.foodsite.dao;
 import java.util.List;
 
 import com.project.foodsite.dto.RecipeSearchDTO;
-import com.project.foodsite.vo.FridgeItemVO;
 import com.project.foodsite.vo.RecipeVO;
 
 public interface RecipeDAO {
@@ -18,4 +17,7 @@ public interface RecipeDAO {
     //전체 레시피 개수 조회 (페이징 처리용)
     int selectRecipeCount(RecipeSearchDTO searchDTO);
 
+    List<RecipeVO> selectRecently();
+    List<RecipeVO> selectViewCount();
+    
 } 
