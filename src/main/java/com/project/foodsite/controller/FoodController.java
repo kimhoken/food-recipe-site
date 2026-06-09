@@ -20,23 +20,13 @@ public class FoodController {
 
     @GetMapping("/category.do")
     @ResponseBody
-    public Map<String, Object> getCategory(String category) {
-        Map<String, Object> map = new HashMap<>();
-        //카테고리 리스트 안에 전부 넣어서 넘김
-        List<CategoryVO> list = categoryDao.selectCategoryFood(category);    //
-        map.put("catList", list);                                       //
+    public Map<String, List<String>> getCategory(String category) {
+        Map<String, List<String>> map = new LinkedHashMap<>();
+        List<CategoryVO> list = categoryDao.selectCategoryFood(category);
 
-        //중분류(국/찌개 등) 리스트 조회
-        List<CategoryVO> catList = categoryDao.getCategoryList(category);
-
-        //소분류에 속하는 음식 리스트 조회
-        List<FoodVO> foodList = categoryDao.foodListCategory(category);
-
-        map.put("catList", catList);
-        map.put("foodList", foodList);
-        //정렬순서를 사용한다면?
-        // map.put("catList", catList);
-        // map.put("foodList", foodList);
+        for(CategoryVO vo : list){
+            map.computeIfAbsent(vo.getSubCategoryName(), k -> new ArrayList<>()).add(vo.getFoodName());
+        }
 
         return map;
     }
