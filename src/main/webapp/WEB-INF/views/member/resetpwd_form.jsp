@@ -7,7 +7,7 @@
 
         <head>
             <link rel="stylesheet" href="/css/main.css" />
-            <link rel="stylesheet" href="/css/resetpwdpage.css"/>
+            <link rel="stylesheet" href="/css/resetpwdpage.css" />
 
             <script>
                 let pwd_valid = false;
@@ -103,27 +103,34 @@
             <div class="contnet-wrap">
 
                 <c:if test="${not empty msg}">
-    
-                    <div align="center">${msg}</div>
-    
+
+                    <div class="token-box">
+                        <div class="token-icon">🔒</div>
+
+                        <h2>${msg}</h2>
+                        <p>비밀번호 재설정 시간이 지나<br>다시 요청이 필요합니다.</p>
+
+                        <input type="button" value="메인으로 이동" class="token-btn" onclick="location.href='/main_list.do'">
+                    </div>
+
                 </c:if>
                 <c:if test="${empty msg}">
-    
+
                     <form class="find-form">
-    
-    
+
+
                         <h2 class="find-title">비밀번호 재설정</h2>
                         <div class="find-row">
-                            <span class="find-label">비밀번호</th>
-                                <div class="find-control">
-                                    <input type="password" class="find-input" id="pwd" name="pwd" placeholder="비밀번호 입력하세요"
-                                        oninput="pwdchange()" />
-                                    <div class="find-msg" id="pwd_msg">영문 특수문자 10글자 이상</div>
-                                </div>
+                            <span class="find-label">비밀번호</span>
+                            <div class="find-control">
+                                <input type="password" class="find-input" id="pwd" name="pwd" placeholder="비밀번호 입력하세요"
+                                    oninput="pwdchange()" />
+                                <div class="find-msg" id="pwd_msg">영문 특수문자 10글자 이상</div>
+                            </div>
                         </div>
-    
-    
-    
+
+
+
                         <div class="find-row">
                             <span class="find-label">비밀번호 확인</span>
                             <div class="find-control">
@@ -132,12 +139,12 @@
                                 <div class="find-msg" id="pwd_check_msg"></div>
                             </div>
                         </div>
-    
-    
+
+
                         <input type="button" class="find-main-btn" value="비밀번호 재설정" onclick="send(this.form)" />
-    
+
                     </form>
-    
+
                 </c:if>
             </div>
         </body>

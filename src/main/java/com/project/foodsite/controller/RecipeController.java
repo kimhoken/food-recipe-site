@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.foodsite.dao.RecipeDAO;
+
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 

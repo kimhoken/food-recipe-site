@@ -19,4 +19,6 @@ public interface MemberDAO {
     MemberVO getUserByMemberId(int member_id);
 
     int userUpdate(MemberVO vo);
+
+    MemberVO getSocialUser(String provider,String provider_id);
 } 

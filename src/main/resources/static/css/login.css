@@ -203,3 +203,33 @@ form {
     width:35px;
     height:35px;
 }
+
+.pwd-wrap{
+    position:relative;
+    width:60%;
+}
+
+.pwd-wrap .input-box{
+    width:100%;
+    padding-right:45px;
+}
+
+.toggle{
+    position:absolute;
+    top:36%;
+    right:65px;
+    transform:translateY(-50%);
+    width:24px;
+    height:24px;
+    padding:0;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    z-index:999;
+}
+
+.toggle img{
+    width:22px;
+    height:22px;
+    display:block;
+}
