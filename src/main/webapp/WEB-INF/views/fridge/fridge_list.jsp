@@ -44,8 +44,8 @@
             const quantity = prompt("수량:");
             if(quantity === null) return; // 취소 클릭 시
             
-            const url = "/modity.do";
-            const data = { firdge_id: fridge_id, quantity: quantity };
+            const url = "/modify.do";
+            const data = { fridge_id: fridge_id, quantity: quantity };
 
             fetch(url, {
                 method: "post",
@@ -97,10 +97,16 @@
                     <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
                 </a>
             </div>
-            <div class="search-bar">
-                <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
-            </div>
+            
+            <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
+                <div class="search-bar">
+                    <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                    <button type="submit">⌕</button>
+                </div>
+            </form>
+            
             <div class="user-menu">
+                <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
                 <c:if test="${empty user}">
                     <a href="/login.do" class="menu-item" id="login">
                         <span class="menu-icon">
@@ -117,6 +123,8 @@
                         <div>로그아웃</div>
                     </a>
                 </c:if>
+                <%-- ------------------------------------------ --%>
+
                 <a href="/register_form.do" class="menu-item">
                     <span class="menu-icon">
                         <img src="${pageContext.request.contextPath}/images/login.png">
@@ -131,16 +139,18 @@
                     <div>마이페이지</div>
                 </a>
             </div>
-        </div> 
+        </div>
+
+        <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
         <ul class="nav-bar">
             <li><a href="/main_list.do">홈</a></li>
-            <li ><a href="/list.do">레시피</a></li>
+            <li>레시피</li>
             <li>카테고리</li>
             <li>랭킹</li>
-            <li>커뮤니티</li>
-            <li class="active"><a href="/fridge_list.do">냉장고 추천</a></li>
+            <li><a href="/list.do">커뮤니티</a></li>
+            <li class="active"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
             <li>이벤트</li>
-        </ul> 
+        </ul>
     </header>
 
     <div class="container main-container">
@@ -167,7 +177,7 @@
                                         <div class="card-actions">
                                             <input type="button" value="수정" onClick="modify(${vo.fridge_id})">
                                             <input type="button" value="삭제" onClick="deleteItem(${vo.fridge_id})">
-                                        </div>
+                                        </div> 
                                     </div>
                                 </div>
                             </c:if>

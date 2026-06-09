@@ -1,11 +1,34 @@
 let id_vailed = false;
 let pwd_vailed = true;
-let email_vailed = true;
+let email_vailed = false;
 let nickname_vailed = true;
 
- window.onload = function () {
-            let nicknames = document.getElementById("nickname");
-            nicknames.value =  nickname;}
+
+window.onload = function () {
+
+    let nicknames = document.getElementById("nickname");
+    nicknames.value = nickname;
+
+    let emails = document.getElementById("email");
+    let names = document.getElementById("name");
+    let social_button = document.getElementById("soical_button");
+    let social_row = document.getElementById("soical_row");
+
+
+    if (provider != null && provider !== "") {
+        emails.readOnly = true;
+        emails.value = email;
+        email_vailed = true;
+        id_vailed = true;
+        names.value = name;
+        social_button.style.display = "none";
+        social_row.style.display = "none";
+    }
+
+
+    let unvisual = document.getElementById("unvisual");
+    unvisual.style.display = "none";
+}
 
 
 let email_authnumer;
@@ -115,8 +138,6 @@ function send(f) {
     }
 
     let name = f.name.value;
-    let login_id = f.login_id.value;
-    let password = f.password.value;
     let email = f.email.value;
 
     if (name == "") {
@@ -125,11 +146,7 @@ function send(f) {
         return;
     }
 
-    if (login_id == "") {
-        alert("아이디를 입력하세요!!");
-        f.login_id.focus();
-        return;
-    }
+
 
     if (email == "") {
         alert("이메일을 입력하세요!!");
@@ -215,4 +232,22 @@ function nick() {
             }
         })
 
+}
+
+
+function viewpwd() {
+
+    let pwd = document.getElementById("pwd");
+    let visual = document.getElementById("visual");
+    let unvisual = document.getElementById("unvisual");
+
+    if (pwd.type === "password") {
+        pwd.type = "text";
+        visual.style.display = "none";
+        unvisual.style.display = "block";
+    } else {
+        pwd.type = "password";
+        visual.style.display = "block";
+        unvisual.style.display = "none";
+    }
 }

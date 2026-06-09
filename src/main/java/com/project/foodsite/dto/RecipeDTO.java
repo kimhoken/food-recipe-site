@@ -40,6 +40,6 @@ public class RecipeDTO {
     private List<String> amountS;
     private List<String> unitS;
 
-    //조리순서
+    //조리순서(단계)
     private List<String> step; 
 }

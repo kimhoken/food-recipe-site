@@ -6,13 +6,13 @@
 .board-area {
     background-color: #F9F7F2;
     color: #444;
-    padding: 40px 20px; /* 게시판 영역 안쪽 여백 */
+    padding: 50px 30px; /* 게시판 영역 안쪽 여백 */
     min-height: 100vh; /* 필요에 따라 높이 조절 */
 }
 
 /* 검색창 영역 */
 .board-area form {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto 30px auto;
     display: flex;
     justify-content: center;

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Alias("ingredient")
 public class IngredientVO {
     private int ingredient_id;
+    private String ingredient_name;
     private long quantity;
     private String unit;
     private String type;

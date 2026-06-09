@@ -32,4 +32,31 @@
     </insert>
 
 
+    <select id="selectAny" resultType="recipe" >
+        <bind name="pattern" value="'%' + ingredient_name + '%'" />
+        SELECT DISTINCT r.*, m.nickname
+        FROM recipe r
+        JOIN ingredient i ON r.recipe_id = i.recipe_id
+        JOIN member m ON r.member_id = m.member_id
+        WHERE i.ingredient_name LIKE #{pattern}
+    </select>
+
+    <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY created_date DESC LIMIT 5    
+    </select>
+
+    <select id="selectRecently" resultType="recipe">
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY created_date DESC LIMIT 5
+    </select>
+
+    <select id="selectViewCount" resultType="recipe" >
+        SELECT r.*, m.nickname FROM recipe r
+        JOIN member m ON r.member_id = m.member_id
+        ORDER BY view_count DESC, like_count DESC LIMIT 5
+    </select>
+
 </mapper>

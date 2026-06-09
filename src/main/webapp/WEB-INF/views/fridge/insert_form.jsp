@@ -16,6 +16,7 @@
     <title>오늘 뭐 먹지? - 재료 등록</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fridge_form.css">
+    <script src="/js/chatbot.js"></script>
     <script>
         // 추가한 재료들을 모아둘 빈 배열
         let ingredientList = [];
@@ -51,10 +52,6 @@
                 expire_date: expire_date,
                 freezer: freezer == 'true' ? true : false
             };
-
-            console.log(data.member_id);
-            console.log(data.ingredient_name);
-            console.log(data.freezer);
             
             ingredientList.push(data);
             
@@ -100,8 +97,6 @@
             //여기 부분부터 백엔드에서 리스트로 받아서 처리하게 변경
             const url = "/food_insert.do";
 
-            console.log(ingredientList.length);
-
             fetch(url, {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
@@ -112,7 +107,7 @@
             .then(data => {
                 if(data.res == "success"){
                     alert("등록 성공");
-                    location.href="/fridge_list.do";
+                    location.href="/fridge_list.do?member_id=${user.member_id}";
                 } else {
                     alert("등록 실패");
                 }
@@ -122,51 +117,98 @@
                 console.log(err);
             });
         }
+
+        //로그아웃에 사용하는 함수
+        const logout = () => {
+            if (confirm("로그아웃 하시겠습니까?")) {
+                fetch("/logout.do", {
+                    method: "post",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        id: "${user.member_id}"
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.")
+                            location.href = "/main_list.do";
+                        }
+                    })
+            }
+        }
     </script>
 </head>
 <body>
 
     <header>
-        <div class="header-top">
-            <div class="logo">
-                <a href="${pageContext.request.contextPath}/">
-                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
-                </a>
+            <div class="header-top">
+                <div class="logo">
+                    <a href="${pageContext.request.contextPath}/">
+                        <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
+                    </a>
+                </div>
+
+                <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
+                    <div class="search-bar">
+                        <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                        <button type="submit">⌕</button>
+                    </div>
+                </form>
+
+                <div class="user-menu">
+                    <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
+                    <c:if test="${empty user}">
+                        <a href="/login.do" class="menu-item" id="login">
+                            <span class="menu-icon">
+                                <img src="${pageContext.request.contextPath}/images/login.png">
+                            </span>
+                            <div>로그인</div>
+                        </a>
+                    </c:if>
+                    <c:if test="${!empty user}">
+                        <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
+                            <span class="menu-icon">
+                                <img src="${pageContext.request.contextPath}/images/login.png">
+                            </span>
+                            <div>로그아웃</div>
+                        </a>
+                    </c:if>
+                    <%-- ------------------------------------------ --%>
+
+                    <a href="/register_form.do" class="menu-item">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/login.png">
+                        </span>
+                        <div>회원가입</div>
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                        <span class="menu-icon">
+                            <img src="${pageContext.request.contextPath}/images/mypage.png">
+                        </span>
+                        <div>마이페이지</div>
+                    </a>
+                </div>
             </div>
-            <div class="search-bar">
-                <input type="text" placeholder="재료, 요리명으로 검색해보세요!">
-            </div>
-            <div class="user-menu">
-                <a href="${pageContext.request.contextPath}/login" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
-                    <div>로그인</div>
-                </a>
-                <a href="${pageContext.request.contextPath}/join" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/login.png"></span>
-                    <div>회원가입</div>
-                </a>
-                <a href="${pageContext.request.contextPath}/mypage" class="menu-item">
-                    <span class="menu-icon"><img src="${pageContext.request.contextPath}/images/mypage.png"></span>
-                    <div>마이페이지</div>
-                </a>
-            </div>
-        </div>
-        <ul class="nav-bar">
-            <li><a href="${pageContext.request.contextPath}/">홈</a></li>
-            <li>레시피</li>
-            <li>카테고리</li>
-            <li>랭킹</li>
-            <li>커뮤니티</li>
-            <li class="active">냉장고 추천</li>
-            <li>이벤트</li>
-        </ul>
-    </header>
+
+            <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
+            <ul class="nav-bar">
+                <li><a href="/main_list.do">홈</a></li>
+                <li>레시피</li>
+                <li>카테고리</li>
+                <li>랭킹</li>
+                <li><a href="/list.do">커뮤니티</a></li>
+                <li class="active"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+                <li>이벤트</li>
+            </ul>
+        </header>
 
     <div class="container main-container">
         <div class="form-card-container">
             <h2 class="form-card-title">새로운 재료 입력</h2>
             <form>
-                <input type="hidden" value="${id}" name="id">
+                <input type="hidden" value="${user.member_id}" name="id">
                 <div class="form-input-group">
                     <label for="ingredient_name">재료 이름</label>
                     <input type="text" id="ingredient_name" name="ingredient_name" placeholder="식재료 이름을 입력하세요 (예: 우유)">

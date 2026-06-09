@@ -28,7 +28,7 @@
                         .then(data => {
                             if (data.result == "success") {
                                 alert("로그아웃 되었습니다.")
-                                location.href = "/main_list.do";
+                                location.href = "/list.do";
                             }
                         })
                 }
@@ -48,6 +48,7 @@
                 <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
                     <div class="search-bar">
                         <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
+                        <button type="submit">⌕</button>
                     </div>
                 </form>
                 
@@ -89,18 +90,18 @@
 
             <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
             <ul class="nav-bar">
-                <li ><a href="/main_list.do">홈</a></li>
-                <li class="active">
-                    <a href="/list.do"> 레시피</a>
+                <li><a href="/main_list.do">홈</a></li>
+                <li>
+                    레시피
                 </li>
                 <li>카테고리</li>
                 <li>랭킹</li>
-                <li>커뮤니티</li>
+                <li class="active"><a href="/list.do">커뮤니티</a> </li>
                 <li>
-                    <a href="/fridge_list.do">냉장고 추천</a>
+                    <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
                 </li>
                 <li>이벤트</li>
-            </ul>      
+            </ul>       
         </header>
         <div class="board-area">
             <c:if test="${not empty list}">
@@ -199,7 +200,7 @@
                     
                     <div class="footer-logo-area">
                         <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
-                    </div>
+                    </div> 
                 </div>
             </div>
     </footer>

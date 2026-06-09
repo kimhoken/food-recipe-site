@@ -2,64 +2,64 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/notice_add.css">
 
-        <script>
-            function send(f) {
-                let title = f.title.value.trim();
-                let content = f.content.value.trim();
-
-                if (title === "") {
-                    alert("공지사항 제목을 입력하세요.");
-                    f.title.focus();
-                    return;
-                }
-
-                if (content === "") {
-                    alert("공지사항 내용을 입력하세요.");
-                    f.content.focus();
-                    return;
-                }
-
-                f.submit();
+    <script>
+        function send(f) {
+            if (f.title.value.trim() === "") {
+                alert("공지사항 제목을 입력하세요.");
+                f.title.focus();
+                return;
             }
-        </script>
-    </head>
 
-    <body>
+            if (f.content.value.trim() === "") {
+                alert("공지사항 내용을 입력하세요.");
+                f.content.focus();
+                return;
+            }
 
-    <h2>공지사항 등록</h2>
+            f.submit();
+        }
+    </script>
+</head>
 
-    <form action="notice_add.do" method="post" enctype="multipart/form-data">
-        <table border="1">
-            <tr>
-                <th>공지사항 제목</th>
-                <td>
-                    <input type="text" name="title" />
-                </td>
-            </tr>
+<body>
+    <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
 
-            <tr>
-                <th>공지사항 내용</th>
-                <td>
-                    <textarea name="content" rows="10" cols="50"></textarea>
-                </td>
-            </tr>
+    <main class="notice-write-page">
 
-            <tr>
-                <td>
-                    <input type="file" name="images" />
-                </td>
-            </tr>
+    <section class="write-layout">
 
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="button" value="공지사항 등록" onclick="send(this.form)" />
-                    <input type="button" value="뒤로가기" onclick="history.back()" />
-                </td>
-            </tr>
-        </table>
-    </form>
+        <aside class="write-side">
+            <span>NOTICE</span>
+            <h2>공지사항<br>등록하기</h2>
+            <p>중요한 소식과 안내사항을<br>사용자에게 전달해보세요.</p>
+        </aside>
 
-    </body>
+        <section class="write-card">
+            <form action="notice_add.do" method="post" enctype="multipart/form-data">
+
+                <label>제목</label>
+                <input type="text" name="title" placeholder="제목을 입력해 주세요.">
+
+                <label>내용</label>
+                <textarea name="content" placeholder="내용을 입력해 주세요."></textarea>
+
+                <label>이미지</label>
+                <input type="file" name="images">
+
+                <div class="btn-area">
+                    <button type="button" onclick="send(this.form)">등록하기</button>
+                    <button type="button" onclick="location.href='notice.do'">취소</button>
+                </div>
+
+            </form>
+        </section>
+
+    </section>
+
+</main>
+</body>
 </html>

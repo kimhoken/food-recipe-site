@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.foodsite.util.Recommand;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FoodSiteController {
     
+    private final Recommand rec;
+
     @Autowired
     HttpSession session;
     
@@ -28,6 +31,15 @@ public class FoodSiteController {
         //조회수 기준으로 5개 불러오기          view_recipes -> 조회수 별로 순위도 매기기
         //등록일자 기준으로 5개 불러오기        reg_recipes
         //레시피중에 랜덤으로 하나 불러오가     today
+        
+        //등록일자 기준으로 레시피를 불러옴
+        model.addAttribute("reg_recipes", rec.recentlyList());
+        
+        //오늘의 레시피를 한개 불러옴
+        model.addAttribute("today", rec.randomList());
+
+        //조회수를 기준으로 레시피를 불러옴
+        model.addAttribute("view_recipes", rec.viewCountList());
 
         return "main";
     }
@@ -48,6 +60,11 @@ public class FoodSiteController {
         vo.setMember_id(1);
         session.setAttribute("user", vo);
         return "redirect:/main_list.do";
+    }
+
+    @GetMapping("/hidden.do")
+    public String hidden(){
+        return "fridge/hidden";
     }
     
 

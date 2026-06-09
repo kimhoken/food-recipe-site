@@ -164,11 +164,10 @@
                     );
                 }
 
-                //조리순서 추가 함수
-                function addStep() {
-                    const tbody = document.getElementById('stepBody');
-                    // 새로운 행(tr) 생성
-                    const newRow = document.createElement('tr');
+        // 3. 양념 추가
+        function addStepS() {
+            const table = document.getElementById('seasoningT');
+            const newRow = document.createElement('tr');
 
                     //처음부터 번호 계산 x, updateStepNumbers: 선 생성 번호매김 후 처리
                     newRow.innerHTML = `
@@ -195,9 +194,13 @@
                     //tbody에 추가
                     tbody.appendChild(newRow);
 
-                    //추가 후 번호 갱신
-                    updateStepNumbers();
-                }
+        // 조리순서 번호를 1부터 다시 매기는 함수
+        function updateStepNumbers(){
+            const steps = document.querySelectorAll('#stepBody .step-number');
+            steps.forEach((step, index) => {
+                step.innerHTML = index + 1;
+            });
+        }
 
 
 
@@ -217,7 +220,20 @@
                     updateStepNumbers();
                 }
 
-            </script>
+            // 기존 코드에서 nextStep 변수가 정의되지 않아 에러가 나던 부분을 수정했어.
+            // 어차피 바로 밑에서 updateStepNumbers()를 실행하니까 여기선 일단 빈 값으로 둬도 돼!
+            newRow.innerHTML = `
+                <td align="center"> <div class="step-number"></div> </td>
+                <td>
+                    <input type="file" name="img"/>
+                </td>
+                <td>
+                    <div class="step-content">
+                        <textarea name="step" rows="5" cols="50" placeholder="다음 조리 과정을 입력하세요."></textarea>
+                        <button type="button" onclick="removeRow2(this)" class="x-btn2">X</button>
+                    </div>
+                </td>
+            `;
 
 
             <style>
@@ -226,7 +242,13 @@
                 }
             </style>
 
-        </head>
+        // 원하는 조리순서 줄 삭제
+        function removeRow2(btn) {
+            const row = btn.closest('tr');
+            row.remove();
+            updateStepNumbers();
+        }
+    </script>
 
 
         <body>
@@ -289,12 +311,10 @@
 
                 <table>
                     <tbody id="stepBody">
-
                         <tr>
                             <td align="center">
                                 <div class="step-number">1</div>
                             </td>
-
                             <td>
                                 <!--파일 선택 시 미리보기 함수 호출 -->
                                 <input type="file" name="stepImg" onchange="previewStep(this)" />
@@ -303,7 +323,6 @@
                                 <img class="step-image" src="#" alt="조리순서 이미지 미리보기" />
 
                             </td>
-
                             <td>
                                 <div class="step-content">
                                     <textarea name="step" rows="5" cols="50" style="resize: none;"

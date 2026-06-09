@@ -29,7 +29,7 @@ public class BoardController {
     public String boardList(Model model) {
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);
-        return "/board/board_list";
+        return "board/board_list";
     }
 
     // board 검색
@@ -38,16 +38,15 @@ public class BoardController {
         List<BoardVO> list = boardDao.search(search);
 
         model.addAttribute("list", list);
-        model.addAttribute("searchWord", search); // 검색어 보관
-        return "/board/board_list";
+        model.addAttribute("searchWord", search);  //검색어 보관
+        return "board/board_list";
     }
 
     // recipe 등록 폼
     @GetMapping("/regiRecipe.do")
-    public String recipeForm(Model model) {
-        String id = "1";
-        model.addAttribute("id", id);
-        return "/board/board_regiRecipe";
+    public String recipeForm(Model model, String id){
+        model.addAttribute("id", id); 
+        return "board/board_regiRecipe";
     }
 
     // 내 레시피 등록하기

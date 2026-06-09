@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: cook
 -- ------------------------------------------------------
--- Server version	9.7.0
+-- Server version   9.7.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,6 +18,7 @@
 --
 -- Table structure for table `board`
 --
+use cook;
 
 DROP TABLE IF EXISTS `board`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -91,7 +92,7 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_id` int NOT NULL auto_increment,
   `category_name` varchar(50) NOT NULL,
   `sub_category_name` varchar(50) NOT NULL,
   `sort_order` int DEFAULT NULL,
@@ -105,7 +106,30 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'한식','국/찌개',1),(2,'한식','고기',2),(3,'한식','밥',3);
+INSERT INTO `category` VALUES 
+-- [1~9] 상황별 추천 (우선순위 배치)
+(1,'상황별추천','혼밥',1),(2,'상황별추천','홈파티',2),(3,'상황별추천','술안주',3),(4,'상황별추천','캠핑요리',4),(5,'상황별추천','아이간식',5),(6,'상황별추천','SNS 화제 음식',6),(7,'상황별추천','해장요리',7),(8,'상황별추천','비 오는 날 추천',8),(9,'상황별추천','기념일 홈레스토랑',9),
+-- [10~19] 한식
+(10,'한식','국/찌개',10),(11,'한식','볶음/조림',11),(12,'한식','밑반찬',12),(13,'한식','김치',13),(14,'한식','덮밥/비빔밥',14),(15,'한식','면요리',15),(16,'한식','전/튀김',16),(17,'한식','고기요리/구이',17),(18,'한식','해산물요리',18),(19,'한식','명절요리',19),
+-- [20~29] 양식
+(20,'양식','파스타',20),(21,'양식','피자',21),(22,'양식','스테이크/바비큐',22),(23,'양식','리조또/필라프',23),(24,'양식','샌드위치/버거',24),(25,'양식','커틀릿/튀김',25),(26,'양식','스프/스튜',26),(27,'양식','그라탕/오븐요리',27),(28,'양식','오일/팬요리',28),(29,'양식','브런치',29),
+-- [30~39] 중식
+(30,'중식','중식면',30),(31,'중식','중식밥',31),(32,'중식','고기튀김',32),(33,'중식','해물튀김',33),(34,'중식','볶음요리',34),(35,'중식','탕/스프',35),(36,'중식','만두/딤섬',36),(37,'중식','냉채',37),(38,'중식','두부/채소',38),(39,'중식','마라/퓨전',39),
+-- [40~49] 일식
+(40,'일식','초밥/롤',40),(41,'일식','돈부리/덮밥',41),(42,'일식','우동/소바',42),(43,'일식','라멘',43),(44,'일식','카레',44),(45,'일식','돈카츠/튀김',45),(46,'일식','구이요리',46),(47,'일식','나베/전골',47),(48,'일식','철판요리',48),(49,'일식','일식가정식',49),
+-- [50~59] 아시안
+(50,'아시안','쌀국수',50),(51,'아시안','아시안밥',51),(52,'아시안','커리',52),(53,'아시안','스프/탕',53),(54,'아시안','고기요리',54),(55,'아시안','해물요리',55),(56,'아시안','볶음요리',56),(57,'아시안','사이드/튀김',57),(58,'아시안','아시안쌈',58),(59,'아시안','모닝글로리',59),
+-- [60~69] 건강식/다이어트 (쉼표 연결 및 정상화 완료)
+(60,'건강식/다이어트','샐러드',60),(61,'건강식/다이어트','포케/웜볼',61),(62,'건강식/다이어트','닭가슴살',62),(63,'건강식/다이어트','두부/묵',63),(64,'건강식/다이어트','계란요리',64),(65,'건강식/다이어트','식단밥/죽',65),(66,'건강식/다이어트','샌드위치/랩',66),(67,'건강식/다이어트','야채/찜요리',67),(68,'건강식/다이어트','생선/해산물',68),(69,'건강식/다이어트','주스/스무디',69),
+-- [70~79] 초간단요리
+(70,'초간단요리','원팬/원팟',70),(71,'초간단요리','전자레인지',71),(72,'초간단요리','에어프라이어',72),(73,'초간단요리','5분토스트',73),(74,'초간단요리','한그릇밥',74),(75,'초간단요리','간단면식',75),(76,'초간단요리','비빔/무침',76),(77,'초간단요리','밀키트/시판',77),(78,'초간단요리','노오븐디저트',78),(79,'초간단요리','남은재료처리',79),
+-- [80~89] 디저트
+(80,'디저트','젤리/푸딩',80),(81,'디저트','샤베트/빙수',81),(82,'디저트','과일간식',82),(83,'디저트','떡/한과',83),(84,'디저트','초콜릿/사탕',84),(85,'디저트','노오븐디저트',85),(86,'디저트','요거트',86),(87,'디저트','샌드/영양바',87),(88,'디저트','튀김간식',88),(89,'디저트','구황작물',89),
+-- [90~99] 베이킹
+(90,'베이킹','식빵/모닝빵',90),(91,'베이킹','쿠키',91),(92,'베이킹','케이크',92),(93,'베이킹','타르트/파이',93),(94,'베이킹','머핀/컵케이크',94),(95,'베이킹','구움과자',95),(96,'베이킹','와플/팬케이크',96),(97,'베이킹','비건베이킹',97),(98,'베이킹','패스트리',98),(99,'베이킹','핑거푸드',99),
+-- [100~109] 음료/차
+(100,'음료/차','커피',100),(101,'음료/차','에이드',101),(102,'음료/차','과일주스',102),(103,'음료/차','전통차',103),(104,'음료/차','허브티/홍차',104),(105,'음료/차','라떼/밀크',105),(106,'음료/차','무알코올',106),(107,'음료/차','홈술/칵테일',107),(108,'음료/차','해독/건강차',108),(109,'음료/차','수제청',109);
+
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,6 +198,35 @@ INSERT INTO `comment` VALUES (1,1,1,'진짜 너무 맛있게 잘 먹었습니다
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cook_order`
+--
+
+DROP TABLE IF EXISTS `cook_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cook_order` (
+  `cook_order_id` bigint NOT NULL AUTO_INCREMENT,
+  `cook_order` bigint DEFAULT NULL,
+  `cook_image` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `recipe_id` bigint NOT NULL,
+  PRIMARY KEY (`cook_order_id`),
+  KEY `recipe_id` (`recipe_id`),
+  CONSTRAINT `cook_order_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cook_order`
+--
+
+LOCK TABLES `cook_order` WRITE;
+/*!40000 ALTER TABLE `cook_order` DISABLE KEYS */;
+INSERT INTO `cook_order` VALUES (1,1,'step1.jpg','냄비에 고기를 먼저 볶아주세요.',1),(2,2,'step2.jpg','고기가 익으면 썰어둔 김치를 넣고 달달 볶습니다.',1),(3,3,'step3.jpg','물을 붓고 두부를 넣은 뒤 10분간 끓여 완성합니다.',1),(4,1,'step4.jpg','고기에 간장 양념을 넣고 20분간 재워둡니다.',2),(5,2,'step5.jpg','달군 팬에 고기와 양파를 넣고 강불에 빠르게 볶아냅니다.',2);
+/*!40000 ALTER TABLE `cook_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `fridge_item`
 --
 
@@ -226,6 +279,36 @@ LOCK TABLES `img` WRITE;
 /*!40000 ALTER TABLE `img` DISABLE KEYS */;
 INSERT INTO `img` VALUES (1,'/images/recipe_kimchi_01.jpg'),(2,'/images/recipe_kimchi_01.jpg');
 /*!40000 ALTER TABLE `img` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ingredient`
+--
+
+DROP TABLE IF EXISTS `ingredient`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ingredient` (
+  `ingredient_id` bigint NOT NULL AUTO_INCREMENT,
+  `ingredient_name` varchar(255) DEFAULT NULL,
+  `quantity` bigint DEFAULT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `recipe_id` bigint NOT NULL,
+  PRIMARY KEY (`ingredient_id`),
+  KEY `recipe_id` (`recipe_id`),
+  CONSTRAINT `ingredient_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipe` (`recipe_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ingredient`
+--
+
+LOCK TABLES `ingredient` WRITE;
+/*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
+INSERT INTO `ingredient` VALUES (1,NULL,1,'포기','채소',1),(2,NULL,300,'g','육류',1),(3,NULL,1,'모','기타',1),(4,NULL,2,'스푼','양념-장류',1),(5,NULL,600,'g','육류',2),(6,NULL,1,'개','채소',2),(7,NULL,3,'스푼','양념-장류',2);
+/*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -333,8 +416,36 @@ CREATE TABLE `notice` (
 
 LOCK TABLES `notice` WRITE;
 /*!40000 ALTER TABLE `notice` DISABLE KEYS */;
-INSERT INTO `notice` VALUES (1,1,'[공지] 냉장고 파먹기 서비스 정기 점검 안내 (5/30)','더 안정적인 서비스 제공을 위해 정기 점검이 진행될 예정입니다. 점검 시간에는 서비스 이용이 제한됩니다.',250,'2026-05-29 10:12:59');
+INSERT INTO `notice` VALUES (1,1,'[공지] 냉장고 파먹기 서비스 정기 점검 안내 (5/30)','더 안정적인 서비스 제공을 위해 정기 점검이 진행될 예정입니다. 점검 시간에는 서비스 이용이 제한됩니다.',252,'2026-05-29 10:12:59');
 /*!40000 ALTER TABLE `notice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notice_view`
+--
+
+DROP TABLE IF EXISTS `notice_view`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notice_view` (
+  `notice_id` bigint NOT NULL,
+  `member_id` bigint NOT NULL,
+  `viewed_date` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`notice_id`,`member_id`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `notice_view_ibfk_1` FOREIGN KEY (`notice_id`) REFERENCES `notice` (`notice_id`) ON DELETE CASCADE,
+  CONSTRAINT `notice_view_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notice_view`
+--
+
+LOCK TABLES `notice_view` WRITE;
+/*!40000 ALTER TABLE `notice_view` DISABLE KEYS */;
+INSERT INTO `notice_view` VALUES (1,1,'2026-06-02 10:52:44'),(1,2,'2026-06-02 10:51:30');
+/*!40000 ALTER TABLE `notice_view` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -367,6 +478,36 @@ INSERT INTO `nutrition` VALUES (1,'450kcal','15g','5g','25g','50g','800mg'),(2,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `password_reset_token`
+--
+
+DROP TABLE IF EXISTS `password_reset_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_reset_token` (
+  `token_id` bigint NOT NULL AUTO_INCREMENT,
+  `member_id` bigint NOT NULL,
+  `token` varchar(255) DEFAULT NULL,
+  `expire_date` datetime NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `used` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`token_id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `member_id` (`member_id`),
+  CONSTRAINT `password_reset_token_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reset_token`
+--
+
+LOCK TABLES `password_reset_token` WRITE;
+/*!40000 ALTER TABLE `password_reset_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_token` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `recipe`
 --
 
@@ -375,31 +516,23 @@ DROP TABLE IF EXISTS `recipe`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `recipe` (
   `recipe_id` bigint NOT NULL AUTO_INCREMENT,
-  `member_id` bigint NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `content` text NOT NULL,
-  `thumbnail` varchar(250) DEFAULT NULL,
-  `cooking_time` int DEFAULT NULL,
-  `difficulty` varchar(20) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `cooking_time` varchar(30) DEFAULT NULL,
+  `difficulty` varchar(255) DEFAULT NULL,
+  `view_count` int DEFAULT NULL,
+  `like_count` int DEFAULT NULL,
   `nutrition_id` bigint NOT NULL,
-  `view_count` int DEFAULT '0',
-  `like_count` int DEFAULT '0',
-  `status` varchar(20) DEFAULT NULL,
-  `created_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime DEFAULT NULL,
-  `ingredient` varchar(200) DEFAULT NULL,
-  `img_id` int DEFAULT NULL,
-  `category_id` int NOT NULL,
+  `member_id` bigint NOT NULL,
+  `category_id` int DEFAULT NULL,
   PRIMARY KEY (`recipe_id`),
-  KEY `fk_recipe_member` (`member_id`),
-  KEY `fk_recipe_nutrition` (`nutrition_id`),
-  KEY `fk_recipe_img` (`img_id`),
-  KEY `fk_recipe_category` (`category_id`),
-  CONSTRAINT `fk_recipe_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
-  CONSTRAINT `fk_recipe_img` FOREIGN KEY (`img_id`) REFERENCES `img` (`img_id`),
-  CONSTRAINT `fk_recipe_member` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
-  CONSTRAINT `fk_recipe_nutrition` FOREIGN KEY (`nutrition_id`) REFERENCES `nutrition` (`nutrition_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `nutrition_id` (`nutrition_id`),
+  KEY `member_id` (`member_id`),
+  KEY `category_id` (`category_id`),
+  CONSTRAINT `recipe_ibfk_1` FOREIGN KEY (`nutrition_id`) REFERENCES `nutrition` (`nutrition_id`) ON DELETE CASCADE,
+  CONSTRAINT `recipe_ibfk_2` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`) ON DELETE RESTRICT,
+  CONSTRAINT `recipe_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -408,7 +541,7 @@ CREATE TABLE `recipe` (
 
 LOCK TABLES `recipe` WRITE;
 /*!40000 ALTER TABLE `recipe` DISABLE KEYS */;
-INSERT INTO `recipe` VALUES (1,1,'얼큰한 돼지고기 김치찌개','엄마가 해주던 그 맛 그대로, 밥 한 그릇 뚝딱 비우는 찌개입니다.','kimchi_thumb.jpg',25,'쉬움',1,120,45,'정상','2026-05-29 10:12:59',NULL,'신김치 1/4포기, 돼지고기 200g, 대파 1대, 두부 반모',1,1);
+INSERT INTO `recipe` VALUES (1,'초간단 돼지고기 김치찌개','/images/kimchi_main.jpg','30분','쉬움',150,32,1,1,1),(2,'단짠단짠 간장 불고기','/images/bulgogi_main.jpg','20분','보통',85,15,2,1,2);
 /*!40000 ALTER TABLE `recipe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -476,6 +609,7 @@ CREATE TABLE `web_push_subscription` (
 
 LOCK TABLES `web_push_subscription` WRITE;
 /*!40000 ALTER TABLE `web_push_subscription` DISABLE KEYS */;
+INSERT INTO `web_push_subscription` VALUES ('https://fcm.googleapis.com/fcm/send/cUK3qttIy7Q:APA91bGyuHIYBTlQZLeDgyoPmLlC0Fm2SDbIlhmmuzldsZqdTE4W-HfUxOwwrQQdJxZyNaY3EruVDQV2k1m2Ui75jnZmAcBDohsGAueuni70enxJsS6ILQbgxw3s4byaeCSc-upgJxfa',1,'BDH8CrVBpuFQwsw7EqbjvlAXfsbAbVRDSOLeJVo2RsMz3biWvwxKI7DF2ject1iUowu_pEvRcPJFa304h2wWxr0','tdkcy6QbFfeFidNMpzL6Jg','2026-06-02 01:36:43');
 /*!40000 ALTER TABLE `web_push_subscription` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -492,4 +626,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-29 16:18:50
+-- Dump completed on 2026-06-02 11:02:47

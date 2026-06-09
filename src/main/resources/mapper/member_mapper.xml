@@ -16,8 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>        
 
     <insert id="userInsert" parameterType="member">
-        insert into member (login_id, password, nickname, email, role, status, report_count, created_date, profile_img, name)         
-        values (#{login_id}, #{password}, #{nickname}, #{email}, #{role}, #{status}, 0, sysdate(), #{filename}, #{name})
+        insert into member (login_id, password, nickname, email, role, status, report_count, created_date, profile_img, login_type, provider, provider_id,name)         
+        values (#{login_id}, #{password}, #{nickname}, #{email}, #{role}, #{status}, 0, sysdate(), #{filename}, #{login_type}, #{provider}, #{provider_id}, #{name})
     </insert>
 
     <select id="getUserNickname"
@@ -30,6 +30,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             parameterType="String"
             resultType = "member">
         select * from member where email = #{email}
-    </select>        
+    </select>      
+
+    <select id="getUserByMemberId"
+            parameterType="int"
+            resultType = "member">
+        select * from member where member_id = #{member_id}
+    </select>   
+
+    <update id="userUpdate" parameterType="member">
+        update member set password = #{password}
+        where member_id = #{member_id}
+    </update>    
+
+    <select id="getSocialUser"
+            parameterType="String"
+            resultType="member">
+        select * from member
+        where provider = #{provider} and
+        provider_id = #{provider_id}
+    </select>
 
 </mapper>
