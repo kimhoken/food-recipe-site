@@ -1,18 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace는 기본패키지 + dao로 설정해야함
     ex) com.kh.dept.dao.DeptDAO
     -->
 <mapper namespace="com.project.foodsite.dao.BoardDAO">
-
-    <select id="selectAll" resultType="board"> select b.*, m.nickname from board b, member m WHERE
-        b.member_id = m.member_id </select>
-
-    <select id="search" resultType="board" parameterType="String">
-        <bind name="pattern" value="'%' + search + '%'" /> SELECT b.*, m.nickname FROM board b INNER
-        JOIN member m ON b.member_id = m.member_id 
-        WHERE (b.title LIKE #{pattern} OR b.content LIKE #{pattern}) 
+	
+    <select id="selectAll" resultType="board">
+        select b.*, m.nickname from board b, member m
+        WHERE b.member_id = m.member_id
     </select>
 
+    <select id="search" resultType="board" parameterType="String">
+    <bind name="pattern" value="'%' + search + '%'" />
+        SELECT b.*, m.nickname FROM board b, member m 
+        WHERE (title LIKE #{pattern} OR content LIKE #{pattern})
+        AND b.member_id = m.member_id
+    </select>
 
+    <insert id="insertRecipe" parameterType="RecipeDTO">
+        INSERT INTO board (unit) 
+        VALUES (#{vegiUnit})
+    </insert> 
+		
 </mapper>
