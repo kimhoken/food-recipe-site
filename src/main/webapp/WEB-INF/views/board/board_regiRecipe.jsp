@@ -1,121 +1,157 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${empty sessionScope.user}">
-    <script>
-        alert("로그인후 이용해주세요.")
-        location.href="/login.do";
-    </script>
-</c:if>
+        <!-- 페이지 렌더링 전에 로그인 여부를 먼저 보여주기-->
+        <c:if test="${empty sessionScope.user}">
+            <script>
+                alert("로그인후 이용해주세요.")
+                location.href = "/login.do";
+            </script>
+        </c:if>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>오늘 뭐먹지? - 레시피 작성하기</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/regiRecipe.css" />
+        <!DOCTYPE html>
+        <html>
 
-    <script>
-        function send(f) {
-            //유효성 검사
-            if(f.title.value.trim() === "") {
-                alert("제목을 입력해주세요.");
-                f.title.focus();
-                return false;
-            }
-            f.submit();
-        }
+        <head>
+            <title>오늘 뭐먹지? - 레시피 작성하기</title>
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/regiRecipe.css" />
 
-        // 1. 채소 추가
-        function addStepV() {
-            const table = document.getElementById('ingreT');
-            const newRow = document.createElement('tr');
+            <script>
 
-            newRow.innerHTML = `
-                <td><input type="text" name="vegetableName" placeholder="예: 양파"/></td>
-                <td class="qty-cell">
-                    <input type="text" name="amountV" placeholder="수량" />
-                    <select name="unitV">
-                        <option value="개">개</option>
-                        <option value="쪽">쪽 (예: 마늘)</option>
-                        <option value="대">대 (예: 대파)</option>
-                        <option value="통">통 (예: 양배추)</option>
-                        <option value="줌">줌 (예: 시금치)</option>
-                        <option value="g">g (그램)</option>
-                        <option value="약간">약간</option>
-                        <option value="뿌리">뿌리</option>
-                        <option value="봉지">봉지</option>
-                    </select>
-                    <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                </td>    
-            `;
-            table.appendChild(newRow);
-        }
+                function send(f) {
+                    const ingredients = document.getElementsByName("ingredientName");
+                    const steps = document.getElementsByName("step");
 
+                    if (f.title.value.trim() === "") {
+                        alert("제목을 입력하세요.");
+                        f.title.focus();
+                        return;
+                    }
 
-                //2. 육류 추가
-                function addStepM() {
-                    const table = document.getElementById('meatT');
-                    const newRow = document.createElement('tr');
+                    if (f.mainImg.value.trim() === "") {
+                        alert("대표 이미지를 선택하세요.");
+                        return;
+                    }
 
-                    newRow.innerHTML = `
-                    <td><input type="text" name="meatName" /></td>
-                            <td class="qty-cell">
-                              <input type="text" name="amountM" />
-                              <select name="unitM">
-                                <option value="g">g (그램)</option>
-                                <option value="kg">kg (킬로그램)</option>
-                                <option value="근">근 (600g)</option>
-                                <option value="마리">마리 (예: 닭고기)</option>
-                                <option value="팩">팩</option>
-                                <option value="장">장 (예: 슬라이스 햄)</option>
-                                <option value="토막">토막 (예: 생선)</option>
-                                <option value="적당량">적당량</option>
-                              </select>
-                            <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                            </td>
-                    `;
-                    table.appendChild(newRow);
+                    if (ingredients[0].value.trim() === "") {
+                        alert("재료를 입력하세요.");
+                        ingredients[0].focus();
+                        return;
+                    }
+
+                    if (steps[0].value.trim() === "") {
+                        alert("조리순서를 입력하세요.");
+                        return;
+                    }
+
+                    f.submit();
                 }
 
 
-                //3. 양념 추가
-                function addStepS() {
-                    const table = document.getElementById('seasoningT');
-                    const newRow = document.createElement('tr');
+                //썸네일 미리보기 
+                function previewImage(input) {
 
-                    newRow.innerHTML = `
-                        <td><input type="text" name="seasoningName" /></td>
-                        <td class="qty-cell">
-                            <input type="text" name="amountS" />
-                            <select name="unitS">
-                                <option value="큰술">큰술 (tbsp)</option>
-                                <option value="작은술">작은술 (tsp)</option>
-                                <option value="컵">컵 (Cup)</option>
-                                <option value="ml">ml (밀리리터)</option>
-                                <option value="꼬집">꼬집</option>
-                                <option value="적당량">적당량</option>
-                                <option value="약간">약간</option>
-                                <option value="방울">방울</option>
-                            </select> 
-                            <button type="button" onclick="removeRow(this)" class="x-btn">X</button>
-                        </td>
-                    `;
-                    table.appendChild(newRow);
+                    const file = input.files[0];
+                    if (!file) {
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const preview = document.getElementById('thumbnailPreview'); //<img id="thumbnailPreview">
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(file);
                 }
 
-                //채소, 육류, 양념 원하는 줄 삭제
+                //조리순서 이미지 미리보기 
+                function previewStep(input) {
+
+                    console.log("조리순서 이미지 미리보기 함수 실행됨");
+
+                    const file = input.files[0];
+                    if (!file) {
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const preview = input.parentElement.querySelector("img"); //파일 선택한 바로 아래 <img> 태그 찾아 
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+
+
+                //재료 추가 함수
+                function addIngredient() {
+                    const table = document.getElementById('ingredientTable');
+                    const newRow = table.insertRow();
+
+
+                    newRow.innerHTML = `
+                    <td><input type="text" name="ingredientName"></td>
+                    <td><input type="number" name="amount" min="0.1" step="0.1"></td>
+                    <td>
+                        <select name="unit" onchange="changeUnit(this)">
+                            <option value="개">개</option>
+                            <option value="g">g</option>
+                            <option value="kg">kg</option>
+                            <option value="ml">ml</option>
+                            <option value="큰술">큰술</option>
+                            <option value="작은술">작은술</option>
+                            <option value="컵">컵</option>
+                            <option value="direct">직접입력</option>
+                        </select>
+
+                        <input type="text"
+                            name="customUnit"
+                            placeholder="단위 입력" 
+                            style="display:none;"
+                            />  
+                    </td>
+                    <td> 
+                        <button type="button" onclick="removeRow(this)" class="x-btn">
+                            X
+                        </button>  
+                    </td>
+                `;
+
+                }
+
+                //'직접입력' 선택시 텍스트 입력창 보이기
+                function changeUnit(select) {
+                    const customInput =
+                        select.parentElement.querySelector("input");
+
+                    if (select.value === "direct") {
+                        customInput.style.display = "block;";
+                    } else {
+                        customInput.style.display = "none";
+                        customInput.value = "";
+                    }
+                }
+
+                //재료 줄 삭제
                 function removeRow(btn) {
-                    // .closest('tr')는 버튼에서 가장 가까운 줄(tr)을 찾음
-                    const row = btn.closest('tr');
+                    const table = document.getElementById("ingredientTable");
 
-                    // 찾은 줄 삭제
-                    row.remove();
+                    if (table.rows.length <= 2) {
+                        alert("재료는 최소 1개 이상 필요합니다.");
+                        return;
+                    }
+
+                    btn.closest("tr").remove();
                 }
 
 
                 //조리순서 번호를 1부터 다시 매기는 함수
-                function updateStepNumbers(){
+                function updateStepNumbers() {
                     //stepBody 안에 있는 모든 .step-number 요소를 가져와 
                     //띄어쓰기-> 자식 선택!
                     const steps = document.querySelectorAll('#stepBody .step-number');
@@ -136,9 +172,15 @@
 
                     //처음부터 번호 계산 x, updateStepNumbers: 선 생성 번호매김 후 처리
                     newRow.innerHTML = `
-                        <td align = "center"> <div class="step-number">\${ nextStep }</div> </td >
+                        
+                    <td align = "center"> 
+                            <div class="step-number">1</div> 
+                        </td >
+
                         <td>
-                            <input type="file" name="img"/>
+                            <input type="file" name="stepImg" onchange="previewStep(this)" />
+                            <br/>
+                            <img class="step-image" src="#" alt="조리순서 이미지 미리보기"/>
                         </td>
                         
                         <td>
@@ -150,16 +192,25 @@
                         </td>
                     `;
 
-                    // tbody에 추가
+                    //tbody에 추가
                     tbody.appendChild(newRow);
 
                     //추가 후 번호 갱신
                     updateStepNumbers();
                 }
 
+
+
                 //원하는 줄 삭제
                 function removeRow2(btn) {
                     const row = btn.closest('tr');
+                    const rows = document.querySelectorAll('#stepBody tr');
+
+                    if (rows.length <= 1) {
+                        alert("조리순서는 최소 1개 이상 필요합니다.");
+                        return;
+                    }
+
                     //찾은 줄 삭제
                     row.remove();
                     //선택한 줄 삭제 후 번호 재정렬
@@ -167,6 +218,7 @@
                 }
 
             </script>
+
 
             <style>
                 textarea {
@@ -176,112 +228,65 @@
 
         </head>
 
+
         <body>
-            <form action="/myrecipe.do" method="post" enctype="multipart/form-data" >
-                <input type="hidden" name="memberId" value="${sessionScope.user.member_id}" />    
-                <h1>제목
-                    <input type="text" name="title" />
-                </h1>
+            <form action="/myrecipe.do" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="memberId" value="${sessionScope.user.member_id}" />
 
-                <h1>대표 이미지
-                    <td>
-                        <input type="file" name="mainImg"/>
-                    </td> 
-                </h1>
-                
+                <h1>제목</h1>
+                <input type="text" name="title" class="recipe-title" placeholder="레시피 제목을 입력하세요">
 
-                <h1>필요한 재료</h1>
-                <table>
-                    <tbody id="ingredients">
-                        <tr>
-                            <td>
-                                <table id="ingreT">
-                                    <tr>
-                                        <th>채소</th>
-                                        <th>수량</th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" name="vegetableName" placeholder="예: 마늘" /></td>
-                                        <td class="qty-cell">
-                                            <input type="text" name="amountV" />
-                                            <select name="unitV">
-                                                <option value="개">개</option>
-                                                <option value="쪽">쪽 (예: 마늘)</option>
-                                                <option value="대">대 (예: 대파)</option>
-                                                <option value="통">통 (예: 양배추)</option>
-                                                <option value="줌">줌 (예: 시금치)</option>
-                                                <option value="g">g (그램)</option>
-                                                <option value="약간">약간</option>
-                                                <option value="뿌리">뿌리 (예: 쪽파)</option>
-                                                <option value="봉지">봉지 (예: 숙주)</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div align="center">
-                                    <button type="button" class="add-btn" onclick="addStepV()">+ 채소 추가</button>
-                                </div>
 
-                                <br />
-                                <table id="meatT">
-                                    <tr>
-                                        <th>육류</th>
-                                        <th>수량/중량</th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" name="meatName" placeholder="예: 소고기(양지)" /></td>
-                                        <td class="qty-cell">
-                                            <input type="text" name="amountM" />
-                                            <select name="unitM">
-                                                <option value="g">g (그램)</option>
-                                                <option value="kg">kg (킬로그램)</option>
-                                                <option value="근">근 (600g)</option>
-                                                <option value="마리">마리 (예: 닭고기)</option>
-                                                <option value="팩">팩</option>
-                                                <option value="장">장 (예: 슬라이스 햄)</option>
-                                                <option value="토막">토막 (예: 생선)</option>
-                                                <option value="적당량">적당량</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
+                <h1>대표 이미지</h1>
 
-                                <div align="center">
-                                    <button type="button" class="add-btn" onclick="addStepM()">+ 육류 추가</button>
-                                </div>
+                <!--파일 선택 시 미리보기 함수 호출-->
+                <input type="file" name="mainImg" onchange="previewImage(this)" />
+                <br />
+                <!--미리보기 이미지 태그-->
+                <img id="thumbnailPreview" src="#" alt="썸네일 미리보기" />
 
-                                <br />
-                                <table id="seasoningT">
-                                    <tr>
-                                        <th>양념/장류</th>
-                                        <th>사용량</th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" name="seasoningName" placeholder="예: 간장" /></td>
-                                        <td class="qty-cell">
-                                            <input type="text" name="amountS" />
-                                            <select name="unitS">
-                                                <option value="큰술">큰술 (tbsp)</option>
-                                                <option value="작은술">작은술 (tsp)</option>
-                                                <option value="컵">컵 (Cup)</option>
-                                                <option value="ml">ml (밀리리터)</option>
-                                                <option value="꼬집">꼬집</option>
-                                                <option value="적당량">적당량</option>
-                                                <option value="약간">약간</option>
-                                                <option value="방울">방울 (예: 참기름)</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div align="center">
-                                    <button type="button" class="add-btn" onclick="addStepS()">+ 양념/장류 추가</button>
-                                </div>
+                <div class="section">
+                    <h1>필요한 재료</h1>
+                </div>
 
-                </table>
-                </tbody>
+                <table id="ingredientTable">
+                    <tr>
+                        <th>재료명</th>
+                        <th>수량</th>
+                        <th>단위</th>
+                        <th></th>
+                    </tr>
+
+                    <tr>
+                        <td><input type="text" name="ingredientName"></td>
+                        <td><input type="number" name="amount" min="0.1" step="0.1"></td>
+                        <td>
+                            <select name="unit" onchange="changeUnit(this)">
+                                <option>개</option>
+                                <option>g</option>
+                                <option>kg</option>
+                                <option>ml</option>
+                                <option>큰술</option>
+                                <option>작은술</option>
+                                <option>컵</option>
+                                <option value="direct">직접입력</option>
+                            </select>
+                            <input type="text" name="customUnit" placeholder="단위 입력" style="display:none;" />
+                        </td>
+                    </tr>
                 </table>
 
-                <h1>조리 순서</h1>
+                <div class="btn-wrap">
+                    <button type="button" onclick="addIngredient()">
+                        + 재료 추가
+                    </button>
+                </div>
+
+                <br />
+                <div class="section">
+                    <h1>조리 순서</h1>
+                </div>
+
                 <table>
                     <tbody id="stepBody">
 
@@ -291,28 +296,37 @@
                             </td>
 
                             <td>
-                                <input type="file" name="img" />
+                                <!--파일 선택 시 미리보기 함수 호출 -->
+                                <input type="file" name="stepImg" onchange="previewStep(this)" />
+                                <br />
+                                <!--미리보기 이미지 태그-->
+                                <img class="step-image" src="#" alt="조리순서 이미지 미리보기" />
+
                             </td>
 
                             <td>
                                 <div class="step-content">
-                                <textarea name="step" rows="5" cols="50" style="resize: none;"
-                                    placeholder="예) 먼저 팬에 기름을 두르고 마늘 기름을 내주세요."></textarea>
+                                    <textarea name="step" rows="5" cols="50" style="resize: none;"
+                                        placeholder="예) 먼저 팬에 기름을 두르고 마늘 기름을 내주세요."></textarea>
                                 </div>
                             </td>
                         </tr>
+
                     </tbody>
                 </table>
 
-                <br/>
-                <div align="center">
-                    <button type="button" onclick="addStep()">+</button>
+
+                <br />
+                <div class="btn-wrap">
+                    <button type="button" onclick="addStep()">+ 조리순서 추가</button>
                 </div>
 
-                <br/>
-                <button type="submit" onclick="send(this.form)">내 레시피 등록하기</button>
+                <br />
+                <div class="btn-wrap">
+                    <button type="button" onclick="send(this.form)">내 레시피 등록!</button>
+                </div>
+
             </form>
-        </div>
-    </div>
-</body>
-</html>
+        </body>
+
+        </html>
