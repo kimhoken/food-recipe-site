@@ -25,11 +25,10 @@ public class FoodController {
     public Map<String, Object> getCategory(String category) {
         Map<String, Object> map = new HashMap<>();
 
-        //소분류(국/찌개 등) 리스트 조회
+        //중분류(국/찌개 등) 리스트 조회
         List<CategoryVO> catList = categoryDao.getCategoryList(category);
 
-        //대분류에 속하는 음식 리스트 조회
-        // List<FoodVO> foodList = foodDao.foodListCategory(category);
+        //소분류에 속하는 음식 리스트 조회
         List<FoodVO> foodList = categoryDao.foodListCategory(category);
 
         map.put("catList", catList);

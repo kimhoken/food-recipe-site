@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="size" resultType="int">
         SELECT COUNT(*) FROM recipe
     </select>
-	
+    
     <select id="selectOne" parameterType="int" resultType="recipe">
         SELECT *, RANK() OVER(ORDER BY created_date DESC) as rank FROM recipe
         WHERE rank = #{num}
@@ -26,8 +26,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE i.ingredient_name LIKE #{pattern}
     </select>
 
+    <select id="selectRecipeCount" parameterType="RecipeSearchDTO" resultType="int">
+    SELECT COUNT(*) 
+    FROM recipe r
+    JOIN category c ON r.category_id = c.category_id
+    <where>
+        <if test="category != null and category != ''">
+            c.category_name = #{category}
+        </if>
+        <if test="maxCookTime > 0 and maxCookTime != 9999">
+            AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
+        </if>
+    </where>
+</select>
 
-    <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
-        SELECT * FROM recipe ORDER BY created_date DESC      
-    </select>
+<select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
+    SELECT r.* FROM recipe r
+    JOIN category c ON r.category_id = c.category_id
+    <where>
+        <if test="category != null and category != ''">
+            c.category_name = #{category}
+        </if>
+        <if test="maxCookTime > 0 and maxCookTime != 9999">
+            AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
+        </if>
+    </where>
+    <!-- 조리시간 선택 시 최신순, 미선택 시 조리시간 오름차순 -->
+    <choose>
+        <when test="maxCookTime == 0">
+            ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
+        </when>
+        <otherwise>
+            ORDER BY r.created_date DESC
+        </otherwise>
+    </choose>
+    LIMIT 9 OFFSET #{offset}
+</select>
+
 </mapper>
