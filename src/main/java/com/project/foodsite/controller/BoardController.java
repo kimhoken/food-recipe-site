@@ -26,7 +26,7 @@ public class BoardController {
     public String boardList(Model model){
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);
-        return "board/board_list";
+        return "board/board_list"; 
     }
 
     //board 검색
