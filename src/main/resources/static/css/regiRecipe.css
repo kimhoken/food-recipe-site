@@ -1,342 +1,220 @@
-@charset "UTF-8";
-
-.container-main-page{
-    background-color: #F9F7F2;
-}
-
-/* 레시피 등록 컨테이너 (메인 페이지 컨테이너 안에 쏙 들어가게 스타일링) */
-.recipe-regi-container {
-    max-width: 900px;
-    margin: 40px auto;
-    margin-top: 0px;
-    background: #fff;
-    padding: 50px;
+/* 전체 폼 */
+form {
+    width: 1500px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #F9F7F2;
     border-radius: 16px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
-    border: 1px solid #f1f5f9;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* 제목 스타일 */
-.recipe-regi-container h1 {
-    font-size: 1.25rem;
-    color: #1e293b;
-    border-left: 5px solid #5a7e4d; /* 메인 포인트 그린 */
-    padding-left: 15px;
-    margin-bottom: 20px;
-    margin-top: 40px;
-    font-weight: 700;
+.section{
+    margin-top:60px;
 }
 
-.recipe-regi-container h1:first-of-type {
-    margin-top: 0;
+/* 제목 */
+h1{
+    font-size:42px;
+    font-weight:700;
+    margin-bottom:25px;
+    margin-top:50px;
 }
 
-/* 입력창 및 셀렉트 박스 */
-.recipe-regi-container input[type="text"], 
-.recipe-regi-container select, 
-.recipe-regi-container textarea {
+/* 제목 입력 */
+.recipe-title{
+    width: 100%; 
+    max-width: 100%;
+    height: 60px;
+    font-size: 20px;
+    border: none;
+    background: transparent;
+    padding: 0 20px;
+    margin-bottom: 40px;
+}
+
+.recipe-title::placeholder{
+    color: #b8b8b8;
+    font-weight: 600;
+}
+
+.recipe-title:focus{
+    outline: none;
+}
+
+/* 대표 이미지 미리보기 */
+#thumbnailPreview {
+    display: none;
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+/* 재료 테이블 */
+#ingredientTable {
     width: 100%;
-    padding: 12px 15px;
-    margin: 4px 0;
-    border: 1px solid #e2e8f0;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#ingredientTable th {
+    background: #f8f8f8;
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+}
+
+#ingredientTable td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 재료 입력 */
+#ingredientTable input,
+#ingredientTable select {
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 14px;
-    background: #f8fafc;
-    transition: all 0.2s;
-    font-family: 'Noto Sans KR', sans-serif;
+}
+
+#ingredientTable {
+    width: 100%;
+    margin: 0 auto;
+    table-layout: fixed;
+}
+
+#ingredientTable th,
+#ingredientTable td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#ingredientTable input,
+#ingredientTable select {
+    width: 180px;
+}
+
+#ingredientTable input[name="customUnit"] {
+    display: none;
+    margin: 8px auto 0;
+}
+
+textarea {
     resize: none;
 }
 
-.recipe-regi-container input[type="text"]:focus, 
-.recipe-regi-container select:focus, 
-.recipe-regi-container textarea:focus {
-    outline: none;
-    border-color: #5a7e4d;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(90, 126, 77, 0.1);
-}
-
-/* 테이블 스타일 */
-.recipe-regi-container table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 5px;
-}
-
-.recipe-regi-container th {
-    background-color: #f1f5f9;
-    padding: 12px;
-    text-align: left;
-    font-size: 14px;
-    color: #666;
-    border-bottom: 2px solid #E77B4D;
-}
-
-td {
-    padding: 10px 5px;
-}
-
-/* 버튼 스타일 */
-button {
-    cursor: pointer;
-    border: none;
-    border-radius:20px;
-    transition: transform 0.2s, background-color 0.2s;
-    font-weight: bold;
-}
-
-/* 추가 버튼 (+) */
-button[type="button"] {
-    background-color: #6B8E23; /* 메인 이미지의 잎사귀 그린 색상 */
-    color: white;
-    padding: 8px 20px;
-    font-size: 13px;
-    color: #475569;
-    border-bottom: 2px solid #e2e8f0;
-    font-weight: 600;
-}
-
-.recipe-regi-container td {
-    padding: 8px 5px;
-}
-
-/* 수량 및 셀렉트 박스 나란히 배치 */
-.qty-cell {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.qty-cell input[name^="amount"] {
-    width: 80px !important;
-    text-align: center;
-}
-
-.qty-cell select[name$="Unit"] {
-    width: 130px !important;
-}
-
-/* 버튼 스타일 (추가 버튼) */
-.add-btn {
-    background-color: #f8fafc;
-    color: #475569;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    padding: 8px 24px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-/* 등록 버튼 */
-button[type="submit"] {
-    background-color: #E77B4D;
-}
-
-/* 삭제 버튼 (X) */
-.x-btn {
-    background-color: #ef4444; /* 경고 느낌의 빨간색 */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.x-btn:hover {
-    background-color: #dc2626;
-}
-
-/* 폼 제출 등록 버튼 */
-.submit-btn {
-    background-color: #5a7e4d; /* 메인 포인트 그린 */
-    color: white;
-    width: 100%;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 12px;
-    margin-top: 50px;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    box-shadow: 0 4px 12px rgba(90, 126, 77, 0.2);
-}
-
-.submit-btn:hover {
-    background-color: #4a663f;
-    transform: translateY(-2px);
-}
-
-/* 조리 순서 숫자 스타일 */
-.step-number {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    background-color: #5a7e4d;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-/* 파일 업로드 스타일 */
-input[type="file"] {
-    font-size: 12px;
-    color: #888;
-}
-
-/* 간격 조절 */
-.ingredient-section {
-    background: #fff;
-    margin-bottom: 20px;
-}
-
-/* 1. 수량과 셀렉트 박스 나란히 배치 및 사이즈 조절 */
-td.qty-cell {
-    display: flex;
-    gap: 10px; /* 입력창과 선택창 사이 간격 */
-    align-items: center;
-}
-
-/* 수량 입력창: 크기를 작게 조절 */
-input[name^="amount"] {
-    width: 70px !important;
-    text-align: center;
-}
-
-/* 단위 선택창: 크기를 적절하게 조절 */
-select[name$="Unit"] {
-    width: 120px !important;
-    padding: 8px 10px;
-}
-
-/* 2. 조리 순서 테이블 스타일 강화 */
+/* 조리순서 테이블 */
 #stepBody tr {
     border-bottom: 1px solid #eee;
 }
 
-/* 숫자 칸 스타일 */
+#stepBody td {
+    padding: 20px 10px;
+    vertical-align: top;
+}
+
+/* 순서 번호 */
 .step-number {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #E77B4D; /* 메인 오렌지 */
-    background-color: #FFF5F0;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    background: #6d8f2a;
+    color: white;
     border-radius: 50%;
+    font-size: 22px;
+    font-weight: bold;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin: 10px auto;
+    align-items: center;
 }
 
-/* 3. 파일 선택(input type="file") 스타일 */
-/* 파일 선택 버튼과 텍스트를 정돈 */
-input[type="file"] {
-    font-size: 13px;
-    color: #666;
-    background: #fdfdfd;
-    border: 1px dashed #ccc;
-    padding: 10px;
-    color: #64748b;
-    background: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    padding: 8px;
-    border-radius: 8px;
-    width: 100%;
-    box-sizing: border-box;
+/* 조리순서 이미지 */
+.step-image {
+    display: none;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
 }
 
-input[type="file"]::file-selector-button {
-    background-color: #e2e8f0;
-    color: #475569;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
+.step-content{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+/* 조리순서 textarea */
+.step-content textarea {
+    width: 800px;
+    height: 200px;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.x-btn2{
+    flex-shrink:0;
+}
+
+/* 버튼 공통 */
+button {
     cursor: pointer;
-    margin-right: 10px;
-    font-weight: 600;
+    border: none;
+    border-radius: 999px;
     transition: 0.2s;
 }
 
-input[type="file"]::file-selector-button:hover {
-    background-color: #556B2F;
+.btn-wrap {
+    text-align: center;
+    margin-top: 20px;
 }
 
-/* 4. 조리 과정 작성 textarea 스타일 */
-textarea[name="step"] {
-    width: 100%;
-    min-height: 100px;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 15px;
-    font-family: inherit;
-    font-size: 14px;
-    background-color: #fafafa;
-    transition: border-color 0.3s, background-color 0.3s;
+/* 추가 버튼 */
+button[onclick="addIngredient()"],
+button[onclick="addStep()"] {
+    background: #6d8f2a;
+    color: white;
+    padding: 12px 24px;
+    font-size: 15px;
 }
 
-textarea[name="step"]:focus {
-    background-color: #fff;
-    border-color: #E77B4D;
+button[onclick="addIngredient()"]:hover,
+button[onclick="addStep()"]:hover {
+    background: #5d7a24;
 }
 
-/* 텍스트 영역과 버튼을 감싸는 컨테이너 */
-.step-content{
-    position: relative; /* 버튼의 기준점이 됩니다 */
-    display: flex;
-    align-items: center;
-}
-
-/* 재료 옆 X 버튼 (x-btn) 전용 스타일 */
-button.x-btn {
-    /* 1. 기존 초록색 버튼 스타일 초기화 */
-    background-color: transparent !important; /* 배경 투명 */
-    padding: 0 5px !important;                /* 안쪽 여백 최소화 */
-    margin-top: 0 !important;                 /* 상단 여백 제거 */
-    box-shadow: none !important;              /* 그림자 제거 */
-    width: auto !important;                   /* 너비 자동 */
-    
-    /* 2. 원하는 사이즈 및 색상 설정 */
-    color: #6B8E23;       
-    font-size: 16px;     
+/* 등록 버튼 */
+button[onclick^="send"] {
+    background: #ff8c42;
+    color: white;
+    font-size: 17px;
     font-weight: bold;
-    display: inline-block;
-    vertical-align: middle; /* 입력창과 세로 위치 맞춤 */
+    padding: 14px 35px;
 }
 
-/* 마우스를 올렸을 때 효과 */
-button.x-btn:hover {
-    background-color: transparent !important;
-    color: #4b6318; /* 호버 시 조금 더 진한 색상 */
-    transform: scale(1.1);
+/* 삭제 버튼 */
+.x-btn,
+.x-btn2 {
+    background: #f0f0f0; 
+    color: #666;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
 }
 
-/* X 버튼 스타일 수정 */
-button.x-btn2 {
-    position: absolute;
-    right: -25px; /* 텍스트박스 오른쪽 밖으로 이동 */
-    top: 45%;
-    transform: translateY(-50%); /* 세로 중앙 정렬 */
-    background-color: transparent;
-    border: none;
-    color: #6B8E23;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 5px;
+.x-btn:hover,
+.x-btn2:hover {
+    background: #d9e6c3;
+    color: #5d7a24;
 }
-
