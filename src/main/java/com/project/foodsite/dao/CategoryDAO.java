@@ -12,4 +12,5 @@ public interface CategoryDAO {
 
     List<CategoryVO> getCategoryList(String category);
     List<FoodVO> foodListCategory(String category);
+    List<CategoryVO> selectCategoryFood(String category);
 }

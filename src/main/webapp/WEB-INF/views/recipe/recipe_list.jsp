@@ -17,7 +17,7 @@
 </head>
 <body>
 
-   <header>
+    <header>
         <div class="header-top">
             <div class="logo">
                 <a href="${pageContext.request.contextPath}/">
