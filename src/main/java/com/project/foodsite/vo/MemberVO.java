@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Alias("member")
 public class MemberVO {
     private String login_id, password, nickname, email, 
-    role, status, profile_img, login_type, provider, provider_id, name;
+    role, status, profile_img, login_type, provider, provider_id, name, member_intro, created_date;
     private int member_id, report_count;
 
     private MultipartFile photo;
