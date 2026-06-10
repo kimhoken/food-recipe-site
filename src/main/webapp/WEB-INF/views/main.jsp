@@ -379,7 +379,9 @@
             <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                 <div class="recipe-card">
                     <a href="/recipe_detail.do?id=${recipe.recipe_id}">
-                        <div class="recipe-img"></div>
+                        <div class="recipe-img">
+                            <img src="/upload/${recipe.thumbnail}"/>
+                        </div>
                         <div class="rank-badge">${status.index + 1}</div>
                         <div class="recipe-info">
                             <div class="recipe-name">${recipe.title}</div>
