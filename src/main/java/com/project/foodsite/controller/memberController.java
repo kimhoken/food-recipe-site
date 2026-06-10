@@ -25,7 +25,7 @@ import com.project.foodsite.vo.TokenVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -136,6 +136,7 @@ public class memberController {
     @ResponseBody
     public Map<String, Integer> register(MemberVO vo) throws Exception {
         
+    
         if(vo.getLogin_type() == null){
             vo.setLogin_type("LOCAL");
         }
@@ -146,10 +147,13 @@ public class memberController {
             vo.setPassword(enc_pwd);            
         }
 
-        String filename = "no_file";
+        
+        if(vo.getFilename() == null  ){
+            String filename = "/images/no_file.png";
+            vo.setFilename(filename);
+        }
        
-
-        vo.setFilename(filename);
+        vo.setMember_intro("안녕하십니까 "+vo.getName()+" 입니다.");
         vo.setRole("USER");
         vo.setStatus("yes");
 
@@ -357,7 +361,7 @@ public class memberController {
         vo.setMember_id(member_id);
         vo.setPassword(enc_pwd);
         
-        int res = memberDAO.userUpdate(vo);
+        int res = memberDAO.userPwdUpdate(vo);
         
         if(res > 0){
             //재설정 완료후 토큰 삭제
