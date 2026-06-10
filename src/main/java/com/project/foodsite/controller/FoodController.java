@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.CategoryDAO;
 import com.project.foodsite.vo.CategoryVO;
-import com.project.foodsite.vo.FoodVO;
 
 import lombok.RequiredArgsConstructor;
 
