@@ -29,11 +29,8 @@ public class WebPushController {
         try {
             WebPushSubscriptionVO subscription = new WebPushSubscriptionVO();
             MemberVO user = (MemberVO)session.getAttribute("user");
-            
             subscription.setMember_id(user.getMember_id()); 
-            
-            // 2. 최상위 endpoint 값 추출
-            subscription.setEndpoint((String) payload.get("endpoint"));
+            subscription.setEndpoint((String) payload.get("endpoint")); // 2.최상위 endpoint값 추출
             
             // 3. 내부 중첩 객체인 keys 안에 들어있는 p256dh와 auth 추출
             Map<String, String> keys = (Map<String, String>) payload.get("keys");
@@ -44,7 +41,6 @@ public class WebPushController {
 
             // 4. 추출한 값들을 서비스로 넘겨서 DB에 저장
             webPushService.saveSubscription(subscription);
-            
             return ResponseEntity.ok().body("{\"message\": \"구독 정보가 성공적으로 저장되었습니다.\"}");
         } catch (Exception e) {
             e.printStackTrace();

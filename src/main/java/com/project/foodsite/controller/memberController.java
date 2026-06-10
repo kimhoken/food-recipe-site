@@ -1,11 +1,9 @@
 package com.project.foodsite.controller;
 
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 
 import com.project.foodsite.common.MailSendService;
 import com.project.foodsite.common.NicknameGenerater;
@@ -25,10 +22,6 @@ import com.project.foodsite.vo.TokenVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-
-
-
 
 @RequiredArgsConstructor
 @Controller
@@ -42,17 +35,12 @@ public class memberController {
     private final pwdSecurity pwdSecurity;
     private final NicknameGenerater nicknameGenerater;
     private final TokenDAO tokenDAO;
-   
-
 
     // 회원 리스트 출력
     @GetMapping(value = { "/member_list.do" })
     public String selectlist(Model model) {
-
         List<MemberVO> list = memberDAO.selectList();
-
         model.addAttribute("list", list);
-
         return "/member/member_list";
     }
 
@@ -66,17 +54,12 @@ public class memberController {
     @PostMapping("/login.do")
     @ResponseBody
     public Map<String, String> loginCheck(MemberVO vo) {
-
         MemberVO user = memberDAO.getUserById(vo.getLogin_id());
-
         Map<String, String> map = new HashMap<>();
-
         String login_res = "no_id";
 
         if (user != null) {
-
             login_res = "no_pwd";
-        
             boolean pwdcheck = pwdSecurity.pwdDecoding(vo.getPassword(),user.getPassword()); 
 
             if (pwdcheck) {
@@ -85,36 +68,26 @@ public class memberController {
                 map.put("nick", user.getNickname());
                 login_res = "login";
             }
-
         }
-
         map.put("res", login_res);
-
         return map;
-
     }
 
     // 회원 가입 페이지
     @GetMapping("/register_form.do")
     public String registerpage(Model model) {
-        
         boolean sys=true;
         String nickname = "no_name";
-
         MemberVO socialUser = (MemberVO) httpSession.getAttribute("socialUser");
 
         if(socialUser != null){
-
             model.addAttribute("socialUser", socialUser);
             model.addAttribute("isSocial", true);
-
             if(socialUser.getNickname() != null){
-
                 nickname = socialUser.getNickname();
                 sys = false;
-
             }
-        } else{
+        }else{
             model.addAttribute("isSocial", false);
         }
         
@@ -124,19 +97,14 @@ public class memberController {
             if(vo == null){
                 sys=false;
             }  
-
         }
-
         model.addAttribute("nickname",nickname);
-
         return "member/register_form";
     }
     //회원가입 
     @PostMapping("/register.do")
     @ResponseBody
     public Map<String, Integer> register(MemberVO vo) throws Exception {
-        
-    
         if(vo.getLogin_type() == null){
             vo.setLogin_type("LOCAL");
         }
@@ -146,13 +114,12 @@ public class memberController {
             String enc_pwd = pwdSecurity.pwdEncoding(vo.getPassword());
             vo.setPassword(enc_pwd);            
         }
-
         
         if(vo.getFilename() == null  ){
             String filename = "/images/no_file.png";
             vo.setFilename(filename);
         }
-       
+
         vo.setMember_intro("안녕하십니까 "+vo.getName()+" 입니다.");
         vo.setRole("USER");
         vo.setStatus("yes");
@@ -168,9 +135,7 @@ public class memberController {
     @PostMapping("/check_id.do")
     @ResponseBody
     public Map<String,String> checkId(String login_id){
-
         MemberVO vo = memberDAO.getUserById(login_id);
-
         String id_msg="yes";
 
         if(vo != null ){            
@@ -217,23 +182,18 @@ public class memberController {
     @PostMapping("/mail_check.do")
     @ResponseBody
     public Map<String,String> emailCheck(String email) {
-
-       String res = mss.sendEmail(email,"authnumber");
-
+        String res = mss.sendEmail(email,"authnumber");
         Map<String,String> map = new HashMap<>();
-        map.put("authNumber", res);
 
+        map.put("authNumber", res);
         return map;       
-        
     }
 
     //닉네임 중복 검사 함수
     @PostMapping("/check_nickname.do")
     @ResponseBody
     public Map<String,String> nicknameCheck(String nickname){
-
         MemberVO vo = memberDAO.getUserNickname(nickname);
-
         String nickname_msg = "";
 
         if(vo != null){
@@ -261,9 +221,7 @@ public class memberController {
     @PostMapping("/emailfind.do")
     @ResponseBody
     public Map<String,String> findemail(String email){
-
         MemberVO vo = memberDAO.getUserEmail(email);
-        
         String res = "no";
 
         if(vo != null){
@@ -276,27 +234,21 @@ public class memberController {
         map.put("result",res);
 
         return map;
-        
     }
 
     // 이메일로 회원 정보 조회
     @PostMapping("/findid.do")
     @ResponseBody
     public String findid(String email){
-        
         MemberVO vo = memberDAO.getUserEmail(email);
-
         return vo.getLogin_id();
-
     }
 
     //이메일 재설정 링크 보내는 함수
     @PostMapping("/resetpwd.do")
     @ResponseBody
     public Map<String,String> resetpwd(String email, String login_id){
-
         MemberVO membervo = memberDAO.getUserEmail(email);
-
         Map<String,String> map = new HashMap<>();
 
         // 이메일과 아이디로 membervo 같은지 판별
@@ -306,16 +258,13 @@ public class memberController {
         }
 
         String res = mss.sendEmail(email, "resetpwd");
-
-
-        
         TokenVO vo = new TokenVO();
+
         vo.setMember_id(membervo.getMember_id());
         vo.setToken(res);
         vo.setExpire_date(LocalDateTime.now().plusMinutes(30));
 
         int msg_res = tokenDAO.insertToken(vo);
-
 
         if(msg_res > 0){
             map.put("result", "success");
@@ -329,23 +278,20 @@ public class memberController {
     //비밀번호 재설정 페이지 전송 함수
     @GetMapping("/resetpwd.do")
     public String resetpwd_form(String token, Model model){
-
         TokenVO vo = tokenDAO.getToken(token);
 
-       if(vo != null){
-            
+        if(vo != null){
             if(vo.getExpire_date().isBefore(LocalDateTime.now()) || vo.getUsed().equals("yes")){
                 model.addAttribute("msg", "토큰이 만료되었습니다.");                
             }
-        
-            MemberVO membervo = memberDAO.getUserByMemberId(vo.getMember_id());
 
+            MemberVO membervo = memberDAO.getUserByMemberId(vo.getMember_id());
             model.addAttribute("member" , membervo);
             model.addAttribute("token" , vo);
             
-       }else{
-            model.addAttribute("msg", "토큰이 존재하지 않습니다.");}
-       
+        }else{
+            model.addAttribute("msg", "토큰이 존재하지 않습니다.");
+        }
 
         return "member/resetpwd_form";
     }   
@@ -354,10 +300,9 @@ public class memberController {
     @PostMapping("/repwd.do")
     @ResponseBody
     public String repwd(int member_id, String password, int token_id){
-
         String enc_pwd = pwdSecurity.pwdEncoding(password);
-
         MemberVO vo = new MemberVO();
+
         vo.setMember_id(member_id);
         vo.setPassword(enc_pwd);
         

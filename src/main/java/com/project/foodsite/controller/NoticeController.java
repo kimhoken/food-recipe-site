@@ -29,8 +29,6 @@ public class NoticeController {
     public String getArticleList(
             Model model,
             @RequestParam(value = "page", defaultValue = "1") int page,
-
-            
             @RequestParam(value = "search_text", defaultValue = "") String search_text) {
 
         int pageSize = 8;

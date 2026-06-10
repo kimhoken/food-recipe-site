@@ -27,7 +27,6 @@ public class MailSendService {
         this.javaMailSender = javaMailSender;
         
     }
-   
 
     // 인증번호 생성
     public void makeRandomNumber() {
@@ -36,7 +35,6 @@ public class MailSendService {
         authNumber = rand.nextInt(999999 - 111111 + 1) + 111111;
 
     }
-
     
     //토큰 생성 
     public void createToken() {
@@ -50,10 +48,8 @@ public class MailSendService {
                     .encodeToString(bytes);
     }
 
-
     //메일 함수
     public String sendEmail(String email,String val){
-
         String setForm = "kimhk441@naver.com";
         String toMail = email;
         Map<String,String> emailMap = new HashMap<>();
@@ -92,11 +88,9 @@ public class MailSendService {
     public Map<String,String> joinEmail(){
         
         makeRandomNumber();
-        
-        
         String title = "오늘은 뭐 먹지? 인증 이메일 입니다.";
 
-       String content = """
+        String content = """
             <div style="width:100%%; background:#F7F4EE; padding:50px 0; font-family:Arial, sans-serif;">
 
                 <div style="
@@ -193,13 +187,9 @@ public class MailSendService {
 
     //비밀번호 재설정 페이지 전송 함수
     public Map<String,String> resetEmail(){
-
         String title = "오늘은 뭐 먹지? 비밀번호 재설정 이메일 입니다.";
-
         createToken();
-
         String resetUrl = siteurl + token;        
-        
         String content = """
         <div style="width:100%%; background:#F7F4EE; padding:50px 0; font-family:Arial, sans-serif;">
 
@@ -297,6 +287,5 @@ public class MailSendService {
         email.put("token", token);
 
         return email;
-
     }
 }
