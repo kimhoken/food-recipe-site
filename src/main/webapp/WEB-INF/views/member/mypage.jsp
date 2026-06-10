@@ -8,6 +8,7 @@
             <link rel="stylesheet" href="/css/mypage.css" />
 
             <script>
+
                 //const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
                 const logout = () => {
                     if (confirm("로그아웃 하시겠습니까?")) {
@@ -27,23 +28,14 @@
                             })
                     }
                 }
+                
+                function status(){
+                    document.getElementById("filechange").value="yes";                    
+                }
 
                 function updateMember(f){
                     
-                    let formdata = new FormData(f);
-
-                    fetch("/mypage.do",{
-                        method:'post',                        
-                        body:formdata
-                    }).then(res=>res.text())
-                    .then(data=>{
-                        if(data == "fin"){
-                            alert("회원 정보가 수정되었습니다.");
-                            location.href="/mypage.do?menu=account";
-                        }else{
-                            alert("수정 실패")
-                        }
-                    })
+                    f.submit();            
 
                 }
             </script>
@@ -63,7 +55,7 @@
 
                     <div class="profile-mini">
                         <div class="profile-img">
-                            <img src="${user.profile_img}" width="85px" height="85px" />
+                            <img src="/upload/${user.profile_img}" width="85px" height="85px" />
                         </div>
                         <strong>${user.nickname}</strong>
                         <p>맛있는 하루 되세요!</p>
@@ -71,13 +63,13 @@
 
                     <div class="menu-section">
                         <div class="sub-title">회원 정보</div>
-                        <div><a href="/mypage.do?menu=account&sel=info">
+                        <div><a href="/mypage.do?menu=account">
                                 <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
                                 회원정보</a></div>
-                        <div><a href="/mypage.do?menu=account&sel=pwd">
+                        <div><a href="/mypage.do?menu=pwd">
                                 <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
                                 비밀번호 변경</a></div>
-                        <div><a href="/mypage.do?menu=account&sel=del">
+                        <div><a href="/mypage.do?menu=del">
                                 <!-- <img src="/images/delete_user.png" /> -->
                                 회원 탈퇴</a></div>
                     </div>
@@ -115,20 +107,19 @@
                         <p>내활동 내역을 한 눈에 확인하세요!</p>
                     </div>
                     
-                    <c:if test="${ sel ne 'update' }">
+                    <c:if test="${ menu ne 'update' }">
 
                         <section class="main-box">
     
                             <div class="main-left">
                                 <div class="main-profile-img">
-                                    <img src="${user.profile_img}" />
+                                    <img src="/upload/${user.profile_img}" />
                                 </div>
                                 <div class="main-profile-text">
     
                                     <h3>${user.nickname}</h3>
                                     <div>${user.member_intro}</div>
-    
-                                    <!-- <a href="/mypage_info.do?sel=info">프로필 수정</a> -->
+                                        
                                 </div>
                             </div>
     

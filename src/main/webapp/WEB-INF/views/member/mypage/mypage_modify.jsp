@@ -1,17 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div>
+<section>
     <h2 class="join-title">회원 정보 수정</h2>
 
-    <form enctype="multipart/form-data">
+    <form action="/mypage_update.do" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="filechange" value="no" name="filechange"/>
         <input type="hidden" value="${user.member_id}" name="member_id"/>
         <!-- 프로필 이미지 -->
         <div class="join-row">
             <div class="join-label">프로필</div>
             <div class="join-control">
-                <img src="${user.profile_img}" class="profile-preview">
+                <img src="/upload/${user.profile_img}" class="profile-preview">
                 <input type="file" name="photo">
+                <input type="button" value="기존이미지 삭제" onclick="status()"/>
             </div>
         </div>
 
@@ -55,7 +57,7 @@
         <div class="join-row">
             <div class="join-label">소개글</div>
             <div class="join-control">
-                <textarea name="content" class="intro-box" maxlength="500"
+                <textarea name="member_intro" class="intro-box" maxlength="500"
                     placeholder="자신을 소개해보세요.">${user.member_intro}</textarea>
             </div>
         </div>
@@ -66,4 +68,4 @@
 
     </form>
 
-</div>
+</section>
