@@ -376,7 +376,7 @@
     <div class="container main-page">
         <div class="section-title">지금 인기있는 레시피🔥</div>
         <div class="recipe-grid">
-            <c:forEach var="recipe" items="${view_recipes}" varstatus="${status}">
+            <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                 <div class="recipe-card">
                     <a href="/recipe_detail.do?id=${recipe.recipe_id}">
                         <div class="recipe-img"></div>
@@ -389,7 +389,6 @@
                     </a>
                 </div> 
             </c:forEach>
-
         </div>
     </div>
 
@@ -409,7 +408,7 @@
                 <div class="today-main-img"> </div> 
                 <div class="today-main-info">
                     <h4>${today.title}</h4> 
-                    <p>${today.content}</p> 
+                    <p>이런 메뉴는 어떠신가요?</p> 
                     <span class="author">👤 ${today.nickname}</span>
                 </div>
             </div> 
@@ -431,17 +430,19 @@
             <!-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 -->
             <a href="#" class="more-btn">더보기 &gt;</a>
         </div>
-        <!-- 등록일자 기준으로 조회 -->
-        <c:forEach var="recipe" items="${reg_recipes}" >
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">${recipe.title}</div>
-                    <div class="recipe-author">👤 ${recipe.nickname}</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
+        <div class="recipe-grid">
+            <!-- 등록일자 기준으로 조회 -->
+            <c:forEach var="recipe" items="${reg_recipes}" >
+                <div class="recipe-card">
+                    <div class="recipe-img"></div>
+                    <div class="recipe-info">
+                        <div class="recipe-name">${recipe.title}</div>
+                        <div class="recipe-author">👤 ${recipe.nickname}</div>
+                        <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
+                    </div>
                 </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </div>
 
     <div class="info-bar">
