@@ -14,6 +14,32 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
 
+
+    <script>
+        function send() {
+            let f = document.frm;
+
+            //카테고리 선택 여부 
+            let catChecked = false;
+            let categoryList = document.getElementsByName("category");
+            
+            for (let i = 0; i < categoryList.length; i++) {
+                if (categoryList[i].checked) {
+                    catChecked = true;
+                    break;
+                }
+            }
+
+            if (!catChecked) {
+                alert("카테고리를 선택해주세요!");
+                return;
+            }
+
+            f.submit();
+        }
+    </script>
+
+
 </head>
 <body>
 
@@ -86,7 +112,7 @@
 
     <aside class="filter-area">
 
-        <form action="${pageContext.request.contextPath}/recipe_list.do" method="get">
+        <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
               
 
             <div class="filter-title">
@@ -99,27 +125,38 @@
 
                 <h4>카테고리</h4>
 
-                <label><input type="radio" name="category" value="상황별추천"> ⭐ 상황별 추천</label>
+                <label><input type="radio" name="category" value="상황별추천"
+                    <c:if test="${recipeSearchDTO.category eq '상황별추천'}">checked</c:if>> ⭐ 상황별 추천</label>
 
-                <label><input type="radio" name="category" value="한식"> 🍚 한식</label>
+                <label><input type="radio" name="category" value="한식"
+                    <c:if test="${recipeSearchDTO.category eq '한식'}">checked</c:if>> 🍚 한식</label>
 
-                <label><input type="radio" name="category" value="양식"> 🍝 양식</label>
+                <label><input type="radio" name="category" value="양식"
+                    <c:if test="${recipeSearchDTO.category eq '양식'}">checked</c:if>> 🍝 양식</label>
 
-                <label><input type="radio" name="category" value="중식"> 🍳 중식</label>
+                <label><input type="radio" name="category" value="중식"
+                    <c:if test="${recipeSearchDTO.category eq '중식'}">checked</c:if>> 🍳 중식</label>
 
-                <label><input type="radio" name="category" value="일식"> 🍣 일식</label>
+                <label><input type="radio" name="category" value="일식"
+                    <c:if test="${recipeSearchDTO.category eq '일식'}">checked</c:if>> 🍣 일식</label>
 
-                <label><input type="radio" name="category" value="아시안"> 🌏 아시안</label>
+                <label><input type="radio" name="category" value="아시안"
+                    <c:if test="${recipeSearchDTO.category eq '아시안'}">checked</c:if>> 🌏 아시안</label>
 
-                <label><input type="radio" name="category" value="건강식/다이어트"> 🥗 건강식/다이어트</label>
+                <label><input type="radio" name="category" value="건강식/다이어트"
+                    <c:if test="${recipeSearchDTO.category eq '건강식/다이어트'}">checked</c:if>> 🥗 건강식/다이어트</label>
 
-                <label><input type="radio" name="category" value="초간단요리"> ⏱️ 초간단요리</label>
+                <label><input type="radio" name="category" value="초간단요리"
+                    <c:if test="${recipeSearchDTO.category eq '초간단요리'}">checked</c:if>> ⏱️ 초간단요리</label>
 
-                <label><input type="radio" name="category" value="디저트"> 🍰 디저트</label>
+                <label><input type="radio" name="category" value="디저트"
+                    <c:if test="${recipeSearchDTO.category eq '디저트'}">checked</c:if>> 🍰 디저트</label>
 
-                <label><input type="radio" name="category" value="베이킹"> 🍞 베이킹</label>
+                <label><input type="radio" name="category" value="베이킹"
+                    <c:if test="${recipeSearchDTO.category eq '베이킹'}">checked</c:if>> 🍞 베이킹</label>
 
-                <label><input type="radio" name="category" value="음료/차"> ☕ 음료/차</label>
+                <label><input type="radio" name="category" value="음료/차"
+                    <c:if test="${recipeSearchDTO.category eq '음료/차'}">checked</c:if>> ☕ 음료/차</label>
 
             </div>
 
@@ -130,35 +167,50 @@
                 <h4>조리시간</h4>
 
                 <label>
-                    <input type="checkbox" name="cookTimes" value="10">          
-                    10분 이하
+                <input type="checkbox" name="cookTimes" value="10" 
+                    <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                        <c:if test="${time eq '10'}">checked</c:if>
+                    </c:forEach>>          
+                10분 이하
                 </label>
 
                 <label>
-                    <input type="checkbox" name="cookTimes" value="20">  
+                    <input type="checkbox" name="cookTimes" value="20" 
+                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                            <c:if test="${time eq '20'}">checked</c:if>
+                        </c:forEach>>  
                     10~20분
                 </label>
 
                 <label>
-                    <input type="checkbox" name="cookTimes" value="30">   
+                    <input type="checkbox" name="cookTimes" value="30" 
+                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                            <c:if test="${time eq '30'}">checked</c:if>
+                        </c:forEach>>   
                     20~30분
                 </label>
 
                 <label>
-                    <input type="checkbox" name="cookTimes" value="60">       
+                    <input type="checkbox" name="cookTimes" value="60" 
+                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                            <c:if test="${time eq '60'}">checked</c:if>
+                        </c:forEach>>       
                     30~60분
                 </label>
 
                 <label>
-                    <input type="checkbox" name="cookTimes" value="61">
+                    <input type="checkbox" name="cookTimes" value="61" 
+                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                            <c:if test="${time eq '61'}">checked</c:if>
+                        </c:forEach>>
                     60분 이상
                 </label>
 
             </div>
 
-            <button class="filter-btn" type="submit">        
-                적용하기</button> 
-            </button>
+            <button class="filter-btn" type="button" onclick="send()">        
+                적용하기
+            </button> 
 
         </form>
 
@@ -169,8 +221,6 @@
     <section class="recipe-area">
 
         <div class="recipe-header">
-
-            <h2>전체 레시피</h2>
             
             <select class="sort-select"
                     name="sort">
@@ -197,38 +247,62 @@
 
         <div class="recipe-list">
 
+            
+    <c:choose>
+        <c:when test="${not empty emptyMsg}">
+            <%-- 빈 결과 메시지 --%>
+            <p class="empty-msg">${emptyMsg}</p>
+        </c:when>
+        <c:otherwise>
             <c:forEach items="${recipeList}" var="recipe">
-                      
-
                 <div class="recipe-card">
-
-                    <img src="${recipe.thumbnail}">
-
+                    <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}">
                     <div class="recipe-info">
-
-                        <div class="recipe-title">
-                            ${recipe.title}
-                        </div>
-
+                        <div class="recipe-title">${recipe.title}</div>
                         <div class="recipe-meta">
-
                             ⏱ ${recipe.cooking_time}
                             <br>
-
                             👁 ${recipe.view_count}
                             &nbsp;&nbsp;
-
                             ❤️ ${recipe.like_count}
-
                         </div>
-
                     </div>
-
                 </div>
-
             </c:forEach>
+        </c:otherwise>
+    </c:choose>
 
         </div>
+
+        <c:if test="${totalPage > 0}">
+
+            <div class="paging">
+                <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
+                
+                <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
+                class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
+
+                <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
+                <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
+
+                <c:if test="${totalPage < 1}">
+                    <c:set var="startP" value="1" />
+                    <c:set var="endP" value="1" />
+                </c:if>
+
+                <c:forEach var="i" begin="${startP}" end="${endP}">
+                    <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
+                    class="${i == curPage ? 'active' : ''}">
+                        ${i}
+                    </a>
+                </c:forEach>
+
+                <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
+                class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
+                
+            </div>
+
+        </c:if>
 
     </section>
 
@@ -299,7 +373,6 @@
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
-
-</body>
+    </body>
 
 </html>
