@@ -136,7 +136,7 @@
     
                                 <div class="tag-card">
                                     <!-- <img src="/images/document.png" /> -->
-                                    <a href="#" class="count-link">12</a>
+                                    <a href="#" class="count-link">10</a>
                                     <span>작성한 레시피</span>
                                 </div>
     
