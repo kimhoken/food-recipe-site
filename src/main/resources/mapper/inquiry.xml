@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.foodsite.dao.InquiryDAO">
+
+    <insert id="insertInquiry" parameterType="com.project.foodsite.vo.InquiryVO">
+    insert into inquiry (
+        type,
+        title,
+        content,
+        status,
+        created_date,
+        member_id,
+        guest_name,
+        guest_email,
+        guest_password
+    ) values (
+        #{type},
+        #{title},
+        #{content},
+        #{status},
+        NOW(),
+        #{member_id},
+        #{guest_name},
+        #{guest_email},
+        #{guest_password}
+    )
+    </insert>
+    
+</mapper>
