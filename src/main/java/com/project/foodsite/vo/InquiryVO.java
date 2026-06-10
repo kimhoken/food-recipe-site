@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Alias("inquiry")
 public class InquiryVO {
 
-    private Integer inquiryId, member_id, admin_id;
+    private Integer inquiry_id, member_id, admin_id, img_id;
     private String title, content, status, answer_content, guest_name, guest_email, guest_password, type;
 
     private Date createdDate;

@@ -3,28 +3,29 @@
 
 <mapper namespace="com.project.foodsite.dao.InquiryDAO">
 
-    <insert id="insertInquiry" parameterType="com.project.foodsite.vo.InquiryVO">
-    insert into inquiry (
-        type,
-        title,
-        content,
-        status,
-        created_date,
-        member_id,
-        guest_name,
-        guest_email,
-        guest_password
-    ) values (
-        #{type},
-        #{title},
-        #{content},
-        #{status},
-        NOW(),
-        #{member_id},
-        #{guest_name},
-        #{guest_email},
-        #{guest_password}
-    )
+    <insert id="insertInquiry" parameterType="inquiry"
+            useGeneratedKeys="true" keyProperty="inquiry_id">
+        insert into inquiry (
+            type,
+            title,
+            content,
+            status,
+            created_date,
+            member_id,
+            guest_name,
+            guest_email,
+            guest_password
+        ) values (
+            #{type},
+            #{title},
+            #{content},
+            #{status},
+            NOW(),
+            #{member_id},
+            #{guest_name},
+            #{guest_email},
+            #{guest_password}
+        )
     </insert>
     
 </mapper>
