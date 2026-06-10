@@ -26,6 +26,7 @@
                 <input type="hidden" value="${socialUser.provider}" name="provider"/>
                 <input type="hidden" value="${socialUser.provider_id}" name="provider_id"/>
                 <input type="hidden" value="${socialUser.login_type}" name="login_type"/>
+                <input type="hidden" value="${socialUser.filename}" name="filename"/>
             </c:if> 
             <div class="join-wrap">
 
