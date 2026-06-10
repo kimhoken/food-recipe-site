@@ -1,50 +1,49 @@
 .inquiry-page {
     background: #f8f6ef;
     color: #3f4638;
-    padding: 70px 0 90px;
-    min-height: 700px;
+    padding: 40px 0 60px;
+}
+
+.inquiry-form {
+    width: 820px;
+    margin: 0 auto;
+    background: #fffdf7;
+    padding: 34px 44px;
+    border-radius: 20px;
+    box-shadow: 0 12px 28px rgba(79, 95, 58, 0.1);
+    border: 1px solid #e6e1d3;
 }
 
 .inquiry-title-box {
-    text-align: center;
-    margin-bottom: 42px;
+    text-align: left;
+    margin-bottom: -8px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #ebe7da;
 }
 
 .inquiry-label {
     display: inline-block;
-    padding: 6px 15px;
+    padding: 5px 13px;
     border-radius: 999px;
     background: #e8ebdd;
     color: #6f8157;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .inquiry-title-box h2 {
-    margin: 0 0 12px;
-    font-size: 38px;
+    margin: 0 0 8px;
+    font-size: 32px;
     font-weight: 800;
     color: #4f5f3a;
-    letter-spacing: -1px;
 }
 
 .inquiry-title-box p {
     margin: 0;
     color: #7b806f;
-    line-height: 1.7;
-    font-size: 15px;
-}
-
-.inquiry-form {
-    width: 760px;
-    margin: 0 auto;
-    background: #fffdf7;
-    padding: 42px 48px;
-    border-radius: 24px;
-    box-shadow: 0 14px 35px rgba(79, 95, 58, 0.13);
-    border: 1px solid #e6e1d3;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .inquiry-table {
@@ -61,35 +60,68 @@
 }
 
 .inquiry-table th {
-    width: 130px;
-    padding: 18px 0;
+    width: 120px;
+    height: 54px;
+    padding: 0;
     text-align: left;
+    vertical-align: middle;
     color: #5f6f49;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
-    vertical-align: top;
 }
 
 .inquiry-table td {
-    padding: 14px 0;
+    height: 54px;
+    padding: 8px 0;
+    vertical-align: middle;
+}
+
+/* 유형 위 선 아래로 보이게 첫 줄 여백 */
+.inquiry-table tr:first-child th,
+.inquiry-table tr:first-child td {
+    padding-top: 14px;
 }
 
 .inquiry-table input[type="text"],
 .inquiry-table input[type="email"],
 .inquiry-table input[type="password"],
-.inquiry-table select,
 .inquiry-table textarea {
     width: 100%;
     box-sizing: border-box;
-    padding: 14px 15px;
+    padding: 12px 14px;
     border: 1px solid #d8d3c4;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #fbfaf5;
     color: #3f4638;
     font-size: 14px;
-    outline: none;
     font-family: inherit;
-    transition: 0.2s;
+    outline: none;
+}
+
+.inquiry-table input[name="guest_name"],
+.inquiry-table input[name="guest_email"],
+.inquiry-table input[name="guest_password"] {
+    width: 360px;
+}
+
+.inquiry-table select {
+    width: 220px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #d8d3c4;
+    border-radius: 10px;
+    background: #fbfaf5;
+    color: #3f4638;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    cursor: pointer;
+}
+
+.inquiry-table textarea {
+    height: 300px;
+    resize: none;
+    line-height: 1.6;
 }
 
 .inquiry-table input[type="text"]:focus,
@@ -99,7 +131,7 @@
 .inquiry-table textarea:focus {
     border-color: #7e8f6a;
     background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(126, 143, 106, 0.13);
+    box-shadow: 0 0 0 3px rgba(126, 143, 106, 0.12);
 }
 
 .inquiry-table input[readonly] {
@@ -108,22 +140,12 @@
     cursor: default;
 }
 
-.inquiry-table textarea {
-    height: 190px;
-    resize: none;
-    line-height: 1.7;
-}
-
-.inquiry-table select {
-    cursor: pointer;
-}
-
 .inquiry-table input[type="file"] {
     width: 100%;
     box-sizing: border-box;
-    padding: 13px;
+    padding: 10px;
     border: 1px dashed #b8c2a3;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #f5f6ee;
     color: #6d765d;
     cursor: pointer;
@@ -144,64 +166,44 @@
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    user-select: none;
 }
 
 .agree-radio input {
-    display: none;
+    width: 16px;
+    height: 16px;
+    accent-color: #6f8157;
+    cursor: pointer;
 }
 
 .agree-radio span {
-    width: 18px;
-    height: 18px;
-    border: 2px solid #b8c2a3;
-    border-radius: 50%;
-    background: #fffdf7;
-    position: relative;
-    box-sizing: border-box;
-    flex-shrink: 0;
-}
-
-.agree-radio input:checked + span {
-    border-color: #6f8157;
-}
-
-.agree-radio input:checked + span::after {
-    content: "";
-    width: 8px;
-    height: 8px;
-    background: #6f8157;
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 3px;
+    display: none;
 }
 
 .agree-detail-btn {
     border: none;
     background: none;
-    color: #7b806f;
+    color: #6f8157;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    padding: 4px 0;
     white-space: nowrap;
 }
 
 .agree-detail-btn:hover {
-    color: #4f5f3a;
     text-decoration: underline;
 }
 
 .inquiry-table .btn-area {
-    padding-top: 28px;
+    padding-top: 24px;
     text-align: center;
 }
 
 .inquiry-table .btn-area input {
-    width: 180px;
-    height: 50px;
+    width: 150px;
+    height: 46px;
     border-radius: 999px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     transition: 0.25s;
@@ -212,7 +214,7 @@
     border: none;
     background: #6f8157;
     color: #fffdf7;
-    box-shadow: 0 8px 18px rgba(111, 129, 87, 0.25);
+    box-shadow: 0 8px 18px rgba(111, 129, 87, 0.22);
 }
 
 .inquiry-table .submit-btn:hover {
@@ -228,135 +230,165 @@
 
 .inquiry-table .cancel-btn:hover {
     background: #efe9dc;
-    border-color: #cfc6b4;
     transform: translateY(-2px);
 }
 
-.inquiry-table .submit-btn:active,
-.inquiry-table .cancel-btn:active {
-    transform: translateY(0);
-}
-
-.agree-modal-bg {
+/* 개인정보 모달 */
+.agree-modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(63, 70, 56, 0.45);
+    background: rgba(15, 23, 42, 0.48);
     z-index: 9999;
     align-items: center;
     justify-content: center;
 }
 
-.agree-modal {
-    width: 430px;
-    background: #fffdf7;
-    border-radius: 20px;
-    border: 1px solid #e6e1d3;
-    box-shadow: 0 18px 45px rgba(63, 70, 56, 0.25);
-    overflow: hidden;
-}
-
-.agree-modal-header {
-    padding: 20px 24px;
-    background: #eef1e5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.agree-modal-header h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #4f5f3a;
-}
-
-.agree-modal-header button {
-    border: none;
-    background: none;
-    font-size: 26px;
-    color: #6b665a;
-    cursor: pointer;
-    line-height: 1;
-}
-
 .agree-modal-content {
-    padding: 24px;
-    color: #5d6254;
+    width: 640px;
+    max-height: 82vh;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.close-btn {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #777;
+    font-size: 22px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.privacy-box {
+    padding: 34px 38px 8px;
+    max-height: 58vh;
+    overflow-y: auto;
+    background: #ffffff;
+}
+
+.privacy-box h3 {
+    margin: 0 42px 20px 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 22px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.privacy-box > p {
+    margin: 0 0 22px;
+    padding: 16px 18px;
+    background: #f9fafb;
+    border: 1px solid #eef0f3;
+    border-radius: 8px;
+    color: #4b5563;
     font-size: 14px;
     line-height: 1.7;
 }
 
-.agree-modal-content p {
+.privacy-section {
+    margin-top: 22px;
+}
+
+.privacy-section + .privacy-section {
+    padding-top: 20px;
+    border-top: 1px solid #eeeeee;
+}
+
+.privacy-section h4 {
     margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #1f2937;
 }
 
-.agree-modal-content strong {
-    color: #4f5f3a;
+.privacy-section p {
+    margin: 0 0 8px;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
-.agree-modal-note {
-    margin-top: 18px !important;
-    padding: 14px;
-    background: #f7f4eb;
-    border-radius: 12px;
-    color: #7b6f5d;
+.privacy-section ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+}
+
+.privacy-section li {
+    margin-bottom: 6px;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.privacy-confirm {
+    margin: 16px 0 0;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .agree-modal-footer {
-    padding: 0 24px 24px;
-    text-align: center;
+    padding: 0 38px 24px;
+    background: #ffffff;
 }
 
-.agree-modal-footer button {
-    width: 130px;
-    height: 42px;
-    border: none;
-    border-radius: 999px;
-    background: #6f8157;
-    color: #fffdf7;
-    font-weight: 700;
+.modal-agree-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: #111827;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
     cursor: pointer;
+    user-select: none;
 }
 
-.agree-modal-footer button:hover {
-    background: #586846;
+.modal-agree-check input {
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    cursor: pointer;
+    accent-color: #4f5f3a;
+    flex-shrink: 0;
 }
 
-@media (max-width: 820px) {
-    .inquiry-page {
-        padding: 50px 20px 70px;
-    }
+.modal-agree-check strong {
+    color: #4f5f3a;
+    font-size: 14px;
+    font-weight: 800;
+}
 
-    .inquiry-form {
-        width: 100%;
-        padding: 32px 24px;
-    }
+.privacy-box::-webkit-scrollbar {
+    width: 8px;
+}
 
-    .inquiry-table th {
-        display: block;
-        width: 100%;
-        padding: 18px 0 6px;
-    }
+.privacy-box::-webkit-scrollbar-track {
+    background: #f3f4f6;
+}
 
-    .inquiry-table td {
-        display: block;
-        padding: 0 0 14px;
-    }
+.privacy-box::-webkit-scrollbar-thumb {
+    background: #c7cbd1;
+    border-radius: 999px;
+}
 
-    .inquiry-table tr {
-        display: block;
-    }
-
-    .agree-row {
-        align-items: flex-start;
-    }
-
-    .inquiry-table .btn-area input {
-        width: 100%;
-        margin: 5px 0;
-    }
-
-    .agree-modal {
-        width: calc(100% - 40px);
-    }
+.privacy-box::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
 }
