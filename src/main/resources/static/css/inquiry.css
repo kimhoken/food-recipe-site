@@ -1,0 +1,362 @@
+.inquiry-page {
+    background: #f8f6ef;
+    color: #3f4638;
+    padding: 70px 0 90px;
+    min-height: 700px;
+}
+
+.inquiry-title-box {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.inquiry-label {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 999px;
+    background: #e8ebdd;
+    color: #6f8157;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+}
+
+.inquiry-title-box h2 {
+    margin: 0 0 12px;
+    font-size: 38px;
+    font-weight: 800;
+    color: #4f5f3a;
+    letter-spacing: -1px;
+}
+
+.inquiry-title-box p {
+    margin: 0;
+    color: #7b806f;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.inquiry-form {
+    width: 760px;
+    margin: 0 auto;
+    background: #fffdf7;
+    padding: 42px 48px;
+    border-radius: 24px;
+    box-shadow: 0 14px 35px rgba(79, 95, 58, 0.13);
+    border: 1px solid #e6e1d3;
+}
+
+.inquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inquiry-table tr {
+    border-bottom: 1px solid #ebe7da;
+}
+
+.inquiry-table tr:last-child {
+    border-bottom: none;
+}
+
+.inquiry-table th {
+    width: 130px;
+    padding: 18px 0;
+    text-align: left;
+    color: #5f6f49;
+    font-size: 15px;
+    font-weight: 700;
+    vertical-align: top;
+}
+
+.inquiry-table td {
+    padding: 14px 0;
+}
+
+.inquiry-table input[type="text"],
+.inquiry-table input[type="email"],
+.inquiry-table input[type="password"],
+.inquiry-table select,
+.inquiry-table textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 15px;
+    border: 1px solid #d8d3c4;
+    border-radius: 12px;
+    background: #fbfaf5;
+    color: #3f4638;
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    transition: 0.2s;
+}
+
+.inquiry-table input[type="text"]:focus,
+.inquiry-table input[type="email"]:focus,
+.inquiry-table input[type="password"]:focus,
+.inquiry-table select:focus,
+.inquiry-table textarea:focus {
+    border-color: #7e8f6a;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(126, 143, 106, 0.13);
+}
+
+.inquiry-table input[readonly] {
+    background: #efeee7;
+    color: #777;
+    cursor: default;
+}
+
+.inquiry-table textarea {
+    height: 190px;
+    resize: none;
+    line-height: 1.7;
+}
+
+.inquiry-table select {
+    cursor: pointer;
+}
+
+.inquiry-table input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px dashed #b8c2a3;
+    border-radius: 12px;
+    background: #f5f6ee;
+    color: #6d765d;
+    cursor: pointer;
+}
+
+.agree-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.agree-radio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #4f5f3a;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.agree-radio input {
+    display: none;
+}
+
+.agree-radio span {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #b8c2a3;
+    border-radius: 50%;
+    background: #fffdf7;
+    position: relative;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.agree-radio input:checked + span {
+    border-color: #6f8157;
+}
+
+.agree-radio input:checked + span::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: #6f8157;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+}
+
+.agree-detail-btn {
+    border: none;
+    background: none;
+    color: #7b806f;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+    white-space: nowrap;
+}
+
+.agree-detail-btn:hover {
+    color: #4f5f3a;
+    text-decoration: underline;
+}
+
+.inquiry-table .btn-area {
+    padding-top: 28px;
+    text-align: center;
+}
+
+.inquiry-table .btn-area input {
+    width: 180px;
+    height: 50px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+    margin: 0 6px;
+}
+
+.inquiry-table .submit-btn {
+    border: none;
+    background: #6f8157;
+    color: #fffdf7;
+    box-shadow: 0 8px 18px rgba(111, 129, 87, 0.25);
+}
+
+.inquiry-table .submit-btn:hover {
+    background: #586846;
+    transform: translateY(-2px);
+}
+
+.inquiry-table .cancel-btn {
+    border: 1px solid #ddd7c9;
+    background: #f7f4eb;
+    color: #6b665a;
+}
+
+.inquiry-table .cancel-btn:hover {
+    background: #efe9dc;
+    border-color: #cfc6b4;
+    transform: translateY(-2px);
+}
+
+.inquiry-table .submit-btn:active,
+.inquiry-table .cancel-btn:active {
+    transform: translateY(0);
+}
+
+.agree-modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(63, 70, 56, 0.45);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.agree-modal {
+    width: 430px;
+    background: #fffdf7;
+    border-radius: 20px;
+    border: 1px solid #e6e1d3;
+    box-shadow: 0 18px 45px rgba(63, 70, 56, 0.25);
+    overflow: hidden;
+}
+
+.agree-modal-header {
+    padding: 20px 24px;
+    background: #eef1e5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.agree-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #4f5f3a;
+}
+
+.agree-modal-header button {
+    border: none;
+    background: none;
+    font-size: 26px;
+    color: #6b665a;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.agree-modal-content {
+    padding: 24px;
+    color: #5d6254;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.agree-modal-content p {
+    margin: 0 0 10px;
+}
+
+.agree-modal-content strong {
+    color: #4f5f3a;
+}
+
+.agree-modal-note {
+    margin-top: 18px !important;
+    padding: 14px;
+    background: #f7f4eb;
+    border-radius: 12px;
+    color: #7b6f5d;
+}
+
+.agree-modal-footer {
+    padding: 0 24px 24px;
+    text-align: center;
+}
+
+.agree-modal-footer button {
+    width: 130px;
+    height: 42px;
+    border: none;
+    border-radius: 999px;
+    background: #6f8157;
+    color: #fffdf7;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.agree-modal-footer button:hover {
+    background: #586846;
+}
+
+@media (max-width: 820px) {
+    .inquiry-page {
+        padding: 50px 20px 70px;
+    }
+
+    .inquiry-form {
+        width: 100%;
+        padding: 32px 24px;
+    }
+
+    .inquiry-table th {
+        display: block;
+        width: 100%;
+        padding: 18px 0 6px;
+    }
+
+    .inquiry-table td {
+        display: block;
+        padding: 0 0 14px;
+    }
+
+    .inquiry-table tr {
+        display: block;
+    }
+
+    .agree-row {
+        align-items: flex-start;
+    }
+
+    .inquiry-table .btn-area input {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .agree-modal {
+        width: calc(100% - 40px);
+    }
+}
