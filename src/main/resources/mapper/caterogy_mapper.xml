@@ -17,6 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectCategoryFood" resultType="category" parameterType="String">
         SELECT 
+            c.sort_order,
+            c.category_id,
             c.category_name AS categoryName,
             c.sub_category_name AS subCategoryName,
             f.food_name AS foodName

@@ -29,6 +29,7 @@
         // 전체보기 모달 닫기
         function closeModal(){
             document.getElementById("categoryModal").style.display = 'none';
+            document.getElementById("category-detail").style.display = 'none';
         }
 
         // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
@@ -38,45 +39,60 @@
                 closeModal();
             }
         }
-    
-
-        //왼쪽 사이드바 클릭 감지
+        
+        //왼쪽 중분류 사이드바 클릭 감지
         function handleSidebarClick(event) {
+            document.getElementById("category-detail").style.display = 'none';
+            document.getElementById("categoryModal").style.display = 'flex';
+            
             const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
             if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
             
             // 카테고리명(data-cat 값) 전달
             sideTabCategory(item.dataset.cat); 
         }
-        
+
+        function handleSubSidebarClick(event) {
+            document.getElementById("category-detail").style.display = 'flex';
+
+            const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
+            if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
+            
+            // 카테고리명(data-cat 값) 전달
+            openDetailCategory(item.dataset.cat); 
+        }
+
+        let ctg = "none";
 
         // 카테고리 변경 및 스타일 적용 함수
         function sideTabCategory(category) { 
-            // 1. 모든 사이드바 메뉴에서 active 다 지우기
-            document.querySelectorAll('.modal-sidebar .sidebar-item').forEach(el => el.classList.remove('active'));
+            const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
+            ctg = category;
+            sidebarItems.forEach(item => {
+                if(item.dataset.cat === category) {
+                    item.className = "sidebar-item-active"; // 누른 것만 활성화
+                } else {
+                    item.className = "sidebar-item"; // 나머지는 기본 스타일
+                }
+            });
             
-            // 2. 현재 누른 카테고리 메뉴에만 하얀배경(active) 켜기
-            const activeTab = document.querySelector(`.sidebar-item[data-cat="${category}"]`);
-            if (activeTab) activeTab.classList.add('active');
-
             fetch('/category.do?category=' + category)
                 .then(res => res.json())
                 .then(data => {
-                    let list = data.catList;
-                    let html = ""; 
+                    let html = "";
 
-                    for (let i = 0; i < list.length-4 ; i+=4) {
+                    for(const[subCategoryName, foodList] of Object.entries(data)){
                         html += "<div class='menu-group'>";
-                        // 소분류 타이틀 (예: 국/찌개, 볶음/조림 등)
-                        html += "<h3>" + list[i].subCategoryName + "</h3>"; 
+                        html += "<h3>" + subCategoryName + "</h3>";
                         html += "<ul>";
+
+                        let limit = Math.min(foodList.length, 4);
+
+                        for(let i=0 ; i<limit ; i++){
+                            html += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                        }
+                        html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
                         
-                        html += "<li><a href='#'>" + list[i].foodName + "</a></li>";
-                        html += "<li><a href='#'>" + list[i+1].foodName + "</a></li>";
-                        html += "<li><a href='#'>" + list[i+2].foodName + "</a></li>";
-                        html += "<li><a href='#'>" + list[i+3].foodName + "</a></li>";
-                        
-                        html += "<li><a href='#' class='more-btn'>더보기 &gt;</a></li>";
                         html += "</ul>";
                         html += "</div>";
                     }
@@ -100,8 +116,53 @@
                     document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
                 });
         }
-             document.querySelector('.modal-sidebar')?.addEventListener('click', handleSidebarClick);
 
+        const openDetailCategory = (subName) => {
+            document.getElementById("categoryModal").style.display = 'none';
+            document.getElementById("category-detail").style.display = "flex";
+
+            const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
+
+            sidebarItems.forEach(item => {
+                if(item.dataset.cat === ctg) {
+                    item.className = "sidebar-item-active"; // 누른 것만 활성화
+                } else {
+                    item.className = "sidebar-item"; // 나머지는 기본 스타일
+                }
+            });
+
+            fetch("/category.do?category=" + ctg)
+                .then(res => res.json())
+                .then(data => {
+                    let html = "";
+                    let mainHtml = "<ul class='main-list'>";
+                    for(const[subCategoryName, foodList] of Object.entries(data)){
+                        if(subName == subCategoryName){
+                            html += "<div class='sidebar-item-active' data-cat='" + subCategoryName + "'>";
+                        }else{
+                            html += "<div class='sidebar-item' data-cat='" + subCategoryName + "'>";
+                        }
+
+                        html += subCategoryName;
+                        html += "</div>";
+
+                        for(let i=0 ; i<foodList.length ; i++){
+                            if(subName == subCategoryName){
+                                mainHtml += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                            }
+                        }
+
+                    }
+                    mainHtml += "</ul>";
+
+                    document.getElementById("modal-sidebar2").innerHTML = html;
+                    document.getElementById("modal-main-banner").innerHTML = mainHtml;
+                    
+                })
+                .catch(err => {
+                    console.log("Error: " + err);
+                })
+        }
 
         /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
         
@@ -563,7 +624,6 @@
         </div>
     </footer>
 
-
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
 
@@ -574,17 +634,17 @@
             
             <div class="modal-body">
                 <div class="modal-sidebar" onclick="handleSidebarClick(event)">
-                    <div class="sidebar-item active" data-cat="상황별추천">⭐ 상황별 추천</div>
-                    <div class="sidebar-item" data-cat="한식">🍚 한식</div>
-                    <div class="sidebar-item" data-cat="양식">🍝 양식</div>
-                    <div class="sidebar-item" data-cat="중식">🍳 중식</div>
-                    <div class="sidebar-item" data-cat="일식">🍣 일식</div>
-                    <div class="sidebar-item" data-cat="아시안">🌏 아시안</div>
-                    <div class="sidebar-item" data-cat="건강식/다이어트">🌿 건강식/다이어트</div>
-                    <div class="sidebar-item" data-cat="초간단요리">⏱️ 초간단요리</div>
-                    <div class="sidebar-item" data-cat="디저트">🍰 디저트</div>
-                    <div class="sidebar-item" data-cat="베이킹">🍞 베이킹</div>
-                    <div class="sidebar-item" data-cat="음료/차">☕ 음료/차</div>
+                    <div class="sidebar-item-active" data-cat="상황별추천" id="1">⭐ 상황별 추천</div>
+                    <div class="sidebar-item" data-cat="한식" id="2">🍚 한식</div>
+                    <div class="sidebar-item" data-cat="양식" id="3">🍝 양식</div>
+                    <div class="sidebar-item" data-cat="중식" id="4">🍳 중식</div>
+                    <div class="sidebar-item" data-cat="일식" id="5">🍣 일식</div>
+                    <div class="sidebar-item" data-cat="아시안" id="6">🌏 아시안</div>
+                    <div class="sidebar-item" data-cat="건강식/다이어트" id="7">🌿 건강식/다이어트</div>
+                    <div class="sidebar-item" data-cat="초간단요리" id="8">⏱️ 초간단요리</div>
+                    <div class="sidebar-item" data-cat="디저트" id="9">🍰 디저트</div>
+                    <div class="sidebar-item" data-cat="베이킹" id="10">🍞 베이킹</div>
+                    <div class="sidebar-item" data-cat="음료/차" id="11">☕ 음료/차</div>
                 </div>
                 
                 <div class="modal-main">
@@ -592,10 +652,50 @@
                 </div>
                 
                 <div class="modal-banner-side">
-
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="modal-overlay" id="category-detail">
+        <div class="modal-content">
+            <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
+            
+            <div class="modal-body">
+                <div class="modal-sidebar" onclick="handleSidebarClick(event)">
+                    <div class="sidebar-item" data-cat="상황별추천" id="1">⭐ 상황별 추천</div>
+                    <div class="sidebar-item" data-cat="한식" id="2">🍚 한식</div>
+                    <div class="sidebar-item" data-cat="양식" id="3">🍝 양식</div>
+                    <div class="sidebar-item" data-cat="중식" id="4">🍳 중식</div>
+                    <div class="sidebar-item" data-cat="일식" id="5">🍣 일식</div>
+                    <div class="sidebar-item" data-cat="아시안" id="6">🌏 아시안</div>
+                    <div class="sidebar-item" data-cat="건강식/다이어트" id="7">🌿 건강식/다이어트</div>
+                    <div class="sidebar-item" data-cat="초간단요리" id="8">⏱️ 초간단요리</div>
+                    <div class="sidebar-item" data-cat="디저트" id="9">🍰 디저트</div>
+                    <div class="sidebar-item" data-cat="베이킹" id="10">🍞 베이킹</div>
+                    <div class="sidebar-item" data-cat="음료/차" id="11">☕ 음료/차</div>
+                </div>
+                
+                <div class="modal-sidebar2" id="modal-sidebar2" onClick="handleSubSidebarClick(event)">
+                    <!-- 여기에서 중분류만 보여줌 -->
+                    
+                </div>
+
+                <div class="modal-main-banner" id="modal-main-banner">
+                    <!-- 여기에 음식이름 전부 보여주기 -->
+                </div>
+                
+                <div class="modal-banner-side">
+                    <div class='banner-img-box'>
+                        <img src='/images/main.png' alt='추천 요리' style='width:100%; height:100%; object-fit:cover; border-radius:12px;'>gap
+                    </div>
+                    <div class='banner-text-box'>
+                        <h3>오늘 뭐 먹지?</h3>
+                        <p>다양한 레시피로<br>매일 새로운 한 끼를 만나보세요.</p>
+                        <button type='button' class='banner-go-btn' onclick='location.href="/recipe_list.do"'>레시피 둘러보기 &gt;</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

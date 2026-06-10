@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.CategoryDAO;
 import com.project.foodsite.vo.CategoryVO;
+import com.project.foodsite.vo.FoodVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,17 +20,13 @@ public class FoodController {
 
     @GetMapping("/category.do")
     @ResponseBody
-    public Map<String, Object> getCategory(String category) {
-        Map<String, Object> map = new HashMap<>();
-        //카테고리 리스트 안에 전부 넣어서 넘김
+    public Map<String, List<String>> getCategory(String category) {
+        Map<String, List<String>> map = new LinkedHashMap<>();
         List<CategoryVO> list = categoryDao.selectCategoryFood(category);
-        map.put("catList", list);
 
-        //정렬순서를 사용한다면?
-        
-
-        // map.put("catList", catList);
-        // map.put("foodList", foodList);
+        for(CategoryVO vo : list){
+            map.computeIfAbsent(vo.getSubCategoryName(), k -> new ArrayList<>()).add(vo.getFoodName());
+        }
 
         return map;
     }
