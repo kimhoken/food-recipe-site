@@ -316,10 +316,8 @@
         </div>
 
         <ul class="nav-bar">
-            <li class="active">홈</li>
-            <li>
-                <a href="/recipe_list.do"> 레시피</a>
-            </li>
+            <li class="active"><a href="/">홈</a></li>
+            <li><a href="/recipe_list.do"> 레시피</a></li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
@@ -332,7 +330,9 @@
     <div class="main-banner-container">
         <div class="max-container">
             <div class="banner-image-side">
-                <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+                <a href="${pageContext.request.contextPath}/fridge_list.do?member_id=${user.member_id}">
+                    <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+                </a>
             </div>        
         </div>
     </div>
@@ -417,7 +417,7 @@
             <div class="today-sub-list">
                 <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
-                <div class="today-sub-thumb" ></div>
+                <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
             </div>
@@ -588,6 +588,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
