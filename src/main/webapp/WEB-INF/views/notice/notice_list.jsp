@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <link rel="stylesheet" href="/css/main.css">
@@ -19,13 +20,13 @@
                         id: "${user.member_id}"
                     })
                 })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.result == "success") {
-                        alert("로그아웃 되었습니다.");
-                        location.href = "/notice.do";
-                    }
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.result == "success") {
+                            alert("로그아웃 되었습니다.");
+                            location.href = "/notice.do";
+                        }
+                    });
             }
         }
     </script>
@@ -47,10 +48,7 @@
             <div class="notice-top">
                 <div class="notice-search-box">
                     <form action="notice.do" method="get">
-                        <input type="text"
-                               name="search_text"
-                               value="${search_text}"
-                               placeholder="제목을 입력해 주세요.">
+                        <input type="text" name="search_text" value="${search_text}" placeholder="제목을 입력해 주세요.">
                         <button type="submit">⌕</button>
                     </form>
                 </div>
@@ -95,28 +93,23 @@
                             </tr>
                         </c:forEach>
                     </c:if>
-
-                    <tr class="paging-row">
-                        <td colspan="5">
-                            <div class="paging-box">
-                                <div class="page-menu">
-                                    ${pageMenu}
-                                </div>
-
-                                <c:if test="${user.role eq 'ADMIN'}">
-                                    <input class="notice-write-btn"
-                                           type="button"
-                                           value="공지등록"
-                                           onclick="location.href='notice_add.do'">
-                                </c:if>
-                            </div>
-                        </td>
-                    </tr>
                 </table>
+            </div>
+
+            <div class="paging-box">
+                <div class="page-menu">
+                    ${pageMenu}
+                </div>
+
+                <c:if test="${user.role eq 'ADMIN'}">
+                    <input class="notice-write-btn" type="button" value="공지등록"
+                        onclick="location.href='notice_add.do'" />
+                </c:if>
             </div>
 
         </div>
 
     </div>
 </body>
+
 </html>
