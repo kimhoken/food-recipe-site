@@ -21,10 +21,11 @@ public class RecipeSearchDTO {     // 사용자가 레시피 목록 페이지에
 
     //조리시간 가장 큰 시간 담을 곳
     private int maxCookTime;
+    //조리시간 가장 작은 시간 
+    private int minCookTime;
 
     // 정렬
     // latest : 최신순
-    // name   : 가나다순
     // view   : 조회수순
     // like   : 좋아요순
     private String sort;
