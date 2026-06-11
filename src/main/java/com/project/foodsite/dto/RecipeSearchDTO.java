@@ -25,6 +25,7 @@ public class RecipeSearchDTO {     // 사용자가 레시피 목록 페이지에
     private int minCookTime;
 
     // 정렬
+    // all    : 전체
     // latest : 최신순
     // view   : 조회수순
     // like   : 좋아요순

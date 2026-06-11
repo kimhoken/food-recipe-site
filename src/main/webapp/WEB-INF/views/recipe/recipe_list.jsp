@@ -238,7 +238,11 @@
 
         <div class="recipe-header">
             
-            <select class="sort-select" name="sort" id="recipeSort" onchange="changeSort()">            
+            <select class="sort-select" name="sort" id="recipeSort" onchange="changeSort()">     
+                
+                <option value="all" ${recipeSearchDTO.sort eq 'all' ? 'selected' : ''}>
+                    전체
+                </option>
 
                 <option value="latest" ${recipeSearchDTO.sort eq 'latest' ? 'selected' : ''}>
                     최신순

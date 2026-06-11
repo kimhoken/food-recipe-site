@@ -92,9 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             r.category_id,
             r.food_id
         FROM recipe r
-        JOIN category c ON r.category_id = c.category_id
         JOIN food f ON r.food_id = f.food_id
-        <where>
+        JOIN category c ON f.category_id = c.category_id   <where>
             <if test="category != null and category != ''">
                 AND (c.category_name = #{category} OR c.sub_category_name = #{category})
             </if>
@@ -131,20 +130,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
         
-        <choose>
-            <when test="sort == 'view'">
-                ORDER BY r.view_count DESC, r.recipe_id DESC
-            </when>
-            <when test="sort == 'like'">
-                ORDER BY r.like_count DESC, r.recipe_id DESC
-            </when>
-            <when test="sort == 'latest'">
-                ORDER BY r.created_date DESC, r.recipe_id DESC
-            </when>
-            <otherwise>
-                ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC, r.recipe_id DESC
-            </otherwise>
-        </choose>
+        ORDER BY 
+            c.sort_order ASC,     f.food_name ASC,      <choose>
+                <when test="sort == 'view'">
+                    r.view_count DESC
+                </when>
+                <when test="sort == 'like'">
+                    r.like_count DESC
+                </when>
+                <when test="sort == 'latest'">
+                    r.created_date DESC
+                </when>
+                <otherwise>
+                    CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
+                </otherwise>
+            </choose>
+            , r.recipe_id DESC
         
         LIMIT 9 OFFSET #{offset}
     </select>
