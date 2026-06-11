@@ -275,7 +275,7 @@
         </div>
 
         <c:if test="${totalPage > 0}">
-
+                
             <div class="paging">
                 <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
                 
