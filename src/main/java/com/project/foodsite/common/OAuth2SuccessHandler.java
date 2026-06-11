@@ -1,6 +1,11 @@
 package com.project.foodsite.common;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
@@ -13,7 +18,7 @@ import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest; 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -82,43 +87,77 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         vo.setEmail((String) naver.get("email"));
         vo.setName((String) naver.get("name"));
         vo.setNickname((String) naver.get("nickname"));
+        vo.setFilename(saveSocialImg((String) naver.get("profile_image"), "naver",(String) naver.get("id")));
         vo.setLogin_type("SOCIAL");
-
+        
         return vo;
-
+        
     }
-
+    
     // 카카오 사용자 정보 추출
     private MemberVO getKakaoUser(Map<String,Object> attributes) {
-
+        
         Map<String,Object> kakao = (Map<String, Object>) attributes.get("kakao_account");
-
+        
         Map<String,Object> profile =(Map<String, Object>) kakao.get("profile");
-
+        
         MemberVO vo = new MemberVO();
-
+        
         vo.setProvider("kakao");
         vo.setProvider_id(String.valueOf(attributes.get("id")));
         vo.setEmail((String) kakao.get("email"));        
         vo.setNickname((String) profile.get("nickname"));
+        vo.setFilename(saveSocialImg((String) kakao.get("profile_image"), "kakao",(String) kakao.get("id")));
+        
         vo.setLogin_type("SOCIAL");
-
+        
         return vo;
     }
-
+    
     // 구글 사용자 정보 추출
     private MemberVO getGoogleUser(Map<String, Object> attributes) {
-
+        
         MemberVO vo = new MemberVO();
-
+        
         vo.setProvider("google");
         vo.setProvider_id((String) attributes.get("sub"));
         vo.setEmail((String) attributes.get("email"));
         vo.setName((String) attributes.get("name"));
         vo.setNickname((String) attributes.get("name"));
+        vo.setFilename(saveSocialImg((String) attributes.get("picture"), "google",(String) attributes.get("id")));
         vo.setLogin_type("SOCIAL");
 
         return vo;
     }
 
+    // 소셜 로그인에서 이미지 DB에 저장
+    private String saveSocialImg(String imgurl, String provider, String provider_id){
+        try {
+            String filename = provider + "_" + provider_id+".png"; 
+
+            //경로 설정
+            Path target = Paths.get("C:/upload", filename);
+
+            //파일 복사
+            if(!Files.exists(target)){
+                Files.copy(new URL(imgurl).openStream(), target);                
+            }
+
+            return filename;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "no_file.png";
+    }
+
+
+
+
+
 }
+
+
+
+
+

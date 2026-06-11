@@ -39,7 +39,6 @@ body {
     color: #2f2b25;
 }
 
-
 /* 게시판 전체 박스 */
 .notice-content {
     width: 78%;
@@ -93,6 +92,7 @@ body {
 
 /* 테이블 박스 */
 .table-radius-box {
+    height: 535px;
     overflow: hidden;
     border-radius: 18px;
     background: #fff;
@@ -104,6 +104,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
+    table-layout: fixed;
 }
 
 .notice-table th {
@@ -170,16 +171,12 @@ body {
     font-size: 15px !important;
 }
 
-/* 페이징 + 공지등록 */
-.paging-row td {
-    height: 76px;
-    border-bottom: none !important;
-}
-
+/* 테이블 밖 페이징 + 공지등록 */
 .paging-box {
     position: relative;
     width: 100%;
-    height: 50px;
+    height: 60px;
+    margin-top: 18px;
 }
 
 .page-menu {
@@ -192,8 +189,8 @@ body {
 
 .notice-write-btn {
     position: absolute;
-    right: 40px;
-    top: 6px;
+    right: 0;
+    top: 0;
     padding: 12px 22px;
     border: none;
     border-radius: 999px;
@@ -207,10 +204,10 @@ body {
     background: #5d6d47;
 }
 
-.paging-row a,
-.paging-row b,
-.paging-row strong,
-.paging-row span {
+.page-menu a,
+.page-menu b,
+.page-menu strong,
+.page-menu span {
     display: inline-block;
     min-width: 34px;
     height: 34px;
@@ -220,16 +217,17 @@ body {
     color: #6d665d;
     text-decoration: none;
     font-size: 14px;
+    text-align: center;
 }
 
-.paging-row a:hover {
+.page-menu a:hover {
     background: #f1ece3;
     color: #6f7f55;
 }
 
-.paging-row b,
-.paging-row strong,
-.paging-row .now {
+.page-menu b,
+.page-menu strong,
+.page-menu .now {
     background: #6f7f55;
     color: #fff;
 }

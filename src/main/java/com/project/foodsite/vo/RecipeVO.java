@@ -31,6 +31,7 @@ public class RecipeVO {
     //불러올때 필요한것 추가
     private String nickname;        //member_id로 닉네임 불러옴
     private int score = 0;          //추천시스템에 점수를 저장할 때 사용
+    private int rank;
   //  private String food_name;       //실제 요리명(김치찌개..)
 
     public void addScore(int score){

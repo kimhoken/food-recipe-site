@@ -13,7 +13,6 @@
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
-
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
         // 선택한 카테고리들 열기
         function selectCategory(category){
@@ -317,10 +316,8 @@
         </div>
 
         <ul class="nav-bar">
-            <li>홈</li>
-            <li>
-                <a href="/recipe_list.do"> 레시피</a>
-            </li>
+            <li class="active"><a href="/">홈</a></li>
+            <li><a href="/recipe_list.do"> 레시피</a></li>
             <li>카테고리</li>
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
@@ -333,7 +330,9 @@
     <div class="main-banner-container">
         <div class="max-container">
             <div class="banner-image-side">
-                <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+                <a href="${pageContext.request.contextPath}/fridge_list.do?member_id=${user.member_id}">
+                    <img src="${pageContext.request.contextPath}/images/main.png" alt="메인 배너 이미지">
+                </a>
             </div>        
         </div>
     </div>
@@ -377,12 +376,11 @@
     <div class="container main-page">
         <div class="section-title">지금 인기있는 레시피🔥</div>
         <div class="recipe-grid">
-        <%--
-            <c:forEach var="recipe" items=${view_recipes}>
+            <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                 <div class="recipe-card">
                     <a href="/recipe_detail.do?id=${recipe.recipe_id}">
-                        <div class="recipe-img"><img src="/images/${recipe.image}"/></div>
-                        <div class="rank-badge">${recipe.rank}</div>
+                        <div class="recipe-img"></div>
+                        <div class="rank-badge">${status.index + 1}</div>
                         <div class="recipe-info">
                             <div class="recipe-name">${recipe.title}</div>
                             <div class="recipe-author">👤 ${recipe.nickname}</div>
@@ -391,54 +389,6 @@
                     </a>
                 </div> 
             </c:forEach>
-            --%>
-            <%-- 위에 완성시 밑에 코드 삭제  --%>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="rank-badge">1</div>
-                <div class="recipe-info">
-                    <div class="recipe-name">크림 새우 파스타</div>
-                    <div class="recipe-author">👤 요리하는 주방장</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 12,345</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="rank-badge">2</div>
-                <div class="recipe-info">
-                    <div class="recipe-name">돼지고기 Kimchi찌개</div>
-                    <div class="recipe-author">👤 오늘도 요리해</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.9</span><span>조회수 11,234</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="rank-badge">3</div>
-                <div class="recipe-info">
-                    <div class="recipe-name">치즈 계란말이</div>
-                    <div class="recipe-author">👤 간단요리왕</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 9,876</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="rank-badge">4</div>
-                <div class="recipe-info">
-                    <div class="recipe-name">닭가슴살 샐러드</div>
-                    <div class="recipe-author">👤 나는야 코코맘</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 8,765</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="rank-badge">5</div>
-                <div class="recipe-info">
-                    <div class="recipe-name">스팸 마요 덮밥</div>
-                    <div class="recipe-author">👤 자취요리러</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.6</span><span>조회수 7,654</span></div>
-                </div>
-            </div>
-            <%-- ------------------------- --%>
         </div>
     </div>
 
@@ -453,33 +403,21 @@
         </div>
 
         <div class="mid-box">
-            <%-- 레시피중에 랜덤으로 뜨게하기 binding은 today로 --%>
             <h3 class="box-title">오늘의 추천 레시피</h3>
             <div class="today-main">
-                <div class="today-main-img"></div>
-                <div class="today-main-info">
-                    <h4>오므라이스</h4>
-                    <p>부드러운 계란과 새콤한 소스의 완벽한 조화!</p>
-                    <span class="author">👤 요리마스터</span>
-                </div>
-            </div>  
-
-            <%-- 
-            <h3 class="box-title">오늘의 추천 레시피</h3>
-            <div class="today-main">
-                <div class="today-main-img"> <img src="/images/${today.image}"/> </div> 
+                <div class="today-main-img"> </div> 
                 <div class="today-main-info">
                     <h4>${today.title}</h4> 
-                    <p>${today.content}</p> 
+                    <p>이런 메뉴는 어떠신가요?</p> 
                     <span class="author">👤 ${today.nickname}</span>
                 </div>
-            </div>   --%>
+            </div> 
 
-            <%-- 이미지 작게 5개 나오는 자라 --%>
+            <!-- 이미지 작게 5개 나오는 자라 -->
             <div class="today-sub-list">
                 <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
-                <div class="today-sub-thumb" ></div>
+                <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
                 <div class="today-sub-thumb"></div>
             </div>
@@ -489,69 +427,23 @@
     <div class="container main-page">
         <div class="section-title-space">
             <div class="section-title">최신 레시피 후기 </div> 
-            <%-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 --%>
+            <!-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 -->
             <a href="#" class="more-btn">더보기 &gt;</a>
         </div>
-        <%-- 등록일자 기준으로 조회 --%>
-        <%-- 
+        <div class="recipe-grid">
+            <!-- 등록일자 기준으로 조회 -->
             <c:forEach var="recipe" items="${reg_recipes}" >
                 <div class="recipe-card">
-                <div class="recipe-img"><img src="/images/${recipe.image}"/> </div>
-                <div class="recipe-info">
-                    <div class="recipe-name">${recipe.title}</div>
-                    <div class="recipe-author">👤 ${recipe.nickname}</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
+                    <div class="recipe-img"></div>
+                    <div class="recipe-info">
+                        <div class="recipe-name">${recipe.title}</div>
+                        <div class="recipe-author">👤 ${recipe.nickname}</div>
+                        <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
+                    </div>
                 </div>
-            </div>
             </c:forEach>
-        --%>
-
-        <%-- 위에 완성시 밑에 코드 삭제  --%>
-        <div class="recipe-grid">
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">참치 마요 유부초밥</div>
-                    <div class="recipe-author">👤 초밥왕</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 589</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">우삼겹 숙주볶음</div>
-                    <div class="recipe-author">👤 맛있는 하루</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 678</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">바질 페스토 파스타</div>
-                    <div class="recipe-author">👤 파스타러버</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.6</span><span>조회수 512</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">단호박 수프</div>
-                    <div class="recipe-author">👤 스프요리사</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.9</span><span>조회수 423</span></div>
-                </div>
-            </div>
-            <div class="recipe-card">
-                <div class="recipe-img"></div>
-                <div class="recipe-info">
-                    <div class="recipe-name">연어 스테이크</div>
-                    <div class="recipe-author">👤 연어좋아</div>
-                    <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 701</span></div>
-                </div>
-            </div>
         </div>
-        <%-- -------------------------- --%>
     </div>
-
 
     <div class="info-bar">
         <div class="info-item">🍳 <span>쉽고 간단한 레시피<br><small>누구나 따라할 수 있어요</small></span></div>
@@ -596,8 +488,6 @@
                 </div>
             </div>
         </div>
-
-        
 
         <div class="footer-container">
             <div class="footer-bottom-row">
@@ -656,7 +546,7 @@
             </div>
         </div>
     </div>
-
+    <!-- 카테고리에서 상세보기로 보여줄 블럭 -->
     <div class="modal-overlay" id="category-detail">
         <div class="modal-content">
             <button type="button" class="modal-close-btn" onclick="closeModal()">×</button>
@@ -698,6 +588,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>

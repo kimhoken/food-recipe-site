@@ -109,8 +109,8 @@
         </div>
 
         <ul class="nav-bar">
-            <li>홈</li>
-            <li>
+            <li><a href="/">홈</a></li>
+            <li class="active">
                 <a href="/recipe_list.do"> 레시피</a>
             </li>
             <li>카테고리</li>
@@ -119,7 +119,7 @@
             <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
             <li>키친가이드</li>
         </ul>
-
+    </header>
 <div class="recipe-container">
 
     <!-- 왼쪽 -->
@@ -285,6 +285,7 @@
 
         </div>
 
+<<<<<<< HEAD
     <c:if test="${totalPage > 0}">
 
     <div class="paging">
@@ -293,6 +294,15 @@
         
         <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
            class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
+=======
+        <c:if test="${totalPage > 0}">
+                
+            <div class="paging">
+                <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
+                
+                <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
+                class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
+>>>>>>> 1a68d347e6e02acf981e841487911912d3b4cfea
 
         <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
         <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
@@ -320,42 +330,42 @@
 
 </div>
 
-<footer>
-            <div class="footer-container">
-                <div class="footer-top-row">
-                    <div class="cs-section">
-                        <h3>고객센터</h3>
-                        <div class="cs-buttons">
-                            <div class="cs-btn">📞 1833-8307</div>
-                            <div class="cs-btn">💬 1:1문의하기</div>
-                        </div>
-                        <div class="hours-info">
-                            <p><strong>운영시간</strong></p>
-                            <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                            <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
-                        </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top-row">
+                <div class="cs-section">
+                    <h3>고객센터</h3>
+                    <div class="cs-buttons">
+                        <div class="cs-btn">📞 1833-8307</div>
+                        <div class="cs-btn">💬 1:1문의하기</div>
                     </div>
-                    <div class="sns-icons">
-                        <span class="sns-icon">▶</span>
-                        <span class="sns-icon">★</span>
-                        <span class="sns-icon">☆</span>
-                        <span class="sns-icon">◆</span>
-                        <span class="sns-icon">♬</span>
+                    <div class="hours-info">
+                        <p><strong>운영시간</strong></p>
+                        <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
+                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
                     </div>
                 </div>
+                <div class="sns-icons">
+                    <span class="sns-icon">▶</span>
+                    <span class="sns-icon">★</span>
+                    <span class="sns-icon">☆</span>
+                    <span class="sns-icon">◆</span>
+                    <span class="sns-icon">♬</span>
+                </div>
             </div>
+        </div>
 
-            <div class="footer-nav-bar">
-                <div class="footer-container">
-                    <div class="nav-links">
-                        <a href="#"><strong>이용약관</strong></a>
-                        <a href="#"><strong>개인정보처리방침</strong></a>
-                        <a href="/notice.do">공지사항</a>
-                        <a href="#">자주묻는질문</a>
-                        <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
-                    </div>
+        <div class="footer-nav-bar">
+            <div class="footer-container">
+                <div class="nav-links">
+                    <a href="#"><strong>이용약관</strong></a>
+                    <a href="#"><strong>개인정보처리방침</strong></a>
+                    <a href="/notice.do">공지사항</a>
+                    <a href="#">자주묻는질문</a>
+                    <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
                 </div>
             </div>
+        </div>
 
             <div class="footer-container">
                 <div class="footer-bottom-row">

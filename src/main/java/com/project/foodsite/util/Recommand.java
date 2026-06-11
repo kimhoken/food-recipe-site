@@ -91,7 +91,6 @@ public class Recommand {
         //불용어 필터링을 위한 배열
         String[] stopWords = {"얼린", "냉동", "다진", "썬", "국거리", "구이용", "볶음용", "손질", "슬라이스"};
         List<FridgeItemVO> fridgeList = fridgeItemDAO.selectList(member_id);
-
         Map<Integer, RecipeVO> map = new HashMap<>();
 
         //뽑아낸 재료중 유통기한이 얼마 안남은 음식에 점수를 높게 주어 유통기한이 얼마 안남은 제품을 먼저 소비할 수 있게해줌
@@ -142,7 +141,7 @@ public class Recommand {
         });
 
         System.out.println("------------------------레시피 불러오기 성공------------------------");
-        
+        System.out.println("size: " + recipeList.size());
         //점수가 높은 레시피 10개 추천 10개 보다 적으면 그거까지만 추천
         return recipeList.subList(0, Math.min(10, recipeList.size()));
     }//RecipeVO
