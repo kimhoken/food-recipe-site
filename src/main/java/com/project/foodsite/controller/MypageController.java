@@ -59,6 +59,7 @@ public class MypageController {
         return "member/mypage";
     }
 
+    //
     @PostMapping("/mypage_update.do")
     public String update(MemberVO vo, String filechange) throws Exception{
 
@@ -108,14 +109,13 @@ public class MypageController {
        
     }
 
+    // 비밀번호 유효성 검사
     @PostMapping("/userpwdcheck.do")
     @ResponseBody
     public String userpwdcheck(String currpwd){
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
-        System.out.println(user);
-        System.out.println(currpwd+" / "+ user.getPassword());
-     
+             
         if(pwdSecurity.pwdDecoding(currpwd, user.getPassword())){
             return "ok";
         }
@@ -123,6 +123,7 @@ public class MypageController {
 
     }
 
+    //비림번호 재설정 기능
     @PostMapping("/resetpwdpage.do")
     @ResponseBody
     public String userrestpassword(String password){
@@ -146,7 +147,7 @@ public class MypageController {
         }
     }
 
-
+    //회원 탈퇴 기능
     @PostMapping("/secessionUser.do")
     @ResponseBody
     public String secessionuser( MemberVO vo){

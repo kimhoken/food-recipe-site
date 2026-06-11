@@ -198,7 +198,7 @@
                                 </c:when>
 
                                 <c:when test="${user.profile_img ne 'no_file.png'}">
-                                    <img src="/upload/${user.profile_img}" width="85px" height="85px" />
+                                    <img src="/upload/profile/${user.profile_img}" width="85px" height="85px" />
                                 </c:when>
 
                             </c:choose>
@@ -267,7 +267,7 @@
                                         </c:when>
 
                                         <c:when test="${user.profile_img ne 'no_file.png'}">
-                                            <img src="/upload/${user.profile_img}" width="85px" height="85px" />
+                                            <img src="/upload/profile/${user.profile_img}" width="85px" height="85px" />
                                         </c:when>
 
                                     </c:choose>
