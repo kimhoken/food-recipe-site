@@ -108,10 +108,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </where>
     
     <choose>
-        <when test="cookTimes != null and cookTimes.size() > 0">
-            ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC, r.recipe_id DESC
-        </when>
-        
         <when test="sort == 'view'">
             ORDER BY r.view_count DESC, r.recipe_id DESC
         </when>
@@ -119,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ORDER BY r.like_count DESC, r.recipe_id DESC
         </when>
         <otherwise>
-           ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC, r.recipe_id DESC
+            ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC, r.recipe_id DESC
         </otherwise>
     </choose>
     
