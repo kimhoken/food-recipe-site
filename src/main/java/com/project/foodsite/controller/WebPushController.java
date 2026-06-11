@@ -33,6 +33,7 @@ public class WebPushController {
             subscription.setEndpoint((String) payload.get("endpoint")); // 2.최상위 endpoint값 추출
             
             // 3. 내부 중첩 객체인 keys 안에 들어있는 p256dh와 auth 추출
+            @SuppressWarnings("unchecked")
             Map<String, String> keys = (Map<String, String>) payload.get("keys");
             if (keys != null) {
                 subscription.setP256dh(keys.get("p256dh"));

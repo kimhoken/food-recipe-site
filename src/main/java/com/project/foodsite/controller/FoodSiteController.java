@@ -1,6 +1,9 @@
 package com.project.foodsite.controller;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +26,7 @@ public class FoodSiteController {
     private final Recommand rec;
 
     @Autowired
-    HttpSession session;
+    public HttpSession session;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -41,6 +44,17 @@ public class FoodSiteController {
         //조회수를 기준으로 레시피를 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());
 
+        List<String> list = new LinkedList<>();
+        
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchList");
+        List<String> list = new LinkedList<>();
+
+        while(!currentQueue.isEmpty()){
+            list.
+        }
+
+        model.addAttribute("searchList", list);
+        model.addAttribute("currentSearchList", currentList);
         return "main";
     }
 

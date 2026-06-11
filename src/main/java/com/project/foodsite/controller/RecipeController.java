@@ -1,8 +1,8 @@
 package com.project.foodsite.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +11,18 @@ import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
 public class RecipeController {
 
     private final RecipeDAO recipeDao;
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
@@ -65,5 +70,34 @@ public class RecipeController {
 
         return "recipe/recipe_list";
     }
+
+    /**
+     * 레시피 검색 <미완성>
+     * @param model binding을 위한 model
+     * @param search 검색어
+     * @return  jsp
+     */
+    @PostMapping("/search_recipe.do")
+    public String recipeSearch(Model model, String search){
+        //검색어를 입력받아 검색어로 유사 검색 후 결과 리턴
+        //최근검색어는 큐로 저장해 5개 유지 및 오래된 검색어 삭제
+        @SuppressWarnings("unchecked")
+        Queue<String> searchQueue = (Queue<String>) session.getAttribute("searchQueue");
+        
+        if (searchQueue == null) {
+            searchQueue = new LinkedList<>();
+        }
+
+        if(searchQueue.size() >= 5){
+            //크기가 5이상이면 가장 먼저 검색한 검색어 삭제
+            searchQueue.poll();
+        }
+        searchQueue.add(search);
+        session.setAttribute("searchQueue", searchQueue);
+        
+        return "common/search_nav";
+    }
+
+    
 
 }
