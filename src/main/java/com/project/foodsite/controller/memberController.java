@@ -116,7 +116,7 @@ public class memberController {
         }
         
         if(vo.getFilename() == null  ){
-            String filename = "/images/no_file.png";
+            String filename = "no_file.png";
             vo.setFilename(filename);
         }
 

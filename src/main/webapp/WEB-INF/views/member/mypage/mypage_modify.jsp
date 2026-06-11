@@ -5,8 +5,7 @@
     <h2 class="join-title">회원 정보 수정</h2>
 
     <form action="/mypage_update.do" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="filechange" value="no" name="filechange"/>
-        <input type="hidden" value="${user.member_id}" name="member_id"/>
+        <input type="hidden" id="filechange" value="no" name="filechange"/>        
         <!-- 프로필 이미지 -->
         <div class="join-row">
             <div class="join-label">프로필</div>
