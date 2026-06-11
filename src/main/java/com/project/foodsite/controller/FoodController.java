@@ -27,7 +27,7 @@ public class FoodController {
             map.computeIfAbsent(vo.getSubCategoryName(), k -> new ArrayList<>()).add(vo.getFoodName());
         }
 
-        return map;
+        return map; 
     }
 
 }
