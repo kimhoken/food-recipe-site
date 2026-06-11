@@ -312,9 +312,10 @@
                     <div class="search-section">
                         <h4>급상승 검색어</h4>
                         <div class="trending-list">
-                            <c:forEach var="vo" items="${searchList}" varStatus="status">
+                            <c:forEach var="vo" items="${currentSearchList}" varStatus="status">
                                 <div class="trending-item">
-                                    <span class="rank-num">${status.index + 1}</span> ${vo}
+                                    <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
+                                    <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 
                                 </div>
                             </c:forEach>
                         </div>

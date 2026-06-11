@@ -2,7 +2,6 @@ package com.project.foodsite.controller;
 
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,6 @@ public class RecipeController {
 
     private final RecipeDAO recipeDao;
 
-    @Autowired
     private HttpSession session;
 
     @GetMapping("/recipe_list.do")

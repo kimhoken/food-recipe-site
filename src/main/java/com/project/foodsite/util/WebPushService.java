@@ -3,24 +3,24 @@ package com.project.foodsite.util;
 import java.util.*;
 import nl.martijndwars.webpush.Notification;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.foodsite.dao.WebPushDAO;
 import com.project.foodsite.vo.FridgeAlarmTarget;
 import com.project.foodsite.vo.WebPushSubscriptionVO;
 
+import lombok.RequiredArgsConstructor;
 import nl.martijndwars.webpush.PushService;
 import tools.jackson.databind.ObjectMapper;
 
 @Service
+@RequiredArgsConstructor
 public class WebPushService {
     //몇일 전에 알람을 보낼 지 지정
     private final int DAYS = 3;
-    @Autowired
+
     private WebPushDAO webPushDAO;
 
-    @Autowired
     private Config config;
 
     // 구독 정보 저장 또는 업데이트
