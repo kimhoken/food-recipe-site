@@ -49,9 +49,6 @@ public class FoodSiteController {
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchList");
         List<String> list = new LinkedList<>();
 
-        while(!currentQueue.isEmpty()){
-            list.
-        }
 
         model.addAttribute("searchList", list);
         model.addAttribute("currentSearchList", currentList);
