@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class memberController {
 
-    HttpSession httpSession;
+    private final HttpSession httpSession;
 
     private final MemberDAO memberDAO;
     private final MailSendService mss;

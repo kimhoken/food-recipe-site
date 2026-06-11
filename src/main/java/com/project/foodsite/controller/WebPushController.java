@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/push") // 모든 주소 앞에 /api/push 가 붙음
 @RequiredArgsConstructor
 public class WebPushController {
-    private WebPushService webPushService;
+    private final WebPushService webPushService;
 
-    private HttpSession session;
+    private final HttpSession session;
 
     // 1. 프런트(JSP)에서 "알림 허용" 누르면 기기 정보를 받아서 DB에 저장하는 주소
     // JSP 코드의 fetch('/api/push/register') 이 부분이랑 연결

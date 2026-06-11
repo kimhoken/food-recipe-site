@@ -302,7 +302,14 @@
                 <div id="searchDropdown" class="search-dropdown">
                     <div class="search-section" id="recent">
                         <h4>최근 검색어</h4>
-                        <p class="empty-text">최근 검색어가 없습니다.</p>
+                        <c:if test="${empty currentSearchList}">
+                            <p class="empty-text">최근 검색어가 없습니다.</p>
+                        </c:if>
+                        <c:if test="${!empty currentSearchList}">
+                            <c:forEach var="item" items="${currentSearchList}" varStatus="status">
+                                <a href="#">${item}</a>
+                            </c:forEach>
+                        </c:if>
                     </div>
                     
                     <div class="search-section" id="recommend">
@@ -312,7 +319,7 @@
                     <div class="search-section">
                         <h4>급상승 검색어</h4>
                         <div class="trending-list">
-                            <c:forEach var="vo" items="${currentSearchList}" varStatus="status">
+                            <c:forEach var="vo" items="${searchList}" varStatus="status">
                                 <div class="trending-item">
                                     <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
                                     <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 

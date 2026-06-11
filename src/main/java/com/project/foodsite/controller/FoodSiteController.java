@@ -21,7 +21,7 @@ public class FoodSiteController {
     
     private final Recommand rec;
 
-    public HttpSession session;
+    public final HttpSession session;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -36,18 +36,23 @@ public class FoodSiteController {
         model.addAttribute("today", rec.randomList());
         //조회수를 기준으로 레시피를 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());
-
-        List<String> list = new LinkedList<>();
         
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
         List<String> currentList = new LinkedList<>();
+        List<String> rankList = new LinkedList<>();
 
-        while(!currentQueue.isEmpty()){
-            currentList.add(currentQueue.poll());
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
         }
 
-        model.addAttribute("searchList", list);
+        for(int i=1 ; i<11 ; i++){
+            rankList.add(i+"번째 검색어");
+        }
+
+        model.addAttribute("searchList", rankList);
         model.addAttribute("currentSearchList", currentList);
         return "main";
     }

@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 
-    HttpSession httpSession;
+    private final HttpSession httpSession;
 
     private final MemberDAO memberDAO;
 

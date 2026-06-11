@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RecipeController {
 
     private final RecipeDAO recipeDao;
-
-    private HttpSession session;
+    private final HttpSession session;
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
@@ -71,26 +70,29 @@ public class RecipeController {
 
     /**
      * 레시피 검색 <미완성>
+     * 현재 최근검색어만 나오게 완성
      * @param model binding을 위한 model
      * @param search 검색어
      * @return  jsp
      */
     @PostMapping("/search_recipe.do")
-    public String recipeSearch(Model model, String search){
+    public String recipeSearch(Model model, String search){ 
         //검색어를 입력받아 검색어로 유사 검색 후 결과 리턴
         //최근검색어는 큐로 저장해 5개 유지 및 오래된 검색어 삭제
         @SuppressWarnings("unchecked")
-        Queue<String> searchQueue = (Queue<String>) session.getAttribute("searchQueue");
-        
-        if (searchQueue == null) {
-            searchQueue = new LinkedList<>();
-        }
+        Queue<String> searchQueue = 
+            (Queue<String>) session.getAttribute("searchQueue") == null ? new LinkedList<>() : 
+            (Queue<String>) session.getAttribute("searchQueue");
 
         if(searchQueue.size() >= 5){
             //크기가 5이상이면 가장 먼저 검색한 검색어 삭제
             searchQueue.poll();
         }
+
         searchQueue.add(search);
+        
+        //기존 세션의 값 삭제
+        session.removeAttribute("searchQueue");
         session.setAttribute("searchQueue", searchQueue);
         
         return "common/search_nav";
