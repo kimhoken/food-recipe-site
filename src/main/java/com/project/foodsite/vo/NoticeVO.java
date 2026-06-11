@@ -16,12 +16,10 @@ public class NoticeVO {
 
     private int notice_id;
     private int member_id;
-    private Integer img_id;
 
     private String title;
     private String content;
 
     private int view_count;
     private Date created_date;
-    private Date updated_date;
 }

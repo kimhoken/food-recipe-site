@@ -139,7 +139,7 @@
             </c:if>
             <%-- 로그인 한 경우만 버튼이 보이게 --%>
             <c:if test="${!empty sessionScope.user}">
-                <input type="button" value="레시피 등록" onclick="location.href='/regiRecipe.do'" />
+                <input type="button" value="리뷰 등록" onclick="location.href='#'" />
             </c:if>
         </div>
         

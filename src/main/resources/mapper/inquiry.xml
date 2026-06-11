@@ -27,5 +27,11 @@
             #{guest_password}
         )
     </insert>
+
+    <update id="updateInquiryCode" parameterType="inquiry">
+        update inquiry
+        set inquiry_code = #{inquiry_code}
+        where inquiry_id = #{inquiry_id}
+    </update>
     
 </mapper>

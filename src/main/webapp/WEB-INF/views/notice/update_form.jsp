@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -9,6 +10,8 @@
     <link rel="stylesheet" href="/css/notice_update.css">
 
     <script>
+        let files = [];
+
         function send(f) {
             let title = f.title.value.trim();
             let content = f.content.value.trim();
@@ -25,16 +28,82 @@
                 return;
             }
 
+            const imageInput = document.getElementById("images");
+            const dataTransfer = new DataTransfer();
+
+            files.forEach(function(file) {
+                dataTransfer.items.add(file);
+            });
+
+            imageInput.files = dataTransfer.files;
+
             f.submit();
         }
 
-        function deleteImg() {
-            let image_div = document.getElementById("image_div");
-            let ori_img_id = document.getElementById("ori_img_id");
+        function removeOldImage(btn, fileName) {
+            const form = document.getElementById("noticeUpdateForm");
 
-            ori_img_id.value = "";
-            image_div.style.display = "none";
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "delete_image";
+            input.value = fileName;
+
+            form.appendChild(input);
+
+            btn.closest(".img-item").remove();
         }
+
+        function renderPreview() {
+            const previewList = document.getElementById("preview-list");
+            const imageInput = document.getElementById("images");
+
+            previewList.innerHTML = "";
+
+            const dataTransfer = new DataTransfer();
+
+            files.forEach(function(file, index) {
+                dataTransfer.items.add(file);
+
+                const item = document.createElement("div");
+                item.className = "img-item";
+
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "img-remove-btn";
+                btn.innerText = "×";
+                btn.onclick = function() {
+                    removeNewFile(index);
+                };
+
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.alt = "추가 이미지";
+
+                item.appendChild(btn);
+                item.appendChild(img);
+                previewList.appendChild(item);
+            });
+
+            imageInput.files = dataTransfer.files;
+        }
+
+        function removeNewFile(index) {
+            files.splice(index, 1);
+            renderPreview();
+        }
+
+        window.onload = function () {
+            const imageInput = document.getElementById("images");
+
+            imageInput.addEventListener("change", function () {
+            
+                files = files.concat(Array.from(this.files));
+
+                this.value = "";
+
+                renderPreview();
+            });
+        };
     </script>
 </head>
 
@@ -49,10 +118,10 @@
         </section>
 
         <section class="update-card">
-            <form action="notice_update.do" method="post" enctype="multipart/form-data">
+
+            <form id="noticeUpdateForm" action="notice_update.do" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" name="notice_id" value="${notice.notice_id}">
-                <input type="hidden" name="ori_img_id" value="${notice.img_id}" id="ori_img_id">
 
                 <div class="form-group">
                     <label>제목</label>
@@ -67,15 +136,26 @@
                 <div class="form-group">
                     <label>이미지</label>
 
-                    <c:if test="${not empty img}">
-                        <div id="image_div" class="current-img-box">
-                            <img src="/upload/${img.image_list}">
-                            <button type="button" onclick="deleteImg()">이미지 삭제</button>
+                    <c:if test="${not empty img and not empty img.image_list}">
+                        <div class="current-img-box">
+                            <c:forEach var="fileName" items="${fn:split(img.image_list, ',')}">
+                                <div class="img-item">
+                                    <button type="button"
+                                            class="img-remove-btn"
+                                            onclick="removeOldImage(this, '${fileName}')">×</button>
+
+                                    <img src="/upload/${fileName}" alt="공지 이미지">
+                                </div>
+                            </c:forEach>
                         </div>
                     </c:if>
 
+                    
+                    <div id="preview-list"></div>
+
                     <div class="file-box">
-                        <input type="file" name="images">
+                        
+                        <input type="file" name="images" id="images" multiple>
                     </div>
                 </div>
 
