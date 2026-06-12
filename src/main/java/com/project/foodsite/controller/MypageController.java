@@ -2,12 +2,17 @@ package com.project.foodsite.controller;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.foodsite.common.Fileupload;
+import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.vo.MemberVO;
 
@@ -18,9 +23,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 
+    @Value("${file.upload.path}")
+    private String uploadPath;
+
+    @Autowired
+    HttpSession httpSession;
     private final HttpSession httpSession;
 
     private final MemberDAO memberDAO;
+    private final pwdSecurity pwdSecurity; 
+    private final Fileupload fileupload;
 
     @GetMapping("/mypage.do")
     public String gomypage(Model model, String menu) {
@@ -48,74 +60,123 @@ public class MypageController {
         return "member/mypage";
     }
 
+    //
     @PostMapping("/mypage_update.do")
-    public String update(MemberVO vo, String filechange) {
+    public String update(MemberVO vo, String filechange) throws Exception{
 
-        MemberVO olduser = memberDAO.getUserByMemberId(vo.getMember_id());
-        String oldfilename = olduser.getProfile_img();
+        MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
-        // 맥경로: /Users/사용자명/upload/
-        String savePath = "C:/upload/";
-        String filename = "";
+        MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
+
+
+        String savePath = uploadPath + "/profile" ;
+        
+        String filename = user.getProfile_img();
 
         MultipartFile photo = vo.getPhoto();
+        // 기존이미지 삭제
+        if(filechange.equals("yes")){
+
+            fileupload.deleteFile(savePath, filename);
+
+            filename ="no_file.png";
+
+        }else if(photo != null && !photo.isEmpty()){
+
+            fileupload.deleteFile(savePath, filename);
+            filename = fileupload.saveFile(photo, savePath);
+
+        }else{
+            filename = user.getProfile_img();
+        }
+
+        vo.setMember_id(user.getMember_id());
+        vo.setFilename(filename);
+
+        int res = memberDAO.userUpdate(vo);
+
+        if(res>0){
+            MemberVO updateduser = memberDAO.getUserByMemberId(vo.getMember_id());
+            httpSession.setAttribute("user", updateduser);
+
+            return "redirect:/mypage.do?menu=account";
+        }else{
+            return "redirect:/mypage.do?menu=update";
+
+        }
+          
+            
+
+       
+    }
+
+    // 비밀번호 유효성 검사
+    @PostMapping("/userpwdcheck.do")
+    @ResponseBody
+    public String userpwdcheck(String currpwd){
+
+        MemberVO user = (MemberVO)httpSession.getAttribute("user");
+             
+        if(pwdSecurity.pwdDecoding(currpwd, user.getPassword())){
+            return "ok";
+        }
+        return "no";
+
+    }
+
+    //비림번호 재설정 기능
+    @PostMapping("/resetpwdpage.do")
+    @ResponseBody
+    public String userrestpassword(String password){
+
+        String enc_pwd = pwdSecurity.pwdEncoding(password);
+
+        MemberVO user = (MemberVO)httpSession.getAttribute("user");
+
+        MemberVO vo = new MemberVO();
         
-
-        try {
-            // 
-            if (filechange.equals("yes")) {
-                filename = "no_file.png";
-            } else if (photo != null && !photo.isEmpty()) {
-
-                File dir = new File(savePath);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
-                filename = photo.getOriginalFilename();
-
-                File saveFile = new File(savePath, filename);
-
-                if (saveFile.exists()) {
-
-                    System.out.println("같은 친구 발견!!");
-                    filename = System.currentTimeMillis() + "_" + filename;
-                    saveFile = new File(savePath, filename);
-                    
-                }
-
-                // 실제 저장
-                photo.transferTo(saveFile);
-
-                
-            } else{
-                filename=oldfilename;
-            }
-            // DB에 저장할 경로
-            vo.setFilename(filename);
-
-            int res = memberDAO.userUpdate(vo);
-
-            if (res > 0 ) {
-                
-                if(!oldfilename.equals(vo.getFilename())){
-                    File delfile = new File(savePath,oldfilename);
-                    if(delfile.exists()){
-                        delfile.delete();
-                    }
-                }
-                MemberVO user = memberDAO.getUserByMemberId(vo.getMember_id());
-
-                httpSession.setAttribute("user", user);
-                return "redirect:/mypage.do?menu=account";
-            } else {
-                return "redirect:/mypage.do?menu=update";
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "error";
+        vo.setMember_id(user.getMember_id());
+        
+        vo.setPassword(enc_pwd);
+        
+        int res = memberDAO.userPwdUpdate(vo);
+        
+        if( res>0){
+            return "success";
+        } else{
+            return "fail";
         }
     }
 
+    //회원 탈퇴 기능
+    @PostMapping("/secessionUser.do")
+    @ResponseBody
+    public String secessionuser( MemberVO vo){
+
+        String savePath = uploadPath+"/profile";
+
+        fileupload.deleteFile(savePath, vo.getProfile_img());
+
+        vo.setStatus("no");
+        vo.setLogin_id(null);
+        vo.setPassword(null);
+        vo.setNickname("탈퇴회원_"+vo.getMember_id());
+        vo.setEmail("withdraw_"+ vo.getMember_id()+"@delete.com");
+        vo.setProvider(null);
+        vo.setProvider_id(null);
+        vo.setMember_intro(null);
+        vo.setName("탈퇴");
+        vo.setProfile_img("no_file.png");
+        
+        int res = memberDAO.secessionUser(vo);
+
+        if( res > 0 ){
+            httpSession.removeAttribute("user");
+            return "yes";
+        }else{
+            return "no";
+        }
+        
+        
+    }
 }
