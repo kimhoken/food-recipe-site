@@ -1,27 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace는 기본패키지 + dao로 설정해야함
     ex) com.kh.dept.dao.DeptDAO
     -->
 <mapper namespace="com.project.foodsite.dao.BoardDAO">
-	
-    <select id="selectAll" resultType="board">
-        select b.*, m.nickname from board b, member m
-        WHERE b.member_id = m.member_id
-    </select>
+
+    <select id="selectAll" resultType="board"> select b.*, m.nickname from board b, member m WHERE
+        b.member_id = m.member_id </select>
 
     <select id="search" resultType="board" parameterType="String">
-    <bind name="pattern" value="'%' + search + '%'" />
-        SELECT b.*, m.nickname FROM board b, member m 
-        WHERE (title LIKE #{pattern} OR content LIKE #{pattern})
-        AND b.member_id = m.member_id
-    </select>
+        <bind name="pattern" value="'%' + search + '%'" /> SELECT b.*, m.nickname FROM board b,
+        member m WHERE (title LIKE #{pattern} OR content LIKE #{pattern}) AND b.member_id =
+        m.member_id </select>
 
-    <insert id="insertRecipe" parameterType="RecipeDTO">
-        INSERT INTO board (unit) 
-        VALUES (#{vegiUnit})
-    </insert> 
-		
+    <insert id="insertRecipe" parameterType="RecipeDTO"> INSERT INTO board (unit) VALUES
+        (#{vegiUnit}) </insert>
+
+    <!-- 게시글 상세보기 -->
+    <select id="selectOne" parameterType="int" resultType="board"> SELECT b.*, m.nickname FROM board
+        b, member m WHERE b.member_id = m.member_id AND b.board_id = #{board_id} </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updateViewCount" parameterType="int"> UPDATE board SET view_count = view_count + 1
+        WHERE board_id = #{board_id} </update>
+
+    <!--수정-->
+    <update id="update" parameterType="board"> 
+        UPDATE board SET title = #{title}, content =
+        #{content}, updated_date = NOW() WHERE board_id = #{board_id} 
+    </update>
+
+    <!--삭제-->
+    <delete id="delete" parameterType="int"> 
+        DELETE FROM board WHERE board_id = #{board_id} 
+    </delete>
+    
 </mapper>
