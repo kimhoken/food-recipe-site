@@ -27,8 +27,7 @@ public class MypageController {
     private String uploadPath;
 
     @Autowired
-    HttpSession httpSession;
-    private final HttpSession httpSession;
+    HttpSession httpSession;    
 
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 
