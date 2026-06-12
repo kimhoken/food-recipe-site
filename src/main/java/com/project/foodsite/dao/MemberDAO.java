@@ -23,4 +23,6 @@ public interface MemberDAO {
     int userUpdate(MemberVO vo);
 
     MemberVO getSocialUser(String provider,String provider_id);
+
+    int secessionUser( MemberVO vo);
 } 

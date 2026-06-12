@@ -373,7 +373,7 @@
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
             <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li>이벤트</li>
+            <li>키친가이드</li>
         </ul>
     </header>
     
@@ -429,7 +429,9 @@
             <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                 <div class="recipe-card">
                     <a href="/recipe_detail.do?id=${recipe.recipe_id}">
-                        <div class="recipe-img"></div>
+                        <div class="recipe-img">
+                            <img src="/upload/${recipe.thumbnail}"/>
+                        </div>
                         <div class="rank-badge">${status.index + 1}</div>
                         <div class="recipe-info">
                             <div class="recipe-name">${recipe.title}</div>

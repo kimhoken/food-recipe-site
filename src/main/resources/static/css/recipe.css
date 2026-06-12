@@ -160,4 +160,5 @@ a { text-decoration: none; color: inherit; }
     color: #888;
     font-size: 15px;
     padding: 60px 0;
+    word-break: keep-all;
 }
