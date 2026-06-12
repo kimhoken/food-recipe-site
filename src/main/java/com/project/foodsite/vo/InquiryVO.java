@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 public class InquiryVO {
 
     private Integer inquiry_id, member_id, admin_id, img_id;
-    private String title, content, status, answer_content, guest_name, guest_email, guest_password, type;
-
-    private Date createdDate;
+    private String title, content, status, answer_content, guest_name, guest_email, guest_password, type, inquiry_code;
+    private Date answered_date, created_date;
 
 }

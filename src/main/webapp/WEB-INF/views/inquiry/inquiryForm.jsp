@@ -110,6 +110,51 @@
             document.getElementById("modalAgree").checked = true;
             document.getElementById("agreeModal").style.display = "none";
         }
+
+        let files = [];
+
+        window.onload = function () {
+            const imageInput = document.getElementById("image");
+            const previewList = document.getElementById("preview-list");
+
+            imageInput.addEventListener("change", function () {
+                /* 새로 선택한 파일로 덮어쓰지 않고 기존 파일에 추가 */
+                files = files.concat(Array.from(this.files));
+
+                /* 같은 파일을 다시 선택할 수 있도록 input 값 초기화 */
+                this.value = "";
+
+                renderPreview();
+            });
+
+            window.renderPreview = function () {
+                previewList.innerHTML = "";
+
+                const dataTransfer = new DataTransfer();
+
+                files.forEach(function (file, index) {
+                    dataTransfer.items.add(file);
+
+                    const item = document.createElement("div");
+                    item.className = "preview-item";
+
+                    item.innerHTML =
+                        '<img src="' + URL.createObjectURL(file) + '">' +
+                        '<button type="button" onclick="removeFile(' + index + ')">×</button>';
+
+                    previewList.appendChild(item);
+                });
+
+                imageInput.files = dataTransfer.files;
+            };
+
+            window.removeFile = function (index) {
+                files.splice(index, 1);
+
+                renderPreview();
+            };
+        };
+        
     </script>
 </head>
 
@@ -191,7 +236,8 @@
             <tr>
                 <th>파일 첨부</th>
                 <td>
-                    <input type="file" name="image" multiple>
+                    <input type="file" name="image" id="image" accept="image/*" multiple>
+                    <div id="preview-list"></div>
                 </td>
             </tr>
 
