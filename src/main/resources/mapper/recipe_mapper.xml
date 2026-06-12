@@ -36,117 +36,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT COUNT(*) 
         FROM recipe r
         JOIN category c ON r.category_id = c.category_id
-        JOIN food f ON r.food_id = f.food_id
         <where>
             <if test="category != null and category != ''">
-                AND (c.category_name = #{category} OR c.sub_category_name = #{category})
+                c.category_name = #{category}
             </if>
-            
-            <if test="keyword != null and keyword != ''">
-                AND f.food_name LIKE CONCAT('%', #{keyword}, '%')
-            </if>
-            
-            <if test="cookTimes != null and cookTimes.size() > 0">
-                AND (
-                    <foreach collection="cookTimes" item="time" separator="OR">
-                        <choose>
-                            <when test="time == '10'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 10
-                            </when>
-                            <when test="time == '20'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 10 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 20
-                            </when>
-                            <when test="time == '30'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 20 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 30
-                            </when>
-                            <when test="time == '60'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 30 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 60
-                            </when>
-                            <when test="time == '61'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt;= 60
-                            </when>
-                        </choose>
-                    </foreach>
-                )
+            <if test="maxCookTime > 0 and maxCookTime != 9999">
+                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
             </if>
         </where>
     </select>
 
     <!-- 카테고리/조리시간 필터링 레시피 목록 조회 (페이징 처리 포함) -->
     <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
-        SELECT 
-            r.recipe_id,
-            f.food_name AS title,  r.thumbnail,
-            r.cooking_time,
-            r.difficulty,
-            r.view_count,
-            r.like_count,
-            r.status,
-            r.created_date,
-            r.updated_date,
-            r.nutrition_id,
-            r.member_id,
-            r.category_id,
-            r.food_id
-        FROM recipe r
-        JOIN food f ON r.food_id = f.food_id
-        JOIN category c ON f.category_id = c.category_id   <where>
+        SELECT r.* FROM recipe r
+        JOIN category c ON r.category_id = c.category_id
+        <where>
             <if test="category != null and category != ''">
-                AND (c.category_name = #{category} OR c.sub_category_name = #{category})
+                c.category_name = #{category}
             </if>
-            
-            <if test="keyword != null and keyword != ''">
-                AND f.food_name LIKE CONCAT('%', #{keyword}, '%')
-            </if>
-            
-            <if test="cookTimes != null and cookTimes.size() > 0">
-                AND (
-                    <foreach collection="cookTimes" item="time" separator="OR">
-                        <choose>
-                            <when test="time == '10'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 10
-                            </when>
-                            <when test="time == '20'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 10 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 20
-                            </when>
-                            <when test="time == '30'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 20 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 30
-                            </when>
-                            <when test="time == '60'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt; 30 
-                                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= 60
-                            </when>
-                            <when test="time == '61'">
-                                CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &gt;= 60
-                            </when>
-                        </choose>
-                    </foreach>
-                )
+            <if test="maxCookTime > 0 and maxCookTime != 9999">
+                AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
             </if>
         </where>
-        
-        ORDER BY 
-            c.sort_order ASC,     f.food_name ASC,      <choose>
-                <when test="sort == 'view'">
-                    r.view_count DESC
-                </when>
-                <when test="sort == 'like'">
-                    r.like_count DESC
-                </when>
-                <when test="sort == 'latest'">
-                    r.created_date DESC
-                </when>
-                <otherwise>
-                    CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
-                </otherwise>
-            </choose>
-            , r.recipe_id DESC
-        
+        <choose>
+            <!-- 조리시간 미선택 시 조리시간 오름차순 정렬 -->
+            <when test="maxCookTime == 0">
+                ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
+            </when>
+            <!-- 조리시간 선택 시 최신순 정렬 -->
+            <otherwise>
+                ORDER BY r.created_date DESC
+            </otherwise>
+        </choose>
         LIMIT 9 OFFSET #{offset}
     </select>
 

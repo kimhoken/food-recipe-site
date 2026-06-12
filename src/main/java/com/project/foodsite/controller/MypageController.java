@@ -26,8 +26,8 @@ public class MypageController {
     @Value("${file.upload.path}")
     private String uploadPath;
 
-    @Autowired
-    HttpSession httpSession;    
+
+    private final HttpSession httpSession;    
 
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 
