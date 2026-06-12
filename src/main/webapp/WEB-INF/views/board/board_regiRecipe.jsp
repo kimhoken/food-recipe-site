@@ -1,6 +1,5 @@
-
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <!-- 페이지 렌더링 전에 로그인 여부를 먼저 보여주기-->
         <c:if test="${empty sessionScope.user}">
@@ -115,9 +114,8 @@
                             placeholder="단위 입력" 
                             style="display:none;"
                             />  
-                    </td>
-                    <td> 
-                        <button type="button" onclick="removeRow(this)" class="x-btn">
+
+                            <button type="button" onclick="removeRow(this)" class="x-btn">
                             X
                         </button>  
                     </td>
@@ -125,16 +123,35 @@
 
                 }
 
-                //'직접입력' 선택시 텍스트 입력창 보이기
+                //'직접입력' 선택시 그 자리에서 입력하기
                 function changeUnit(select) {
-                    const customInput =
-                        select.parentElement.querySelector("input");
-
                     if (select.value === "direct") {
-                        customInput.style.display = "block;";
-                    } else {
-                        customInput.style.display = "none";
-                        customInput.value = "";
+
+                        // input 생성
+                        const input = document.createElement("input");
+                        input.type = "text";
+                        input.name = "unit";
+                        input.placeholder = "단위 입력";
+
+                        // 엔터나 포커스 해제 시 다시 select로 복구
+                        input.onblur = function () {
+                            if (input.value.trim() === "") {
+                                select.selectedIndex = 0;
+                            } else {
+                                const option = document.createElement("option");
+                                option.value = input.value;
+                                option.text = input.value;
+                                option.selected = true;
+
+                                select.appendChild(option);
+                            }
+
+                            input.replaceWith(select);
+                        };
+
+                        // select를 input으로 교체
+                        select.replaceWith(input);
+                        input.focus();
                     }
                 }
 
@@ -255,7 +272,6 @@
                         <th>재료명</th>
                         <th>수량</th>
                         <th>단위</th>
-                        <th></th>
                     </tr>
 
                     <tr>
@@ -288,7 +304,7 @@
                     <h1>조리 순서</h1>
                 </div>
 
-                <table>
+                <table class="step-table">
                     <tbody id="stepBody">
 
                         <tr>

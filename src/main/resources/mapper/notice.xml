@@ -3,100 +3,113 @@
 
 <mapper namespace="com.project.foodsite.dao.NoticeDAO">
 
-    <!-- 전체 공지 조회 -->
     <select id="selectList" resultType="notice">
         select *
         from notice
-        where title like concat('%', #{search_text}, '%') 
+        <where>
+            <if test="search_text != null and search_text != ''">
+                title like concat('%', #{search_text}, '%')
+            </if>
+        </where>
         order by notice_id desc
         limit #{start}, #{pageSize}
     </select>
-    <!-- 검색 결과 게시글 개수 조회 -->
+
     <select id="notice_count" resultType="int">
         select count(*)
         from notice
-        where title like concat('%', #{search_text}, '%')
+        <where>
+            <if test="search_text != null and search_text != ''">
+                title like concat('%', #{search_text}, '%')
+            </if>
+        </where>
     </select>
 
-    <!-- 공지사항 상세 -->
     <select id="noticeView" parameterType="int" resultType="notice">
         select *
         from notice
         where notice_id = #{notice_id}
     </select>
 
-    <!-- 조회 기록 추가 -->
-    <insert id="viewHistory" parameterType="java.util.Map">
-        insert ignore into notice_view (
+    <select id="viewHistory" resultType="int">
+        select count(*)
+        from notice_view
+        where notice_id = #{notice_id}
+          and member_id = #{member_id}
+    </select>
+
+    <insert id="viewInsert">
+        insert into notice_view (
             notice_id,
-            member_id
+            member_id,
+            viewed_date
         ) values (
             #{notice_id},
-            #{member_id}
+            #{member_id},
+            now()
         )
     </insert>
 
-    <!-- 조회수 증가 -->
     <update id="userViewCount" parameterType="int">
         update notice
         set view_count = view_count + 1
         where notice_id = #{notice_id}
     </update>
 
-    <!-- 이미지 등록 -->
-    <insert id="img_insert" 
-            parameterType="img" 
-            useGeneratedKeys="true"
-            keyProperty="img_id">
-        insert into img (
-            image_list
-        ) values (
-            #{image_list}
-        )
-    </insert>
-
-    <!-- 마지막 이미지 번호 조회 -->
-    <select id="img_max_id" resultType="int">
-        select max(img_id)
-        from img
-    </select>
-
-    <!-- 이미지 조회 -->
-    <select id="img_select" parameterType="int" resultType="img">
-        select *
-        from img
-        where img_id = #{img_id}
-    </select>
-
-    <!-- 공지사항 등록 -->
-    <insert id="notice_insert" parameterType="notice">
+    <insert id="notice_insert" parameterType="notice"
+            useGeneratedKeys="true" keyProperty="notice_id">
         insert into notice (
             member_id,
-            img_id,
             title,
             content,
-            created_date,
-            view_count
+            view_count,
+            created_date
         ) values (
             #{member_id},
-            #{img_id},
             #{title},
             #{content},
-            now(),
-            0
+            0,
+            now()
         )
     </insert>
 
-    <!-- 공지사항 수정 -->
-    <update id="notice_update" parameterType="notice">
-        update notice
-        set title = #{title},
-            content = #{content},
-            img_id = #{img_id}
+    <insert id="notice_img_insert" parameterType="img"
+            useGeneratedKeys="true" keyProperty="img_id">
+        insert into img (
+            image_list,
+            notice_id
+        ) values (
+            #{image_list},
+            #{notice_id}
+        )
+    </insert>
+
+    <select id="notice_img_select" parameterType="int" resultType="img">
+        select *
+        from img
+        where notice_id = #{notice_id}
+        limit 1
+    </select>
+
+    <update id="notice_img_update" parameterType="img">
+        update img
+        set image_list = #{image_list}
         where notice_id = #{notice_id}
     </update>
 
-    <!-- 공지사항 삭제 -->
+    <delete id="notice_img_delete" parameterType="int">
+        delete from img
+        where notice_id = #{notice_id}
+    </delete>
+
+    <update id="notice_update" parameterType="notice">
+        update notice
+        set
+            title = #{title},
+            content = #{content}
+        where notice_id = #{notice_id}
+    </update>
+
     <delete id="notice_delete" parameterType="int">
         delete from notice
         where notice_id = #{notice_id}

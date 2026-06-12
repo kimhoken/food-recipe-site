@@ -89,20 +89,36 @@ body {
     white-space: pre-line;
 }
 
+/* 수정: 여러 이미지 2열 */
 .detail-img-box {
-    margin-bottom: 32px;
-    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 34px;
 }
 
-.detail-img-box img {
+/* 수정: 흰 테두리 없이 원본 비율로 자연스럽게 */
+.detail-img-item {
     width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: none;
-    display: block;
-    border-radius: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    background: transparent;
     border: none;
     box-shadow: none;
+}
+
+.detail-img-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+    background: transparent;
+}
+
+.detail-img-item:hover {
+    transform: translateY(-2px);
+    transition: 0.25s ease;
 }
 
 .detail-btn-area {
@@ -123,29 +139,75 @@ body {
     cursor: pointer;
 }
 
-.edit-btn {
-    background: #efe7d8;
-    color: #5f574d;
-}
-
-.edit-btn:hover {
-    background: #e3d8c7;
-}
-
-.delete-btn {
-    background: #efe7d8;
-    color: #5f574d;
-}
-
-.delete-btn:hover {
-    background: #e3d8c7;
-}
-
+.edit-btn,
+.delete-btn,
 .list-btn {
     background: #efe7d8;
     color: #5f574d;
 }
 
+.edit-btn:hover,
+.delete-btn:hover,
 .list-btn:hover {
     background: #e3d8c7;
+}
+
+/* 이미지 확대 모달 */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.72);
+    align-items: center;
+    justify-content: center;
+}
+
+.image-modal img {
+    max-width: 90%;
+    max-height: 88%;
+    object-fit: contain;
+    border-radius: 18px;
+    background: transparent;
+}
+
+.image-modal-close {
+    position: fixed;
+    top: 28px;
+    right: 34px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    font-size: 28px;
+    line-height: 38px;
+    cursor: pointer;
+}
+
+.image-modal-close:hover {
+    background: #efe7d8;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+    .detail-card {
+        width: 84%;
+        padding: 34px 28px 38px;
+    }
+
+    .detail-img-box {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-meta {
+        flex-direction: column;
+        gap: 6px;
+    }
 }
