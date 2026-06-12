@@ -38,18 +38,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN category c ON r.category_id = c.category_id
         <where>
             <if test="category != null and category != ''">
-                c.category_name = #{category}
+                (c.category_name = #{category} OR c.sub_category_name = #{category})
             </if>
             <if test="maxCookTime > 0 and maxCookTime != 9999">
                 AND CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) &lt;= #{maxCookTime}
             </if>
         </where>
     </select>
-
-    <!-- 카테고리/조리시간 필터링 레시피 목록 조회 (페이징 처리 포함) -->
+    <!-- 카테고리/조리시간 필터링 레시피 목록 조회  -->
     <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
         SELECT r.* FROM recipe r
-        JOIN category c ON r.category_id = c.category_id
+        JOIN food f ON r.food_id = f.food_id
+        JOIN category c ON f.category_id = c.category_id
         <where>
             <if test="category != null and category != ''">
                 c.category_name = #{category}
@@ -59,11 +59,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
         <choose>
-            <!-- 조리시간 미선택 시 조리시간 오름차순 정렬 -->
             <when test="maxCookTime == 0">
                 ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
             </when>
-            <!-- 조리시간 선택 시 최신순 정렬 -->
             <otherwise>
                 ORDER BY r.created_date DESC
             </otherwise>
