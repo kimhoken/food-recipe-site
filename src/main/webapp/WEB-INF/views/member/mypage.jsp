@@ -83,7 +83,9 @@
                 <main class="mypage-right">
 
                     <div class="page-header">
-                        <h2>마이페이지</h2>
+                        <a href="/mypage.do?menu=home">
+                            <h2>마이페이지</h2>
+                        </a>
                         <p>내활동 내역을 한 눈에 확인하세요!</p>
                     </div>
 

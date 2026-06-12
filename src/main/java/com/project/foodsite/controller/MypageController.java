@@ -42,8 +42,8 @@ public class MypageController {
         model.addAttribute("menu", menu);
 
         // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
-        if ( menu == null || menu.equals("activity")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_activity.jsp");
+        if ( menu == null || menu.equals("home")) {
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_home.jsp");
         } else if (menu.equals("inquiry")) {
             model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_inquiry.jsp");
         } else if (menu.equals("update")) {
