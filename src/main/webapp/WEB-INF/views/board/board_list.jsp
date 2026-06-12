@@ -100,7 +100,7 @@
                 <li>
                     <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
                 </li>
-                <li>이벤트</li>
+                <li>키친가이드</li>
             </ul>       
         </header>
         <div class="board-area">

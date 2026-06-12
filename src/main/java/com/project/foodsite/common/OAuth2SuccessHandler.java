@@ -1,6 +1,5 @@
 package com.project.foodsite.common;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -77,7 +76,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     // 네이버 사용자 정보 추출
     private MemberVO getNaverUser(Map<String, Object> attributes) {
-
+        @SuppressWarnings("unchecked")
         Map<String, Object> naver = (Map<String, Object>) attributes.get("response");
 
         MemberVO vo = new MemberVO();
@@ -96,9 +95,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     
     // 카카오 사용자 정보 추출
     private MemberVO getKakaoUser(Map<String,Object> attributes) {
-        
+        @SuppressWarnings("unchecked")
         Map<String,Object> kakao = (Map<String, Object>) attributes.get("kakao_account");
-        
+        @SuppressWarnings("unchecked")
         Map<String,Object> profile =(Map<String, Object>) kakao.get("profile");
         
         MemberVO vo = new MemberVO();

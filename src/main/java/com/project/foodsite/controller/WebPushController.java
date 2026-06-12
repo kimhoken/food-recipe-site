@@ -5,22 +5,20 @@ import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.WebPushSubscriptionVO;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/push") // 모든 주소 앞에 /api/push 가 붙음
+@RequiredArgsConstructor
 public class WebPushController {
+    private final WebPushService webPushService;
 
-    @Autowired
-    private WebPushService webPushService;
-
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
     // 1. 프런트(JSP)에서 "알림 허용" 누르면 기기 정보를 받아서 DB에 저장하는 주소
     // JSP 코드의 fetch('/api/push/register') 이 부분이랑 연결
@@ -33,6 +31,7 @@ public class WebPushController {
             subscription.setEndpoint((String) payload.get("endpoint")); // 2.최상위 endpoint값 추출
             
             // 3. 내부 중첩 객체인 keys 안에 들어있는 p256dh와 auth 추출
+            @SuppressWarnings("unchecked")
             Map<String, String> keys = (Map<String, String>) payload.get("keys");
             if (keys != null) {
                 subscription.setP256dh(keys.get("p256dh"));

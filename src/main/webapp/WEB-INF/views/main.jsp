@@ -8,12 +8,13 @@
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
     <link rel="stylesheet" href="/css/chatbot.css" />
 
     <script src="/js/chatbot.js"></script>
     <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
     <script>
-        /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+    /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
         // 선택한 카테고리들 열기
         function selectCategory(category){
             //location.href = "/recipe/list?category=" + category;
@@ -163,7 +164,7 @@
                 })
         }
 
-        /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
+    /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
         
         const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
         const logout = ()=>{
@@ -260,7 +261,24 @@
             })
             .catch(err => console.error('서버 전송 실패:', err));
         }
-        
+    /* ============================ 여기까지 알림 관련 함수들 ============================ */
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById("mainSearch");
+            const searchDropdown = document.getElementById("searchDropdown");
+
+            // 1. 검색창에 포커스가 가면 드롭다운 띄우기
+            searchInput.addEventListener("focus", function() {
+                searchDropdown.style.display = "block";
+            });
+
+            // 2. 검색창이나 드롭다운 바깥 영역을 클릭하면 닫기
+            document.addEventListener("click", function(event) {
+                // 클릭한 타겟이 검색창도 아니고 드롭다운 내부도 아니면 닫음
+                if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+                    searchDropdown.style.display = "none";
+                }
+            });
+        });
     </script>
 </head>
 <body>
@@ -268,16 +286,49 @@
         <div class="header-top">
             <div class="logo">
                 <a href="${pageContext.request.contextPath}/">
-                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고">
+                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고"/>
                 </a>
             </div>
             
-            <form action="${pageContext.request.contextPath}/search.do" method="post" class="search-bar-form">
-                <div class="search-bar">
-                    <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
-                    <button type="submit">⌕</button>
+            <%-- 검색창 클릭시 나올 화면 --%>
+            <div class="search-wrapper" style="position: relative;">
+                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
+                    <div class="search-bar">
+                        <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!" autocomplete="off">
+                        <button type="submit">⌕</button>
+                    </div>
+                </form>
+
+                <div id="searchDropdown" class="search-dropdown">
+                    <div class="search-section" id="recent">
+                        <h4>최근 검색어</h4>
+                        <c:if test="${empty currentSearchList}">
+                            <p class="empty-text">최근 검색어가 없습니다.</p>
+                        </c:if>
+                        <c:if test="${!empty currentSearchList}">
+                            <c:forEach var="item" items="${currentSearchList}" varStatus="status">
+                                <a href="#">${item}</a>
+                            </c:forEach>
+                        </c:if>
+                    </div>
+                    
+                    <div class="search-section" id="recommend">
+                        <h4>추천 검색어</h4>
+                    </div>
+
+                    <div class="search-section">
+                        <h4>급상승 검색어</h4>
+                        <div class="trending-list">
+                            <c:forEach var="vo" items="${searchList}" varStatus="status">
+                                <div class="trending-item">
+                                    <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
+                                    <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
             
             <div class="user-menu">
                 <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
@@ -322,7 +373,7 @@
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
             <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li>이벤트</li>
+            <li>키친가이드</li>
         </ul>
     </header>
     
@@ -366,7 +417,6 @@
             <button type="button" class="category-item" data-category="baking" onclick="selectCategory('baking')">
                 <div class="category-icon">🍞</div>베이킹
             </button>
-
             <button type="button" class="category-item" id="btnAllCategory" onclick="openModal()">
                 <div class="category-icon">☰</div>전체보기
             </button>
@@ -374,12 +424,14 @@
     </div>
 
     <div class="container main-page">
-        <div class="section-title">지금 인기있는 레시피🔥</div>
+        <div class="section-title">지금 인기있는 레시피</div>
         <div class="recipe-grid">
             <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                 <div class="recipe-card">
                     <a href="/recipe_detail.do?id=${recipe.recipe_id}">
-                        <div class="recipe-img"></div>
+                        <div class="recipe-img">
+                            <img src="/upload/${recipe.thumbnail}"/>
+                        </div>
                         <div class="rank-badge">${status.index + 1}</div>
                         <div class="recipe-info">
                             <div class="recipe-name">${recipe.title}</div>
@@ -546,6 +598,7 @@
             </div>
         </div>
     </div>
+
     <!-- 카테고리에서 상세보기로 보여줄 블럭 -->
     <div class="modal-overlay" id="category-detail">
         <div class="modal-content">
