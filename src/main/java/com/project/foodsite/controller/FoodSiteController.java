@@ -1,8 +1,7 @@
 package com.project.foodsite.controller;
 
-import java.util.Map;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,7 @@ public class FoodSiteController {
     
     private final Recommand rec;
 
-    @Autowired
-    HttpSession session;
+    public final HttpSession session;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -34,13 +32,28 @@ public class FoodSiteController {
         
         //등록일자 기준으로 레시피를 불러옴
         model.addAttribute("reg_recipes", rec.recentlyList());
-        
         //오늘의 레시피를 한개 불러옴
         model.addAttribute("today", rec.randomList());
-
         //조회수를 기준으로 레시피를 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());
+        
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+        List<String> rankList = new LinkedList<>();
 
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        for(int i=1 ; i<11 ; i++){
+            rankList.add(i+"번째 검색어");
+        }
+
+        model.addAttribute("searchList", rankList);
+        model.addAttribute("currentSearchList", currentList);
         return "main";
     }
 

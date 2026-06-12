@@ -88,38 +88,38 @@
                     </div>
                 </div>
 
-                <%-- 레시피에 접속시 class="active" 를 레시피 li에 적용하게 전부 변경 --%>
-                    <ul class="nav-bar">
-                        <li><a href="/main_list.do">홈</a></li>
-                        <li>
-                            레시피
-                        </li>
-                        <li>카테고리</li>
-                        <li>랭킹</li>
-                        <li class="active"><a href="/list.do">커뮤니티</a> </li>
-                        <li>
-                            <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
-                        </li>
-                        <li>이벤트</li>
-                    </ul>
-            </header>
-            <div class="board-area">
-                <c:if test="${not empty list}">
-                    <table>
-                        <thead>
+            <%-- 레시피에 접속시 class="active"를 레시피 li에 적용하게 전부 변경 --%>
+            <ul class="nav-bar">
+                <li><a href="/main_list.do">홈</a></li>
+                <li>
+                    레시피
+                </li>
+                <li>카테고리</li>
+                <li>랭킹</li>
+                <li class="active"><a href="/list.do">커뮤니티</a> </li>
+                <li>
+                    <a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a>
+                </li>
+                <li>키친가이드</li>
+            </ul>       
+        </header>
+        <div class="board-area">
+            <c:if test="${not empty list}">
+                <table> 
+                    <thead>
+                        
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>닉네임</th>
+                            <th>제목</th>
+                            <th>게시글 내용</th>
+                            <th>조회수</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
 
-                            <tr>
-                                <th>게시글 번호</th>
-                                <th>닉네임</th>
-                                <th>제목</th>
-                                <th>게시글 내용</th>
-                                <th>조회수</th>
-                                <th>작성일</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
+                    <tbody>
+                        
                             <c:forEach var="board" items="${list}">
                                 <tr>
                                     <td>${board.board_id}</td>
@@ -133,34 +133,28 @@
                                     <td>${board.view_count}</td>
                                     <td>${board.created_date}</td>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:if>
+                            </c:forEach>         
+                    </tbody>
+                </table>
+            </c:if>
 
-                <c:if test="${empty list}">
-                    <h3 align="center">"${searchWord}"에 대한 검색 결과가 없습니다 :( </h3>
-                </c:if>
-                <%-- 로그인 한 경우만 버튼이 보이게 --%>
-                    <c:if test="${!empty sessionScope.user}">
-                        <input type="button" value="레시피 등록" onclick="location.href='/regiRecipe.do'" />
-                    </c:if>
-            </div>
-
-            <footer>
-                <div class="footer-container">
-                    <div class="footer-top-row">
-                        <div class="cs-section">
-                            <h3>고객센터</h3>
-                            <div class="cs-buttons">
-                                <div class="cs-btn">📞 1833-8307</div>
-                                <div class="cs-btn">💬 1:1문의하기</div>
-                            </div>
-                            <div class="hours-info">
-                                <p><strong>운영시간</strong></p>
-                                <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                                <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
-                            </div>
+            <c:if test="${empty list}">
+                <h3 align="center">"${searchWord}"에 대한 검색 결과가 없습니다 :( </h3>
+            </c:if>
+            <%-- 로그인 한 경우만 버튼이 보이게 --%>
+            <c:if test="${!empty sessionScope.user}">
+                <input type="button" value="리뷰 등록" onclick="location.href='#'" />
+            </c:if>
+        </div>
+        
+        <footer>
+            <div class="footer-container">
+                <div class="footer-top-row">
+                    <div class="cs-section">
+                        <h3>고객센터</h3>
+                        <div class="cs-buttons">
+                            <div class="cs-btn">📞 1833-8307</div>
+                            <div class="cs-btn">💬 1:1문의하기</div>
                         </div>
                         <div class="sns-icons">
                             <span class="sns-icon">▶</span>

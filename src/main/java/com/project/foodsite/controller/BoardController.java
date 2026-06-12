@@ -37,6 +37,8 @@ public class BoardController {
         model.addAttribute("searchWord", search); // 검색어 보관
         return "board/board_list";
     }
+///////////////////////////////////////////////////////////////////////////////////////
+    //--------------이거 전체 레시피쪽으로 가서 수정해야함----------------------
 
     /* recipe 등록 */
 
