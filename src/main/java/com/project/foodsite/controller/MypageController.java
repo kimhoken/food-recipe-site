@@ -28,6 +28,7 @@ public class MypageController {
 
     @Autowired
     HttpSession httpSession;
+    private final HttpSession httpSession;
 
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 
