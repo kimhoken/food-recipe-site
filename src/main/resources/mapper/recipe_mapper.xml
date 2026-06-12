@@ -164,6 +164,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY view_count DESC, like_count DESC LIMIT 5
     </select>
 
-    
+    <!-- 회원이 작성한 레시피 조회 -->
+    <select id="countUserRecipe" >
+        SELECT count(*) FROM recipe 
+        WHERE member_id = #{member_id} 
+    </select>
+
+    <select id="getUserRecipeList" parameterType="java.util.Map" resultType="recipe">
+        SELECT * FROM recipe
+        WHERE member_id = #{member_id}
+        ORDER BY recipe_id DESC
+        LIMIT #{size} OFFSET #{offest}
+    </select>
 
 </mapper>

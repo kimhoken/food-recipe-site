@@ -1,6 +1,10 @@
 package com.project.foodsite.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,9 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
+import com.project.foodsite.common.Paging;
 import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.MemberDAO;
+import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.vo.MemberVO;
+import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,37 +38,77 @@ public class MypageController {
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 
     private final Fileupload fileupload;
+    private final RecipeDAO recipeDAO;
+   
+    //레시피 페이징 함수
+    private void userRecipePage(int page, Model model, MemberVO user){
+        
 
-    @GetMapping("/mypage.do")
-    public String gomypage(Model model, String menu) {
+        int totalcount = recipeDAO.countUserRecipe(user.getMember_id());
 
-        MemberVO user = (MemberVO) httpSession.getAttribute("User");
+        Paging paging = new Paging(page, 10, totalcount);
 
-        model.addAttribute("user", user);
+        Map<String,Object> map = new HashMap<>();
 
-        model.addAttribute("menu", menu);
+        map.put("member_id", user.getMember_id());
+        map.put("offest", paging.getOffset());
+        map.put("size", paging.getSize());
 
-        // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
-        if ( menu == null || menu.equals("home")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_home.jsp");
-        } else if (menu.equals("inquiry")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_inquiry.jsp");
+        List<RecipeVO> list = recipeDAO.getUserRecipeList(map);
+
+        model.addAttribute("list", list);
+        model.addAttribute("paging", paging);
+    }
+    // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
+    private void setContentPage(Model model, String menu){
+
+        
+        String contentPage = "/WEB-INF/views/member/mypage/mypage_home.jsp";
+        
+        if (menu.equals("inquiry")) {
+            contentPage = "/WEB-INF/views/member/mypage/mypage_inquiry.jsp";
         } else if (menu.equals("update")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_modify.jsp");
+            contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";            
         } else if (menu.equals("pwd")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_pwd.jsp");
+            contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";           
         } else if (menu.equals("del")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_del.jsp");
+            contentPage = "/WEB-INF/views/member/mypage/mypage_del.jsp";            
         } else if (menu.equals("account" )){
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_info.jsp");            
+            contentPage = "/WEB-INF/views/member/mypage/mypage_info.jsp";                       
         } else if (menu.equals("recipe")){
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_myrecipe.jsp");              
+            contentPage = "/WEB-INF/views/member/mypage/mypage_myrecipe.jsp";                         
         } else if (menu.equals("comment")){
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_mycomment.jsp");              
+            contentPage = "/WEB-INF/views/member/mypage/mypage_mycomment.jsp";                          
         } else if (menu.equals("bookmark")){
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_bookmark.jsp");              
+            contentPage = "/WEB-INF/views/member/mypage/mypage_bookmark.jsp";                        
         } 
+        
+        model.addAttribute("contentPage",contentPage);
+    }
+    
+    
+    @GetMapping("/mypage.do")
+    public String gomypage(Model model, String menu, Integer page) {
+        
+        if(page == null){
+            page = 1;
+        }
+        if(menu == null){
+            menu = "home";
+        }
 
+        MemberVO user = (MemberVO) httpSession.getAttribute("user");
+        
+        model.addAttribute("user", user);
+        
+        model.addAttribute("menu", menu);
+        
+        if(menu.equals("recipe")){
+            userRecipePage(page, model, user);
+        }
+
+        setContentPage(model, menu);
+        
         return "member/mypage";
     }
 
@@ -100,7 +147,7 @@ public class MypageController {
 
         int res = memberDAO.userUpdate(vo);
 
-        if(res>0){
+        if(res > 0){
             MemberVO updateduser = memberDAO.getUserByMemberId(vo.getMember_id());
             httpSession.setAttribute("user", updateduser);
 
@@ -129,7 +176,7 @@ public class MypageController {
 
     }
 
-    //비림번호 재설정 기능
+    //비밀번호 재설정 기능
     @PostMapping("/resetpwdpage.do")
     @ResponseBody
     public String userrestpassword(String password){
@@ -180,8 +227,10 @@ public class MypageController {
             return "yes";
         }else{
             return "no";
-        }
-        
+        }        
         
     }
+
+    
+
 }

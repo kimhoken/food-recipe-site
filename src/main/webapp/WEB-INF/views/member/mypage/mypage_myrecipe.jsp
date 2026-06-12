@@ -11,15 +11,20 @@
                     <option value="desc">내림차순</option>
                     <option value="likes">좋아요순</option>
                 </select>
-                <!-- foreach문으로 돌릴 예정 -->
-                <img src="#"/>
-                <a href="#"><strong>레시피 이름</storng></a>
-                <small>작성일자</small>
-                
-                <!--  -->
+                <c:if test="${ empty list }">
+                    <div>작성한 레시피가 존재하지 않습니다.</div>
+                    <input type="button" value="레시피 등록 하려 가기" onclick=""/>
+                </c:if>
+                <c:forEach var="recipe" items="${list}">
+                    <img src="/upload/recipe/${recipe.thumbnail}"/>
+                    <a href="/recipe_detail.do?id=${recipe.recipe_id}"><strong>${recipe.title}</storng></a>
+                    <small>${recipe.created_date}</small>
+
+                </c:forEach>
+                                
 
             </div>
-            <!-- 페이징 구현 해서 아래에 출력하게 하기 -->
-            <div> 페이징 처리 &lt 1 &gt</div>
+            <c:set var="pageUrl" value="/mypage.do?menu=recipe" scope="request"/>
+           <jsp:include page="/WEB-INF/views/common/paging.jsp"/>
         </div>
     </section>
