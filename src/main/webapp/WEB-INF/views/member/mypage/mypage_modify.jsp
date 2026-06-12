@@ -10,7 +10,7 @@
         <div class="join-row">
             <div class="join-label">프로필</div>
             <div class="join-control">
-                <img src="/upload/${user.profile_img}" class="profile-preview">
+                <img src="/upload/profile/${user.profile_img}" class="profile-preview">
                 <input type="file" name="photo">
                 <input type="button" value="기존이미지 삭제" onclick="status()"/>
             </div>

@@ -1,6 +1,5 @@
 package com.project.foodsite.controller;
 
-import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,9 +41,8 @@ public class MypageController {
 
         model.addAttribute("menu", menu);
 
-        if (menu == null || menu.equals("account")) {
-            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_info.jsp");
-        } else if (menu.equals("activity")) {
+        // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
+        if ( menu == null || menu.equals("activity")) {
             model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_activity.jsp");
         } else if (menu.equals("inquiry")) {
             model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_inquiry.jsp");
@@ -54,7 +52,15 @@ public class MypageController {
             model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_pwd.jsp");
         } else if (menu.equals("del")) {
             model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_del.jsp");
-        }
+        } else if (menu.equals("account" )){
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_info.jsp");            
+        } else if (menu.equals("recipe")){
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_myrecipe.jsp");              
+        } else if (menu.equals("comment")){
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_mycomment.jsp");              
+        } else if (menu.equals("bookmark")){
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_bookmark.jsp");              
+        } 
 
         return "member/mypage";
     }
