@@ -28,14 +28,12 @@ public class FoodSiteController {
         //레시피테이블에서 조회수 기준으로 불러옴 join으로 member테이블에 nickname까지 불러오기
         //조회수 기준으로 5개 불러오기          view_recipes -> 조회수 별로 순위도 매기기
         //등록일자 기준으로 5개 불러오기        reg_recipes
-        //레시피중에 랜덤으로 하나 불러오가     today
+        //레시피중에 랜덤으로 하나 불러오기    today
+        //검색어 추천은 https://seungjjun.tistory.com/m/282 여기 참고하기
         
-        //등록일자 기준으로 레시피를 불러옴
-        model.addAttribute("reg_recipes", rec.recentlyList());
-        //오늘의 레시피를 한개 불러옴
-        model.addAttribute("today", rec.randomList());
-        //조회수를 기준으로 레시피를 불러옴
-        model.addAttribute("view_recipes", rec.viewCountList());
+        model.addAttribute("reg_recipes", rec.recentlyList());      //등록일자 기준으로 레시피를 불러옴
+        model.addAttribute("today", rec.randomList());              //오늘의 레시피를 한개 불러옴
+        model.addAttribute("view_recipes", rec.viewCountList());    //조회수를 기준으로 레시피를 불러옴
         
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
@@ -51,7 +49,7 @@ public class FoodSiteController {
         for(int i=1 ; i<11 ; i++){
             rankList.add(i+"번째 검색어");
         }
-
+        
         model.addAttribute("searchList", rankList);
         model.addAttribute("currentSearchList", currentList);
         return "main";
@@ -60,7 +58,7 @@ public class FoodSiteController {
     @PostMapping("/logout.do")
     @ResponseBody
     public Map<String, String> logout(@RequestBody Map<String, String> map) {
-        session.invalidate();
+        session.removeAttribute("user");
         map.put("result", "success");
         return map;
     }
