@@ -153,5 +153,5 @@ public class Recommand {
     public List<RecipeVO> viewCountList(){
         return recipeDAO.selectViewCount();
     }
-
+    
 }
