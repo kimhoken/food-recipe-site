@@ -8,7 +8,7 @@
     <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">    
     <link rel="stylesheet" href="/css/chatbot.css" />
 
     <script src="/js/chatbot.js"></script>
@@ -520,7 +520,7 @@
                     </div>
                 </div>
                 <div class="sns-icons">
-                    <span class="sns-icon">▶</span>
+                    <span class="sns-icon"></span>
                     <span class="sns-icon">★</span>
                     <span class="sns-icon">☆</span>
                     <span class="sns-icon">◆</span>
