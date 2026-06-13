@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.common.Paging;
@@ -86,9 +87,35 @@ public class MypageController {
         model.addAttribute("contentPage",contentPage);
     }
     
-    
+    // 다른 회원 조회 기능
+    @GetMapping("/user/{member_id}")
+    public String viewUser(@PathVariable int member_id, Model model){
+
+        System.out.println("조회할 회원 ID: " + member_id);
+
+        MemberVO profileUser = memberDAO.getUserByMemberId(member_id);
+
+        
+        if(profileUser == null){
+            model.addAttribute("notfound",true);
+            return "member/mypage";
+        }
+        
+        
+        String menu = "home";
+
+        model.addAttribute("profileUser", profileUser);
+        model.addAttribute("mode", "public");
+        model.addAttribute("menu", menu);
+        setContentPage(model, menu);
+        
+        
+        return "member/mypage";
+    }
+
+    //마이 페이지 조회 및 메뉴 선택 
     @GetMapping("/mypage.do")
-    public String gomypage(Model model, String menu, Integer page) {
+    public String gomypage(Model model, String menu, Integer page) {        
         
         if(page == null){
             page = 1;
@@ -96,12 +123,14 @@ public class MypageController {
         if(menu == null){
             menu = "home";
         }
-
+        
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
         
-        model.addAttribute("user", user);
-        
+        model.addAttribute("profileuser", user);
+                
         model.addAttribute("menu", menu);
+
+        model.addAttribute("mode", "private");
         
         if(menu.equals("recipe")){
             userRecipePage(page, model, user);
@@ -112,7 +141,10 @@ public class MypageController {
         return "member/mypage";
     }
 
-    //
+    
+    
+
+    // 회원 정보 수정 기능
     @PostMapping("/mypage_update.do")
     public String update(MemberVO vo, String filechange) throws Exception{
 
@@ -120,6 +152,7 @@ public class MypageController {
 
         MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
 
+        
 
         String savePath = uploadPath + "/profile" ;
         

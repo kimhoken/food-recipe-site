@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:include page="/WEB-INF/views/common/is_login.jsp" />
-
         <html>
+
 
         <head>
             <link rel="stylesheet" href="/css/mypage.css" />
@@ -17,7 +17,7 @@
                 <aside class="mypage-left">
 
                     <div class="logo-box">
-                        <a href="main_list.do">
+                        <a href="/main_list.do">
                             <img src="/images/logo.png" width="200px" height="50px" />
                         </a>
                     </div>
@@ -26,33 +26,35 @@
                         <div class="profile-img">
                             <c:choose>
 
-                                <c:when test="${user.profile_img eq 'no_file.png'}">
+                                <c:when test="${profileuser.profile_img eq 'no_file.png'}">
                                     <img src="/images/no_file.png" width="85px" height="85px" />
                                 </c:when>
 
-                                <c:when test="${user.profile_img ne 'no_file.png'}">
-                                    <img src="/upload/profile/${user.profile_img}" width="85px" height="85px" />
+                                <c:when test="${profileuser.profile_img ne 'no_file.png'}">
+                                    <img src="/upload/profile/${profileuser.profile_img}" width="85px" height="85px" />
                                 </c:when>
 
                             </c:choose>
 
                         </div>
-                        <strong>${user.nickname}</strong>
+                        <strong>${profileuser.nickname}</strong>
                         <p>맛있는 하루 되세요!</p>
                     </div>
 
-                    <div class="menu-section">
-                        <div class="sub-title">회원 정보</div>
-                        <div><a href="/mypage.do?menu=account">
-                                <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
-                                회원정보</a></div>
-                        <div><a href="/mypage.do?menu=pwd">
-                                <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
-                                비밀번호 변경</a></div>
-                        <div><a href="/mypage.do?menu=del">
-                                <!-- <img src="/images/delete_user.png" /> -->
-                                회원 탈퇴</a></div>
-                    </div>
+                    <c:if test="${mode eq 'private'}">
+                        <div class="menu-section">
+                            <div class="sub-title">회원 정보</div>
+                            <div><a href="/mypage.do?menu=account">
+                                    <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
+                                    회원정보</a></div>
+                            <div><a href="/mypage.do?menu=pwd">
+                                    <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
+                                    비밀번호 변경</a></div>
+                            <div><a href="/mypage.do?menu=del">
+                                    <!-- <img src="/images/delete_user.png" /> -->
+                                    회원 탈퇴</a></div>
+                        </div>
+                    </c:if>
 
                     <div class="menu-section">
                         <div class="sub-title"><a href="/mypage.do?menu=activity">내활동</a></div>
@@ -62,9 +64,11 @@
                         <div><a href="/mypage.do?menu=comment">
                                 <!-- <img src="/images/chat.png" /> -->
                                 작성한 댓글</a></div>
-                        <div><a href="/mypage.do?menu=bookmark">
-                                <!-- <img src="/images/bookmark2.png" /> -->
-                                북마크</a></div>
+                        <c:if test="${mode eq 'private'}">
+                            <div><a href="/mypage.do?menu=bookmark">
+                                    <!-- <img src="/images/bookmark2.png" /> -->
+                                    북마크</a></div>
+                        </c:if>
                     </div>
 
                     <div class="menu-section">

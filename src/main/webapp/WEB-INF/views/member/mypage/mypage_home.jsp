@@ -31,6 +31,7 @@
                     <div>김치찌개 레시피 등록 <span>1시간전</span></div>
                     <!--  -->
                 </div>
+                <div><input type="button" value="다른 회원정보 보기" onclick="location.href='/user/1'"/></div>
            </section>
         </body>
 
