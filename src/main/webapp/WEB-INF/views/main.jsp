@@ -520,7 +520,7 @@
                     </div>
                 </div>
                 <div class="sns-icons">
-                    <span class="sns-icon"></span>
+                    <span class="sns-icon">▶</span>
                     <span class="sns-icon">★</span>
                     <span class="sns-icon">☆</span>
                     <span class="sns-icon">◆</span>
