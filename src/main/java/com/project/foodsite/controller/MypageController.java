@@ -18,8 +18,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.common.Paging;
 import com.project.foodsite.common.pwdSecurity;
+import com.project.foodsite.dao.ActivityDAO;
+import com.project.foodsite.dao.BookmarkDAO;
+import com.project.foodsite.dao.CommentDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
+import com.project.foodsite.vo.BookmarkVO;
+import com.project.foodsite.vo.CommentVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -40,9 +45,12 @@ public class MypageController {
     private final pwdSecurity pwdSecurity; 
     private final Fileupload fileupload;
     private final RecipeDAO recipeDAO;
-   
+    private final ActivityDAO activityDAO;
+    private final CommentDAO commentDAO;
+    private final BookmarkDAO bookmarkDAO;
+
     //레시피 페이징 함수
-    private void userRecipePage(int page, Model model, MemberVO user){
+    private void userRecipePaging(int page, Model model, MemberVO user){
         
 
         int totalcount = recipeDAO.countUserRecipe(user.getMember_id());
@@ -60,6 +68,56 @@ public class MypageController {
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);
     }
+
+    //댓글 페이징 함수
+    private void userCommentPaging(int page, Model model, MemberVO user){
+        
+
+        int totalcount = commentDAO.countUserComment(user.getMember_id());
+
+        Paging paging = new Paging(page, 10, totalcount);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("member_id", user.getMember_id());
+        map.put("offest", paging.getOffset());
+        map.put("size", paging.getSize());
+
+        List<CommentVO> list = commentDAO.getUserCommentList(map);
+
+        model.addAttribute("list", list);
+        model.addAttribute("paging", paging);
+    }
+
+    //북마크 페이징 함수
+    private void userBookmarkPaging(int page, Model model, MemberVO user){
+        
+
+        int totalcount = bookmarkDAO.countUserBookmark(user.getMember_id());
+
+        Paging paging = new Paging(page, 10, totalcount);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("member_id", user.getMember_id());
+        map.put("offest", paging.getOffset());
+        map.put("size", paging.getSize());
+
+        List<BookmarkVO> list = bookmarkDAO.getUserBookmarkList(map);
+
+        model.addAttribute("list", list);
+        model.addAttribute("paging", paging);
+    }
+
+    public void userHomePage(Model model, int member_id){
+        model.addAttribute("activity", activityDAO.userActivity(member_id)) ;
+        model.addAttribute("recentlyRecipeList", recipeDAO.recentlyrecipe(member_id));
+        model.addAttribute("commentList", commentDAO.userComment(member_id));
+        model.addAttribute("bookmarkList", bookmarkDAO.userBookmark(member_id));
+    }
+
+
+
     // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
     private void setContentPage(Model model, String menu){
 
@@ -89,28 +147,35 @@ public class MypageController {
     
     // 다른 회원 조회 기능
     @GetMapping("/user/{member_id}")
-    public String viewUser(@PathVariable int member_id, Model model){
+    public String viewUser(@PathVariable int member_id, Model model, String menu){
 
         System.out.println("조회할 회원 ID: " + member_id);
 
         MemberVO profileUser = memberDAO.getUserByMemberId(member_id);
-
         
+        if(menu == null){
+            menu = "home";
+        }
+
         if(profileUser == null){
             model.addAttribute("notfound",true);
             return "member/mypage";
-        }
-        
-        
-        String menu = "home";
+        }                      
 
         model.addAttribute("profileUser", profileUser);
-        model.addAttribute("mode", "public");
-        model.addAttribute("menu", menu);
-        setContentPage(model, menu);
+        model.addAttribute(menu,"menu"); 
+
+        String contentPage = "/WEB-INF/views/member/mypage/mypage_profile_home.jsp";
         
+        if (menu.equals("recipe")){
+            contentPage = "/WEB-INF/views/member/mypage/mypage_profile_recipe.jsp";
+        } else if(menu.equals("comment")){
+            contentPage = "/WEB-INF/views/member/mypage/mypage_profile_comment.jsp";
+        } 
         
-        return "member/mypage";
+        model.addAttribute("contentPage", contentPage);
+
+        return "member/mypage/mypage_profile";
     }
 
     //마이 페이지 조회 및 메뉴 선택 
@@ -125,16 +190,22 @@ public class MypageController {
         }
         
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
+        System.out.println("회원 번호 : "+user.getMember_id());
         
         model.addAttribute("profileuser", user);
                 
         model.addAttribute("menu", menu);
-
-        model.addAttribute("mode", "private");
-        
-        if(menu.equals("recipe")){
-            userRecipePage(page, model, user);
+       
+        if(menu.equals("home")){
+            userHomePage(model,user.getMember_id());
+        } else if(menu.equals("recipe")){
+            userRecipePaging(page, model, user);
+        } else if(menu.equals("comment")){
+            userCommentPaging(page, model, user);
+        } else if(menu.equals("bookmark")){
+            userBookmarkPaging(page, model, user);
         }
+
 
         setContentPage(model, menu);
         

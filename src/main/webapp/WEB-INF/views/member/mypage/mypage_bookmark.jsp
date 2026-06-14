@@ -13,14 +13,17 @@
                     <option value="likes">좋아요순</option>
                 </select>
                 <!-- foreach문으로 돌릴 예정 -->
-                <img src="#"/>
-                <a href="#"><strong>레시피 이름</storng></a>
-                <small>등록일자</small>
-                
+                 <c:forEach var="bookmark" items="${list}">
+                    <img src="#"/>
+                    <a href="#"><strong>${bookmark.bookmark_id}</storng></a>
+                    <small>${bookmark.created_date}</small>
+                 </c:forEach>
                 <!--  -->
 
             </div>
-            <!-- 페이징 구현 해서 아래에 출력하게 하기 -->
-            <div> 페이징 처리 &lt 1 &gt</div>
+            <c:set var="pageUrl" value="/mypage.do?menu=bookmark" scope="request"/>
+           <jsp:include page="/WEB-INF/views/common/paging.jsp"/>
+
+
         </div>
 </section>    

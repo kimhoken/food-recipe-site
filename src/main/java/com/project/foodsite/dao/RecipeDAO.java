@@ -27,4 +27,7 @@ public interface RecipeDAO {
 
     //회원의 전체 레시피 리스트 조회
     List<RecipeVO> getUserRecipeList(Map<String,Object> map);
+
+    //회원 최근 레시피 조회
+    List<RecipeVO> recentlyrecipe(int member_id);
 } 

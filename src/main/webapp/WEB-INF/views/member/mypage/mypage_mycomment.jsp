@@ -11,15 +11,18 @@
                     <option value="desc">내림차순</option>
                     <option value="likes">좋아요순</option>
                 </select>
+
                 <!-- foreach문으로 돌릴 예정 -->
+                <c:forEach var="comment" items="${list}">            
                 <img src="#"/>
-                <a href="#"><strong>댓글 내용</storng></a>
-                <small>작성일자</small>
-                
+                <a href="#"><strong>${comment.content}</storng></a>
+                <small>${comment.created_date}</small>
+                </c:forEach>
                 <!--  -->
 
             </div>
             <!-- 페이징 구현 해서 아래에 출력하게 하기 -->
-            <div> 페이징 처리 &lt 1 &gt</div>
+            <c:set var="pageUrl" value="/mypage.do?menu=comment" scope="request"/>
+           <jsp:include page="/WEB-INF/views/common/paging.jsp"/>
         </div>
     </section>

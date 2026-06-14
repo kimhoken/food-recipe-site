@@ -41,20 +41,20 @@
                         <p>맛있는 하루 되세요!</p>
                     </div>
 
-                    <c:if test="${mode eq 'private'}">
-                        <div class="menu-section">
-                            <div class="sub-title">회원 정보</div>
-                            <div><a href="/mypage.do?menu=account">
-                                    <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
-                                    회원정보</a></div>
-                            <div><a href="/mypage.do?menu=pwd">
-                                    <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
-                                    비밀번호 변경</a></div>
-                            <div><a href="/mypage.do?menu=del">
-                                    <!-- <img src="/images/delete_user.png" /> -->
-                                    회원 탈퇴</a></div>
-                        </div>
-                    </c:if>
+
+                    <div class="menu-section">
+                        <div class="sub-title">회원 정보</div>
+                        <div><a href="/mypage.do?menu=account">
+                                <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
+                                회원정보</a></div>
+                        <div><a href="/mypage.do?menu=pwd">
+                                <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
+                                비밀번호 변경</a></div>
+                        <div><a href="/mypage.do?menu=del">
+                                <!-- <img src="/images/delete_user.png" /> -->
+                                회원 탈퇴</a></div>
+                    </div>
+
 
                     <div class="menu-section">
                         <div class="sub-title"><a href="/mypage.do?menu=activity">내활동</a></div>
@@ -64,11 +64,10 @@
                         <div><a href="/mypage.do?menu=comment">
                                 <!-- <img src="/images/chat.png" /> -->
                                 작성한 댓글</a></div>
-                        <c:if test="${mode eq 'private'}">
-                            <div><a href="/mypage.do?menu=bookmark">
-                                    <!-- <img src="/images/bookmark2.png" /> -->
-                                    북마크</a></div>
-                        </c:if>
+                        <div><a href="/mypage.do?menu=bookmark">
+                                <!-- <img src="/images/bookmark2.png" /> -->
+                                북마크</a></div>
+
                     </div>
 
                     <div class="menu-section">
