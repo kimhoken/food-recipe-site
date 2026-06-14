@@ -59,7 +59,7 @@ public class MypageController {
         return "member/mypage";
     }
 
-    //
+    
     @PostMapping("/mypage_update.do")
     public String update(MemberVO vo, String filechange) throws Exception{
 
@@ -69,6 +69,7 @@ public class MypageController {
 
 
         String savePath = uploadPath + "/profile" ;
+        System.out.println("경로:"+savePath);
         
         String filename = user.getProfile_img();
 
