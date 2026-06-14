@@ -4,11 +4,10 @@
             <div>
                 <h3>최근 작성 레시피</h3>
                 <!-- forEach로 레시피 5개, 댓글 5개 출력 -->
-                <c:forEach var="recipe" items="recentlyRecipeList">
+                <c:forEach var="recipe" items="${recentlyRecipeList}">
                     <a href="#">
-                        <div>
-                            
-                        </div>
+                        <strong>${recipe.title}</strong>
+                        <small>${recipe.created_date}</small>
                     </a>
                 </c:forEach>
                 <!--  -->
@@ -16,11 +15,13 @@
 
             <div>
                 <h3>최근 작성 댓글</h3>
+                <c:forEach var="comment" items="${commentList}">
                 <a href="#">
-                    <div>댓글 내용</div>
+                    <div>${comment.content}</div>
                     <span>작성한 게시글</span>
-                    <span>작성 일자</span>
+                    <span>${comment.created_date}</span>
                 </a>
+                </c:forEach>
 
             </div>
 

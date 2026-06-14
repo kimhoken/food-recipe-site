@@ -42,10 +42,10 @@
 
                     <div class="menu-section">
                         <div class="sub-title"><a href="/mypage.do?menu=activity">내활동</a></div>
-                        <div><a href="/user/${profileuser.member_id}?menu=recipe">
+                        <div><a href="/user/${profileUser.member_id}?menu=recipe">
 
                                 작성한 레시피 <span>10</span></a></div>
-                        <div><a href="//user/${profileuser.member_id}?menu=comment">
+                        <div><a href="/user/${profileUser.member_id}?menu=comment">
 
                                 작성한 댓글 <span>11</span></a></div>
 

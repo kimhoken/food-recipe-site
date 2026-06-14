@@ -147,11 +147,15 @@ public class MypageController {
     
     // 다른 회원 조회 기능
     @GetMapping("/user/{member_id}")
-    public String viewUser(@PathVariable int member_id, Model model, String menu){
+    public String viewUser(@PathVariable int member_id, Model model, String menu, Integer page){
 
         System.out.println("조회할 회원 ID: " + member_id);
 
         MemberVO profileUser = memberDAO.getUserByMemberId(member_id);
+
+        if(page == null){
+            page = 1;
+        }
         
         if(menu == null){
             menu = "home";
@@ -165,11 +169,15 @@ public class MypageController {
         model.addAttribute("profileUser", profileUser);
         model.addAttribute(menu,"menu"); 
 
+        userHomePage(model, member_id);
+
         String contentPage = "/WEB-INF/views/member/mypage/mypage_profile_home.jsp";
         
         if (menu.equals("recipe")){
+            userRecipePaging(page, model, profileUser);
             contentPage = "/WEB-INF/views/member/mypage/mypage_profile_recipe.jsp";
         } else if(menu.equals("comment")){
+            userCommentPaging(page, model, profileUser);
             contentPage = "/WEB-INF/views/member/mypage/mypage_profile_comment.jsp";
         } 
         
@@ -222,7 +230,6 @@ public class MypageController {
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
         MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
-
         
 
         String savePath = uploadPath + "/profile" ;
