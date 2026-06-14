@@ -33,5 +33,36 @@
         set inquiry_code = #{inquiry_code}
         where inquiry_id = #{inquiry_id}
     </update>
+
+    <select id="guestInquiryCode" parameterType="String" resultType="inquiry">
+        select * from inquiry
+        where inquiry_code = #{inquiry_code}
+    </select>
+
+    <select id="adminInquiryList" resultType="inquiry">
+        select * from inquiry
+        order by inquiry_id desc
+    </select>
+
+    <select id="adminInquiryDetail"
+            parameterType="int"
+            resultType="inquiry">
+
+        select * from inquiry
+        where inquiry_id = #{inquiry_id}
+
+    </select>
+
+    <update id="answerInquiry"
+            parameterType="inquiry">
+
+        update inquiry set
+            answer_content = #{answer_content},
+            status = 'y',
+            answered_date = now(),
+            admin_id = #{admin_id}
+        where inquiry_id = #{inquiry_id}
+
+    </update>
     
 </mapper>
