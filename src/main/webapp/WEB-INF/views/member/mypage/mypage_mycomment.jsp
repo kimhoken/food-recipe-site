@@ -12,6 +12,10 @@
                     <option value="likes">좋아요순</option>
                 </select>
 
+                <c:if test="${ empty list }">
+                    <div>작성한 댓글이 존재하지 않습니다.</div>
+                </c:if>
+                
                 <!-- foreach문으로 돌릴 예정 -->
                 <c:forEach var="comment" items="${list}">            
                 <img src="#"/>

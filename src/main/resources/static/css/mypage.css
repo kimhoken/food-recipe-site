@@ -267,3 +267,12 @@ a {
 .info-row p {
     color: #333;
 }
+
+.mypage-content-box {
+    margin-top: 28px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    min-height: 420px;
+}
