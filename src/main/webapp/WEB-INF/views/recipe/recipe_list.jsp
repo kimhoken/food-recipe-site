@@ -278,46 +278,34 @@
 
         <c:if test="${totalPage > 0}">
                 
-            <div class="paging">
-                <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
-                
-                <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
-                class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
+    <div class="paging">
+        <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
+        
+        <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
+           class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
-                <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
-                <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
+        <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
+        <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
 
-                <c:if test="${totalPage < 1}">
-                    <c:set var="startP" value="1" />
-                    <c:set var="endP" value="1" />
-                </c:if>
-
-                <c:forEach var="i" begin="${startP}" end="${endP}">
-                    <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
-                    class="${i == curPage ? 'active' : ''}">
-                        ${i}
-                    </a>
-                </c:forEach>
-
-                <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
-                class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
-                
-            </div>
-
+        <c:if test="${totalPage < 1}">
+            <c:set var="startP" value="1" />
+            <c:set var="endP" value="1" />
         </c:if>
 
-    </section>
+        <c:forEach var="i" begin="${startP}" end="${endP}">
+            <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
+               class="${i == curPage ? 'active' : ''}">
+                ${i}
+            </a>
+        </c:forEach>
 
         <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
            class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
         
+    </div> 
+    </c:if> 
+    </section> 
     </div>
-
-</c:if>
-
-    </section>
-
-</div>
 
     <footer>
         <div class="footer-container">
