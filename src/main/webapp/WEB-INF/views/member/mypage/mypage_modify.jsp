@@ -10,7 +10,7 @@
         <div class="join-row">
             <div class="join-label">프로필</div>
             <div class="join-control">
-                <img src="/upload/${user.profile_img}" class="profile-preview">
+                <img src="/upload/profile/${profileuser.profile_img}" class="profile-preview">
                 <input type="file" name="photo">
                 <input type="button" value="기존이미지 삭제" onclick="status()"/>
             </div>
@@ -20,16 +20,16 @@
         <div class="join-row">
             <div class="join-label">이름</div>
             <div class="join-control">
-                <input type="text" value="${user.name}" name="name" class="input-box" readonly>
+                <input type="text" value="${profileuser.name}" name="name" class="input-box" readonly>
             </div>
         </div>
 
         <!-- 아이디 -->
-        <c:if test="${user.login_id ne null}">
+        <c:if test="${profileuser.login_id ne null}">
             <div class="join-row">
                 <div class="join-label">아이디</div>
                 <div class="join-control">
-                    <input type="text" value="${user.login_id}" class="input-box" readonly>
+                    <input type="text" value="${profileuser.login_id}" class="input-box" readonly>
                 </div>
             </div>
         </c:if>
@@ -37,7 +37,7 @@
         <!-- 닉네임 -->
         <div class="join-row">
             <div class="join-label">닉네임</div>
-            <div class="join-control"> <input type="text" id="nickname" name="nickname" value="${user.nickname}"
+            <div class="join-control"> <input type="text" id="nickname" name="nickname" value="${profileuser.nickname}"
                     class="input-box" onchange="nick()">
                 <div id="nick_msg" class="msg-space"></div>
             </div>
@@ -47,7 +47,7 @@
         <div class="join-row">
             <div class="join-label">이메일</div>
             <div class="join-control">
-                <input type="email" id="email" name="email" value="${user.email}" class="input-box">
+                <input type="email" id="email" name="email" value="${profileuser.email}" class="input-box">
                 <div id="email_msg" class="msg-space"></div>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <div class="join-label">소개글</div>
             <div class="join-control">
                 <textarea name="member_intro" class="intro-box" maxlength="500"
-                    placeholder="자신을 소개해보세요.">${user.member_intro}</textarea>
+                    placeholder="자신을 소개해보세요.">${profileuser.member_intro}</textarea>
             </div>
         </div>
 
