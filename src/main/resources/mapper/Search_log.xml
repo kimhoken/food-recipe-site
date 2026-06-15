@@ -6,5 +6,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ex) com.kh.dept.dao.DeptDAO
 -->
 <mapper namespace="com.project.foodsite.dao.SearchLogDAO">
-	
+	<insert id="insertKeyWord" parameterType="String">
+        INSERT INTO search_log(keyword, created_at) VALUES(#{search}, now()) 
+    </insert>
+
+    <select id="selectTrendingKeywords" resultType="String">
+        SELECT keyword
+        FROM search_log
+        WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+        GROUP BY keyword
+        ORDER BY COUNT(keyword) DESC
+        LIMIT 10
+    </select>
+
+    <delete id="deleteLog">
+        delete from search_log
+    </delete>
+
 </mapper>

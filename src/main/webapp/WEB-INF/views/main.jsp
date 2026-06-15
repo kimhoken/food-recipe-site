@@ -279,6 +279,7 @@
                 }
             });
         });
+
     </script>
 </head>
 <body>
@@ -306,9 +307,11 @@
                             <p class="empty-text">최근 검색어가 없습니다.</p>
                         </c:if>
                         <c:if test="${!empty currentSearchList}">
-                            <c:forEach var="item" items="${currentSearchList}" varStatus="status">
-                                <a href="#">${item}</a>
-                            </c:forEach>
+                            <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">  
+                                <c:forEach var="item" items="${currentSearchList}" varStatus="status"> 
+                                    <input type="submit" value="${item}" name="search">
+                                </c:forEach>
+                            </form>
                         </c:if>
                     </div>
                     

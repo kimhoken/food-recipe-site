@@ -1,8 +1,6 @@
 package com.project.foodsite.controller;
 
-import java.io.File;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +24,7 @@ public class MypageController {
     @Value("${file.upload.path}")
     private String uploadPath;
 
-    @Autowired
-    HttpSession httpSession;    
+    private final HttpSession httpSession;    
 
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 
@@ -65,6 +62,7 @@ public class MypageController {
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
+        @SuppressWarnings("unused")
         MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
 
 
@@ -104,10 +102,10 @@ public class MypageController {
             return "redirect:/mypage.do?menu=update";
 
         }
-          
+        
             
 
-       
+    
     }
 
     // 비밀번호 유효성 검사
