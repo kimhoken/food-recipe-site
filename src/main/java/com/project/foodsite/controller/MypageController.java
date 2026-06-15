@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +37,8 @@ public class MypageController {
     @Value("${file.upload.path}")
     private String uploadPath;
 
-    @Autowired
-    HttpSession httpSession;    
+
+    private final HttpSession httpSession;    
 
     private final MemberDAO memberDAO;
     private final pwdSecurity pwdSecurity; 

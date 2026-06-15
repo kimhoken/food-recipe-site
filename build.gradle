@@ -64,6 +64,12 @@ dependencies {
 	// OAuth2 Client (구글, 네이버, 카카오)
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	//캐시 사용 의존성
+	// 1. 스프링 캐시 추상화 라이브러리 (캐시 기능을 쓰기 위한 기본 세트)
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	// 2. 카페인 캐시 엔진 (실제 메모리에 데이터를 넣고 관리해 줄 핵심 본체)
+	implementation 'com.github.ben-manes.caffeine:caffeine'
 }
 
 tasks.named('test') {

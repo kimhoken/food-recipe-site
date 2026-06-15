@@ -15,10 +15,8 @@ import com.project.foodsite.dao.FridgeItemDAO;
 import com.project.foodsite.util.Recommand;
 import com.project.foodsite.vo.FridgeItemVO;
 
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @Controller
 @RequiredArgsConstructor
