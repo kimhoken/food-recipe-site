@@ -23,6 +23,8 @@ a { text-decoration: none; color: inherit; }
     border-radius:15px;
     padding:25px;
     height:fit-content;
+    margin-right: 40px;
+    margin-left: -110px;
 }
 
 .filter-title{
@@ -47,23 +49,37 @@ a { text-decoration: none; color: inherit; }
 
 /* 오른쪽 */
 
-.recipe-area{
-    flex:1;
+.recipe-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.recipe-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
+.filter-area {
+    width: 250px;
+    flex-shrink: 0;
 }
 
-.recipe-header h2{
-    font-size:28px;
+.recipe-area {
+    flex: 1;
 }
 
-.sort-select{
-    padding:8px 12px;
+.recipe-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.recipe-header h2 {
+    font-size: 28px;
+}
+
+.sort-select {
+    padding: 8px 12px;
 }
 
 /* 카드 */

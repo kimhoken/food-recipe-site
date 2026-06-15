@@ -16,16 +16,6 @@
 
 
     <script>
-        // 옵션( 최신순, 조회수순, 좋아요순 ) 선택했을 때
-        function changeSort(){
-            let sortValue = document.getElementsById("recipeSort").value;
-            //왼쪽 폼 안에 있는 hidden필드에 선택한 정렬 값 세팅
-            documnet.getElementsById("formSort").value = sortValue;
-            //기존 필터 유지한 채 폼 보내기
-            document.frm.submit();
-
-        }
-        
         function send() {
             let f = document.frm;
 
@@ -44,11 +34,7 @@
                 alert("카테고리를 선택해주세요!");
                 return;
             }
-            //폼을 보내기 전에 select의 정렬 값을 hidden에 동기화
-            document.getElementById("formSort").value = document.getElementById("recipeSort").value;
 
-            document.getElementById("formPage").value = "1";
-            
             f.submit();
         }
     </script>
@@ -117,19 +103,16 @@
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
             <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li>키친가이드</li>
+            <li>이벤트</li>
         </ul>
     </header>
 <div class="recipe-container">
-
     <!-- 왼쪽 -->
 
     <aside class="filter-area">
 
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
               
-            <input id="formSort" name="sort" type="hidden" value="${recipeSearchDTO.sort}">
-            <input type="hidden" name="page" id="formPage" value="${recipeSearchDTO.page}">
 
             <div class="filter-title">
                 필터
@@ -238,21 +221,22 @@
 
         <div class="recipe-header">
             
-            <select class="sort-select" name="sort" id="recipeSort" onchange="changeSort()">     
-                
-                <option value="all" ${recipeSearchDTO.sort eq 'all' ? 'selected' : ''}>
-                    전체
-                </option>
+            <select class="sort-select"
+                    name="sort">
 
-                <option value="latest" ${recipeSearchDTO.sort eq 'latest' ? 'selected' : ''}>
+                <option value="latest">
                     최신순
                 </option>
 
-                <option value="view" ${recipeSearchDTO.sort eq 'view' ? 'selected' : ''}>
+                <option value="name">
+                    가나다순
+                </option>
+
+                <option value="view">
                     조회수순
                 </option>
 
-                <option value="like" ${recipeSearchDTO.sort eq 'like' ? 'selected' : ''}>
+                <option value="like">
                     좋아요순
                 </option>
 
@@ -261,14 +245,23 @@
         </div>
 
         <div class="recipe-list">
-
-            
     <c:choose>
         <c:when test="${not empty emptyMsg}">
             <%-- 빈 결과 메시지 --%>
             <p class="empty-msg">${emptyMsg}</p>
         </c:when>
         <c:otherwise>
+
+        <div class="today-recommend-header" style="margin: -70px 0 20px 0; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="background-color: #E74C3C; color: white; font-size: 0.75rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; letter-spacing: -0.5px;">TODAY</span>
+                <h5 style="font-size: 1.4rem; color: #2C3E50; font-weight: 800; margin: 0; letter-spacing: -1px;">
+                    오늘의 추천 레시피 ✨
+                </h5>
+            </div>
+        </div>
+
+
             <c:forEach items="${recipeList}" var="recipe">
                 <div class="recipe-card">
                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}">
@@ -289,13 +282,14 @@
 
         </div>
 
-   <c:if test="${totalPage > 0}">
+        </div>
 
+        <c:if test="${totalPage > 0}">
+                
     <div class="paging">
         <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
-        <c:set var="currentSort" value="${empty recipeSearchDTO.sort ? 'latest' : recipeSearchDTO.sort}" />
         
-        <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
+        <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
            class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
         <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
@@ -307,7 +301,7 @@
         </c:if>
 
         <c:forEach var="i" begin="${startP}" end="${endP}">
-            <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}&sort=${currentSort}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
+            <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
                class="${i == curPage ? 'active' : ''}">
                 ${i}
             </a>
@@ -316,13 +310,10 @@
         <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
            class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
         
+    </div> 
+    </c:if> 
+    </section> 
     </div>
-
-</c:if>
-
-    </section>
-
-</div>
 
     <footer>
         <div class="footer-container">
