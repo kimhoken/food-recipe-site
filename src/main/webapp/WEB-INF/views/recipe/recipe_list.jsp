@@ -107,7 +107,6 @@
         </ul>
     </header>
 <div class="recipe-container">
-
     <!-- 왼쪽 -->
 
     <aside class="filter-area">
@@ -246,14 +245,23 @@
         </div>
 
         <div class="recipe-list">
-
-            
     <c:choose>
         <c:when test="${not empty emptyMsg}">
             <%-- 빈 결과 메시지 --%>
             <p class="empty-msg">${emptyMsg}</p>
         </c:when>
         <c:otherwise>
+
+        <div class="today-recommend-header" style="margin: -70px 0 20px 0; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="background-color: #E74C3C; color: white; font-size: 0.75rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; letter-spacing: -0.5px;">TODAY</span>
+                <h5 style="font-size: 1.4rem; color: #2C3E50; font-weight: 800; margin: 0; letter-spacing: -1px;">
+                    오늘의 추천 레시피 ✨
+                </h5>
+            </div>
+        </div>
+
+
             <c:forEach items="${recipeList}" var="recipe">
                 <div class="recipe-card">
                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}">

@@ -23,6 +23,8 @@ a { text-decoration: none; color: inherit; }
     border-radius:15px;
     padding:25px;
     height:fit-content;
+    margin-right: 40px;
+    margin-left: -110px;
 }
 
 .filter-title{
