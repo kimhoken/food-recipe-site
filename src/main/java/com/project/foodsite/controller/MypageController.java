@@ -143,6 +143,13 @@ public class MypageController {
         
         model.addAttribute("contentPage",contentPage);
     }
+
+    //회원의 레시피, 댓글, 북마크 갯수 조회하는 함수
+    private void setTotalCount(int member_id,Model model){
+        model.addAttribute("recipeCount", recipeDAO.countUserRecipe(member_id));
+        model.addAttribute("commentCount", commentDAO.countUserComment(member_id));
+        model.addAttribute("bookmarkCount", bookmarkDAO.countUserBookmark(member_id));
+    }
     
     // 다른 회원 조회 기능
     @GetMapping("/user/{member_id}")
@@ -159,18 +166,19 @@ public class MypageController {
         if(menu == null){
             menu = "home";
         }
-
+        
         if(profileUser == null){
             model.addAttribute("notfound",true);
-            return "member/mypage";
+            model.addAttribute("contentPage","/WEB-INF/views/member/mypage/mypage_profile_notfound.jsp");
+            return "member/mypage/mypage_profile";
         }                      
-
+        
         model.addAttribute("profileUser", profileUser);
         model.addAttribute(menu,"menu"); 
-
+        
+        String contentPage = "/WEB-INF/views/member/mypage/mypage_profile_home.jsp";
         userHomePage(model, member_id);
 
-        String contentPage = "/WEB-INF/views/member/mypage/mypage_profile_home.jsp";
         
         if (menu.equals("recipe")){
             userRecipePaging(page, model, profileUser);
@@ -179,11 +187,13 @@ public class MypageController {
             userCommentPaging(page, model, profileUser);
             contentPage = "/WEB-INF/views/member/mypage/mypage_profile_comment.jsp";
         } 
+
+        setTotalCount(member_id, model);
         
         model.addAttribute("contentPage", contentPage);
 
         return "member/mypage/mypage_profile";
-    }
+    }   
 
     //마이 페이지 조회 및 메뉴 선택 
     @GetMapping("/mypage.do")
@@ -213,24 +223,20 @@ public class MypageController {
             userBookmarkPaging(page, model, user);
         }
 
+        setTotalCount(user.getMember_id(), model);
 
         setContentPage(model, menu);
         
         return "member/mypage";
     }
-
-    
-    
+   
 
     // 회원 정보 수정 기능
     @PostMapping("/mypage_update.do")
     public String update(MemberVO vo, String filechange) throws Exception{
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
-
-        @SuppressWarnings("unused")
-        MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
-        
+     
 
         String savePath = uploadPath + "/profile" ;
         System.out.println("경로:"+savePath);
@@ -268,10 +274,7 @@ public class MypageController {
             return "redirect:/mypage.do?menu=update";
 
         }
-        
-            
-
-    
+                 
     }
 
     // 비밀번호 유효성 검사

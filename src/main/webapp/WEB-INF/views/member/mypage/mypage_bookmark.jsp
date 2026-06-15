@@ -12,6 +12,12 @@
                     <option value="desc">내림차순</option>
                     <option value="likes">좋아요순</option>
                 </select>
+
+                <c:if test="${ empty list }">
+                    <div>북마크가 존재하지 않습니다.</div>
+                    <input type="button" value="북마크 등록 하러 가기" onclick="location.href='recipe_list.do'"/>
+                </c:if>
+
                 <!-- foreach문으로 돌릴 예정 -->
                  <c:forEach var="bookmark" items="${list}">
                     <img src="#"/>

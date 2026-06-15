@@ -41,13 +41,13 @@
 
 
                     <div class="menu-section">
-                        <div class="sub-title"><a href="/mypage.do?menu=activity">내활동</a></div>
+                        <div class="sub-title"><a href="/mypage.do?menu=activity">회원 활동</a></div>
                         <div><a href="/user/${profileUser.member_id}?menu=recipe">
 
-                                작성한 레시피 <span>10</span></a></div>
+                                작성한 레시피 <span>${recipeCount}</span></a></div>
                         <div><a href="/user/${profileUser.member_id}?menu=comment">
 
-                                작성한 댓글 <span>11</span></a></div>
+                                작성한 댓글 <span>${commentCount}</span></a></div>
 
                     </div>
 
@@ -62,33 +62,37 @@
                         </a>
                         <p>다른 회원의 활동 내역을 한 눈에 확인하세요!</p>
                     </div>
-                    <section class="main-box">
+                    
+                    <c:if test="${not notfound}">
 
-                        <div class="main-left">
-                            <div class="main-profile-img">
-                                <c:choose>
-
-                                    <c:when test="${profileUser.profile_img eq 'no_file.png'}">
-                                        <img src="/images/no_file.png" width="85px" height="85px" />
-                                    </c:when>
-
-                                    <c:when test="${profileUser.profile_img ne 'no_file.png'}">
-                                        <img src="/upload/profile/${profileUser.profile_img}" width="85px" height="85px" />
-                                    </c:when>
-
-                                </c:choose>
+                        <section class="main-box">
+    
+                            <div class="main-left">
+                                <div class="main-profile-img">
+                                    <c:choose>
+    
+                                        <c:when test="${profileUser.profile_img eq 'no_file.png'}">
+                                            <img src="/images/no_file.png" width="85px" height="85px" />
+                                        </c:when>
+    
+                                        <c:when test="${profileUser.profile_img ne 'no_file.png'}">
+                                            <img src="/upload/profile/${profileUser.profile_img}" width="85px" height="85px" />
+                                        </c:when>
+    
+                                    </c:choose>
+                                </div>
+                                <div class="main-profile-text">
+    
+                                    <h3>${profileUser.nickname}</h3>
+                                    <div>${profileUser.member_intro}</div>
+    
+                                </div>
                             </div>
-                            <div class="main-profile-text">
-
-                                <h3>${profileUser.nickname}</h3>
-                                <div>${profileUser.member_intro}</div>
-
-                            </div>
-                        </div>
-
-                    </section>
-
-
+    
+                        </section>    
+    
+                        
+                    </c:if>
                     <jsp:include page="${contentPage}" />
                 </main>
 

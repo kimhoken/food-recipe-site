@@ -13,7 +13,7 @@
                 </select>
                 <c:if test="${ empty list }">
                     <div>작성한 레시피가 존재하지 않습니다.</div>
-                    <input type="button" value="레시피 등록 하려 가기" onclick=""/>
+                    <input type="button" value="레시피 등록 하러 가기" onclick=""/>
                 </c:if>
                 <c:forEach var="recipe" items="${list}">
                     <img src="/upload/recipe/${recipe.thumbnail}"/>

@@ -3,16 +3,19 @@
         <html>
 
         <body>
-            <section>
-                <div>
-                    <div class="activity-left">
-                        <h3> 내활동</h3>
-                        <div class="activity-menu">
-                            <span>레시피</span>
-                            <span>댓글</span>
-                            <span>북마크</span>
+            <section class="home-page">
+                <div class="home-grid">
+                    <div class="activity-box">
+                        <div class="box-header">
+                            <h3> 내활동</h3>
                         </div>
-                        <div id="recipe-box">
+
+                        <div class="activity-tab">
+                            <span class="tab-btn active" onclick="btn_change('recipe')">레시피</span>
+                            <span class="tab-btn" onclick="btn_change('comment')">댓글</span>
+                            <span class="tab-btn" onclick="btn_change('bookmark')">북마크</span>
+                        </div>
+                        <div id="recipebox" class="activity-list">
                             <h3>최근 작성 레시피</h3>
                             <!-- forEach로 레시피 5개, 댓글 5개 출력 -->
                             <c:forEach var="recipe" items="${recentlyRecipeList}">
@@ -27,7 +30,7 @@
                             <!--  -->
                         </div>
                         
-                        <div id="comment-box">
+                        <div id="commentbox">
                             <h3>최근 작성된 댓글</h3>
                             <!-- forEach로 레시피 5개, 댓글 5개 출력 -->
                             <c:forEach var="comment" items="${commentList}">
@@ -42,7 +45,7 @@
                             <!--  -->
                         </div>
 
-                        <div id="bookmark-box">
+                        <div id="bookmarkbox">
                             <h3>북마크</h3>
                             <!-- forEach로 레시피 5개, 댓글 5개 출력 -->
                             <c:forEach var="bookmark" items="${bookmarkList}">
@@ -57,7 +60,7 @@
                             <!--  -->
                         </div>
 
-                        <input type="button" value="더보기" onclick="" />
+                        <input id="see-btn" type="button" value="더보기" onclick="" />
                     </div>
                 </div>
 

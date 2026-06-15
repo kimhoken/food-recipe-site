@@ -122,26 +122,29 @@
 
                                 <div class="tag-card">
                                     <!-- <img src="/images/document.png" /> -->
-                                    <a href="/mypage.do?menu=recipe" class="count-link">10</a>
+                                    <a href="/mypage.do?menu=recipe" class="count-link">${recipeCount}</a>
                                     <span>작성한 레시피</span>
                                 </div>
 
                                 <div class="tag-card">
                                     <!-- <img src="/images/sms.png" /> -->
-                                    <a href="/mypage.do?menu=comment" class="count-link">12</a>
+                                    <a href="/mypage.do?menu=comment" class="count-link">${commentCount}</a>
                                     <span>작성한 댓글</span>
                                 </div>
 
                                 <div class="tag-card">
                                     <!-- <img src="/images/bookmark.png" /> -->
-                                    <a href="/mypage.do?menu=bookmark" class="count-link">12</a>
+                                    <a href="/mypage.do?menu=bookmark" class="count-link">${bookmarkCount}</a>
                                     <span>북마크</span>
                                 </div>
                             </div>
                         </section>
                     </c:if>
 
-                    <jsp:include page="${contentPage}" />
+                    <section class="mypage-content-box">
+                        <jsp:include page="${contentPage}" />
+                    </section>
+                    
                 </main>
 
             </div>
