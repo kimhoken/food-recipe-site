@@ -7,12 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.foodsite.dao.RecipeDAO;
+import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -20,7 +23,8 @@ public class RecipeController {
 
     private final RecipeDAO recipeDao;
     private final HttpSession session;
-    
+    private final SearchLogDAO searchLogDAO;
+
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
         
@@ -88,9 +92,52 @@ public class RecipeController {
      * @return  jsp
      */
     @PostMapping("/search_recipe.do")
-    public String recipeSearch(Model model, String search){ 
+    public String recipeSearch(Model model, String search, HttpServletRequest req){ 
         //검색어를 입력받아 검색어로 유사 검색 후 결과 리턴
         //최근검색어는 큐로 저장해 5개 유지 및 오래된 검색어 삭제
+        //검색어를 받아 검색어 테이블에 저장
+        /*
+            create table trending_rank(
+                rank_id bigint primary key auto_increment,
+                rank_num bigint not null,
+                keyword varchar(255) not null,
+                score bigint not null
+            );
+        */
+        
+        //ip를 키, 검색어를 value로 저장
+        @SuppressWarnings("unchecked")
+        HashMap<String, List<String>> map = session.getAttribute("searchMap") == null ? new HashMap<>() : 
+            (HashMap<String, List<String>>) session.getAttribute("searchMap");
+
+        //IP가 같은 키 값이 없을 경우
+        if(!map.containsKey(req.getRemoteAddr())){
+            searchLogDAO.insertKeyWord(search);
+            map.computeIfAbsent(req.getRemoteAddr(), k -> new ArrayList<>()).add(search);
+            //세션에 저장
+            session.setAttribute("searchMap", map);
+            session.setMaxInactiveInterval(3600);
+        }else {
+            boolean flag = true;
+            for(String val : map.get(req.getRemoteAddr())){
+                if(val.equals(search)){
+                    flag = false;
+                    break;
+                }
+            }
+
+            //맵에서 value가 search랑 같은 값이 없을 경우
+            if(flag){
+                searchLogDAO.insertKeyWord(search);
+                map.computeIfAbsent(req.getRemoteAddr(), k -> new ArrayList<>()).add(search);
+                //세션에 저장
+                session.setAttribute("searchMap", map);
+                session.setMaxInactiveInterval(3600);
+            }
+        }
+
+        
+
         @SuppressWarnings("unchecked")
         Queue<String> searchQueue = 
             (Queue<String>) session.getAttribute("searchQueue") == null ? new LinkedList<>() : 
@@ -107,9 +154,14 @@ public class RecipeController {
         session.removeAttribute("searchQueue");
         session.setAttribute("searchQueue", searchQueue);
 
-        return "common/search_nav";
+        return "redirect:/";
     }
 
+    @GetMapping("/init")
+    public String getMethodName() {
+        session.removeAttribute("searchMap");
+        return "redirect:/";
+    }
     
 
 }

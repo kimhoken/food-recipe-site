@@ -73,7 +73,7 @@
     color: #5a7e4d; /* 메인 컬러(초록색)로 포인트 */
 }
 /* 최근 검색어 아이템 (둥근 태그 스타일) */
-#recent a {
+#recent input {
     display: inline-block;
     padding: 8px 16px;
     background-color: #fff; /* 배경 하얗게 */
@@ -87,7 +87,7 @@
 }
 
 /* 마우스 올렸을 때 초록색으로 반전 */
-#recent a:hover {
+#recent input:hover {
     background-color: #5a7e4d;
     color: #fff;
     border-color: #5a7e4d;

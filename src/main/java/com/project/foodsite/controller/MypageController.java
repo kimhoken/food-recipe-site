@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -229,6 +228,7 @@ public class MypageController {
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
+        @SuppressWarnings("unused")
         MemberVO olduser = memberDAO.getUserByMemberId(user.getMember_id());
         
 
@@ -268,10 +268,10 @@ public class MypageController {
             return "redirect:/mypage.do?menu=update";
 
         }
-          
+        
             
 
-       
+    
     }
 
     // 비밀번호 유효성 검사
