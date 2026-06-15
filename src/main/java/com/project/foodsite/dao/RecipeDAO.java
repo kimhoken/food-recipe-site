@@ -1,6 +1,7 @@
 package com.project.foodsite.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
@@ -20,4 +21,13 @@ public interface RecipeDAO {
     List<RecipeVO> selectRecently();
     List<RecipeVO> selectViewCount();
     
+
+    //회원 레시피 개수 조회
+    int countUserRecipe(int member_id);
+
+    //회원의 전체 레시피 리스트 조회
+    List<RecipeVO> getUserRecipeList(Map<String,Object> map);
+
+    //회원 최근 레시피 조회
+    List<RecipeVO> recentlyrecipe(int member_id);
 } 
