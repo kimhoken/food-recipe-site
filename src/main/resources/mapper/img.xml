@@ -14,4 +14,9 @@
             where img_id = #{img_id}
     </select>
 
+    <select id="img_select_inquiry" parameterType="int" resultType="img">
+        select * from img
+        where inquiry_id = #{inquiry_id}
+        order by img_id asc
+    </select>
 </mapper>

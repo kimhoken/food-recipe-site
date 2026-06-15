@@ -233,6 +233,7 @@ public class MypageController {
         
 
         String savePath = uploadPath + "/profile" ;
+        System.out.println("경로:"+savePath);
         
         String filename = user.getProfile_img();
 
