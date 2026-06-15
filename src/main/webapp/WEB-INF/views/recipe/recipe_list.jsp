@@ -274,6 +274,8 @@
 
         </div>
 
+        </div>
+
         <c:if test="${totalPage > 0}">
                 
             <div class="paging">
@@ -303,6 +305,15 @@
             </div>
 
         </c:if>
+
+    </section>
+
+        <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
+           class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
+        
+    </div>
+
+</c:if>
 
     </section>
 

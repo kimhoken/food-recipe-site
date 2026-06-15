@@ -20,7 +20,7 @@ public class RecipeController {
 
     private final RecipeDAO recipeDao;
     private final HttpSession session;
-
+    
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
         
@@ -106,7 +106,7 @@ public class RecipeController {
         //기존 세션의 값 삭제
         session.removeAttribute("searchQueue");
         session.setAttribute("searchQueue", searchQueue);
-        
+
         return "common/search_nav";
     }
 
