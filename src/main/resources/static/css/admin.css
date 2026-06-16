@@ -10,8 +10,7 @@ body {
 
 .admin-layout{
     display: flex;
-    justify-content: center;
-    padding: 30px, 0;
+    justify-content: center;    
 }
 
 .admin-wrap {
@@ -21,21 +20,22 @@ body {
 }
 
 .admin-left {
-    width: 220px;
+    width: 250px;
     background: #fffdf8;
     border-right: 1px solid #eee6d8;
-    padding: 28px 22px;
+    padding: 28px 35px;
     flex-shrink: 0;
 }
 
 .logo-box img {
     width: 200px;
     height: auto;
+    margin-bottom: 24px;
 }
 
 .profile-mini {
-    margin-top: 35px;
-    padding: 24px 16px;
+   
+    padding: 24px 21px;
     border: 1px solid #eee6d8;
     border-radius: 18px;
     background: #fff;
@@ -133,7 +133,7 @@ body {
 
 .admin-main {
     flex: 1;
-    padding-left: 30px ;
+    padding: 30px ;
 }
 
 .admin-container {

@@ -27,14 +27,25 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.18);
     
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #modal-box form {
+    display: block;
     height: auto;
     min-height: 0;
     margin: 0;
     width: 100%;
+}
+
+#id_find,
+#pwd_find {
+    width: 100%;
+}
+
+#pwd_find {
+    display: none;
 }
 
 /* 제목 */
@@ -50,36 +61,43 @@
 /* 전체 폼 */
 .find-form{
     width:420px;
+    max-width: 100%;
     margin:0 auto;
 }
 
 /* 한 줄 */
 .find-row{
-    margin-bottom:22px;
+    width:390px;
+    max-width:100%;
+    margin:0 auto 22px;
+    text-align:left;
 }
 
 /* 라벨 */
 .find-label{
-    display:inline-block;
-    width:80px;
+    display:block;
+    width:100%;
 
     color:#5a3d2b;
     font-size:15px;
     font-weight:bold;
 
-    margin-left: 30px;
+    margin:0 0 8px;
 }
 
 /* input + button */
 .find-control{
-    display:inline-flex;
+    display:flex;
     align-items:center;
-    gap:12px;
+    justify-content:flex-start;
+    gap:10px;
 }
 
 /* 입력창 */
 .find-input{
-    width:180px;
+    flex:none;
+    width:260px;
+    min-width:0;
     height:44px;
 
     border:1px solid #d9d2ca;
@@ -93,9 +111,14 @@
     background:white;
 }
 
+.find-control .find-input:only-child {
+    border-radius:10px;
+}
+
 /* 인증번호 전송 */
 .find-sub-btn{
-    width:108px;
+    width:120px;
+    flex-shrink:0;
     height:44px;
 
     border:1px solid #9b7253;
@@ -111,7 +134,8 @@
 
 /* 인증번호 확인 */
 .find-check-btn{
-    width:108px;
+    width:120px;
+    flex-shrink:0;
     height:44px;
 
     border:none;
@@ -128,16 +152,18 @@
 /* 안내문 */
 .find-msg,
 #msg,
-#email_msg{
-    margin-left:120px;
+#id_email_msg,
+#pwd_email_msg{
+    margin-left:0;
     margin-top:6px;
+    text-align:left;
 
     color:#999;
     font-size:13px;
     height:12px;
 }
 .row{
-    height: 240px;
+    min-height: 240px;
 }
 
 /* 최종 버튼 */

@@ -153,7 +153,7 @@
                 <li>랭킹</li>
                 <li><a href="/list.do">커뮤니티</a></li>
                 <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-                <li>키친가이드</li>
+                <li><a href="/guide_list.do">키친가이드</a></li>
             </ul>
         </header>
     </body>
