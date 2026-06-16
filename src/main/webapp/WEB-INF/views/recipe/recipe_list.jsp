@@ -232,11 +232,11 @@
                                 </option>
 
                                 <option value="name">
-                                    가나다순
+                                    조회순
                                 </option>
 
                                 <option value="view">
-                                    조회순
+                                    가나다순
                                 </option>
 
                                 <option value="like">
