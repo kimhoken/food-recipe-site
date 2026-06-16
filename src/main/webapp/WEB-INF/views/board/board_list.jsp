@@ -67,7 +67,7 @@
                         <div class="search-bar">
                             <select name="select" id="sel">
                                 <option value="recipe">레시피</option>
-                                <option value="review">후기</option>
+                                <option value="review" selected>후기</option>
                             </select>
                             <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!" autocomplete="off">
                             <button type="submit">⌕</button>

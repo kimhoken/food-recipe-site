@@ -10,6 +10,7 @@ import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.dto.RecipeSearchDTO;
+import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class RecipeController {
     private final HttpSession session;
     private final SearchLogDAO searchLogDAO;
     private final BoardDAO boardDAO;
+    private final TrendingService trendingService;
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
@@ -82,6 +84,19 @@ public class RecipeController {
                     "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
             }
         }
+
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        model.addAttribute("searchList", trendingService.getTrendingKeywords());
+        model.addAttribute("currentSearchList", currentList);
 
         return "recipe/recipe_list";
     }
@@ -151,9 +166,24 @@ public class RecipeController {
         
         //기존 세션의 값 삭제
         session.removeAttribute("searchQueue");
+
+        //세션에 값을 새로 저장
         session.setAttribute("searchQueue", searchQueue);
         session.setAttribute("searchWord", search);
         session.setAttribute("select", select);
+
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        model.addAttribute("searchList", trendingService.getTrendingKeywords());
+        model.addAttribute("currentSearchList", currentList);
         
         if(select.equals("review")){
             model.addAttribute("list", boardDAO.search(search));
