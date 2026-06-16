@@ -173,16 +173,22 @@
                 </div>
             </div>
 
-            <ul class="nav-bar">
-                <li><a href="/">홈</a></li>
-                <li class="active"><a href="/recipe_list.do"> 레시피</a></li>
-                <li>카테고리</li>
-                <li>랭킹</li>
-                <li><a href="/list.do">커뮤니티</a></li>
-                <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-                <li>키친가이드</li>
-            </ul>
-        </header>
+        <ul class="nav-bar">
+            <li><a href="/">홈</a></li>
+            <li class="active">
+                <a href="/recipe_list.do"> 레시피</a>
+            </li>
+            <li>랭킹</li>
+            <li><a href="/list.do">커뮤니티</a></li>
+            <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+            <li><a href="/guide_list.do">키친가이드</a></li>
+        </ul>
+    </header>
+<div class="recipe-container">
+    <!-- 왼쪽 -->
+
+    <aside class="filter-area">
+
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
             <div class="recipe-container">
                 <!-- 왼쪽 -->
