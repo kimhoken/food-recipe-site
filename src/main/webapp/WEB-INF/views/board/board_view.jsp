@@ -39,9 +39,13 @@
                 </div>
 
                 <div class="btn-right">
+                    <c:if test="${sessionScope.user.member_id == board.member_id}">
+                    
                     <input type="button" value="수정" onclick="location.href='/update_form.do?board_id=${board.board_id}'">
                     <input type="button" value="삭제" 
                            onclick="if(confirm('삭제하시겠습니까?')){location.href='/delete.do?board_id=${board.board_id}'}">
+                     
+                    </c:if>       
                 </div>
             </div>
 

@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
 import com.project.foodsite.dto.RecipeDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,16 +70,15 @@ public class BoardController {
         return "redirect:/list.do";
     }
 
-    
-    //여기서 부터 상세보기
+    // 여기서 부터 상세보기
 
     @GetMapping("/view.do")
     public String boardView(int board_id, Model model) {
 
-        //조회수 증가
+        // 조회수 증가
         boardDao.updateViewCount(board_id);
 
-        //게시글 조회
+        // 게시글 조회
         BoardVO board = boardDao.selectOne(board_id);
 
         model.addAttribute("board", board);
@@ -84,5 +86,42 @@ public class BoardController {
         return "board/board_view";
     }
 
+    // 상세보기 수정 폼
+    @GetMapping("/update_form.do")
+    public String updateForm(int board_id, HttpSession session, Model model) {
+        BoardVO board = boardDao.selectOne(board_id);
+        model.addAttribute("board", board);
+        return "board/board_update";
+    }
+
+    // 상세보기 수정
+    @PostMapping("/update.do")
+    public String update(BoardVO vo) {
+
+        int res = boardDao.update(vo);
+
+        System.out.println("수정 결과 : " + res);
+
+        return "redirect:/view.do?board_id=" + vo.getBoard_id();
+    }
+
+    // 상세보기 삭제
+    @GetMapping("/delete.do")
+    public String delete(int board_id,
+            HttpSession session) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        BoardVO board = boardDao.selectOne(board_id);
+
+        System.out.println("로그인 사용자 : " + user.getMember_id());
+        System.out.println("게시글 작성자 : " + board.getMember_id());
+
+        int res = boardDao.delete(board_id);
+
+        System.out.println("삭제 결과 : " + res);
+
+        return "redirect:/list.do";
+    }
 
 }
