@@ -10,6 +10,7 @@ import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.dto.RecipeSearchDTO;
+import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ public class RecipeController {
     private final HttpSession session;
     private final SearchLogDAO searchLogDAO;
     private final BoardDAO boardDAO;
+    private final TrendingService trendingService;
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
@@ -56,9 +58,28 @@ public class RecipeController {
         model.addAttribute("totalPage", (totalCount + 8) / 9);
 
         List<RecipeVO> recipeList = recipeDao.selectRecipeList(searchDTO);
+        String sort = searchDTO.getSort();
+        if(sort.equals("latest")){
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e1.getCreated_date().compareTo(e2.getCreated_date());
+            });
+        }else if(sort.equals("view")){
+            Collections.sort(recipeList, (e1, e2)->{
+                return e2.getView_count() - e1.getView_count();
+            });
+        }else if(sort.equals("like")){
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e2.getLike_count() - e1.getLike_count();
+            });
+        }else{
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e1.getTitle().compareTo(e2.getTitle());
+            });
+        }
+
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("recipeSearchDTO", searchDTO);
-
+        model.addAttribute("sort", sort);
         // 4. 조리시간 선택 후 결과가 아예 없을 때 메시지 처리
         if (times != null && !times.isEmpty() && recipeList.isEmpty()) {
             
@@ -86,6 +107,19 @@ public class RecipeController {
                     "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
             }
         }
+
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        model.addAttribute("searchList", trendingService.getTrendingKeywords());
+        model.addAttribute("currentSearchList", currentList);
 
         return "recipe/recipe_list";
     }
@@ -155,9 +189,24 @@ public class RecipeController {
         
         //기존 세션의 값 삭제
         session.removeAttribute("searchQueue");
+
+        //세션에 값을 새로 저장
         session.setAttribute("searchQueue", searchQueue);
         session.setAttribute("searchWord", search);
         session.setAttribute("select", select);
+
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        model.addAttribute("searchList", trendingService.getTrendingKeywords());
+        model.addAttribute("currentSearchList", currentList);
         
         if(select.equals("review")){
             model.addAttribute("list", boardDAO.search(search));

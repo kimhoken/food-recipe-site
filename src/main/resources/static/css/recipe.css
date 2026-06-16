@@ -178,3 +178,22 @@ a { text-decoration: none; color: inherit; }
     padding: 60px 0;
     word-break: keep-all;
 }
+
+/*레시피 등록 버튼*/
+.recipe-write-btn{
+    text-align:center;
+    margin-top:40px;
+    margin-bottom:20px;
+}
+
+.recipe-write-btn input{
+    width:180px;
+    height:55px;
+    border:none;
+    border-radius:30px;
+    background:#e67e4d;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}

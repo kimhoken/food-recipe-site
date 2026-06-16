@@ -3,42 +3,48 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>레시피 목록</title>
+    <head>
+        <meta charset="UTF-8">
+        <title>레시피 목록</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
+        <link rel="stylesheet" href="/css/chatbot.css" />
+        <script src="/js/chatbot.js"></script>
+        <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
+        <script>
+            window.onload = ()=>{
+                const sort = '${sort}';
+                let select = document.getElementById("sort");
+                let arr = ["latest", "name", "view", "like" ];
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css"> 
-    <link rel="stylesheet" href="/css/chatbot.css" />
-    <script src="/js/chatbot.js"></script>
-    <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
-
-
-    <script>
-        function send() {
-            let f = document.frm;
-            //카테고리 선택 여부 
-            let catChecked = false;
-            let categoryList = document.getElementsByName("category");
-            
-            for (let i = 0; i < categoryList.length; i++) {
-                if (categoryList[i].checked) {
-                    catChecked = true;
-                    break;
+                for(let i=0 ; i<arr.length ; i++){
+                    if(arr[i] == sort){
+                        select.options[i].selected = true;
+                    }
                 }
-            }
-
-            if (!catChecked) {
-                alert("카테고리를 선택해주세요!");
-                return;
-            }
-
-            f.submit();
-        }
-
-        const logout = ()=>{
+            }//onload
+            function send() {
+                let f = document.frm;
+                //카테고리 선택 여부
+                let catChecked = false;
+                let categoryList = document.getElementsByName("category");
+                for (let i = 0; i < categoryList.length; i++) {
+                    if (categoryList[i].checked) {
+                        catChecked = true;
+                        break;
+                    }
+                }
+                
+                if (!catChecked) {
+                    alert("카테고리를 선택해주세요!");
+                    return;
+                }
+                
+                f.submit();
+            }//send
+            const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {
                         method: "post",
@@ -55,7 +61,7 @@
                         }
                     })
                 }
-            }
+            }//logout
             document.addEventListener("DOMContentLoaded", function() {
                 const searchInput = document.getElementById("mainSearch");
                 const searchDropdown = document.getElementById("searchDropdown");
@@ -73,47 +79,46 @@
                     }
                 });
             });
-    </script>
-
-
-</head>
-<body>
-    <header>
+        </script>
+    </head>
+    <body>
+        <header>
             <div class="header-top">
                 <div class="logo">
                     <a href="${pageContext.request.contextPath}/">
                         <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고"/>
                     </a>
                 </div>
-
+                
                 <%-- 검색창 클릭시 나올 화면 --%>
                 <div class="search-wrapper" style="position: relative;">
                     <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
                         <div class="search-bar">
-                            <select name="select" id="sel">
-                                <option value="recipe">레시피</option>
-                                <option value="review">후기</option>
-                            </select>
-                            <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!" autocomplete="off">
+                            <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
                             <button type="submit">⌕</button>
                         </div>
                     </form>
 
-                    <div id="searchDropdown" class="search-dropdown">
-                        <div class="search-section" id="recent">
-                            <h4>최근 검색어</h4>
-                            <c:if test="${empty currentSearchList}">
-                                <p class="empty-text">최근 검색어가 없습니다.</p>
+                    <div class="user-menu">
+                        <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
+                            <c:if test="${empty user}">
+                                <a href="/login.do" class="menu-item" id="login">
+                                    <span class="menu-icon">
+                                        <img src="${pageContext.request.contextPath}/images/login.png">
+                                    </span>
+                                    <div>로그인</div>
+                                </a>
                             </c:if>
                             <c:if test="${!empty currentSearchList}">
-                                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">
-                                    <c:forEach var="item" items="${currentSearchList}" varStatus="status">
+                                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">  
+                                    <c:forEach var="item" items="${currentSearchList}" varStatus="status"> 
                                         <input type="submit" value="${item}" name="search">
+                                        <input type="hidden" value="recipe" name="select">
                                     </c:forEach>
                                 </form>
                             </c:if>
                         </div>
-
+                        
                         <div class="search-section" id="recommend">
                             <h4>추천 검색어</h4>
                         </div>
@@ -124,14 +129,14 @@
                                 <c:forEach var="vo" items="${searchList}" varStatus="status">
                                     <div class="trending-item">
                                         <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
-                                        <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a>
+                                        <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 
                                     </div>
                                 </c:forEach>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="user-menu">
                     <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
                     <c:if test="${empty user}">
@@ -158,7 +163,7 @@
                         </span>
                         <div>회원가입</div>
                     </a>
-
+                    
                     <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
                         <span class="menu-icon">
                             <img src="${pageContext.request.contextPath}/images/mypage.png">
@@ -185,245 +190,177 @@
     <aside class="filter-area">
 
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
-              
+            <div class="recipe-container">
+                <!-- 왼쪽 -->
+                <aside class="filter-area">
+                    <div class="filter-title">필터</div>
+                    <hr><br>
+                    <div class="filter-section">
+                        <h4>카테고리</h4>
+                        <%-- 삼항 연산자를 써서 코드를 훨씬 깔끔하게 만들기 --%>
+                        <label><input type="radio" name="category" value="상황별추천" ${recipeSearchDTO.category eq '상황별추천' ? 'checked' : ''}> ⭐ 상황별 추천</label>
+                        <label><input type="radio" name="category" value="한식" ${recipeSearchDTO.category eq '한식' ? 'checked' : ''}> 🍚 한식</label>
+                        <label><input type="radio" name="category" value="양식" ${recipeSearchDTO.category eq '양식' ? 'checked' : ''}> 🍝 양식</label>
+                        <label><input type="radio" name="category" value="중식" ${recipeSearchDTO.category eq '중식' ? 'checked' : ''}> 🍳 중식</label>
+                        <label><input type="radio" name="category" value="일식" ${recipeSearchDTO.category eq '일식' ? 'checked' : ''}> 🍣 일식</label>
+                        <label><input type="radio" name="category" value="아시안" ${recipeSearchDTO.category eq '아시안' ? 'checked' : ''}> 🌏 아시안</label>
+                        <label><input type="radio" name="category" value="건강식/다이어트" ${recipeSearchDTO.category eq '건강식/다이어트' ? 'checked' : ''}> 🥗 건강식/다이어트</label>
+                        <label><input type="radio" name="category" value="초간단요리" ${recipeSearchDTO.category eq '초간단요리' ? 'checked' : ''}> ⏱️ 초간단요리</label>
+                        <label><input type="radio" name="category" value="디저트" ${recipeSearchDTO.category eq '디저트' ? 'checked' : ''}> 🍰 디저트</label>
+                        <label><input type="radio" name="category" value="베이킹" ${recipeSearchDTO.category eq '베이킹' ? 'checked' : ''}> 🍞 베이킹</label>
+                        <label><input type="radio" name="category" value="음료/차" ${recipeSearchDTO.category eq '음료/차' ? 'checked' : ''}> ☕ 음료/차</label>
+                    </div>
+                    <hr><br>
+                    <div class="filter-section">
+                        <h4>조리시간</h4>
+                            
+                        <%-- 체크박스 상태를 위해 밖에서 미리 변수 세팅하기 --%>
+                        <c:set var="chk10" value=""/>
+                        <c:set var="chk20" value=""/>
+                        <c:set var="chk30" value=""/>
+                        <c:set var="chk60" value=""/>
+                        <c:set var="chk61" value=""/>
 
-            <div class="filter-title">
-                필터
-            </div>
+                        <c:if test="${not empty recipeSearchDTO.cookTimes}">
+                            <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
+                                <c:if test="${time eq '10'}"><c:set var="chk10" value="checked"/></c:if>
+                                <c:if test="${time eq '20'}"><c:set var="chk20" value="checked"/></c:if>
+                                <c:if test="${time eq '30'}"><c:set var="chk30" value="checked"/></c:if>
+                                <c:if test="${time eq '60'}"><c:set var="chk60" value="checked"/></c:if>
+                                <c:if test="${time eq '61'}"><c:set var="chk61" value="checked"/></c:if>
+                            </c:forEach>
+                        </c:if>
 
-            <hr><br>
-
-            <div class="filter-section">
-
-                <h4>카테고리</h4>
-
-                <label><input type="radio" name="category" value="상황별추천"
-                    <c:if test="${recipeSearchDTO.category eq '상황별추천'}">checked</c:if>> ⭐ 상황별 추천</label>
-
-                <label><input type="radio" name="category" value="한식"
-                    <c:if test="${recipeSearchDTO.category eq '한식'}">checked</c:if>> 🍚 한식</label>
-
-                <label><input type="radio" name="category" value="양식"
-                    <c:if test="${recipeSearchDTO.category eq '양식'}">checked</c:if>> 🍝 양식</label>
-
-                <label><input type="radio" name="category" value="중식"
-                    <c:if test="${recipeSearchDTO.category eq '중식'}">checked</c:if>> 🍳 중식</label>
-
-                <label><input type="radio" name="category" value="일식"
-                    <c:if test="${recipeSearchDTO.category eq '일식'}">checked</c:if>> 🍣 일식</label>
-
-                <label><input type="radio" name="category" value="아시안"
-                    <c:if test="${recipeSearchDTO.category eq '아시안'}">checked</c:if>> 🌏 아시안</label>
-
-                <label><input type="radio" name="category" value="건강식/다이어트"
-                    <c:if test="${recipeSearchDTO.category eq '건강식/다이어트'}">checked</c:if>> 🥗 건강식/다이어트</label>
-
-                <label><input type="radio" name="category" value="초간단요리"
-                    <c:if test="${recipeSearchDTO.category eq '초간단요리'}">checked</c:if>> ⏱️ 초간단요리</label>
-
-                <label><input type="radio" name="category" value="디저트"
-                    <c:if test="${recipeSearchDTO.category eq '디저트'}">checked</c:if>> 🍰 디저트</label>
-
-                <label><input type="radio" name="category" value="베이킹"
-                    <c:if test="${recipeSearchDTO.category eq '베이킹'}">checked</c:if>> 🍞 베이킹</label>
-
-                <label><input type="radio" name="category" value="음료/차"
-                    <c:if test="${recipeSearchDTO.category eq '음료/차'}">checked</c:if>> ☕ 음료/차</label>
-
-            </div>
-
-            <hr><br>
-
-            <div class="filter-section">
-
-                <h4>조리시간</h4>
-
-                <label>
-                <input type="checkbox" name="cookTimes" value="10" 
-                    <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
-                        <c:if test="${time eq '10'}">checked</c:if>
-                    </c:forEach>>          
-                10분 이하
-                </label>
-
-                <label>
-                    <input type="checkbox" name="cookTimes" value="20" 
-                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
-                            <c:if test="${time eq '20'}">checked</c:if>
-                        </c:forEach>>  
-                    10~20분
-                </label>
-
-                <label>
-                    <input type="checkbox" name="cookTimes" value="30" 
-                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
-                            <c:if test="${time eq '30'}">checked</c:if>
-                        </c:forEach>>   
-                    20~30분
-                </label>
-
-                <label>
-                    <input type="checkbox" name="cookTimes" value="60" 
-                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
-                            <c:if test="${time eq '60'}">checked</c:if>
-                        </c:forEach>>       
-                    30~60분
-                </label>
-
-                <label>
-                    <input type="checkbox" name="cookTimes" value="61" 
-                        <c:forEach var="time" items="${recipeSearchDTO.cookTimes}">
-                            <c:if test="${time eq '61'}">checked</c:if>
-                        </c:forEach>>
-                    60분 이상
-                </label>
-
-            </div>
-
-            <button class="filter-btn" type="button" onclick="send()">        
-                적용하기
-            </button> 
-
-        </form>
-
-    </aside>
-
-    <!-- 오른쪽 -->
-
-    <section class="recipe-area">
-
-        <div class="recipe-header">
-            
-            <select class="sort-select"
-                    name="sort">
-
-                <option value="latest">
-                    최신순
-                </option>
-
-                <option value="name">
-                    가나다순
-                </option>
-
-                <option value="view">
-                    조회수순
-                </option>
-
-                <option value="like">
-                    좋아요순
-                </option>
-
-            </select>
-
-        </div>
-
-        <div class="recipe-list">
-    <c:choose>
-        <c:when test="${not empty emptyMsg}">
-            <%-- 빈 결과 메시지 --%>
-            <p class="empty-msg">${emptyMsg}</p>
-        </c:when>
-        <c:otherwise>
-
-        <div class="today-recommend-header" style="margin: -70px 0 20px 0; width: 100%;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="background-color: #E74C3C; color: white; font-size: 0.75rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; letter-spacing: -0.5px;">TODAY</span>
-                <h5 style="font-size: 1.4rem; color: #2C3E50; font-weight: 800; margin: 0; letter-spacing: -1px;">
-                    오늘의 추천 레시피 ✨
-                </h5>
-            </div>
-        </div>
-
-
-            <c:forEach var="recipe" items="${recipeList}">
-                <div class="recipe-card">
-                    <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}">
-                    <div class="recipe-info">
-                        <div class="recipe-title">${food.foodList}</div>
-                        <div class="recipe-meta">
-                            ⏱ ${recipe.cooking_time}
-                            <br>
-                            👁 ${recipe.view_count}
-                            &nbsp;&nbsp;
-                            ❤️ ${recipe.like_count}
+                        <%-- 세팅된 변수를 EL로 넣어주기만 하면 끝 --%>
+                        <label><input type="checkbox" name="cookTimes" value="10" ${chk10}> 10분 이하</label>                                                                              
+                        <label><input type="checkbox" name="cookTimes" value="20" ${chk20}> 10~20분</label>
+                        <label><input type="checkbox" name="cookTimes" value="30" ${chk30}> 20~30분</label>
+                        <label><input type="checkbox" name="cookTimes" value="60" ${chk60}> 30~60분</label>
+                        <label><input type="checkbox" name="cookTimes" value="61" ${chk61}> 60분 이상</label>
+                    </div>
+                    <button class="filter-btn" type="button" onclick="send()">
+                        적용하기
+                    </button>
+                </aside> 
+                <!-- 오른쪽 -->
+                <section class="recipe-area">
+                    <div class="recipe-header">                                                                            
+                        <select class="sort-select" name="sort" id="sort" onChange="send()">                                                                                                                              
+                            <option value="latest">최신순</option>                                                                                                        
+                            <option value="name">가나다순</option>
+                            <option value="view">조회수순</option>
+                            <option value="like">좋아요순</option>
+                        </select>
+                    </div>
+                    <div class="today-recommend-header">
+                        <div class="today-recommend-inner">
+                            <span class="today-recommend-inner-span">TODAY</span>
+                            <h5>오늘의 추천 레시피 ✨</h5>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
-
-        </div>
-
-        </div>
-
-        <c:if test="${totalPage > 0}">
-                
-    <div class="paging">
-        <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
-        
-        <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage > 1}'>&cookTimes=${t}</c:if></c:forEach>" 
-           class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
-
-        <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
-        <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
-
-        <c:if test="${totalPage < 1}">
-            <c:set var="startP" value="1" />
-            <c:set var="endP" value="1" />
-        </c:if>
-
-        <c:forEach var="i" begin="${startP}" end="${endP}">
-            <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'>&cookTimes=${t}</c:forEach>" 
-               class="${i == curPage ? 'active' : ''}">
-                ${i}
-            </a>
-        </c:forEach>
-
-        <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort) : '#'}<c:forEach var='t' items='${recipeSearchDTO.cookTimes}'><c:if test='${curPage < totalPage}'>&cookTimes=${t}</c:if></c:forEach>" 
-           class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
-        
-    </div> 
-    </c:if> 
-    </section> 
-    </div>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-top-row">
-                <div class="cs-section">
-                    <h3>고객센터</h3>
-                    <div class="cs-buttons">
-                        <div class="cs-btn">📞 1833-8307</div>
-                        <div class="cs-btn">💬 1:1문의하기</div>
+                    <div class="recipe-list">
+                        <c:choose>
+                            <c:when test="${not empty emptyMsg}">
+                                <%-- 빈 결과 메시지 --%>
+                                <p class="empty-msg">${emptyMsg}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${recipeList}" var="recipe">
+                                    <div class="recipe-card">
+                                        <img src="${pageContext.request.contextPath}${recipe.thumbnail}"/>
+                                        <div class="recipe-info">
+                                            <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
+                                            <div class="recipe-meta">
+                                                ⏱ ${recipe.cooking_time}
+                                                &nbsp;&nbsp;
+                                                등록일자: ${recipe.created_date}
+                                                <br>
+                                                👁 ${recipe.view_count}
+                                                &nbsp;&nbsp;
+                                                ❤️ ${recipe.like_count}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>                                                                                                                        
                     </div>
-                    <div class="hours-info">
-                        <p><strong>운영시간</strong></p>
-                        <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
-                    </div>
-                </div>
-                <div class="sns-icons">
-                    <span class="sns-icon">▶</span>
-                    <span class="sns-icon">★</span>
-                    <span class="sns-icon">☆</span>
-                    <span class="sns-icon">◆</span>
-                    <span class="sns-icon">♬</span>
-                </div>
+                    <%-- 페이징 --%>
+                    <c:if test="${totalPage > 0}">
+                        <div class="paging">
+                            <c:set var="curPage" value="${empty recipeSearchDTO.page ? 1 : recipeSearchDTO.page}" />
+                            
+                            <%-- 1. 반복되는 cookTimes 쿼리 스트링을 밖에서 미리 변수로 만들어두기 --%>
+                            <c:set var="cookTimesQuery" value="" />
+                            <c:if test="${not empty recipeSearchDTO.cookTimes}">
+                                <c:forEach var="t" items="${recipeSearchDTO.cookTimes}">
+                                    <c:set var="cookTimesQuery" value="${cookTimesQuery}&cookTimes=${t}" />
+                                </c:forEach>
+                            </c:if>
+
+                            <%-- 2. 이전 버튼 (미리 만든 cookTimesQuery를 concat으로 붙이기) --%>
+                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery) : '#'}"
+                            class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
+
+                            <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
+                            <c:set var="endP" value="${startP + 2 > totalPage ? totalPage : startP + 2}" />
+                            <c:if test="${totalPage < 1}">
+                                <c:set var="startP" value="1" />
+                                <c:set var="endP" value="1" />
+                            </c:if>
+
+                            <%-- 3. 페이지 번호 (여기도 cookTimesQuery 변수 사용) --%>
+                            <c:forEach var="i" begin="${startP}" end="${endP}">
+                                <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}${cookTimesQuery}"
+                                class="${i == curPage ? 'active' : ''}">
+                                ${i}
+                                </a>
+                            </c:forEach>
+
+                            <%-- 4. 다음 버튼 --%>
+                            <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort).concat(cookTimesQuery) : '#'}"
+                            class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
+                        </div>
+                    </c:if>
+                </section>
             </div>
-        </div>
-
-        <div class="footer-nav-bar">
+        </form>
+        <footer>
             <div class="footer-container">
-                <div class="nav-links">
-                    <a href="#"><strong>이용약관</strong></a>
-                    <a href="#"><strong>개인정보처리방침</strong></a>
-                    <a href="/notice.do">공지사항</a>
-                    <a href="#">자주묻는질문</a>
-                    <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
+                <div class="footer-top-row">
+                    <div class="cs-section">
+                        <h3>고객센터</h3>
+                        <div class="cs-buttons">
+                            <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
+                            <div class="cs-btn">💬 1:1문의하기</div>
+                        </div>
+                        <div class="hours-info">
+                            <p><strong>운영시간</strong></p>
+                            <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
+                            <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>              
+                        </div>
+                    </div>
+                    <div class="sns-icons">
+                        <span class="sns-icon">▶</span>
+                        <span class="sns-icon">★</span>
+                        <span class="sns-icon">☆</span>
+                        <span class="sns-icon">◆</span>
+                        <span class="sns-icon">♬</span>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="footer-nav-bar">
+                <div class="footer-container">
+                    <div class="nav-links">
+                        <a href="#"><strong>이용약관</strong></a>
+                        <a href="#"><strong>개인정보처리방침</strong></a>
+                        <a href="/notice.do">공지사항</a>
+                        <a href="#">자주묻는질문</a>
+                        <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
+                    </div>
+                </div>
+            </div>
 
             <div class="footer-container">
                 <div class="footer-bottom-row">
@@ -442,17 +379,35 @@
                         </p>
                         <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
                     </div>
-                    
-                    <div class="footer-logo-area">
-                        <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
+
+                    <div class="footer-container">
+                        <div class="footer-bottom-row">
+                            <div class="company-info">
+                                <h4>주식회사 코코짱짱</h4>
+                                <p>
+                                    <span>상호 : KH 개발</span>
+                                    <span>대표자 : 장승연</span>
+                                    <span>개인정보관리책임자 : 장승연</span>
+                                    <span>사업자 등록번호 : 111-01-31111</span>
+                                </p>
+                                <p>
+                                    <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
+                                    <span>전화 : 1833-1234</span>
+                                    <span>팩스 : 031-8017-1800</span>
+                                </p>
+                                <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일:
+                                    kh@culture.net</p>
+                            </div>
+
+                            <div class="footer-logo-area">
+                                <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-    </footer>
-
-    <!-- 챗봇 -->
-    <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
-
+        </footer>
+        <!-- 챗봇 -->
+        <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
     </body>
-
 </html>
