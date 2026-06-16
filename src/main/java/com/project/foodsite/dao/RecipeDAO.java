@@ -1,6 +1,7 @@
 package com.project.foodsite.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
@@ -19,5 +20,8 @@ public interface RecipeDAO {
 
     List<RecipeVO> selectRecently();
     List<RecipeVO> selectViewCount();
+
+    // 대분류별 소분류 음식 목록 조회 
+    List<Map<String, Object>> selectFoodListByCategory(String categoryName);
     
 } 

@@ -92,7 +92,6 @@
             <ul class="nav-bar">
                 <li><a href="/main_list.do">홈</a></li>
                 <li><a href="/recipe_list.do">레시피</a></li>
-                <li>카테고리</li>
                 <li>랭킹</li>
                 <li class="active"><a href="/list.do">커뮤니티</a> </li>
                 <li>

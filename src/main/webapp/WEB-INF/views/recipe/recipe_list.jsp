@@ -99,11 +99,10 @@
             <li class="active">
                 <a href="/recipe_list.do"> 레시피</a>
             </li>
-            <li>카테고리</li>
             <li>랭킹</li>
             <li><a href="/list.do">커뮤니티</a></li>
             <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li>이벤트</li>
+            <li>키친가이드</li>
         </ul>
     </header>
 <div class="recipe-container">
@@ -262,11 +261,11 @@
         </div>
 
 
-            <c:forEach items="${recipeList}" var="recipe">
+            <c:forEach var="recipe" items="${recipeList}">
                 <div class="recipe-card">
                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}">
                     <div class="recipe-info">
-                        <div class="recipe-title">${recipe.title}</div>
+                        <div class="recipe-title">${food.foodList}</div>
                         <div class="recipe-meta">
                             ⏱ ${recipe.cooking_time}
                             <br>

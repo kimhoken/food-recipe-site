@@ -196,7 +196,6 @@
             <ul class="nav-bar">
                 <li><a href="/main_list.do">홈</a></li>
                 <li>레시피</li>
-                <li>카테고리</li>
                 <li>랭킹</li>
                 <li><a href="/list.do">커뮤니티</a></li>
                 <li class="active"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
