@@ -1,174 +1,176 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
+
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">    
-    <link rel="stylesheet" href="/css/chatbot.css" />
-
-    <script src="/js/chatbot.js"></script>
-    <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
-    <script>
-    /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
-        // 선택한 카테고리들 열기
-        function selectCategory(category){
-            //location.href = "/recipe/list?category=" + category;
-        }
-
-        // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
-        function openModal(){
-            document.getElementById("categoryModal").style.display = 'flex';
-            sideTabCategory('상황별추천'); 
-        }
-
-        // 전체보기 모달 닫기
-        function closeModal(){
-            document.getElementById("categoryModal").style.display = 'none';
-            document.getElementById("category-detail").style.display = 'none';
-        }
-
-        // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
-        function closeModalOnOutside(event) {
-            const modal = document.getElementById("categoryModal");
-            if (event.target === modal) {
-                closeModal();
+    <head>
+        <title>오늘 뭐 먹지? - 맛있는 하루의 시작</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">    
+        <link rel="stylesheet" href="/css/chatbot.css" />
+        
+        <script src="/js/chatbot.js"></script>
+        <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
+        <script>
+            /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+            // 선택한 카테고리들 열기
+            function selectCategory(category){
+                //location.href = "/recipe/list?category=" + category;
             }
-        }
-        
-        //왼쪽 중분류 사이드바 클릭 감지
-        function handleSidebarClick(event) {
-            document.getElementById("category-detail").style.display = 'none';
-            document.getElementById("categoryModal").style.display = 'flex';
             
-            const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
-            if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
+            // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
+            function openModal(){
+                document.getElementById("categoryModal").style.display = 'flex';
+                sideTabCategory('상황별추천'); 
+            }
             
-            // 카테고리명(data-cat 값) 전달
-            sideTabCategory(item.dataset.cat); 
-        }
-
-        function handleSubSidebarClick(event) {
-            document.getElementById("category-detail").style.display = 'flex';
-
-            const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
-            if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
+            // 전체보기 모달 닫기
+            function closeModal(){
+                document.getElementById("categoryModal").style.display = 'none';
+                document.getElementById("category-detail").style.display = 'none';
+            }
             
-            // 카테고리명(data-cat 값) 전달
-            openDetailCategory(item.dataset.cat); 
-        }
-
-        let ctg = "none";
-
-        // 카테고리 변경 및 스타일 적용 함수
-        function sideTabCategory(category) { 
-            const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
-            ctg = category;
-            sidebarItems.forEach(item => {
-                if(item.dataset.cat === category) {
-                    item.className = "sidebar-item-active"; // 누른 것만 활성화
-                } else {
-                    item.className = "sidebar-item"; // 나머지는 기본 스타일
+            // 메뉴창 바깥 영역 클릭 시 닫히게 하기 
+            function closeModalOnOutside(event) {
+                const modal = document.getElementById("categoryModal");
+                if (event.target === modal) {
+                    closeModal();
                 }
-            });
+            }
             
-            fetch('/category.do?category=' + category)
-                .then(res => res.json())
-                .then(data => {
-                    let html = "";
-
-                    for(const[subCategoryName, foodList] of Object.entries(data)){
-                        html += "<div class='menu-group'>";
-                        html += "<h3>" + subCategoryName + "</h3>";
-                        html += "<ul>";
-
-                        let limit = Math.min(foodList.length, 4);
-
-                        for(let i=0 ; i<limit ; i++){
-                            html += "<li><a href='#'>" + foodList[i] + "</a></li>"
-                        }
-                        html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
+            //왼쪽 중분류 사이드바 클릭 감지
+            function handleSidebarClick(event) {
+                document.getElementById("category-detail").style.display = 'none';
+                document.getElementById("categoryModal").style.display = 'flex';
+                
+                const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
+                    if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
+                    
+                    // 카테고리명(data-cat 값) 전달
+                    sideTabCategory(item.dataset.cat); 
+                }
+                
+                function handleSubSidebarClick(event) {
+                    document.getElementById("category-detail").style.display = 'flex';
+                    
+                    const item = event.target.closest('.sidebar-item'); // item = 클릭된 <div> 태그 자체
+                        if (!item) return; // sidebar-item을 클릭한 게 아니면 무시
                         
-                        html += "</ul>";
-                        html += "</div>";
+                        // 카테고리명(data-cat 값) 전달
+                        openDetailCategory(item.dataset.cat); 
                     }
-
-                    document.getElementById("modalCategoryBody").innerHTML = html;
                     
-                    // 우측 배너 영역 
-                    document.querySelector(".modal-banner-side").innerHTML = 
-                        "<div class='banner-img-box'>" +
-                        "    <img src='/images/main.png' alt='추천 요리' style='width:100%; height:100%; object-fit:cover; border-radius:12px;'> gap" +
-                        "</div>" +
-                        "<div class='banner-text-box'>" +
-                        "    <h3>오늘 뭐 먹지?</h3>" +
-                        "    <p>다양한 레시피로<br>매일 새로운 한 끼를 만나보세요.</p>" +
-                        "    <button type='button' class='banner-go-btn' onclick='location.href=\"/recipe_list.do\"'>레시피 둘러보기 &gt;</button>" +
-                        "</div>";
-                })
-                .catch(err => {
-                    console.error("데이터를 가져오는 도중 에러 발생:", err);
-
-                    document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
-                });
-        }
-
-        const openDetailCategory = (subName) => {
-            document.getElementById("categoryModal").style.display = 'none';
-            document.getElementById("category-detail").style.display = "flex";
-
-            const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
-
-            sidebarItems.forEach(item => {
-                if(item.dataset.cat === ctg) {
-                    item.className = "sidebar-item-active"; // 누른 것만 활성화
-                } else {
-                    item.className = "sidebar-item"; // 나머지는 기본 스타일
-                }
-            });
-
-            fetch("/category.do?category=" + ctg)
-                .then(res => res.json())
-                .then(data => {
-                    let html = "";
-                    let mainHtml = "<ul class='main-list'>";
-                    for(const[subCategoryName, foodList] of Object.entries(data)){
-                        if(subName == subCategoryName){
-                            html += "<div class='sidebar-item-active' data-cat='" + subCategoryName + "'>";
-                        }else{
-                            html += "<div class='sidebar-item' data-cat='" + subCategoryName + "'>";
-                        }
-
-                        html += subCategoryName;
-                        html += "</div>";
-
-                        for(let i=0 ; i<foodList.length ; i++){
-                            if(subName == subCategoryName){
-                                mainHtml += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                    let ctg = "none";
+                    
+                    // 카테고리 변경 및 스타일 적용 함수
+                    function sideTabCategory(category) { 
+                        const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
+                        ctg = category;
+                        sidebarItems.forEach(item => {
+                            if(item.dataset.cat === category) {
+                                item.className = "sidebar-item-active"; // 누른 것만 활성화
+                            } else {
+                                item.className = "sidebar-item"; // 나머지는 기본 스타일
                             }
-                        }
-
-                    }
-                    mainHtml += "</ul>";
-
-                    document.getElementById("modal-sidebar2").innerHTML = html;
-                    document.getElementById("modal-main-banner").innerHTML = mainHtml;
-                    
-                })
-                .catch(err => {
-                    console.log("Error: " + err);
-                })
-        }
-
-    /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
-        
-        const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
-        const logout = ()=>{
-            if(confirm("로그아웃 하시겠습니까?")){ 
+                        });
+                        
+                        fetch('/category.do?category=' + category)
+                        .then(res => res.json())
+                        .then(data => {
+                            let html = "";
+                            
+                            for(const[subCategoryName, foodList] of Object.entries(data)){
+                                html += "<div class='menu-group'>";
+                                    html += "<h3>" + subCategoryName + "</h3>";
+                                    html += "<ul>";
+                                        
+                                        let limit = Math.min(foodList.length, 4);
+                                        
+                                        for(let i=0 ; i<limit ; i++){
+                                            html += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                                        }
+                                        html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
+                                        
+                                        html += "</ul>";
+                                        html += "</div>";
+                                    }
+                                    
+                                    document.getElementById("modalCategoryBody").innerHTML = html;
+                                    
+                                    // 우측 배너 영역 
+                                    document.querySelector(".modal-banner-side").innerHTML = 
+                                    "<div class='banner-img-box'>" +
+                                        "    <img src='/images/main.png' alt='추천 요리' style='width:100%; height:100%; object-fit:cover; border-radius:12px;'> gap" +
+                                        "</div>" +
+                                        "<div class='banner-text-box'>" +
+                                            "    <h3>오늘 뭐 먹지?</h3>" +
+                                            "    <p>다양한 레시피로<br>매일 새로운 한 끼를 만나보세요.</p>" +
+                                            "    <button type='button' class='banner-go-btn' onclick='location.href=\"/recipe_list.do\"'>레시피 둘러보기 &gt;</button>" +
+                                            "</div>";
+                                        })
+                                        .catch(err => {
+                                            console.error("데이터를 가져오는 도중 에러 발생:", err);
+                                            
+                                            document.getElementById("modalCategoryBody").innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:40px; color:#999;'>카테고리 데이터를 불러오지 못했습니다.</div>";
+                                        });
+                                    }
+                                    
+                                    const openDetailCategory = (subName) => {
+                                        document.getElementById("categoryModal").style.display = 'none';
+                                        document.getElementById("category-detail").style.display = "flex";
+                                        
+                                        const sidebarItems = document.querySelectorAll('.modal-sidebar > div');
+                                        
+                                        sidebarItems.forEach(item => {
+                                            if(item.dataset.cat === ctg) {
+                                                item.className = "sidebar-item-active"; // 누른 것만 활성화
+                                            } else {
+                                                item.className = "sidebar-item"; // 나머지는 기본 스타일
+                                            }
+                                        });
+                                        
+                                        fetch("/category.do?category=" + ctg)
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            let html = "";
+                                            let mainHtml = "<ul class='main-list'>";
+                                                for(const[subCategoryName, foodList] of Object.entries(data)){
+                                                    if(subName == subCategoryName){
+                                                        html += "<div class='sidebar-item-active' data-cat='" + subCategoryName + "'>";
+                                                        }else{
+                                                            html += "<div class='sidebar-item' data-cat='" + subCategoryName + "'>";
+                                                            }
+                                                            
+                                                            html += subCategoryName;
+                                                            html += "</div>";
+                                                            
+                                                            for(let i=0 ; i<foodList.length ; i++){
+                                                                if(subName == subCategoryName){
+                                                                    mainHtml += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        mainHtml += "</ul>";
+                                                        
+                                                        document.getElementById("modal-sidebar2").innerHTML = html;
+                                                        document.getElementById("modal-main-banner").innerHTML = mainHtml;
+                                                        
+                                                    })
+                                                    .catch(err => {
+                                                        console.log("Error: " + err);
+                                                    })
+                                                }
+                                                
+                                                /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
+                                                
+                                                const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
+                                                const logout = ()=>{
+                                                    if(confirm("로그아웃 하시겠습니까?")){ 
                 fetch("/logout.do", {
                     method: "post",
                     headers: { "Content-Type": "application/json" },
@@ -176,13 +178,13 @@
                         id: "${user.member_id}"
                     })
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.result == "success") {
-                            alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
-                        }
-                    })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.result == "success") {
+                        alert("로그아웃 되었습니다.")
+                        location.href = "/main_list.do";
+                    }
+                })
             }
         }
         
@@ -197,7 +199,7 @@
             }
             return outputArray;
         }
-
+        
         const member_id = '${sessionScope.user.member_id}';
         // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
         if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null ) {
@@ -214,7 +216,7 @@
                 });
             });
         }
-
+        
         // 3. 알림 권한 요청 및 구독 처리
         function requestNotificationPermission(registration) {
             Notification.requestPermission().then(function(permission) {
@@ -226,14 +228,14 @@
                 }
             });
         }
-
+        
         // 4. 푸시 서버(FCM 등)로부터 구독 정보 받아오기
         function subscribeUser(registration) {
             const subscribeOptions = {
                 userVisibleOnly: true,
                 applicationServerKey: urlB64ToUint8Array(applicationServerKey)
             };
-
+            
             registration.pushManager.subscribe(subscribeOptions)
             .then(function(subscription) {
                 console.log('푸시 구독 성공:', JSON.stringify(subscription));
@@ -245,7 +247,7 @@
                 console.error('푸시 구독 실패:', error);
             });
         }
-
+        
         // 6. 백엔드(Spring Boot)로 구독 정보 전송 (Ajax)
         function sendSubscriptionToServer(subscription) {
             // 여기에 Fetch API나 jQuery Ajax를 써서 Spring Boot 컨트롤러로 던져주면 돼.
@@ -261,127 +263,12 @@
             })
             .catch(err => console.error('서버 전송 실패:', err));
         }
-    /* ============================ 여기까지 알림 관련 함수들 ============================ */
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("mainSearch");
-            const searchDropdown = document.getElementById("searchDropdown");
-
-            // 1. 검색창에 포커스가 가면 드롭다운 띄우기
-            searchInput.addEventListener("focus", function() {
-                searchDropdown.style.display = "block";
-            });
-
-            // 2. 검색창이나 드롭다운 바깥 영역을 클릭하면 닫기
-            document.addEventListener("click", function(event) {
-                // 클릭한 타겟이 검색창도 아니고 드롭다운 내부도 아니면 닫음
-                if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
-                    searchDropdown.style.display = "none";
-                }
-            });
-        });
-
-    </script>
+        /* ============================ 여기까지 알림 관련 함수들 ============================ */
+        
+        </script>
 </head>
 <body>
-    <header>
-        <div class="header-top">
-            <div class="logo">
-                <a href="${pageContext.request.contextPath}/">
-                    <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고"/>
-                </a>
-            </div>
-            
-            <%-- 검색창 클릭시 나올 화면 --%>
-            <div class="search-wrapper" style="position: relative;">
-                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
-                    <div class="search-bar">
-                        <select name="select" id="sel">
-                            <option value="recipe">레시피</option>
-                            <option value="review">후기</option>
-                        </select>
-                        <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!" autocomplete="off">
-                        <button type="submit">⌕</button>
-                    </div>
-                </form>
-
-                <div id="searchDropdown" class="search-dropdown">
-                    <div class="search-section" id="recent">
-                        <h4>최근 검색어</h4>
-                        <c:if test="${empty currentSearchList}">
-                            <p class="empty-text">최근 검색어가 없습니다.</p>
-                        </c:if>
-                        <c:if test="${!empty currentSearchList}">
-                            <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">  
-                                <c:forEach var="item" items="${currentSearchList}" varStatus="status"> 
-                                    <input type="submit" value="${item}" name="search">
-                                </c:forEach>
-                            </form>
-                        </c:if>
-                    </div>
-                    
-                    <div class="search-section" id="recommend">
-                        <h4>추천 검색어</h4>
-                    </div>
-
-                    <div class="search-section">
-                        <h4>급상승 검색어</h4>
-                        <div class="trending-list">
-                            <c:forEach var="vo" items="${searchList}" varStatus="status">
-                                <div class="trending-item">
-                                    <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
-                                    <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="user-menu">
-                <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
-                <c:if test="${empty user}">
-                    <a href="/login.do" class="menu-item" id="login">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/login.png">
-                        </span>
-                        <div>로그인</div>
-                    </a>
-                </c:if>
-                <c:if test="${!empty user}">
-                    <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/login.png">
-                        </span>
-                        <div>로그아웃</div>
-                    </a>
-                </c:if>
-                <%-- ------------------------------------------ --%>
-
-                <a href="/register_form.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/login.png">
-                    </span>
-                    <div>회원가입</div>
-                </a>
-                
-                <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
-                    <span class="menu-icon">
-                        <img src="${pageContext.request.contextPath}/images/mypage.png">
-                    </span>
-                    <div>마이페이지</div>
-                </a>
-            </div>
-        </div>
-
-        <ul class="nav-bar">
-            <li class="active"><a href="/">홈</a></li>
-            <li><a href="/recipe_list.do"> 레시피</a></li>
-            <li>랭킹</li>
-            <li><a href="/list.do">커뮤니티</a></li>
-            <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li><a href="/guide_list.do">키친가이드</a></li>
-        </ul>
-    </header>
+    
     
     <!-- 메인 배너 -->
     <div class="main-banner-container">
@@ -393,7 +280,7 @@
             </div>        
         </div>
     </div>
-
+    
     <div class="container main-page">
         <div class="category-list">
             <button type="button" class="category-item" data-category="korean" onclick="selectCategory('korean')">
@@ -428,7 +315,7 @@
             </button>
         </div>
     </div>
-
+    
     <div class="container main-page">
         <div class="section-title">지금 인기있는 레시피</div>
         <div class="recipe-grid">
@@ -449,7 +336,7 @@
             </c:forEach>
         </div>
     </div>
-
+    
     <div class="container main-page mid-sections">
         <div class="mid-box refrigerator-box">
             <div>
@@ -459,7 +346,7 @@
             </div>
             <button class="ref-btn" onClick="location.href='/fridge_list.do?member_id=${sessionScope.user.member_id}'">재료 선택하기 &rarr;</button>
         </div>
-
+        
         <div class="mid-box">
             <h3 class="box-title">오늘의 추천 레시피</h3>
             <div class="today-main">
@@ -470,7 +357,7 @@
                     <span class="author">👤 ${today.nickname}</span>
                 </div>
             </div> 
-
+            
             <!-- 이미지 작게 5개 나오는 자라 -->
             <div class="today-sub-list">
                 <div class="today-sub-thumb"></div>
@@ -481,7 +368,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="container main-page">
         <div class="section-title-space">
             <div class="section-title">최신 레시피 후기 </div> 
@@ -502,79 +389,20 @@
             </c:forEach>
         </div>
     </div>
-
+    
     <div class="info-bar">
         <div class="info-item">🍳 <span>쉽고 간단한 레시피<br><small>누구나 따라할 수 있어요</small></span></div>
         <div class="info-item">🍱 <span>다양한 카테고리<br><small>원하는 메뉴를 쉽게 찾아보세요</small></span></div>
         <div class="info-item">🥕 <span>냉장고 재료 활용<br><small>남은 재료로 알뜰하게 요리해요</small></span></div>
         <div class="info-item">💬 <span>요리로 소통해요<br><small>후기와 팁을 공유해보세요</small></span></div>
     </div>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-top-row">
-                <div class="cs-section">
-                    <h3>고객센터</h3>
-                    <div class="cs-buttons">
-                        <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
-                        <div class="cs-btn">💬 1:1문의하기</div>
-                    </div>
-                    <div class="hours-info">
-                        <p><strong>운영시간</strong></p>
-                        <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                        <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>              
-                    </div>
-                </div>
-                <div class="sns-icons">
-                    <span class="sns-icon">▶</span>
-                    <span class="sns-icon">★</span>
-                    <span class="sns-icon">☆</span>
-                    <span class="sns-icon">◆</span>
-                    <span class="sns-icon">♬</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-nav-bar">
-            <div class="footer-container">
-                <div class="nav-links">
-                    <a href="#"><strong>이용약관</strong></a>
-                    <a href="#"><strong>개인정보처리방침</strong></a>
-                    <a href="/notice.do">공지사항</a>
-                    <a href="#">자주묻는질문</a>
-                    <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-container">
-            <div class="footer-bottom-row">
-                <div class="company-info">
-                    <h4>주식회사 코코짱짱</h4>
-                    <p>
-                        <span>상호 : KH 개발</span>
-                        <span>대표자 : 장승연</span>
-                        <span>개인정보관리책임자 : 장승연</span>
-                        <span>사업자 등록번호 : 111-01-31111</span>
-                    </p>
-                    <p>
-                        <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
-                        <span>전화 : 1833-1234</span>
-                        <span>팩스 : 031-8017-1800</span>
-                    </p>
-                    <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
-                </div>
-                
-                <div class="footer-logo-area">
-                    <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    
+    <!-- footer 회사 정보 jsp 파일 include -->
+    <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+    
     <!-- 챗봇 -->
     <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
-
+    
     <!-- 메인배너 밑 카테고리 중 전체보기 클릭 시 보여질 블럭 -->
     <div id="categoryModal" class="modal-overlay" onclick="closeModalOnOutside(event)">
         <div class="modal-content">
@@ -604,7 +432,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- 카테고리에서 상세보기로 보여줄 블럭 -->
     <div class="modal-overlay" id="category-detail">
         <div class="modal-content">
@@ -629,7 +457,7 @@
                     <!-- 여기에서 중분류만 보여줌 -->
                     
                 </div>
-
+                
                 <div class="modal-main-banner" id="modal-main-banner">
                     <!-- 여기에 음식이름 전부 보여주기 -->
                 </div>

@@ -130,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 마이페이지 레시피 정보 5개 출력 -->
-    <select id="recentlyrecipe" resultType="recipe">
+    <select id="recentlyUserRecipe" resultType="recipe">
         SELECT * FROM recipe
         WHERE member_id = #{member_id}
         ORDER BY recipe_id DESC LIMIT 5
@@ -142,4 +142,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         JOIN food f ON f.food_id = r.food_id
         WHERE r.title LIKE #{pattern} OR f.food_name LIKE #{pattern}
     </select>
+
+    <select id="recentlyrecipe" resultType="recipe">
+        SELECT ROW_NUMBER() OVER (ORDER BY r.created_date DESC) AS rank_num, r.*, m.nickname
+        FROM recipe r
+        JOIN member m
+        ON r.member_id = m.member_id
+        ORDER BY r.created_date DESC
+        LIMIT 5;
+    </select>
+
+
 </mapper>

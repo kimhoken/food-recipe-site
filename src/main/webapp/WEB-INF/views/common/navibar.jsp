@@ -124,13 +124,25 @@
                         </span>
                         <div>회원가입</div>
                     </a>
+                    <c:choose>
+                        <c:when test="${user.role eq 'ADMIN'}">
+                            <a href="${pageContext.request.contextPath}/admin" class="menu-item">
+                                <span class="menu-icon">
+                                    <img src="${pageContext.request.contextPath}/images/mypage.png">
+                                </span>
+                                <div>마이페이지</div>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                                <span class="menu-icon">
+                                    <img src="${pageContext.request.contextPath}/images/mypage.png">
+                                </span>
+                                <div>마이페이지</div>
+                            </a>
+                        </c:otherwise>
 
-                    <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/mypage.png">
-                        </span>
-                        <div>마이페이지</div>
-                    </a>
+                    </c:choose>
                 </div>
             </div>
 

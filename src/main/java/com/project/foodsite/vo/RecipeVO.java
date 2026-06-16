@@ -27,6 +27,7 @@ public class RecipeVO {
     private int nutrition_id;
     private int category_id; 
     private int food_id; //음식번호
+    private int rank_num;
 
     //불러올때 필요한것 추가
     private String nickname;        //member_id로 닉네임 불러옴

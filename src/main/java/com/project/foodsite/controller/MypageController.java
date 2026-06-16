@@ -110,7 +110,7 @@ public class MypageController {
 
     public void userHomePage(Model model, int member_id){
         model.addAttribute("activity", activityDAO.userActivity(member_id)) ;
-        model.addAttribute("recentlyRecipeList", recipeDAO.recentlyrecipe(member_id));
+        model.addAttribute("recentlyRecipeList", recipeDAO.recentlyUserRecipe(member_id));
         model.addAttribute("commentList", commentDAO.userComment(member_id));
         model.addAttribute("bookmarkList", bookmarkDAO.userBookmark(member_id));
     }
@@ -199,6 +199,8 @@ public class MypageController {
     @GetMapping("/mypage.do")
     public String gomypage(Model model, String menu, Integer page) {        
         
+
+
         if(page == null){
             page = 1;
         }
@@ -207,12 +209,20 @@ public class MypageController {
         }
         
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
+
+        if(user == null){
+           
+            setContentPage(model, menu);
+            return "member/mypage";
+        }
         System.out.println("회원 번호 : "+user.getMember_id());
         
         model.addAttribute("profileuser", user);
-                
+        
         model.addAttribute("menu", menu);
+        
        
+        
         if(menu.equals("home")){
             userHomePage(model,user.getMember_id());
         } else if(menu.equals("recipe")){

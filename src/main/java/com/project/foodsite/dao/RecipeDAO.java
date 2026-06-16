@@ -33,5 +33,8 @@ public interface RecipeDAO {
     List<RecipeVO> getUserRecipeList(Map<String,Object> map);
 
     //회원 최근 레시피 조회
-    List<RecipeVO> recentlyrecipe(int member_id);
+    List<RecipeVO> recentlyUserRecipe(int member_id);
+
+    //전체 최근 레시피 조회 5개만
+    List<RecipeVO> recentlyrecipe();
 } 
