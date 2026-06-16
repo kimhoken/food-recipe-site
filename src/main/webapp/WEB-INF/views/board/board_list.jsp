@@ -144,9 +144,14 @@
             </div>
 
             <ul class="nav-bar">
+<<<<<<< HEAD
+                <li><a href="/main_list.do">홈</a></li>
+                <li><a href="/recipe_list.do">레시피</a></li>
+=======
                 <li><a href="/">홈</a></li>
                 <li><a href="/recipe_list.do"> 레시피</a></li>
                 <li >카테고리</li>
+>>>>>>> 3563d26d97d517ee56f2cd58096954913c3b6156
                 <li>랭킹</li>
                 <li class="active"><a href="/list.do">커뮤니티</a></li>
                 <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
