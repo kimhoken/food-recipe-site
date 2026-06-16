@@ -5,7 +5,7 @@
         <body>
             <section class="home-page">
                 <div class="home-grid">
-                    <div class="activity-box">
+                    <div class="home-activity-box">
                         <div class="box-header">
                             <h3> 내활동</h3>
                         </div>

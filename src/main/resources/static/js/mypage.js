@@ -143,7 +143,11 @@ function pwdchange() {
 
 function agree() {
     let agree_box = document.getElementById("agree_box");
+    let deletebtn = document.getElementById(".delete-btn");
     agree_box.checked = !agree_box.checked;
+    
+    deletebtn.disabled = !agree_box.checked;
+
 }
 
 function disableuser(f) {
