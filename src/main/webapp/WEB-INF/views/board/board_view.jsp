@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!--로그인 체크-->
+<c:if test="${not empty sessionScope.user and sessionScope.user.member_id == board.member_id}"></c:if>
 
     <!DOCTYPE html>
     <html>
@@ -27,9 +31,7 @@
 
             <hr>
 
-            <div class="content">
-                ${board.content}
-            </div>
+            <div class="content"> ${board.content}</div>
 
             <br>
 
