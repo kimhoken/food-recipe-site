@@ -75,6 +75,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 대분류별 소분류 음식 목록 조회 -->
     <select id="selectFoodListByCategory" parameterType="string" resultType="map">
+    SELECT 
+    f.food_id AS foodId,
+    f.food_name AS foodName,
+    f.category_id AS categoryId
+    FROM food f
+    JOIN category c ON f.category_id = c.category_id
+    WHERE REPLACE(c.category_name, ' ', '') = REPLACE(#{categoryName}, ' ', '')
+    ORDER BY f.food_name ASC
         SELECT 
             f.food_id AS foodId,
             f.food_name AS foodName,

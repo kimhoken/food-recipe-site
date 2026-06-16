@@ -42,6 +42,10 @@ public class RecipeController {
             return "recipe/recipe_list";
         }
 
+        // 2. 선택된 대분류에 속하는 소분류 음식 데이터들을 조회하여 Model에 저장
+        List<Map<String, Object>> foodList = recipeDao.selectFoodListByCategory(category);
+        model.addAttribute("foodList", foodList);
+
         // 2. 정렬 값 기본값 설정 (파라미터가 없으면 기본값 세팅)
         if (searchDTO.getSort() == null || searchDTO.getSort().isEmpty()) {
             searchDTO.setSort("latest");
