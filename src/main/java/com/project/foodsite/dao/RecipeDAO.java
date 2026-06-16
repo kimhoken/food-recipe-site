@@ -20,7 +20,7 @@ public interface RecipeDAO {
 
     List<RecipeVO> selectRecently();
     List<RecipeVO> selectViewCount();
-    
+    List<RecipeVO> search(String search);
 
     //회원 레시피 개수 조회
     int countUserRecipe(int member_id);

@@ -47,8 +47,8 @@ public class FoodSiteController {
             }
         }
         
-        model.addAttribute("searchList", trendingService.getTrendingKeywords());
-        model.addAttribute("currentSearchList", currentList);
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
         return "main";
     }
 
