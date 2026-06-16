@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 ORDER BY CAST(REPLACE(r.cooking_time, '분', '') AS UNSIGNED) ASC
             </when>
             <otherwise>
-                ORDER BY r.created_date DESC, f.food_name ASC
+                ORDER BY r.created_date DESC
             </otherwise>
         </choose>
         LIMIT 9 OFFSET #{offset}

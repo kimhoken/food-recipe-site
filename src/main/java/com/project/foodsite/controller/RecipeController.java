@@ -54,9 +54,28 @@ public class RecipeController {
         model.addAttribute("totalPage", (totalCount + 8) / 9);
 
         List<RecipeVO> recipeList = recipeDao.selectRecipeList(searchDTO);
+        String sort = searchDTO.getSort();
+        if(sort.equals("latest")){
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e1.getCreated_date().compareTo(e2.getCreated_date());
+            });
+        }else if(sort.equals("view")){
+            Collections.sort(recipeList, (e1, e2)->{
+                return e2.getView_count() - e1.getView_count();
+            });
+        }else if(sort.equals("like")){
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e2.getLike_count() - e1.getLike_count();
+            });
+        }else{
+            Collections.sort(recipeList, (e1, e2) -> {
+                return e1.getTitle().compareTo(e2.getTitle());
+            });
+        }
+
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("recipeSearchDTO", searchDTO);
-
+        model.addAttribute("sort", sort);
         // 4. 조리시간 선택 후 결과가 아예 없을 때 메시지 처리
         if (times != null && !times.isEmpty() && recipeList.isEmpty()) {
             
