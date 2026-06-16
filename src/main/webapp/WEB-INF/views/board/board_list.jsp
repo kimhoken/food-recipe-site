@@ -141,10 +141,7 @@
                 <c:if test="${empty list}">
                     <h3 align="center">"${searchWord}"에 대한 검색 결과가 없습니다 :( </h3>
                 </c:if>
-                <%-- 로그인 한 경우만 버튼이 보이게 --%>
-                    <c:if test="${!empty sessionScope.user}">
-                        <input type="button" value="레시피 등록" onclick="location.href='/regiRecipe.do'" />
-                    </c:if>
+                
             </div>
 
             <footer>
