@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="/css/guestInquiryPasswordForm.css">
 
         <script>
             function checkPassword(f) {
@@ -22,33 +23,58 @@
 
     <body>
 
-    <h2>비회원 문의 답변 확인</h2>
+        <div class="guest-inquiry-page">
 
-    <c:if test="${not empty msg}">
-        <p style="color:red; text-align:center;">${msg}</p>
-    </c:if>
+            <div class="guest-inquiry-box">
 
-    <form action="/guest/inquiry/check" method="post">
+                <div class="guest-title-box">
+                    <span class="guest-label">INQUIRY</span>
+                    <h2>문의 답변 확인</h2>
+                    <p>
+                        문의 작성 시 설정한 비밀번호를 입력하면<br>
+                        관리자 답변을 확인할 수 있습니다.
+                    </p>
+                </div>
 
-        <input type="hidden" name="inquiry_code" value="${inquiry_code}">
+                <c:if test="${not empty msg}">
+                    <div class="error-msg">${msg}</div>
+                </c:if>
 
-        <table>
-            <tr>
-                <th>비밀번호</th>
-                <td>
-                    <input type="password" name="guest_password" placeholder="문의 작성 시 입력한 비밀번호">
-                </td>
-            </tr>
+                <form action="/guest/inquiry/check"
+                      method="post"
+                      class="password-form">
 
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="button" value="답변 확인" onclick="checkPassword(this.form)">
-                    <input type="button" value="메인으로" onclick="location.href='/main_list.do'">
-                </td>
-            </tr>
-        </table>
+                    <input type="hidden"
+                           name="inquiry_code"
+                           value="${inquiry_code}">
 
-    </form>
+                    <label>비밀번호</label>
+
+                    <input type="password"
+                           name="guest_password"
+                           placeholder="문의 작성 시 입력한 비밀번호">
+
+                    <div class="password-guide">
+                        비밀번호가 일치해야 문의 내용과 답변을 확인할 수 있습니다.
+                    </div>
+
+                    <div class="password-btn-area">
+                        <input type="button"
+                               value="답변 확인"
+                               class="check-btn"
+                               onclick="checkPassword(this.form)">
+
+                        <input type="button"
+                               value="메인으로"
+                               class="home-btn"
+                               onclick="location.href='/main_list.do'">
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
 
     </body>
 </html>

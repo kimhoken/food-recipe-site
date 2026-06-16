@@ -20,10 +20,12 @@ import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.ActivityDAO;
 import com.project.foodsite.dao.BookmarkDAO;
 import com.project.foodsite.dao.CommentDAO;
+import com.project.foodsite.dao.InquiryDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.vo.BookmarkVO;
 import com.project.foodsite.vo.CommentVO;
+import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -47,6 +49,7 @@ public class MypageController {
     private final ActivityDAO activityDAO;
     private final CommentDAO commentDAO;
     private final BookmarkDAO bookmarkDAO;
+    private final InquiryDAO inquiryDAO; 
 
     //레시피 페이징 함수
     private void userRecipePaging(int page, Model model, MemberVO user){
@@ -115,6 +118,14 @@ public class MypageController {
         model.addAttribute("bookmarkList", bookmarkDAO.userBookmark(member_id));
     }
 
+    // 로그인한 회원의 문의 내역 조회
+    private void userInquiry(Model model, MemberVO user){
+
+        List<InquiryVO> inquiryList = inquiryDAO.myInquiryList(user.getMember_id());
+
+        model.addAttribute("inquiryList", inquiryList);
+    }
+
 
 
     // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
@@ -124,7 +135,7 @@ public class MypageController {
         String contentPage = "/WEB-INF/views/member/mypage/mypage_home.jsp";
         
         if (menu.equals("inquiry")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_inquiry.jsp";
+            contentPage = "/WEB-INF/views/member/mypage/mypageinquiry.jsp";
         } else if (menu.equals("update")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";            
         } else if (menu.equals("pwd")) {
@@ -231,6 +242,8 @@ public class MypageController {
             userCommentPaging(page, model, user);
         } else if(menu.equals("bookmark")){
             userBookmarkPaging(page, model, user);
+        } else if(menu.equals("inquiry")){
+            userInquiry(model, user);
         }
 
         setTotalCount(user.getMember_id(), model);
