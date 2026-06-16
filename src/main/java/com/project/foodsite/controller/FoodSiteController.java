@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.util.Recommand;
+import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,8 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class FoodSiteController {
     
     private final Recommand rec;
+    private final HttpSession session;
+    private final TrendingService trendingService;
 
-    public final HttpSession session;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -38,20 +40,15 @@ public class FoodSiteController {
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
         List<String> currentList = new LinkedList<>();
-        List<String> rankList = new LinkedList<>();
 
         if(currentQueue != null && !currentQueue.isEmpty()){
             for(String val : currentQueue){
                 currentList.add(val);
             }
         }
-
-        for(int i=1 ; i<11 ; i++){
-            rankList.add(i+"번째 검색어");
-        }
         
-        model.addAttribute("searchList", rankList);
-        model.addAttribute("currentSearchList", currentList);
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
         return "main";
     }
 
