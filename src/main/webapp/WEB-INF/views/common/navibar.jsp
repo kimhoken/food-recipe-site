@@ -5,14 +5,6 @@
     <head>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
         <script>
-            window.onload = ()=>{
-                const select = document.getElementById("sel");
-                const sessionValue = '${sessionScope.select}';
-                
-                if(["recipe", "review"].includes(sessionValue)){
-                    select.value = sessionValue;
-                }
-            }
             const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("RecipeSearchDTO")
 public class RecipeSearchDTO {     // 사용자가 레시피 목록 페이지에서 선택하는 검색 조건(카테고리 필터, 조리시간 필터, 정렬(최신순..), 검색창)
-     // 카테고리
+    // 카테고리
     private String category;
 
     // 조리시간 (체크박스 여러 개 선택 가능)
@@ -36,8 +36,9 @@ public class RecipeSearchDTO {     // 사용자가 레시피 목록 페이지에
 
     //페이징 처리
     private int page = 1;  //기본값 1페이지
-    public int getOffset() { 
-        return (this.page - 1) * 9; }
 
+    public int getOffset() { 
+        return (this.page - 1) * 9; 
+    }
 
 }
