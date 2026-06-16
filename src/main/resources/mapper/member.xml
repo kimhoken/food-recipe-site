@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from member where member_id = #{member_id}
     </select>   
 
-    <update id="userUpdate" parameterType="member">
+    <update id="userPwdUpdate" parameterType="member">
         update member set password = #{password}
         where member_id = #{member_id}
     </update>    
@@ -51,4 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         provider_id = #{provider_id}
     </select>
 
+    <update id="userUpdate" parameterType="member">
+        update member set nickname = #{nickname}, email = #{email}, profile_img = #{filename}, name = #{name}, member_intro = #{member_intro}
+        where member_id = #{member_id}
+    </update>
+
+    <update id="secessionUser" parameterType="member">
+        update member set login_id = #{login_id}, password = #{password}, status =#{status}, nickname = #{nickname}, email=#{email}, profile_img = #{profile_img}, name = #{name}, member_intro = #{member_intro} 
+        where member_id = #{member_id}
+    </update>
 </mapper>

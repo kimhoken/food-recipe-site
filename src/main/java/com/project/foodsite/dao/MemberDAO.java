@@ -18,7 +18,11 @@ public interface MemberDAO {
 
     MemberVO getUserByMemberId(int member_id);
 
+    int userPwdUpdate(MemberVO vo);
+
     int userUpdate(MemberVO vo);
 
     MemberVO getSocialUser(String provider,String provider_id);
+
+    int secessionUser( MemberVO vo);
 } 

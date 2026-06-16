@@ -1,6 +1,8 @@
 package com.project.foodsite.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -25,25 +27,22 @@ public class NoticeController {
     private final NoticeDAO noticeDao;
     private final HttpSession session;
 
+    private final String savePath = "/Users/shinyeyoung/upload/";
+
     @GetMapping("/notice.do")
     public String getArticleList(
             Model model,
             @RequestParam(value = "page", defaultValue = "1") int page,
-
-            
             @RequestParam(value = "search_text", defaultValue = "") String search_text) {
 
         int pageSize = 8;
         int pageBlock = 5;
-
         int start = (page - 1) * pageSize;
 
         List<NoticeVO> notice = noticeDao.selectList(start, pageSize, search_text);
-
         int totalCount = noticeDao.notice_count(search_text);
 
         int totalPage = (int) Math.ceil((double) totalCount / pageSize);
-
         int startPage = ((page - 1) / pageBlock) * pageBlock + 1;
         int endPage = startPage + pageBlock - 1;
 
@@ -89,8 +88,9 @@ public class NoticeController {
         if (user != null) {
             int result = noticeDao.viewHistory(notice_id, user.getMember_id());
 
-            if (result > 0) {
+            if (result == 0) {
                 noticeDao.userViewCount(notice_id);
+                noticeDao.viewInsert(notice_id, user.getMember_id());
             }
 
         } else {
@@ -111,10 +111,7 @@ public class NoticeController {
 
         NoticeVO vo = noticeDao.noticeView(notice_id);
 
-        ImgVO img = null;
-        if (vo.getImg_id() != null) {
-            img = noticeDao.img_select(vo.getImg_id());
-        }
+        ImgVO img = noticeDao.notice_img_select(notice_id);
 
         model.addAttribute("notice", vo);
         model.addAttribute("img", img);
@@ -137,7 +134,8 @@ public class NoticeController {
     @PostMapping("/notice_add.do")
     public String noticeAdd_fin(
             NoticeVO vo,
-            @RequestParam(value = "images", required = false) MultipartFile image
+
+            @RequestParam(value = "images", required = false) List<MultipartFile> images
     ) throws Exception {
 
         MemberVO user = (MemberVO) session.getAttribute("user");
@@ -148,37 +146,43 @@ public class NoticeController {
 
         vo.setMember_id(user.getMember_id());
 
-        if (image != null && !image.isEmpty()) {
+        noticeDao.notice_insert(vo);
 
-            // String savePath = "C:/upload/"; 윈도우버전
-
-            String savePath = "/Users/shinyeyoung/upload/";
-
-            File dir = new File(savePath);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String filename = image.getOriginalFilename();
-            File saveFile = new File(savePath, filename);
-
-            if (saveFile.exists()) {
-                long time = System.currentTimeMillis();
-                filename = time + "_" + filename;
-                saveFile = new File(savePath, filename);
-            }
-
-            image.transferTo(saveFile);
-
-            ImgVO img = new ImgVO();
-            img.setImage_list(filename);
-
-            noticeDao.img_insert(img);
-
-            vo.setImg_id(img.getImg_id());
+        File dir = new File(savePath);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
-        noticeDao.notice_insert(vo);
+        List<String> fileNames = new ArrayList<>();
+
+        if (images != null && !images.isEmpty()) {
+            for (MultipartFile image : images) {
+
+                if (image == null || image.isEmpty()) {
+                    continue;
+                }
+
+                String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                File saveFile = new File(savePath, filename);
+
+                if (saveFile.exists()) {
+                    filename = System.currentTimeMillis() + "_" + filename;
+                    saveFile = new File(savePath, filename);
+                }
+
+                image.transferTo(saveFile);
+                fileNames.add(filename);
+            }
+        }
+
+        if (!fileNames.isEmpty()) {
+            ImgVO img = new ImgVO();
+            img.setNotice_id(vo.getNotice_id());
+
+            img.setImage_list(String.join(",", fileNames));
+
+            noticeDao.notice_img_insert(img);
+        }
 
         return "redirect:notice.do";
     }
@@ -193,11 +197,7 @@ public class NoticeController {
         }
 
         NoticeVO vo = noticeDao.noticeView(notice_id);
-
-        ImgVO img = null;
-        if (vo.getImg_id() != null) {
-            img = noticeDao.img_select(vo.getImg_id());
-        }
+        ImgVO img = noticeDao.notice_img_select(notice_id);
 
         model.addAttribute("notice", vo);
         model.addAttribute("img", img);
@@ -209,11 +209,9 @@ public class NoticeController {
     public String noticeUpdate_fin(
             NoticeVO vo,
 
-            // 수정: 새 이미지 파일 받기
-            @RequestParam(value = "images", required = false) MultipartFile image,
+            @RequestParam(value = "images", required = false) List<MultipartFile> images,
 
-            // 수정: 기존 이미지 id 받기
-            @RequestParam(value = "ori_img_id", required = false) Integer ori_img_id
+            @RequestParam(value = "delete_image", required = false) List<String> delete_image
     ) throws Exception {
 
         MemberVO user = (MemberVO) session.getAttribute("user");
@@ -222,42 +220,65 @@ public class NoticeController {
             return "redirect:/notice.do";
         }
 
-        // 수정: 새 이미지가 있을 때
-        if (image != null && !image.isEmpty()) {
+        noticeDao.notice_update(vo);
 
-            String savePath = "/Users/shinyeyoung/upload/";
-
-            File dir = new File(savePath);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String filename = image.getOriginalFilename();
-            File saveFile = new File(savePath, filename);
-
-            if (saveFile.exists()) {
-                long time = System.currentTimeMillis();
-                filename = time + "_" + filename;
-                saveFile = new File(savePath, filename);
-            }
-
-            image.transferTo(saveFile);
-
-            ImgVO img = new ImgVO();
-            img.setImage_list(filename);
-
-            noticeDao.img_insert(img);
-
-            // 수정: 새 이미지 id 저장
-            vo.setImg_id(img.getImg_id());
-
-        } else {
-            // 수정: 새 이미지 없으면 기존 이미지 유지
-            // X 눌렀으면 ori_img_id가 null로 들어와서 이미지 제거됨
-            vo.setImg_id(ori_img_id);
+        File dir = new File(savePath);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
-        noticeDao.notice_update(vo);
+        ImgVO oldImg = noticeDao.notice_img_select(vo.getNotice_id());
+
+        List<String> fileNames = new ArrayList<>();
+
+        if (oldImg != null
+                && oldImg.getImage_list() != null
+                && !oldImg.getImage_list().trim().isEmpty()) {
+
+            // 콤마 기준으로 분리
+            fileNames.addAll(Arrays.asList(oldImg.getImage_list().split(",")));
+        }
+
+        // X 누른 기존 이미지 제거
+        if (delete_image != null && !delete_image.isEmpty()) {
+            fileNames.removeAll(delete_image);
+        }
+
+        if (images != null && !images.isEmpty()) {
+            for (MultipartFile image : images) {
+
+                if (image == null || image.isEmpty()) {
+                    continue;
+                }
+
+                String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                File saveFile = new File(savePath, filename);
+
+                if (saveFile.exists()) {
+                    filename = System.currentTimeMillis() + "_" + filename;
+                    saveFile = new File(savePath, filename);
+                }
+
+                image.transferTo(saveFile);
+                fileNames.add(filename);
+            }
+        }
+
+        if (fileNames.isEmpty()) {
+            noticeDao.notice_img_delete(vo.getNotice_id());
+
+        } else {
+            ImgVO img = new ImgVO();
+            img.setNotice_id(vo.getNotice_id());
+
+            img.setImage_list(String.join(",", fileNames));
+
+            if (oldImg == null) {
+                noticeDao.notice_img_insert(img);
+            } else {
+                noticeDao.notice_img_update(img);
+            }
+        }
 
         return "redirect:/notice_detail.do?notice_id=" + vo.getNotice_id();
     }
@@ -271,6 +292,7 @@ public class NoticeController {
             return "redirect:notice.do";
         }
 
+        noticeDao.notice_img_delete(notice_id);
         noticeDao.notice_delete(notice_id);
 
         return "redirect:notice.do";

@@ -10,6 +10,13 @@
     </script>
 </c:if>
 
+<c:if test="${sessionScope.user.member_id ne param.id}">
+    <script>
+        alert("권한이 없습니다.")
+        location.href="/main_list.do";
+    </script>
+</c:if>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -101,7 +108,7 @@
                 <li>랭킹</li>
                 <li><a href="/list.do">커뮤니티</a></li>
                 <li class="active"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-                <li>이벤트</li>
+                <li>키친가이드</li>
             </ul>
         </header>
 
@@ -116,10 +123,9 @@
                         <%-- /recipe_detail.do?id=${recipe.recipe_id} --%>
                         <a href="#">
                             <div class="recipe-img">
-                                <%-- 실제 이미지가 들어갈 때 주석 해제하고 사용해 --%>
+                                <%-- 실제 이미지가 들어갈 때 주석 해제하고 사용 --%>
                                 <%-- <img src="/upload/images/${recipe.thumbnail}" alt="레시피 썸네일 이미지"> --%>
                             </div>
-
                             <%-- 순위 뱃지 적용 --%>
                             <div class="rank-badge">${status.index + 1}</div>
                             <div class="recipe-info">

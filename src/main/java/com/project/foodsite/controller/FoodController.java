@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.CategoryDAO;
 import com.project.foodsite.vo.CategoryVO;
-import com.project.foodsite.vo.FoodVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +27,7 @@ public class FoodController {
             map.computeIfAbsent(vo.getSubCategoryName(), k -> new ArrayList<>()).add(vo.getFoodName());
         }
 
-        return map;
+        return map; 
     }
 
 }

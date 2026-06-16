@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.foodsite.dao.InquiryDAO">
+
+    <insert id="insertInquiry" parameterType="inquiry"
+            useGeneratedKeys="true" keyProperty="inquiry_id">
+        insert into inquiry (
+            type,
+            title,
+            content,
+            status,
+            created_date,
+            member_id,
+            guest_name,
+            guest_email,
+            guest_password
+        ) values (
+            #{type},
+            #{title},
+            #{content},
+            #{status},
+            NOW(),
+            #{member_id},
+            #{guest_name},
+            #{guest_email},
+            #{guest_password}
+        )
+    </insert>
+
+    <update id="updateInquiryCode" parameterType="inquiry">
+        update inquiry
+        set inquiry_code = #{inquiry_code}
+        where inquiry_id = #{inquiry_id}
+    </update>
+
+    <select id="guestInquiryCode" parameterType="String" resultType="inquiry">
+        select * from inquiry
+        where inquiry_code = #{inquiry_code}
+    </select>
+
+    <select id="adminInquiryList" resultType="inquiry">
+        select * from inquiry
+        order by inquiry_id desc
+    </select>
+
+    <select id="adminInquiryDetail"
+            parameterType="int"
+            resultType="inquiry">
+
+        select * from inquiry
+        where inquiry_id = #{inquiry_id}
+
+    </select>
+
+    <update id="answerInquiry"
+            parameterType="inquiry">
+
+        update inquiry set
+            answer_content = #{answer_content},
+            status = 'y',
+            answered_date = now(),
+            admin_id = #{admin_id}
+        where inquiry_id = #{inquiry_id}
+
+    </update>
+    
+</mapper>
