@@ -43,17 +43,19 @@
                         // 소제목이 null일 때 화면에 'null'이라고 뜨는 걸 방지
                         let subTitle = guide.sub_title ? guide.sub_title : "";                   
                         let imgPath = "${pageContext.request.contextPath}/guide_img/" + guide.image;
-                        let cardHtml = "<a href='#' class='guide-card-link'>" +
-                                    "  <div class='guide-card'>" +
-                                    "    <div class='card-img-box'>" +
-                                    "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
-                                    "    </div>" +
-                                    "    <div class='card-info'>" +
-                                    "      <p>" + subTitle + "</p>" +
-                                    "      <h3>" + guide.title + "</h3>" +
-                                    "    </div>" +
-                                    "  </div>" +
-                                    "</a>";
+
+                        //해당 guide-grid 클릭하면 guide_id로 상세페이지로 이동
+                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_list.do/" + guide.guide_id + "'\">" +
+                        "  <div class='guide-card'>" +
+                        "    <div class='card-img-box'>" +
+                        "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
+                        "    </div>" +
+                        "    <div class='card-info'>" +
+                        "      <p>" + subTitle + "</p>" +
+                        "      <h3>" + guide.title + "</h3>" +
+                        "    </div>" +
+                        "  </div>" +
+                        "</div>";
                         grid.innerHTML += cardHtml;
                     }
                     })
