@@ -1,6 +1,8 @@
 package com.project.foodsite.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,10 @@ public class GuideController {
     @GetMapping("/guide_tab.do")
     public List<GuideDTO> guideTab(String tab) {
 
-        return guideDao.guideTab(tab);
+        Map<String, Object> map = new HashMap<>();
+        map.put("tab", tab);
+
+        return guideDao.guideTab(map);
 
     }
 

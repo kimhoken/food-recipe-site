@@ -12,53 +12,55 @@
             <link rel="stylesheet" href="/css/chatbot.css" />
             <script src="/js/chatbot.js"></script>
 
-            <script>
-                const path = "${pageContext.request.contextPath}";
-
-                window.onload = function () {
-                    showTab("all");     //'키친가이드' 탭 들어오면 전체보기 제일 먼저 실행
+                <script>
+                // 키친가이드 들어오면 자동 '전체보기' 
+                window.onload = function() {
+                    showTab('all');
                 };
 
-                function showTab(tab) {
+                function showTab(tabName) {
+                
+                    document.querySelectorAll(".tab-btn").forEach(function(btn) {
+                        btn.classList.remove("active");
+                    });
+                    let targetBtn = document.getElementById(tabName);
+                    if (targetBtn) {
+                        targetBtn.classList.add("active");
+                    }
 
-                // 모든 버튼의 active 제거
-                document.querySelectorAll(".tab-btn").forEach(btn => {
-                    btn.classList.remove("active");
-                });
-
-                // 클릭한 버튼 active 추가
-                document.getElementById(tab).classList.add("active");
-
-                    fetch(path + "/guide_tab.do?tab=" + tab)
-                        .then(res => res.json())
-                        .then(data => {
-
-                            let html = "";
-
-                            data.forEach(function (guide) {
-
-                                html += `
-                    <div class="guide-card">
-                        <div class="card-img-box">
-                            <img src="${path}/upload/${guide.image}" alt="가이드이미지">
-                        </div>
-
-                        <div class="card-info">
-                            <h3>${guide.title}</h3>
-                        </div>
-                    </div>
-                `;
-
-                            });
-
-                            document.getElementById("guideGrid").innerHTML = html;
-
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
+                    fetch("${pageContext.request.contextPath}/guide_tab.do?tab=" + tabName, { method: "get" })
+                    .then( function(res) { return res.json(); } ) 
+                    .then( function(data) {
+                        
+                        console.log("서버에서 받아온 데이터 목록:", data); // 데이터 잘 왔는지 확인할라고 씀
+                        
+                        let grid = document.getElementById("guideGrid");
+                        grid.innerHTML = ""; 
+                        
+                        for (let i = 0; i < data.length; i++) {
+                        let guide = data[i]; 
+                        
+                        // 소제목이 null일 때 화면에 'null'이라고 뜨는 걸 방지
+                        let subTitle = guide.sub_title ? guide.sub_title : "";                   
+                        let imgPath = "${pageContext.request.contextPath}/guide_img/" + guide.image;
+                        let cardHtml = "<a href='#' class='guide-card-link'>" +
+                                    "  <div class='guide-card'>" +
+                                    "    <div class='card-img-box'>" +
+                                    "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
+                                    "    </div>" +
+                                    "    <div class='card-info'>" +
+                                    "      <p>" + subTitle + "</p>" +
+                                    "      <h3>" + guide.title + "</h3>" +
+                                    "    </div>" +
+                                    "  </div>" +
+                                    "</a>";
+                        grid.innerHTML += cardHtml;
+                    }
+                    })
+                    .catch(function(error) {
+                        console.error("데이터 로드 중 에러 발생:", error);
+                    });
                 }
-
             </script>
 
             <style>
