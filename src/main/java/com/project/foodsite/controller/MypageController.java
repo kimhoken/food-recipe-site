@@ -131,17 +131,21 @@ public class MypageController {
     // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
     private void setContentPage(Model model, String menu){
 
-        
+        boolean mainshow = false;
+
         String contentPage = "/WEB-INF/views/member/mypage/mypage_home.jsp";
         
         if (menu.equals("inquiry")) {
             contentPage = "/WEB-INF/views/member/mypage/mypageinquiry.jsp";
         } else if (menu.equals("update")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";            
+            contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";  
+            mainshow = true;          
         } else if (menu.equals("pwd")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";           
+            contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";    
+            mainshow =true;       
         } else if (menu.equals("del")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_del.jsp";            
+            mainshow = true;          
         } else if (menu.equals("account" )){
             contentPage = "/WEB-INF/views/member/mypage/mypage_info.jsp";                       
         } else if (menu.equals("recipe")){
@@ -153,6 +157,7 @@ public class MypageController {
         } 
         
         model.addAttribute("contentPage",contentPage);
+        model.addAttribute("mainshow",mainshow);
     }
 
     //회원의 레시피, 댓글, 북마크 갯수 조회하는 함수
@@ -210,7 +215,7 @@ public class MypageController {
     @GetMapping("/mypage.do")
     public String gomypage(Model model, String menu, Integer page) {        
         
-
+       
 
         if(page == null){
             page = 1;
@@ -230,7 +235,7 @@ public class MypageController {
         
         model.addAttribute("profileuser", user);
         
-        model.addAttribute("menu", menu);
+        
         
        
         
