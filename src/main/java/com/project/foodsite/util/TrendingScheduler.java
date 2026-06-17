@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TrendingScheduler {
     private final TrendingService trendingService;
-
+    
     @Scheduled(fixedDelay = 300000)
     public void autoRefresh(){
         //5분마다 캐시에 업데이트

@@ -1,5 +1,7 @@
 package com.project.foodsite.controller;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.project.foodsite.dto.RecipeDTO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -23,6 +26,7 @@ import jakarta.servlet.http.HttpSession;
 public class BoardController {
 
     private final BoardDAO boardDao;
+    private final HttpSession session;
 
     // board list 조회
     @GetMapping("/list.do")
@@ -75,10 +79,19 @@ public class BoardController {
 //여기서 부터 커뮤니티 상세보기
 
     @GetMapping("/view.do")
-    public String boardView(int board_id, Model model) {
+    public String boardView(int board_id, Model model, HttpServletRequest req) {
+        @SuppressWarnings("unchecked")
+        HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>() : 
+            (HashMap<String, LinkedList<Integer>>) session.getAttribute("viewMap");
 
-        // 조회수 증가
-        boardDao.updateViewCount(board_id);
+        //세션에서 IP, 게시글 ID를 확인해 없을경우 조회수 증가
+        if(map.get(req.getRemoteAddr()) == null && !map.get(req.getRemoteAddr()).contains(board_id)){
+            // 조회수 증가
+            boardDao.updateViewCount(board_id);
+            map.computeIfAbsent(req.getRemoteAddr(), k -> new LinkedList<>()).add(board_id);
+            session.setAttribute("viewMap", map);
+            session.setMaxInactiveInterval(3600);
+        }
 
         // 게시글 조회
         BoardVO board = boardDao.selectOne(board_id);

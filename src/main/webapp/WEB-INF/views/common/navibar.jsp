@@ -3,8 +3,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
         <script>
+            window.onload = () => {
+                let select = document.getElementById("selectHidden");
+                select.value = document.searchForm.select.value;
+            }
             const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {
@@ -53,7 +58,7 @@
 
                 <%-- 검색창 클릭시 나올 화면 --%>
                 <div class="search-wrapper" style="position: relative;">
-                    <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
+                    <form name="searchForm" action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
                         <div class="search-bar">
                             <select name="select" id="sel">
                                 <option value="recipe">레시피</option>
@@ -74,7 +79,7 @@
                                 <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">
                                     <c:forEach var="item" items="${currentSearchList}" varStatus="status">
                                         <input type="submit" value="${item}" name="search">
-                                        <input type="hidden" value="${sessionScope.select}" name="select">
+                                        <input type="hidden" value="recipe" id="selectHidden" name="select">
                                     </c:forEach>
                                 </form>
                             </c:if>
@@ -141,7 +146,6 @@
                                 <div>마이페이지</div>
                             </a>
                         </c:otherwise>
-
                     </c:choose>
                 </div>
             </div>
