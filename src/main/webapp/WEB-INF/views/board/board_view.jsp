@@ -31,7 +31,7 @@
 
             <hr>
 
-            <div class="content"> ${board.content}</div>
+            <div class="content">${board.content}</div>
 
             <br>
 
