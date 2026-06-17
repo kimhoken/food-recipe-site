@@ -4,66 +4,98 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <link rel="stylesheet" href="/css/adminInquiryList.css">
+</head>
 
-    </head>
+<body>
 
-    <body>
+<div class="inquiry-list-page">
 
-    <h2 align="center">문의 관리</h2>
+    <div class="inquiry-list-wrap">
 
-    <table border="1" align="center">
-        <tr>
-            <th>번호</th>
-            <th>유형</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-            <th>답변상태</th>
-        </tr>
+        <div class="inquiry-title-box">
+            <span class="inquiry-label">ADMIN INQUIRY</span>
+            <h2>문의 관리</h2>
+            <p>회원 및 비회원 문의 내역을 확인하고 답변을 관리합니다.</p>
+        </div>
 
-        <c:forEach var="vo" items="${list}">
-            <tr>
-                <td>${vo.inquiry_id}</td>
-                <td>${vo.type}</td>
+        <table class="inquiry-list-table">
 
-                <td>
-        
-                    <a href="/inquiry/admin/detail?inquiry_id=${vo.inquiry_id}">
-                        ${vo.title}
-                    </a>
-                </td>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>유형</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
 
-                <td>
-                
-                    <c:choose>
-                        <c:when test="${not empty vo.member_id}">
-                            회원번호 ${vo.member_id}
-                        </c:when>
-                        <c:otherwise>
-                            ${vo.guest_name}
-                        </c:otherwise>
-                    </c:choose>
-                </td>
+            <tbody>
 
-                <td>
-                    <fmt:formatDate value="${vo.created_date}" pattern="yyyy-MM-dd HH:mm"/>
-                </td>
+                <c:forEach var="vo" items="${list}">
+                    <tr>
 
-                <td>
-                    
-                    <c:choose>
-                        <c:when test="${vo.status eq 'y'}">
-                            답변 완료
-                        </c:when>
-                        <c:otherwise>
-                            답변 대기
-                        </c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+                        <td>${vo.inquiry_id}</td>
 
-    </body>
+                        <td>${vo.type}</td>
+
+                        <td class="title-cell">
+                            <a href="/inquiry/admin/detail?inquiry_id=${vo.inquiry_id}">
+                                ${vo.title}
+                            </a>
+                        </td>
+
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty vo.member_id}">
+                                    회원 #${vo.member_id}
+                                </c:when>
+
+                                <c:otherwise>
+                                    ${vo.guest_name}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td>
+                            <fmt:formatDate
+                                    value="${vo.created_date}"
+                                    pattern="yyyy-MM-dd"/>
+                        </td>
+
+                        <td>
+
+                            <c:choose>
+
+                                <c:when test="${vo.status eq 'y'}">
+                                    <span class="status-complete">
+                                        답변완료
+                                    </span>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <span class="status-wait">
+                                        답변대기
+                                    </span>
+                                </c:otherwise>
+
+                            </c:choose>
+
+                        </td>
+
+                    </tr>
+                </c:forEach>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
 </html>

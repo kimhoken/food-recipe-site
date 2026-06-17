@@ -64,5 +64,11 @@
         where inquiry_id = #{inquiry_id}
 
     </update>
+
+    <select id="myInquiryList" parameterType="int" resultType="inquiry">
+        select * from inquiry
+        where member_id = #{member_id}
+        order by inquiry_id desc
+    </select>
     
 </mapper>
