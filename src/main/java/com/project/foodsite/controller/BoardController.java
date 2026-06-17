@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.vo.BoardVO;
@@ -40,8 +41,8 @@ public class BoardController {
         model.addAttribute("searchWord", search); // 검색어 보관
         return "board/board_list";
     }
-///////////////////////////////////////////////////////////////////////////////////////
-    //--------------이거 전체 레시피쪽으로 가서 수정해야함----------------------
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // --------------이거 전체 레시피쪽으로 가서 수정해야함----------------------
 
     /* recipe 등록 */
 
@@ -70,7 +71,8 @@ public class BoardController {
         return "redirect:/list.do";
     }
 
-    // 여기서 부터 상세보기
+
+//여기서 부터 커뮤니티 상세보기
 
     @GetMapping("/view.do")
     public String boardView(int board_id, Model model) {
@@ -120,6 +122,25 @@ public class BoardController {
         int res = boardDao.delete(board_id);
 
         System.out.println("삭제 결과 : " + res);
+
+        return "redirect:/list.do";
+    }
+
+    //커뮤니티 글쓰기 폼
+    @GetMapping("/community_form.do")
+    public String communityForm() {
+        return "board/community_form";
+    }
+
+    //커뮤니티 글쓰기
+    @PostMapping("/community_write.do")
+    public String write(BoardVO vo, HttpSession session) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        vo.setMember_id(user.getMember_id());
+
+        boardDao.insertBoard(vo);
 
         return "redirect:/list.do";
     }

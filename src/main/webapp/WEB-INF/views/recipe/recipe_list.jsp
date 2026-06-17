@@ -131,24 +131,156 @@
                         <label><input type="checkbox" name="cookTimes" value="60" ${chk60}> 30~60분</label>
                         <label><input type="checkbox" name="cookTimes" value="61" ${chk61}> 60분 이상</label>
                     </div>
-                    <button class="filter-btn" type="button" onclick="send()">
-                        적용하기
-                    </button>
-                </aside> 
-                <!-- 오른쪽 -->
-                <section class="recipe-area">
-                    <div class="recipe-header">                                                                            
-                        <select class="sort-select" name="sort" id="sort" onChange="send()">                                                                                                                              
-                            <option value="latest">최신순</option>                                                                                                        
-                            <option value="name">가나다순</option>
-                            <option value="view">조회수순</option>
-                            <option value="like">좋아요순</option>
-                        </select>
-                    </div>
-                    <div class="today-recommend-header">
-                        <div class="today-recommend-inner">
-                            <span class="today-recommend-inner-span">TODAY</span>
-                            <h5>오늘의 추천 레시피 ✨</h5>
+                </div>
+
+                <ul class="nav-bar">
+                    <li>홈</li>
+                    <li>
+                        <a href="/recipe_list.do"> 레시피</a>
+                    </li>
+                    <li>카테고리</li>
+                    <li>랭킹</li>
+                    <li><a href="/list.do">커뮤니티</a></li>
+                    <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+                    <li>키친가이드</li>
+                </ul>
+
+                <div class="recipe-container">
+
+                    <!-- 왼쪽 -->
+
+                    <aside class="filter-area">
+
+                        <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
+
+
+                            <div class="filter-title">
+                                필터
+                            </div>
+
+                            <hr><br>
+
+                            <div class="filter-section">
+
+                                <h4>카테고리</h4>
+
+                                <label><input type="radio" name="category" value="상황별추천" <c:if
+                                        test="${recipeSearchDTO.category eq '상황별추천'}">checked</c:if>> ⭐ 상황별 추천</label>
+
+                                <label><input type="radio" name="category" value="한식" <c:if
+                                        test="${recipeSearchDTO.category eq '한식'}">checked</c:if>> 🍚 한식</label>
+
+                                <label><input type="radio" name="category" value="양식" <c:if
+                                        test="${recipeSearchDTO.category eq '양식'}">checked</c:if>> 🍝 양식</label>
+
+                                <label><input type="radio" name="category" value="중식" <c:if
+                                        test="${recipeSearchDTO.category eq '중식'}">checked</c:if>> 🍳 중식</label>
+
+                                <label><input type="radio" name="category" value="일식" <c:if
+                                        test="${recipeSearchDTO.category eq '일식'}">checked</c:if>> 🍣 일식</label>
+
+                                <label><input type="radio" name="category" value="아시안" <c:if
+                                        test="${recipeSearchDTO.category eq '아시안'}">checked</c:if>> 🌏 아시안</label>
+
+                                <label><input type="radio" name="category" value="건강식/다이어트" <c:if
+                                        test="${recipeSearchDTO.category eq '건강식/다이어트'}">checked</c:if>> 🥗
+                                    건강식/다이어트</label>
+
+                                <label><input type="radio" name="category" value="초간단요리" <c:if
+                                        test="${recipeSearchDTO.category eq '초간단요리'}">checked</c:if>> ⏱️ 초간단요리</label>
+
+                                <label><input type="radio" name="category" value="디저트" <c:if
+                                        test="${recipeSearchDTO.category eq '디저트'}">checked</c:if>> 🍰 디저트</label>
+
+                                <label><input type="radio" name="category" value="베이킹" <c:if
+                                        test="${recipeSearchDTO.category eq '베이킹'}">checked</c:if>> 🍞 베이킹</label>
+
+                                <label><input type="radio" name="category" value="음료/차" <c:if
+                                        test="${recipeSearchDTO.category eq '음료/차'}">checked</c:if>> ☕ 음료/차</label>
+
+                            </div>
+
+                            <hr><br>
+
+                            <div class="filter-section">
+
+                                <h4>조리시간</h4>
+
+                                <label>
+                                    <input type="checkbox" name="cookTimes" value="10" <c:forEach var="time"
+                                        items="${recipeSearchDTO.cookTimes}">
+                                    <c:if test="${time eq '10'}">checked</c:if>
+                                    </c:forEach>>
+                                    10분 이하
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" name="cookTimes" value="20" <c:forEach var="time"
+                                        items="${recipeSearchDTO.cookTimes}">
+                                    <c:if test="${time eq '20'}">checked</c:if>
+                                    </c:forEach>>
+                                    10~20분
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" name="cookTimes" value="30" <c:forEach var="time"
+                                        items="${recipeSearchDTO.cookTimes}">
+                                    <c:if test="${time eq '30'}">checked</c:if>
+                                    </c:forEach>>
+                                    20~30분
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" name="cookTimes" value="60" <c:forEach var="time"
+                                        items="${recipeSearchDTO.cookTimes}">
+                                    <c:if test="${time eq '60'}">checked</c:if>
+                                    </c:forEach>>
+                                    30~60분
+                                </label>
+
+                                <label>
+                                    <input type="checkbox" name="cookTimes" value="61" <c:forEach var="time"
+                                        items="${recipeSearchDTO.cookTimes}">
+                                    <c:if test="${time eq '61'}">checked</c:if>
+                                    </c:forEach>>
+                                    60분 이상
+                                </label>
+
+                            </div>
+
+                            <button class="filter-btn" type="button" onclick="send()">
+                                적용하기
+                            </button>
+
+                        </form>
+
+                    </aside>
+
+                    <!-- 오른쪽 -->
+
+                    <section class="recipe-area">
+
+                        <div class="recipe-header">
+
+                            <select class="sort-select" name="sort">
+
+                                <option value="latest">
+                                    최신순
+                                </option>
+
+                                <option value="name">
+                                    조회순
+                                </option>
+
+                                <option value="view">
+                                    가나다순
+                                </option>
+
+                                <option value="like">
+                                    좋아요순
+                                </option>
+
+                            </select>
                         </div>
                     </div>
                     <div class="recipe-list">
