@@ -15,7 +15,7 @@
                     <h3 class="delete-title">회원 탈퇴</h3>
 
                     <div class="delete-notice">
-                        <h4>정말 탈퇴하시겠습니까?</h4>
+                        <h4>정말 탈퇴하시겠습니까?</h4><br/>
                         <div class="delete-text">
                             탈퇴 시 계정 정보는 비활성화되며 서비스 이용이 제한됩니다.<br />
 
@@ -36,7 +36,7 @@
                         <div class="delete-check-box">
                             <h3>본인 확인</h3>
                             <p>회원 탈퇴를 원하시면 비밀번호 입력하세요</p>
-                            <input class="delete-input" name="password" type="password" placeholder="비밀번호 입력하세요" />
+                            <input class="delete-input" name="password" type="password" placeholder="비밀번호 입력하세요" oninput="deletecheck()" />
                         </div>
                     </c:if>
 
@@ -44,7 +44,7 @@
                         <div class="delete-check-box">
                             <h3>본인 확인</h3>
                             <p>회원 탈퇴를 원하시면 아래의 문구를 입력하세요</p>
-                            <input class="delete-input" name="str" placeholder="오늘 뭐먹지?를 탈퇴합니다." />
+                            <input class="delete-input" name="str" placeholder="오늘 뭐먹지?를 탈퇴합니다." oninput="deletecheck()" />
                         </div>
                     </c:if>
 
