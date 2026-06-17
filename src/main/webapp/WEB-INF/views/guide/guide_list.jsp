@@ -21,6 +21,14 @@
 
                 function showTab(tab) {
 
+                // 모든 버튼의 active 제거
+                document.querySelectorAll(".tab-btn").forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                // 클릭한 버튼 active 추가
+                document.getElementById(tab).classList.add("active");
+
                     fetch(path + "/guide_tab.do?tab=" + tab)
                         .then(res => res.json())
                         .then(data => {
