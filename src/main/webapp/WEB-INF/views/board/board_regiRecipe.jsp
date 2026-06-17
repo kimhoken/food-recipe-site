@@ -339,6 +339,7 @@
                 <div class="btn-wrap">
                     <button type="button" onclick="addStep()">+ 조리순서 추가</button>
                 </div>
+<<<<<<< HEAD
 
                 <div class="btn-wrap">
                     <button type="button" onclick="send(this.form)">내 레시피 등록!</button>
@@ -369,6 +370,33 @@
                         </div>
                     </div>
                 </div>
+=======
+</form>
+            <footer>
+                <div class="footer-container">
+                    <div class="footer-top-row">
+                        <div class="cs-section">
+                            <h3>고객센터</h3>
+                            <div class="cs-buttons">
+                                <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
+                                <div class="cs-btn">💬 1:1문의하기</div>
+                            </div>
+                            <div class="hours-info">
+                                <p><strong>운영시간</strong></p>
+                                <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
+                                <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
+                            </div>
+                        </div>
+                        <div class="sns-icons">
+                            <span class="sns-icon">▶</span>
+                            <span class="sns-icon">★</span>
+                            <span class="sns-icon">☆</span>
+                            <span class="sns-icon">◆</span>
+                            <span class="sns-icon">♬</span>
+                        </div>
+                    </div>
+                </div>
+>>>>>>> 262ba60 (레시피 등록 버튼 수정, jsp (하단에 footer 추가))
 
                 <div class="footer-nav-bar">
                     <div class="footer-container">
