@@ -107,7 +107,6 @@ public class RecipeController {
                     "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
             }
         }
-
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
         List<String> currentList = new LinkedList<>();
@@ -117,9 +116,9 @@ public class RecipeController {
                 currentList.add(val);
             }
         }
-
-        model.addAttribute("searchList", trendingService.getTrendingKeywords());
-        model.addAttribute("currentSearchList", currentList);
+        
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
 
         return "recipe/recipe_list";
     }
@@ -205,8 +204,8 @@ public class RecipeController {
             }
         }
 
-        model.addAttribute("searchList", trendingService.getTrendingKeywords());
-        model.addAttribute("currentSearchList", currentList);
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
         
         if(select.equals("review")){
             model.addAttribute("list", boardDAO.search(search));
