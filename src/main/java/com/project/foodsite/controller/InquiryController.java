@@ -71,7 +71,7 @@ public class InquiryController {
         inquiryDao.updateInquiryCode(vo);
 
         if (images != null && images.length > 0) {
-
+            
             String savePath = "/Users/shinyeyoung/upload/";
 
             File dir = new File(savePath);

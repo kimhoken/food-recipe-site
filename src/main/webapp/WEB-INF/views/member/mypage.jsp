@@ -92,7 +92,7 @@
                         <p>내활동 내역을 한 눈에 확인하세요!</p>
                     </div>
 
-                    <c:if test="${ menu ne 'update' }">
+                    <c:if test="${ not mainshow }">
 
                         <section class="main-box">
 

@@ -1,8 +1,10 @@
 package com.project.foodsite.controller;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.FridgeItemDAO;
 import com.project.foodsite.util.Recommand;
+import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.FridgeItemVO;
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +29,8 @@ public class FridgeController {
     
     private final FridgeItemDAO fdao;
     private final Recommand recommand;
+    private final TrendingService trendingService;
+    private final HttpSession session;
 
     /**
      * @param member_id jsp에서 넘어오는 member_Id
@@ -38,7 +45,22 @@ public class FridgeController {
             id = Integer.parseInt(member_id);     
 
         List<FridgeItemVO> list = fdao.selectList(id);
+
         model.addAttribute("list", list);
+        
+        @SuppressWarnings("unchecked")
+        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
+        List<String> currentList = new LinkedList<>();
+
+        if(currentQueue != null && !currentQueue.isEmpty()){
+            for(String val : currentQueue){
+                currentList.add(val);
+            }
+        }
+
+        model.addAttribute("searchList", trendingService.getTrendingKeywords());
+        model.addAttribute("currentSearchList", currentList);
+
         return "fridge/fridge_list";
     }
     

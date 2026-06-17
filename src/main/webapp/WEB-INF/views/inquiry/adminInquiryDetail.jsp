@@ -4,31 +4,41 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <script>
-            function sendAnswer(f) {
-                const answer = f.answer_content.value.trim();
+<head>
+    <link rel="stylesheet" href="/css/adminInquiryDetail.css">
 
-                if (answer === "") {
-                    alert("답변 내용을 입력하세요.");
-                    f.answer_content.focus();
-                    return;
-                }
+    <script>
+        function sendAnswer(f) {
+            const answer = f.answer_content.value.trim();
 
-                if (!confirm("답변을 등록하시겠습니까?")) {
-                    return;
-                }
-
-                f.submit();
+            if (answer === "") {
+                alert("답변 내용을 입력하세요.");
+                f.answer_content.focus();
+                return;
             }
-        </script>
-    </head>
 
-    <body>
+            if (!confirm("답변을 등록하시겠습니까?")) {
+                return;
+            }
 
-        <h2 align="center">문의 상세</h2>
+            f.submit();
+        }
+    </script>
+</head>
 
-        <table border="1" align="center">
+<body>
+
+<div class="admin-inquiry-page">
+
+    <div class="admin-inquiry-form">
+
+        <div class="admin-title-box">
+            <span class="admin-label">ADMIN INQUIRY</span>
+            <h2>문의 상세</h2>
+            <p>사용자가 남긴 문의 내용을 확인하고 답변을 등록할 수 있습니다.</p>
+        </div>
+
+        <table class="admin-table">
             <tr>
                 <th>문의번호</th>
                 <td>${vo.inquiry_id}</td>
@@ -46,17 +56,18 @@
 
             <tr>
                 <th>내용</th>
-                <td>${vo.content}</td>
+                <td class="content-box">${vo.content}</td>
             </tr>
 
             <c:if test="${not empty imgList}">
                 <tr>
                     <th>첨부 이미지</th>
                     <td>
-                        <c:forEach var="img" items="${imgList}">
-                            <img src="/upload/${img.image_list}"
-                                 style="max-width:300px; margin:6px;">
-                        </c:forEach>
+                        <div class="image-list">
+                            <c:forEach var="img" items="${imgList}">
+                                <img src="/upload/${img.image_list}">
+                            </c:forEach>
+                        </div>
                     </td>
                 </tr>
             </c:if>
@@ -87,10 +98,10 @@
                 <td>
                     <c:choose>
                         <c:when test="${vo.status eq 'y'}">
-                            답변 완료
+                            <span class="status-complete">답변 완료</span>
                         </c:when>
                         <c:otherwise>
-                            답변 대기
+                            <span class="status-wait">답변 대기</span>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -104,40 +115,31 @@
             </c:if>
         </table>
 
-        <br>
-
-        <h3 align="center">관리자 답변</h3>
-
-        <form action="/inquiry/admin/answer" method="post">
+        <form action="/inquiry/admin/answer" method="post" class="answer-form">
 
             <input type="hidden" name="inquiry_id" value="${vo.inquiry_id}">
 
-            <table border="1" align="center">
-                <tr>
-                    <th>답변 내용</th>
-                    <td>
-                        <textarea name="answer_content" rows="8" cols="70">${vo.answer_content}</textarea>
-                    </td>
-                </tr>
+            <div class="answer-title">관리자 답변</div>
 
-                <c:if test="${not empty vo.answered_date}">
-                    <tr>
-                        <th>답변일</th>
-                        <td>
-                            <fmt:formatDate value="${vo.answered_date}" pattern="yyyy-MM-dd HH:mm"/>
-                        </td>
-                    </tr>
-                </c:if>
+            <textarea name="answer_content" placeholder="답변 내용을 입력하세요.">${vo.answer_content}</textarea>
 
-                <tr>
-                    <td colspan="2" align="center">
-                        <input type="button" value="답변 등록" onclick="sendAnswer(this.form)">
-                        <input type="button" value="목록" onclick="location.href='/inquiry/admin/list'">
-                    </td>
-                </tr>
-            </table>
+            <c:if test="${not empty vo.answered_date}">
+                <div class="answered-date">
+                    답변일:
+                    <fmt:formatDate value="${vo.answered_date}" pattern="yyyy-MM-dd HH:mm"/>
+                </div>
+            </c:if>
+
+            <div class="btn-area">
+                <input type="button" value="답변 등록" class="submit-btn" onclick="sendAnswer(this.form)">
+                <input type="button" value="목록" class="cancel-btn" onclick="location.href='/inquiry/admin/list'">
+            </div>
 
         </form>
 
-    </body>
+    </div>
+
+</div>
+
+</body>
 </html>

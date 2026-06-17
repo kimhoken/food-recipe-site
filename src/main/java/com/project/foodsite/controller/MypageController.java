@@ -20,10 +20,12 @@ import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.ActivityDAO;
 import com.project.foodsite.dao.BookmarkDAO;
 import com.project.foodsite.dao.CommentDAO;
+import com.project.foodsite.dao.InquiryDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.vo.BookmarkVO;
 import com.project.foodsite.vo.CommentVO;
+import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -47,6 +49,7 @@ public class MypageController {
     private final ActivityDAO activityDAO;
     private final CommentDAO commentDAO;
     private final BookmarkDAO bookmarkDAO;
+    private final InquiryDAO inquiryDAO; 
 
     //레시피 페이징 함수
     private void userRecipePaging(int page, Model model, MemberVO user){
@@ -110,9 +113,17 @@ public class MypageController {
 
     public void userHomePage(Model model, int member_id){
         model.addAttribute("activity", activityDAO.userActivity(member_id)) ;
-        model.addAttribute("recentlyRecipeList", recipeDAO.recentlyrecipe(member_id));
+        model.addAttribute("recentlyRecipeList", recipeDAO.recentlyUserRecipe(member_id));
         model.addAttribute("commentList", commentDAO.userComment(member_id));
         model.addAttribute("bookmarkList", bookmarkDAO.userBookmark(member_id));
+    }
+
+    // 로그인한 회원의 문의 내역 조회
+    private void userInquiry(Model model, MemberVO user){
+
+        List<InquiryVO> inquiryList = inquiryDAO.myInquiryList(user.getMember_id());
+
+        model.addAttribute("inquiryList", inquiryList);
     }
 
 
@@ -120,17 +131,21 @@ public class MypageController {
     // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
     private void setContentPage(Model model, String menu){
 
-        
+        boolean mainshow = false;
+
         String contentPage = "/WEB-INF/views/member/mypage/mypage_home.jsp";
         
         if (menu.equals("inquiry")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_inquiry.jsp";
+            contentPage = "/WEB-INF/views/member/mypage/mypageinquiry.jsp";
         } else if (menu.equals("update")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";            
+            contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";  
+            mainshow = true;          
         } else if (menu.equals("pwd")) {
-            contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";           
+            contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";    
+            mainshow =true;       
         } else if (menu.equals("del")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_del.jsp";            
+            mainshow = true;          
         } else if (menu.equals("account" )){
             contentPage = "/WEB-INF/views/member/mypage/mypage_info.jsp";                       
         } else if (menu.equals("recipe")){
@@ -142,6 +157,7 @@ public class MypageController {
         } 
         
         model.addAttribute("contentPage",contentPage);
+        model.addAttribute("mainshow",mainshow);
     }
 
     //회원의 레시피, 댓글, 북마크 갯수 조회하는 함수
@@ -199,6 +215,8 @@ public class MypageController {
     @GetMapping("/mypage.do")
     public String gomypage(Model model, String menu, Integer page) {        
         
+       
+
         if(page == null){
             page = 1;
         }
@@ -207,12 +225,20 @@ public class MypageController {
         }
         
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
+
+        if(user == null){
+           
+            setContentPage(model, menu);
+            return "member/mypage";
+        }
         System.out.println("회원 번호 : "+user.getMember_id());
         
         model.addAttribute("profileuser", user);
-                
-        model.addAttribute("menu", menu);
+        
+        
+        
        
+        
         if(menu.equals("home")){
             userHomePage(model,user.getMember_id());
         } else if(menu.equals("recipe")){
@@ -221,6 +247,8 @@ public class MypageController {
             userCommentPaging(page, model, user);
         } else if(menu.equals("bookmark")){
             userBookmarkPaging(page, model, user);
+        } else if(menu.equals("inquiry")){
+            userInquiry(model, user);
         }
 
         setTotalCount(user.getMember_id(), model);

@@ -1,172 +1,135 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/views/member/findmodal.jsp"%>
 
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html>
 
-    <head>
-        <title>오늘 뭐 먹지? - 로그인</title>
-        <link rel="stylesheet" href="/css/login.css" />
-        
-        <script>
-            //로그인 유효성 및 로그인 상태
-            function send(f) {
-                let login_id = f.login_id.value;
-                let password = f.password.value;
+<head>
+    <title>오늘 뭐 먹지? - 로그인</title>
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
 
-                if (login_id == "") {
-                    alert("아이디 입력하세요!!");
-                    return;
-                }
+    <script>
+        function send(f) {
+            let login_id = f.login_id.value;
+            let password = f.password.value;
 
-                if (password == "") {
-                    alert("비밀번호 입력하세요!!");
-                    return;
-                }
-                ;
-                let formdata = new FormData(f);
-                fetch("/login.do", { method: "post", body: formdata })
-                    .then(res => res.json())
-                    .then(data => {
-
-                        if (data.res == "no_id") {
-                            alert("아이디가 없거나 틀렸습니다.");
-
-                        } else if (data.res == "no_pwd") {
-                            alert("비밀번호가 틀렸습니다.");
-
-                        } else if (data.res == "login") {
-                            alert("환영합니다 " + data.nick + "님!!");
-                            location.href = "/main_list.do";
-
-                        } else {
-                            alert("esteregg");
-                        }
-                    })
+            if (login_id == "") {
+                alert("아이디를 입력하세요!");
+                return;
             }
 
-            function viewpwd() {
-
-                let pwd = document.getElementById("pwd");
-                let visual = document.getElementById("visual");
-                let unvisual = document.getElementById("unvisual");
-
-                if (pwd.type === "password") {
-                    pwd.type = "text";
-                    visual.style.display = "none";
-                    unvisual.style.display = "block";
-                } else {
-                    pwd.type = "password";
-                    visual.style.display = "block";
-                    unvisual.style.display = "none";
-                }
+            if (password == "") {
+                alert("비밀번호를 입력하세요!");
+                return;
             }
 
-            
-        </script>
-    </head>
+            let formdata = new FormData(f);
+            fetch("/login.do", { method: "post", body: formdata })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.res == "no_id") {
+                        alert("아이디가 없거나 틀렸습니다.");
+                    } else if (data.res == "no_pwd") {
+                        alert("비밀번호가 틀렸습니다.");
+                    } else if (data.res == "login") {
+                        alert("환영합니다 " + data.nick + "님!");
+                        location.href = "/main_list.do";
+                    } else {
+                        alert("esteregg");
+                    }
+                })
+        }
 
-    <body>
-        <form>
-            <table class="login-wrap" align="center">
-                <tr>
-                    <td class="login-left">
-                        <img src="/images/login_bg.png" class="login-img" />
-                    </td>
+        function viewpwd() {
+            let pwd = document.getElementById("pwd");
+            let visual = document.getElementById("visual");
+            let unvisual = document.getElementById("unvisual");
 
-                    <td class="login-right">
-                        <table class="login-table" align="left">
-                            <caption>로그인</caption>
-                            <tr>
-                                <th>아이디</th>
-                            </tr>
+            if (pwd.type === "password") {
+                pwd.type = "text";
+                visual.style.display = "none";
+                unvisual.style.display = "block";
+            } else {
+                pwd.type = "password";
+                visual.style.display = "block";
+                unvisual.style.display = "none";
+            }
+        }
+    </script>
+</head>
 
-                            <tr>
-                                <td>
-                                    <input name="login_id" placeholder="아이디를 입력하세요" />
-                                </td>
-                            </tr>
+<body>
+    <form>
+        <div class="login-wrap">
+            <div class="login-left">
+                <img src="/images/login_bg.png" class="login-img" />
+            </div>
 
-                            <tr>
-                                <th>비밀번호</th>
-                            </tr>
+            <div class="login-right">
+                <div class="login-table">
+                    <h1 class="login-title">로그인</h1>
 
-                            <tr>
-                                <td>
-                                    <div class="pwd-warp">
+                    <div class="form-group">
+                        <label for="login_id">아이디</label>
+                        <input id="login_id" name="login_id" placeholder="아이디를 입력하세요" />
+                    </div>
 
-                                        <input type="password" name="password" id="pwd" placeholder="비밀번호를 입력하세요" />
-    
-                                        <button type="button" id="visual" class="toggle" onclick="viewpwd()">
-                                            <img src="/images/visibility.png"/>
-                                        </button>
-        
-                                        <button type="button" id="unvisual" class="toggle" onclick="viewpwd()">
-                                            <img src="/images/unvisibility.png"/>
-                                        </button>
+                    <div class="form-group">
+                        <label for="pwd">비밀번호</label>
+                        <div class="pwd-wrap">
+                            <input type="password" name="password" id="pwd" placeholder="비밀번호를 입력하세요" />
 
-                                    </div>
-                                </td>
-                            </tr>
+                            <button type="button" id="visual" class="toggle" onclick="viewpwd()">
+                                <img src="/images/visibility.png" />
+                            </button>
 
-                            <tr>
-                                <td class="idpwd-area">
-                                    <button class="sub-btn" type="button"
-                                        onclick="openModal('id',this)">아이디</button>
-                                    <span>/</span>
-                                    <input class="sub-btn" type="button" value="비밀번호 찾기"
-                                        onclick="openModal('pwd',this)" />
-                                </td>
-                            </tr>
+                            <button type="button" id="unvisual" class="toggle" onclick="viewpwd()">
+                                <img src="/images/unvisibility.png" />
+                            </button>
+                        </div>
+                    </div>
 
-                            <tr>
-                                <td colspan="2" align="center">
-                                    <input class="login-btn" type="button" value="로그인" onclick="send(this.form)" />
-                                </td>
-                            </tr>
+                    <div class="idpwd-area">
+                        <button class="sub-btn" type="button" onclick="openModal('id',this)">아이디 찾기</button>
+                        <span>/</span>
+                        <input class="sub-btn" type="button" value="비밀번호 찾기" onclick="openModal('pwd',this)" />
+                    </div>
 
-                            <tr>
-                                <td>
-                                    <!-- 소셜 로그인  -->
-                                    <div class="line-area">
-                                        <div class="line"></div>
-                                        <span>또는</span>
-                                        <div class="line"></div>
-                                    </div>
+                    <input class="login-btn" type="button" value="로그인" onclick="send(this.form)" />
 
-                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/naver'">
-                                        <img src="images/naver.png" />
-                                        <span>네이버로 로그인</span>
-                                    </button>
+                    <div class="line-area">
+                        <div class="line"></div>
+                        <span>또는</span>
+                        <div class="line"></div>
+                    </div>
 
-                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/kakao'">
-                                        <img src="images/kakao.png" />
-                                        <span>카카오로 로그인</span>
-                                    </button>
+                    <div class="social-area">
+                        <button type="button" class="social-btn" onclick="location.href='/oauth2/authorization/naver'">
+                            <img src="/images/naver.png" />
+                            <span>네이버로 로그인</span>
+                        </button>
 
-                                    <button type="button" class="social-btn" type="button" onclick="location.href='/oauth2/authorization/google'">
-                                        <img src="images/google.png" />
-                                        <span>구글로 로그인</span>
-                                    </button>
-                                </td>
-                            </tr>
+                        <button type="button" class="social-btn" onclick="location.href='/oauth2/authorization/kakao'">
+                            <img src="/images/kakao.png" />
+                            <span>카카오로 로그인</span>
+                        </button>
 
-                            <!-- 회원가입  -->
-                            <tr>
-                                <td colspan="2" align="center" class="sub-btn-area">
-                                    <span>계정이 없으신가요?</span>
-                                    <input class="regi-btn" type="button" value="회원가입"
-                                        onclick="location.href='/register_form.do'" />
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
+                        <button type="button" class="social-btn" onclick="location.href='/oauth2/authorization/google'">
+                            <img src="/images/google.png" />
+                            <span>구글로 로그인</span>
+                        </button>
+                    </div>
 
-                </tr>
-            </table>
-        </form>
+                    <div class="sub-btn-area">
+                        <span>계정이 없으신가요?</span>
+                        <input class="regi-btn" type="button" value="회원가입" onclick="location.href='/register_form.do'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
-        
-    </body>
+    <%@ include file="/WEB-INF/views/member/findmodal.jsp"%>
+</body>
 
-    </html>
+</html>

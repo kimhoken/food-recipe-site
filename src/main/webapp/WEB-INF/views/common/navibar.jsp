@@ -5,14 +5,6 @@
     <head>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
         <script>
-            window.onload = ()=>{
-                const select = document.getElementById("sel");
-                const sessionValue = '${sessionScope.select}';
-                
-                if(["recipe", "review"].includes(sessionValue)){
-                    select.value = sessionValue;
-                }
-            }
             const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {
@@ -132,13 +124,25 @@
                         </span>
                         <div>회원가입</div>
                     </a>
+                    <c:choose>
+                        <c:when test="${user.role eq 'ADMIN'}">
+                            <a href="${pageContext.request.contextPath}/admin" class="menu-item">
+                                <span class="menu-icon">
+                                    <img src="${pageContext.request.contextPath}/images/mypage.png">
+                                </span>
+                                <div>마이페이지</div>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
+                                <span class="menu-icon">
+                                    <img src="${pageContext.request.contextPath}/images/mypage.png">
+                                </span>
+                                <div>마이페이지</div>
+                            </a>
+                        </c:otherwise>
 
-                    <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/mypage.png">
-                        </span>
-                        <div>마이페이지</div>
-                    </a>
+                    </c:choose>
                 </div>
             </div>
 
@@ -149,7 +153,7 @@
                 <li>랭킹</li>
                 <li><a href="/list.do">커뮤니티</a></li>
                 <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-                <li>키친가이드</li>
+                <li><a href="/guide_list.do">키친가이드</a></li>
             </ul>
         </header>
     </body>
