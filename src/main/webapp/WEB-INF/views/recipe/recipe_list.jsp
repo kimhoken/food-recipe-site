@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -82,113 +82,7 @@
         </script>
     </head>
     <body>
-        <header>
-            <div class="header-top">
-                <div class="logo">
-                    <a href="${pageContext.request.contextPath}/">
-                        <img src="${pageContext.request.contextPath}/images/Logo.png" alt="로고"/>
-                    </a>
-                </div>
-                
-                <%-- 검색창 클릭시 나올 화면 --%>
-                <div class="search-wrapper" style="position: relative;">
-                    <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
-                        <div class="search-bar">
-                            <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!">
-                            <button type="submit">⌕</button>
-                        </div>
-                    </form>
-
-                    <div class="user-menu">
-                        <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
-                            <c:if test="${empty user}">
-                                <a href="/login.do" class="menu-item" id="login">
-                                    <span class="menu-icon">
-                                        <img src="${pageContext.request.contextPath}/images/login.png">
-                                    </span>
-                                    <div>로그인</div>
-                                </a>
-                            </c:if>
-                            <c:if test="${!empty currentSearchList}">
-                                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">  
-                                    <c:forEach var="item" items="${currentSearchList}" varStatus="status"> 
-                                        <input type="submit" value="${item}" name="search">
-                                        <input type="hidden" value="recipe" name="select">
-                                    </c:forEach>
-                                </form>
-                            </c:if>
-                        </div>
-                        
-                        <div class="search-section" id="recommend">
-                            <h4>추천 검색어</h4>
-                        </div>
-
-                        <div class="search-section">
-                            <h4>급상승 검색어</h4>
-                            <div class="trending-list">
-                                <c:forEach var="vo" items="${searchList}" varStatus="status">
-                                    <div class="trending-item">
-                                        <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
-                                        <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a> 
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="user-menu">
-                    <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
-                    <c:if test="${empty user}">
-                        <a href="/login.do" class="menu-item" id="login">
-                            <span class="menu-icon">
-                                <img src="${pageContext.request.contextPath}/images/login.png">
-                            </span>
-                            <div>로그인</div>
-                        </a>
-                    </c:if>
-                    <c:if test="${!empty user}">
-                        <a href="#" class="menu-item" id="login" onClick="logout(); return false;" >
-                            <span class="menu-icon">
-                                <img src="${pageContext.request.contextPath}/images/login.png">
-                            </span>
-                            <div>로그아웃</div>
-                        </a>
-                    </c:if>
-                    <%-- ------------------------------------------ --%>
-
-                    <a href="/register_form.do" class="menu-item">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/login.png">
-                        </span>
-                        <div>회원가입</div>
-                    </a>
-                    
-                    <a href="${pageContext.request.contextPath}/mypage.do" class="menu-item">
-                        <span class="menu-icon">
-                            <img src="${pageContext.request.contextPath}/images/mypage.png">
-                        </span>
-                        <div>마이페이지</div>
-                    </a>
-                </div>
-            </div>
-
-        <ul class="nav-bar">
-            <li><a href="/">홈</a></li>
-            <li class="active">
-                <a href="/recipe_list.do"> 레시피</a>
-            </li>
-            <li>랭킹</li>
-            <li><a href="/list.do">커뮤니티</a></li>
-            <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-            <li><a href="/guide_list.do">키친가이드</a></li>
-        </ul>
-    </header>
-<div class="recipe-container">
-    <!-- 왼쪽 -->
-
-    <aside class="filter-area">
-
+        
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
             <div class="recipe-container">
                 <!-- 왼쪽 -->
@@ -213,7 +107,6 @@
                     <hr><br>
                     <div class="filter-section">
                         <h4>조리시간</h4>
-                            
                         <%-- 체크박스 상태를 위해 밖에서 미리 변수 세팅하기 --%>
                         <c:set var="chk10" value=""/>
                         <c:set var="chk20" value=""/>
