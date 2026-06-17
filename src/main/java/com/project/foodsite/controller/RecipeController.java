@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
+import com.project.foodsite.dto.RecipeDetailDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.util.TrendingService;
+import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -217,10 +220,30 @@ public class RecipeController {
         return "recipe/recipe_list";
     }
 
-    @GetMapping("/init")
-    public String getMethodName() {
-        session.removeAttribute("searchMap");
-        return "redirect:/";
+    @GetMapping("/recipe_detail.do")
+    public String recipeDetail(Model model, int recipeId){
+        model.addAttribute("recipeId", recipeId);
+        RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
+
+        List<IngredientVO> ilist = dto.getIngredientList();
+        List<CookOrderVO> olist = dto.getCookOrderList();
+        Collections.sort(olist, (e1, e2) -> {
+            return e1.getOrder() - e2.getOrder();
+        });
+
+        for(IngredientVO vo : ilist){
+            System.out.println(vo.getIngredient_name());
+            System.out.println(vo.getQuantity() + " " + vo.getUnit());
+        }
+        System.out.println("==========================================================================");
+        for(CookOrderVO vo : olist){
+            System.out.println(vo.getOrder() + " " +vo.getDescription());
+        }
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("orderList", olist);
+        model.addAttribute("ingredient", ilist);
+        return "recipe/recipe_detail";
     }
     
 

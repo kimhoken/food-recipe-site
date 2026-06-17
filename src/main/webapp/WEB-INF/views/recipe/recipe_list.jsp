@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>레시피 목록</title>
+        <title>오늘 뭐 먹지? - 레시피 목록</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
@@ -141,21 +141,23 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${recipeList}" var="recipe">
-                                    <div class="recipe-card">
-                                        <img src="${pageContext.request.contextPath}${recipe.thumbnail}"/>
-                                        <div class="recipe-info">
-                                            <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
-                                            <div class="recipe-meta">
-                                                ⏱ ${recipe.cooking_time}
-                                                &nbsp;&nbsp;
-                                                등록일자: ${recipe.created_date}
-                                                <br>
-                                                👁 ${recipe.view_count}
-                                                &nbsp;&nbsp;
-                                                ❤️ ${recipe.like_count}
+                                    <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
+                                        <div class="recipe-card">
+                                            <img src="${pageContext.request.contextPath}/${recipe.thumbnail}"/>
+                                            <div class="recipe-info">
+                                                <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
+                                                <div class="recipe-meta">
+                                                    ⏱ ${recipe.cooking_time}
+                                                    &nbsp;&nbsp;
+                                                    등록일자: ${recipe.created_date}
+                                                    <br>
+                                                    👁 ${recipe.view_count}
+                                                    &nbsp;&nbsp;
+                                                    ❤️ ${recipe.like_count}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>                                                                                                                        
