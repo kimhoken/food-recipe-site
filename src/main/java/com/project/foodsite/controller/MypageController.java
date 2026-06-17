@@ -57,7 +57,7 @@ public class MypageController {
 
         int totalcount = recipeDAO.countUserRecipe(user.getMember_id());
 
-        Paging paging = new Paging(page, 10, totalcount);
+        Paging paging = new Paging(page, 5, totalcount);
 
         Map<String,Object> map = new HashMap<>();
 
@@ -77,7 +77,7 @@ public class MypageController {
 
         int totalcount = commentDAO.countUserComment(user.getMember_id());
 
-        Paging paging = new Paging(page, 10, totalcount);
+        Paging paging = new Paging(page, 5, totalcount);
 
         Map<String,Object> map = new HashMap<>();
 
@@ -97,12 +97,12 @@ public class MypageController {
 
         int totalcount = bookmarkDAO.countUserBookmark(user.getMember_id());
 
-        Paging paging = new Paging(page, 10, totalcount);
+        Paging paging = new Paging(page, 5, totalcount);
 
         Map<String,Object> map = new HashMap<>();
 
         map.put("member_id", user.getMember_id());
-        map.put("offest", paging.getOffset());
+        map.put("offset", paging.getOffset());
         map.put("size", paging.getSize());
 
         List<BookmarkVO> list = bookmarkDAO.getUserBookmarkList(map);
@@ -136,6 +136,7 @@ public class MypageController {
         String contentPage = "/WEB-INF/views/member/mypage/mypage_home.jsp";
         
         if (menu.equals("inquiry")) {
+            mainshow = true;
             contentPage = "/WEB-INF/views/member/mypage/mypageinquiry.jsp";
         } else if (menu.equals("update")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_modify.jsp";  

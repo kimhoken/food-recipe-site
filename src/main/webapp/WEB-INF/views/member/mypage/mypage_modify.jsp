@@ -25,7 +25,7 @@
             <div class="update-row">
                 <div class="update-label">이름</div>
                 <div class="update-control">
-                    <input type="text" value="${profileuser.name}" name="name" class="input-box" readonly>
+                    <input type="text" value="${profileuser.name}" name="name" class="update-input" readonly>
                 </div>
             </div>
     
