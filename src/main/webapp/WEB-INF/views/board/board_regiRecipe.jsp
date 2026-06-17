@@ -267,7 +267,7 @@
 
                 <!-- 카테고리 -->
                 <div class="section">
-                    <h2>음식 선택</h2>
+                    <h2>음식 선택</h>
 
                     <select name="foodId" required>
                         <option value="">음식을 선택하세요</option>
@@ -385,30 +385,7 @@
                         </div>
                     </div>
                 </div>
-                <footer>
-                    <div class="footer-container">
-                        <div class="footer-top-row">
-                            <div class="cs-section">
-                                <h3>고객센터</h3>
-                                <div class="cs-buttons">
-                                    <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
-                                    <div class="cs-btn">💬 1:1문의하기</div>
-                                </div>
-                                <div class="hours-info">
-                                    <p><strong>운영시간</strong></p>
-                                    <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                                    <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
-                                </div>
-                            </div>
-                            <div class="sns-icons">
-                                <span class="sns-icon">▶</span>
-                                <span class="sns-icon">★</span>
-                                <span class="sns-icon">☆</span>
-                                <span class="sns-icon">◆</span>
-                                <span class="sns-icon">♬</span>
-                            </div>
-                        </div>
-                    </div>
+    
 
                     <div class="footer-nav-bar">
                         <div class="footer-container">
