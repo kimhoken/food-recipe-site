@@ -1,8 +1,15 @@
 package com.project.foodsite.dto;
 
-import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data 
+@AllArgsConstructor
+@NoArgsConstructor
+@Alias("GuideStepDTO")
 public class GuideStepDTO {
     
     private long step_id;

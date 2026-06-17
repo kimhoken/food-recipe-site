@@ -4,4 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.GuideDAO">
 
+<!--  해당 탭 클릭 시 보여지는 목록 전체 조회(단, 전체보기가 가장 먼저 실행됨) -->
+  <select id="guideTab" parameterType="map" resultType="GuideDTO">
+    SELECT * FROM guide
+    <where>
+        <if test="tab != null and tab != '' and tab != 'all'">
+            tab = #{tab}
+        </if>
+    </where>
+</select>
+
 </mapper>

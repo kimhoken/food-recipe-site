@@ -2,9 +2,16 @@ package com.project.foodsite.dto;
 
 import java.util.Date;
 
-import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data 
+@AllArgsConstructor
+@NoArgsConstructor
+@Alias("GuideDTO")
 public class GuideDTO {
     
     private long guide_id; //가이드번호
@@ -12,7 +19,5 @@ public class GuideDTO {
     private String sub_title; //작은제목
     private String image; //대표이미지
     private String tab;          // storage, trim, tip, etc
-    private String content;      // 상세 설명
-    private Date created_at;     // 등록일
 
 }
