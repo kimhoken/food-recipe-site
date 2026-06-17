@@ -51,8 +51,8 @@
                             <c:forEach var="bookmark" items="${bookmarkList}">
                                 <a href="#" class="home-activity-item">
                                     <div class="home-item-inner">
-                                        <img class="home-item-img" src="/upload/" />
-                                        <strong class="home-item-title">${bookmark.bookmark_id}</strong>
+                                        <img class="home-item-img" src="/upload/${bookmark.thumbnail}" />
+                                        <strong class="home-item-title">${bookmark.title}</strong>
                                         <small class="home-item-date">${bookmark.created_date}</small>
                                     </div>
                                 </a>

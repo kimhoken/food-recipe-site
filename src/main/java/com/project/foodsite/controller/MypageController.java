@@ -234,11 +234,7 @@ public class MypageController {
         System.out.println("회원 번호 : "+user.getMember_id());
         
         model.addAttribute("profileuser", user);
-        
-        
-        
-       
-        
+               
         if(menu.equals("home")){
             userHomePage(model,user.getMember_id());
         } else if(menu.equals("recipe")){
@@ -373,7 +369,6 @@ public class MypageController {
         }        
         
     }
-
     
 
 }
