@@ -6,4 +6,5 @@ public interface SearchLogDAO {
     int insertKeyWord(String search);
     List<String> selectTrendingKeywords();
     int deleteLog();
+    List<String> initCache();
 }
