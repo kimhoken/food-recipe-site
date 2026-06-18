@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,6 +25,7 @@ public class GuideController {
         return "guide/guide_list";
     }
 
+    //전체보기,보관법,손질법...
     @ResponseBody
     @GetMapping("/guide_tab.do")
     public List<GuideDTO> guideTab(String tab) {
@@ -32,8 +34,14 @@ public class GuideController {
         map.put("tab", tab);
 
         return guideDao.guideTab(map);
-
     }
+
+    //상세페이지로 이동
+    @GetMapping("/guide_detail.do") 
+    public String guideDetail(){
+        return "guide/guide_detail";
+    }
+
 
  
 }

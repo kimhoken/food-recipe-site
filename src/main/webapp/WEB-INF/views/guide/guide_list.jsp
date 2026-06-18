@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
@@ -32,8 +31,6 @@
                     .then( function(res) { return res.json(); } ) 
                     .then( function(data) {
                         
-                        console.log("서버에서 받아온 데이터 목록:", data); // 데이터 잘 왔는지 확인할라고 씀
-                        
                         let grid = document.getElementById("guideGrid");
                         grid.innerHTML = ""; 
                         
@@ -45,7 +42,7 @@
                         let imgPath = "${pageContext.request.contextPath}/guide_img/" + guide.image;
 
                         //해당 guide-grid 클릭하면 guide_id로 상세페이지로 이동
-                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_list.do/" + guide.guide_id + "'\">" +
+                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_detail.do?guide_id=" + guide.guide_id + "'\">" +
                         "  <div class='guide-card'>" +
                         "    <div class='card-img-box'>" +
                         "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
