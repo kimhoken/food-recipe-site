@@ -1,8 +1,31 @@
+<<<<<<< HEAD
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
         <!DOCTYPE html>
         <html>
+=======
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>오늘 뭐 먹지? - 레시피 목록</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
+        <link rel="stylesheet" href="/css/chatbot.css" />
+        <script src="/js/chatbot.js"></script>
+        <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
+        <script>
+            window.onload = ()=>{
+                const sort = '${sort}';
+                let select = document.getElementById("sort");
+                let arr = ["latest", "name", "view", "like" ];
+>>>>>>> 8154be1 (중간저장(06/18))
 
         <head>
             <meta charset="UTF-8">
@@ -62,8 +85,56 @@
                         }
                     });
                 });
+<<<<<<< HEAD
             </script>
         </head>
+=======
+                
+                // 2. 검색창이나 드롭다운 바깥 영역을 클릭하면 닫기
+                document.addEventListener("click", function(event) {
+                    // 클릭한 타겟이 검색창도 아니고 드롭다운 내부도 아니면 닫음
+                    if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+                        searchDropdown.style.display = "none";
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <jsp:include page="/WEB-INF/views/common/navibar.jsp">
+            <jsp:param name="currentMenu" value="recipe" />
+        </jsp:include>
+        <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
+            <div class="recipe-container">
+                <!-- 왼쪽 -->
+                <aside class="filter-area">
+                    <div class="filter-title">필터</div>
+                    <hr><br>
+                    <div class="filter-section">
+                        <h4>카테고리</h4>
+                        <%-- 삼항 연산자를 써서 코드를 훨씬 깔끔하게 만들기 --%>
+                        <label><input type="radio" name="category" value="상황별추천" ${recipeSearchDTO.category eq '상황별추천' ? 'checked' : ''}> ⭐ 상황별 추천</label>
+                        <label><input type="radio" name="category" value="한식" ${recipeSearchDTO.category eq '한식' ? 'checked' : ''}> 🍚 한식</label>
+                        <label><input type="radio" name="category" value="양식" ${recipeSearchDTO.category eq '양식' ? 'checked' : ''}> 🍝 양식</label>
+                        <label><input type="radio" name="category" value="중식" ${recipeSearchDTO.category eq '중식' ? 'checked' : ''}> 🍳 중식</label>
+                        <label><input type="radio" name="category" value="일식" ${recipeSearchDTO.category eq '일식' ? 'checked' : ''}> 🍣 일식</label>
+                        <label><input type="radio" name="category" value="아시안" ${recipeSearchDTO.category eq '아시안' ? 'checked' : ''}> 🌏 아시안</label>
+                        <label><input type="radio" name="category" value="건강식/다이어트" ${recipeSearchDTO.category eq '건강식/다이어트' ? 'checked' : ''}> 🥗 건강식/다이어트</label>
+                        <label><input type="radio" name="category" value="초간단요리" ${recipeSearchDTO.category eq '초간단요리' ? 'checked' : ''}> ⏱️ 초간단요리</label>
+                        <label><input type="radio" name="category" value="디저트" ${recipeSearchDTO.category eq '디저트' ? 'checked' : ''}> 🍰 디저트</label>
+                        <label><input type="radio" name="category" value="베이킹" ${recipeSearchDTO.category eq '베이킹' ? 'checked' : ''}> 🍞 베이킹</label>
+                        <label><input type="radio" name="category" value="음료/차" ${recipeSearchDTO.category eq '음료/차' ? 'checked' : ''}> ☕ 음료/차</label>
+                    </div>
+                    <hr><br>
+                    <div class="filter-section">
+                        <h4>조리시간</h4>
+                        <%-- 체크박스 상태를 위해 밖에서 미리 변수 세팅하기 --%>
+                        <c:set var="chk10" value=""/>
+                        <c:set var="chk20" value=""/>
+                        <c:set var="chk30" value=""/>
+                        <c:set var="chk60" value=""/>
+                        <c:set var="chk61" value=""/>
+>>>>>>> 8154be1 (중간저장(06/18))
 
         <body>
 

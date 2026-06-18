@@ -253,6 +253,7 @@ public class RecipeController {
 
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
+        
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });

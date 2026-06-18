@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
-
+<jsp:include page="/WEB-INF/views/common/navibar.jsp">
+    <jsp:param name="currentMenu" value="home" />
+</jsp:include>
 <!DOCTYPE html>
 <html>
     <head>
@@ -246,6 +247,7 @@
         </script>
     </head>
     <body>
+
         <!-- 메인 배너 -->
         <div class="main-banner-container">
             <div class="max-container">
