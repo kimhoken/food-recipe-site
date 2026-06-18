@@ -268,7 +268,8 @@ public class RecipeController {
 
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
-        model.addAttribute("ingredient", ilist);
+        model.addAttribute("ingredients", ilist);
+        model.addAttribute("size", ilist.size());
         return "recipe/recipe_detail";
     }
 
