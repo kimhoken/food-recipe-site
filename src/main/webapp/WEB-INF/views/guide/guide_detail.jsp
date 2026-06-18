@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- 키친가이드 상세페이지 --%>
-<c:set var="currentMenu" value="guide" />
-<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
+<jsp:include page="/WEB-INF/views/common/navibar.jsp">
+    <jsp:param name="currentMenu" value="guide" />
+</jsp:include>
 
         <!DOCTYPE html>
         <html>
