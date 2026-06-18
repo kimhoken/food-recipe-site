@@ -71,7 +71,7 @@ public class BoardController {
     public String registerRecipe(RecipeDTO dto) {
         // 등록 데이터 잘 들어오는지 확인용
 
-        // System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
+        System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
 
         System.out.println("제목 : " + dto.getTitle());
 
@@ -91,6 +91,7 @@ public class BoardController {
         for (int i = 0; i < dto.getIngredientName().size(); i++) {
 
             IngredientVO ingredient = new IngredientVO();
+            System.out.println("생성된 recipe_id : " + dto.getRecipeId());
 
             ingredient.setIngredient_name(
                     dto.getIngredientName().get(i));
@@ -98,24 +99,25 @@ public class BoardController {
             ingredient.setQuantity(
                     Long.parseLong(dto.getAmount().get(i)));
 
-            ingredient.setUnit(
-                    dto.getUnit().get(i));
+            ingredient.setUnit(dto.getUnit().get(i));
 
-            ingredient.setRecipe_id(
-                    dto.getRecipeId());
-
+            ingredient.setRecipe_id(dto.getRecipeId().intValue());
+ 
             boardDao.insertIngredient(ingredient);
         }
 
         // 3. board 저장
         BoardVO board = new BoardVO();
 
-        board.setMember_id(dto.getMemberId());
+        board.setMember_id(dto.getMemberId().intValue());
         board.setTitle(dto.getTitle());
 
-        board.setRecipe_id(dto.getRecipeId());
+        board.setRecipe_id(dto.getRecipeId().intValue());
 
         board.setStatus("Y");
+
+        //임시 확인용
+        board.setContent("레시피 게시글");
 
         boardDao.insertBoard(board);
 
