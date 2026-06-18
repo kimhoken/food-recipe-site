@@ -4,7 +4,7 @@
         <html>
 
         <head>
-            <title>오늘 뭐 먹지? - 레시피 공유</title>
+            <title>키친가이드</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/guide.css">
@@ -49,7 +49,7 @@
                         "    </div>" +
                         "    <div class='card-info'>" +
                         "      <p>" + subTitle + "</p>" +
-                        "      <h3>" + guide.title + "</h3>" +
+                        "      <h3 style='font-weight: 400;'>" + guide.title + "</h3>" +
                         "    </div>" +
                         "  </div>" +
                         "</div>";
@@ -64,13 +64,13 @@
 
             <style>
                 /* 배경 흰색 고정 */
-                body.guide-page {
+                body{
                     background-color: #ffffff !important;
                 }
             </style>
         </head>
 
-        <body class="guide-page">
+        <body>
             <header>
                 <div class="header-top">
                     <div class="logo">

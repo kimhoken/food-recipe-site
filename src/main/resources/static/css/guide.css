@@ -144,3 +144,103 @@
     margin:0;
 }
 /* 여기까지 */
+
+/*========================= 상세보기 페이지( guide_step 테이블 ) ==========================*/
+/* 메인 타이틀 글씨 굵기 조절 */
+.detail-title {
+    font-weight: 500 !important; 
+}
+
+/* 1. 전체 컨테이너를 이미지 폭에 맞춰 중앙 정렬 */
+    .detail-container {
+        max-width: 700px;        
+        margin: 0 auto;          /* 화면 가운데 정렬 */
+        padding: 0 20px;         /* 모바일 대응 좌우 여백 */
+    }
+
+    /* 2. 상단 메인 이미지 박스 */
+    .detail-img-box {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+        margin: 20px 0 !important;
+    }
+
+    .detail-img-box img {
+        width: 100% !important;   /* 컨테이너 크기에 꽉 차게 */
+        height: auto !important;
+    }
+
+    /* 3. 이미지 왼쪽 하단 선에 맞춘 제목 영역 */
+    .detail-info {
+        text-align: left !important; /* 왼쪽 정렬 */
+        margin-top: 20px !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 4. 구분선 스타일 */
+    .detail-line {
+        border: none;
+        border-top: 1px solid #e0e0e0; /* 연한 회색 선 (캡처화면 느낌) */
+        margin: 20px 0 !important;
+        width: 100% !important;
+    }
+
+   /* 5. 단계별 콘텐츠 정렬 (가로 배치 레이아웃) */
+.step-container {
+    width: 100% !important;
+    margin-top: 30px !important;
+}
+
+.step-item {
+    display: flex !important;
+    flex-direction: row-reverse !important; /* ◀ HTML 구조상 이미지가 뒤에 있으므로 순서를 뒤집어 왼쪽에 배치 */
+    justify-content: flex-end !important;   /* 왼쪽 정렬 */
+    align-items: flex-start !important;     /* 상단 기준 정렬 */
+    gap: 30px !important;                   /* 사진과 글자 사이의 간격 */
+    margin-bottom: 50px !important;         /* Step끼리의 세로 간격 */
+    width: 100% !important;
+}
+
+/* 단계별 사진 박스 */
+.step-img-box {
+    flex-shrink: 0 !important;              /* 사진 크기 고정 */
+    width: 180px !important;                /* ◀ 시안 맞춤 사진 가로 크기 */
+    height: 180px !important;               /* ◀ 시안 맞춤 사진 세로 크기 */
+    overflow: hidden !important;
+}
+
+.step-img-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;           /* 이미지가 구겨지지 않게 채움 */
+}
+
+/* 오른쪽 텍스트 영역 (Step 번호 + 설명) */
+.step-text-box {
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: left !important;
+}
+
+/* Step 번호 스타일 */
+.step-number {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #333333 !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #b0b0b0 !important; /* ◀ Step 밑의 가로 선 */
+    margin-bottom: 15px !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Step 내용 설명 */
+.step-content {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    color: #444444 !important;
+    margin: 0 !important;
+    white-space: pre-line;  /*줄바꿈*/
+}
