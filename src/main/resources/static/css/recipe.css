@@ -58,13 +58,13 @@ a { text-decoration: none; color: inherit; }
     padding: 20px;
 }
 
-.filter-area {
-    width: 250px;
-    flex-shrink: 0;
-}
-
+/* 오른쪽 전체 영역 (레시피 리스트 감싸는 곳) */
 .recipe-area {
     flex: 1;
+    border: 1px solid #e5e5e5; /* 왼쪽 필터 영역과 똑같은 선 색상 적용 */
+    border-radius: 15px;       /* 모서리 둥글게 */
+    padding: 30px;             /* 선 안쪽으로 여백을 줘서 답답하지 않게! */
+    background-color: #fff;    /* 안쪽 배경을 흰색으로 깔끔하게 채움 */
 }
 
 .recipe-header {
