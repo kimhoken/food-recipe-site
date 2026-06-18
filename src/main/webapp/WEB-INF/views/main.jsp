@@ -166,27 +166,7 @@
             }
             
         /* ============================ 여기까지 카테고리 모달창 관련 함수들 ============================ */
-            
             const applicationServerKey = "BDbjVtJHaSNMMaypEcx2MeXmHvfoWISYWzTCj6Ycc7SoaucH53CzsDGAen6O4ENI9eZMmnilVr9r0F-q3OSbsiM";
-            const logout = ()=>{
-                if(confirm("로그아웃 하시겠습니까?")){
-                    fetch("/logout.do", {
-                        method: "post",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            id: "${user.member_id}"
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.result == "success") {
-                            alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
-                        }
-                    })
-                }
-            }
-            
             // base64 URL 소스를 Uint8Array로 변환하는 함수 (푸시 서버 인증용 필수 함수)
             function urlB64ToUint8Array(base64String) {
                 const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -314,22 +294,23 @@
 
         <div class="container main-page">
             <div class="section-title">지금 인기있는 레시피</div>
-            <div class="recipe-grid">
-                <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
-                    <div class="recipe-card">
-                        <a href="/recipe_detail.do?id=${recipe.recipe_id}">
-                            <div class="recipe-img">
-                                <img src="/upload/${recipe.thumbnail}"/>
-                            </div>
-                            <div class="rank-badge">${status.index + 1}</div>
-                            <div class="recipe-info">
-                                <div class="recipe-name">${recipe.title}</div>
-                                <div class="recipe-author">👤 ${recipe.nickname}</div>
-                                <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
-                            </div>
-                        </a>
-                    </div>
-                </c:forEach>
+                <div class="recipe-grid">
+                    <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
+                        <div class="recipe-card">
+                            <a href="/recipe_detail.do?id=${recipe.recipe_id}">
+                                <div class="recipe-img">
+                                    <img src="/upload/${recipe.thumbnail}"/>
+                                </div>
+                                <div class="rank-badge">${status.index + 1}</div>
+                                <div class="recipe-info">
+                                    <div class="recipe-name">${recipe.title}</div>
+                                    <div class="recipe-author">👤 ${recipe.nickname}</div>
+                                    <div class="recipe-meta"><span class="star-rating">★ 4.8</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/> </span></div>
+                                </div>
+                            </a>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
 
@@ -346,7 +327,7 @@
             <div class="mid-box">
                 <h3 class="box-title">오늘의 추천 레시피</h3>
                 <div class="today-main">
-                    <div class="today-main-img"> </div>
+                    <div class="today-main-img"><%-- 이미지 들어갈 자리 --%></div>
                     <div class="today-main-info">
                         <h4>${today.title}</h4>
                         <p>이런 메뉴는 어떠신가요?</p>

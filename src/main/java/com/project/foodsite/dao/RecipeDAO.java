@@ -3,6 +3,7 @@ package com.project.foodsite.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.project.foodsite.dto.RecipeDetailDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -37,4 +38,5 @@ public interface RecipeDAO {
 
     //전체 최근 레시피 조회 5개만
     List<RecipeVO> recentlyrecipe();
+    RecipeDetailDTO getRecipe(int recipeId);
 } 

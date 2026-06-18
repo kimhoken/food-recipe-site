@@ -150,10 +150,92 @@ function agree() {
 
 }
 
+let delete_pwd_valid = false;
+let delete_text_valid = false;
+
+function setDeleteButtonState(f) {
+    let agree_box = document.getElementById("agree_box");
+    let deletebtn = document.querySelector(".delete-btn");
+
+    if (!deletebtn || !agree_box) {
+        return;
+    }
+
+    let has_pwd = f && f.password;
+    let delete_valid = has_pwd ? delete_pwd_valid : delete_text_valid;
+
+    deletebtn.disabled = !(agree_box.checked && delete_valid);
+}
+
+function deletecheck(input) {
+    input = input || (typeof event != "undefined" ? event.target : null) || document.activeElement;
+
+    if (!input || !input.form) {
+        return;
+    }
+
+    let f = input.form;
+    let pwd_msg = document.getElementById("delete_pwd_msg");
+    let text_msg = document.getElementById("delete_text_msg");
+
+    if (input.name == "password") {
+        fetch("/userpwdcheck.do", {
+            method: "post",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: "currpwd=" + encodeURIComponent(input.value)
+        }).then(res => res.text())
+            .then(data => {
+                delete_pwd_valid = data == "ok";
+
+                if (pwd_msg) {
+                    pwd_msg.innerHTML = delete_pwd_valid ? "비밀번호가 일치합니다." : "비밀번호가 일치하지 않습니다.";
+                }
+
+                setDeleteButtonState(f);
+            })
+
+        return;
+    }
+
+    if (input.name == "str") {
+        delete_text_valid = input.value == "오늘 뭐먹지?를 탈퇴합니다.";
+
+        if (text_msg) {
+            text_msg.innerHTML = delete_text_valid ? "문구가 일치합니다." : "문구가 일치하지 않습니다.";
+        }
+
+        setDeleteButtonState(f);
+    }
+}
+
+document.addEventListener("input", function(e) {
+    if (e.target && e.target.classList.contains("delete-input")) {
+        deletecheck(e.target);
+    }
+})
+
+document.addEventListener("change", function(e) {
+    if (e.target && e.target.id == "agree_box") {
+        setDeleteButtonState(e.target.form);
+    }
+})
+
 function disableuser(f) {
 
-    if (!agree) {
+    let agree_box = document.getElementById("agree_box");
+
+    if (!agree_box.checked) {
         alert("동의 해주세요");
+        return;
+    }
+
+    if (f.password && !delete_pwd_valid) {
+        alert("비밀번호를 확인해주세요.");
+        return;
+    }
+
+    if (f.str && !delete_text_valid) {
+        alert("탈퇴 문구를 확인해주세요.");
         return;
     }
 

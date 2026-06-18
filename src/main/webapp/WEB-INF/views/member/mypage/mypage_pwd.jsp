@@ -51,8 +51,9 @@
                             </div>
                         </div>
 
-
-                        <input type="button" class="pwd-main-btn" value="비밀번호 재설정" onclick="send(this.form)" />
+                        <div class="pwd-btn-area">
+                            <input type="button" class="pwd-main-btn" value="비밀번호 재설정" onclick="send(this.form)" />
+                        </div>
 
                     </form>
 
