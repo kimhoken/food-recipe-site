@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -64,7 +64,9 @@
         </script>
     </head>
     <body>
-        
+        <jsp:include page="/WEB-INF/views/common/navibar.jsp">
+            <jsp:param name="currentMenu" value="recipe" />
+        </jsp:include>
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
             <div class="recipe-container">
                 <!-- 왼쪽 -->
