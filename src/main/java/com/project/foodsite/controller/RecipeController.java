@@ -227,18 +227,10 @@ public class RecipeController {
 
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
+        
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
-
-        for(IngredientVO vo : ilist){
-            System.out.println(vo.getIngredient_name());
-            System.out.println(vo.getQuantity() + " " + vo.getUnit());
-        }
-        System.out.println("==========================================================================");
-        for(CookOrderVO vo : olist){
-            System.out.println(vo.getOrder() + " " +vo.getDescription());
-        }
 
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);

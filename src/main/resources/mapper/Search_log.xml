@@ -23,4 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from search_log
     </delete>
 
+    <select id="initCache" resultType="String">
+        SELECT keyword, COUNT(keyword) FROM search_log
+        GROUP BY keyword
+        ORDER BY COUNT(keyword) DESC
+        LIMIT 10
+    </select>
+
 </mapper>
