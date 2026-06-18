@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.GuideDAO;
 import com.project.foodsite.dto.GuideDTO;
+import com.project.foodsite.dto.GuideStepDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,12 +37,17 @@ public class GuideController {
         return guideDao.guideTab(map);
     }
 
-    //상세페이지로 이동
-    @GetMapping("/guide_detail.do") 
-    public String guideDetail(){
+    //상세페이지
+    @GetMapping("/guide_detail.do")
+    public String detail(int guide_id, Model model) {
+
+        GuideDTO guide = guideDao.Detail(guide_id);
+        model.addAttribute("guide", guide);
+
+        List<GuideStepDTO> stepList = guideDao.stepList(guide_id);
+        model.addAttribute("stepList", stepList);
+        
         return "guide/guide_detail";
     }
 
-
- 
 }
