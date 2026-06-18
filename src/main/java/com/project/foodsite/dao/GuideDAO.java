@@ -7,6 +7,8 @@ import com.project.foodsite.dto.GuideDTO;
 
 public interface GuideDAO {
     
-    List<GuideDTO> guideTab(Map<String, Object> map);
+    List<GuideDTO> guideTab(Map<String, Object> map);   //tab들
+
+    
     
 }
