@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css"> 
         <link rel="stylesheet" href="/css/chatbot.css" />
         <script src="/js/chatbot.js"></script>
+        
         <script>
             function send(f) {
                 f.submit();
@@ -49,8 +50,10 @@
                     }
                 });
             });
+
         </script>
     </head>
+
 
     <body>
         <header>
@@ -188,10 +191,15 @@
             <c:if test="${empty list}">
                 <h3 align="center">"${searchWord}"에 대한 검색 결과가 없습니다 :( </h3>
             </c:if>
+
             <%-- 로그인 한 경우만 버튼이 보이게 --%>
             <c:if test="${!empty sessionScope.user}">
-                <input type="button" value="리뷰 등록" onclick="location.href='#'" />
+                <div style="text-align:center; margin-top:20px;">
+                <input type="button" value="나도 끄적끄적 ✍️"
+                        onclick="location.href='/community_form.do'"/>
+                </div>
             </c:if>
+
         </div>
 
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

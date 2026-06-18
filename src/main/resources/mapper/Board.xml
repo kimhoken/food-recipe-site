@@ -36,4 +36,20 @@
         WHERE board_id = #{board_id} 
     </delete>
 
+    <!-- 커뮤니티 글쓰기 -->
+    <insert id="insertBoard" parameterType="board">
+    INSERT INTO board(
+        member_id,
+        title,
+        content,
+        status
+    )
+    VALUES(
+        #{member_id},
+        #{title},
+        #{content},
+        'Y'
+    )
+    </insert>   
+
 </mapper>

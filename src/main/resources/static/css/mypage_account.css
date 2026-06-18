@@ -224,6 +224,8 @@
 /* 비밀번호 변경 */
 .pwd-page {
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .pwd-card {
@@ -334,9 +336,7 @@
 
 /* 안내 박스 */
 
-.delete-notice {
-    display: flex;
-    gap: 24px;
+.delete-notice {    
     padding: 32px;
     border: 1px solid #d8e7d4;
     border-radius: 14px;
@@ -427,7 +427,7 @@
 }
 
 .delete-input {
-    width: 100%;
+    width: 30%;
     height: 48px;
 
     border: 1px solid #d1d5db;
@@ -454,7 +454,7 @@
 }
 
 .delete-btn {
-    width: 420px;
+    width: 275px;
     height: 58px;
 
     border: 1px solid #168321;

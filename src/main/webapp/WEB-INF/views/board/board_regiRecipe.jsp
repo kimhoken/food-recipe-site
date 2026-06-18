@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!-- 레시피 탭 -->
+
         <!-- 페이지 렌더링 전에 로그인 여부를 먼저 보여주기-->
         <c:if test="${empty sessionScope.user}">
             <script>

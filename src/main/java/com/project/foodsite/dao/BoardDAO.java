@@ -15,9 +15,12 @@ public interface BoardDAO {
 
     BoardVO selectOne(int board_id);
 
-    void updateViewCount(int board_id); //조회수 증가
+    void updateViewCount(int board_id); // 조회수 증가
 
-    int update(BoardVO vo); //수정
+    int update(BoardVO vo); // 수정
 
-    int delete(int board_id); //삭제
+    int delete(int board_id); // 삭제
+
+    int insertBoard(BoardVO vo); // 커뮤니티 글쓰기
+
 }
