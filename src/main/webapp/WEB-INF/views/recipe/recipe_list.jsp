@@ -106,6 +106,18 @@
                         }
                     });
                 });
+
+            </script>
+        </head>
+
+                
+                // 2. 검색창이나 드롭다운 바깥 영역을 클릭하면 닫기
+                document.addEventListener("click", function(event) {
+                    // 클릭한 타겟이 검색창도 아니고 드롭다운 내부도 아니면 닫음
+                    if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+                        searchDropdown.style.display = "none";
+                    }
+                });
             });
         </script>
     </head>
@@ -143,7 +155,6 @@
                         <c:set var="chk30" value=""/>
                         <c:set var="chk60" value=""/>
                         <c:set var="chk61" value=""/>
-
         <body>
 
             <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
@@ -375,4 +386,4 @@
             <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
         </body>
 
-        </html>
+        </html> 

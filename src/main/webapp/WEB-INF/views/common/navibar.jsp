@@ -151,12 +151,30 @@
             </div>
 
             <ul class="nav-bar">
+<<<<<<< HEAD
                 <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
                 <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
+=======
+<<<<<<< HEAD
+                <li class="${empty currentMenu ? 'active' : ''}"><a href="/">홈</a></li>  
+                <li class="${currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
+                <li>랭킹</li>
+                <li class="${currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
+                <li class="${currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>          
+                <li class="${currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
+=======
+                <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
+                <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
+                <li class="${param.currentMenu eq 'category' ? 'active' : ''}">카테고리</li>
+>>>>>>> 5cf70c1 (중간저장(06/18))
                 <li class="${param.currentMenu eq 'ranking' ? 'active' : ''}">랭킹</li>
                 <li class="${param.currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
                 <li class="${param.currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
                 <li class="${param.currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
+<<<<<<< HEAD
+=======
+>>>>>>> 8154be1 (중간저장(06/18))
+>>>>>>> 5cf70c1 (중간저장(06/18))
             </ul>
         </header>
     </body>
