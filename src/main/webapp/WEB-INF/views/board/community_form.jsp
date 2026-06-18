@@ -16,7 +16,7 @@
 
         <div class="update-container">
 
-            <h2>게시글 작성</h2>
+            <h2>오늘은 어떤 레시피를 도전해 보셨나요?</h2>
 
             <form action="/community_write.do" method="post">
 

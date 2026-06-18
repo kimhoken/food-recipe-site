@@ -15,8 +15,10 @@
         #{pattern}) AND b.status = 'Y' </select>
 
     <!-- 레시피 등록 -->
-    <insert id="insertRecipe" parameterType="RecipeDTO"> INSERT INTO board (unit) VALUES
-        (#{vegiUnit}) </insert>
+    <insert id="insertRecipe" parameterType="RecipeDTO" useGeneratedKeys="true" keyProperty="recipeId"> 
+        INSERT INTO recipe( title, member_id ) 
+        VALUES( #{title}, #{memberId}) 
+    </insert>
 
     <!-- 게시글 상세보기 -->
     <select id="selectOne" parameterType="int" resultType="board"> SELECT b.*, m.nickname FROM board
@@ -31,25 +33,10 @@
         #{content}, updated_date = NOW() WHERE board_id = #{board_id} </update>
 
     <!-- 작성자만 삭제-->
-    <delete id="delete" parameterType="int"> 
-        DELETE FROM board 
-        WHERE board_id = #{board_id} 
-    </delete>
+    <delete id="delete" parameterType="int"> DELETE FROM board WHERE board_id = #{board_id} </delete>
 
     <!-- 커뮤니티 글쓰기 -->
-    <insert id="insertBoard" parameterType="board">
-    INSERT INTO board(
-        member_id,
-        title,
-        content,
-        status
-    )
-    VALUES(
-        #{member_id},
-        #{title},
-        #{content},
-        'Y'
-    )
-    </insert>   
+    <insert id="insertBoard" parameterType="board"> INSERT INTO board( member_id, title, content,
+        status ) VALUES( #{member_id}, #{title}, #{content}, 'Y' ) </insert>
 
 </mapper>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=utf-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- 레시피 탭 -->
+        <!-- 레시피 탭 -->
 
         <!-- 페이지 렌더링 전에 로그인 여부를 먼저 보여주기-->
         <c:if test="${empty sessionScope.user}">
@@ -334,12 +334,17 @@
                     </tbody>
                 </table>
 
-
                 <br />
+
                 <div class="btn-wrap">
                     <button type="button" onclick="addStep()">+ 조리순서 추가</button>
                 </div>
-</form>
+
+                <div class="btn-wrap">
+                    <button type="button" onclick="send(this.form)">내 레시피 등록!</button>
+                </div>
+            </form>
+
             <footer>
                 <div class="footer-container">
                     <div class="footer-top-row">
@@ -397,9 +402,9 @@
                         </div>
                     </div>
                 </div>
-            </footer>        
+            </footer>
 
-            
+
         </body>
 
         </html>

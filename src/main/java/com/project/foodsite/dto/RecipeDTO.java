@@ -9,32 +9,31 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data //getter, setter
+@Data // getter, setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Alias("RecipeDTO")
 public class RecipeDTO {
-    
+    // 제목
     private String title;
 
-    //img (메인, 조리순서), input name=img를 list로 받아
-    private List<MultipartFile> img;
+    // 대표이미지
+    private MultipartFile mainImg;
 
-    //채소
-    private List<String> vegetableName;
-    private List<String> amountV;
+    // 재료
+    private List<String> ingredientName;
+    private List<String> amount;
     private List<String> unit;
 
-    //육류
-    private List<String> meatName;
-    private List<String> amountM;
-    private List<String> meatUnit;
+    // 조리순서 이미지
+    private List<MultipartFile> stepImg;
 
-    //양념
-    private List<String> seasoningName;
-    private List<String> amountS;
-    private List<String> seasoningUnit;
+    // 조리순서 내용
+    private List<String> step;
 
-    //조리순서(단계)
-    private List<String> step; 
+    // 회원번호
+    private Long memberId;
+
+    //레시피 저장
+    private Long recipeId;
 }
