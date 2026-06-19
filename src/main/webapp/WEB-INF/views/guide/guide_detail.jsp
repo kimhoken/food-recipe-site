@@ -20,6 +20,7 @@
                 body{
                     background-color: #ffffff !important;
                 }
+               
             </style>
         </head>
 
@@ -27,9 +28,9 @@
             
             <div class="detail-container">
 
-                <div class="detail-img-box">
-                    <img src="${pageContext.request.contextPath}/guide_img/${guide.image}" alt="상세/가이드이미지">
-                </div>
+                    <div class="detail-img-box">
+                        <img src="${pageContext.request.contextPath}/guide_img/${guide.image}" alt="상세/가이드이미지">
+                    </div>
 
                 <div class="detail-info">
                     <div class="detail-subtitle">${guide.sub_title}</div>
@@ -47,7 +48,8 @@
                                 <span class="step-number">Step ${step.step_num}</span>
                                 <p class="step-content">${step.step_content}</p>
                             </div>
-                            
+
+
                             <c:if test="${not empty step.step_image}">
                                 <div class="step-img-box">
                                     <img src="${pageContext.request.contextPath}/guide_img/${step.step_image}" alt="단계별 이미지">

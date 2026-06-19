@@ -260,7 +260,7 @@ header {
     width: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #f1ede4;
+    background-color: #ffffff;
     padding: 24px 0;
 }
 
@@ -280,7 +280,6 @@ header {
     width: 100%;
     height: 370px;
     overflow: hidden;
-    border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
 
