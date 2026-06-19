@@ -144,17 +144,16 @@
 
                     <div class="ra-steps">
                         <h4>조리과정</h4>
-
-                        <!-- 조리과정 간단하게 출력 예정 forEach 사용 예정  -->
-                        <div id="cookOrderBox">
+                        
+                        <div id="cookOrderBox">                            
                         </div>
                         
 
                     </div>
                     <div class="ra-actions">
-                        <input type="button" class="btn-edit" value="수정하기" onclick="" />
-                        <input type="button" class="btn-private" value="비공개 전환" onclick="" />
-                        <input type="button" class="btn-delete" value="삭제하기" onclick="" />
+                        <input type="button" class="btn-edit" value="수정하기" onclick="recipemodify(this)" />
+                        <input type="button" class="btn-private" value="비공개 전환" onclick="recipeprivate(this)" />
+                        <input type="button" class="btn-delete" value="삭제하기" onclick="recipedel(this)" />
                     </div>
                 </div>
 

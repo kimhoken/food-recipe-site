@@ -119,11 +119,8 @@ public class AdminController {
     @ResponseBody
     public Map<String, Object> recipedetail(int recipe_id){
 
-
-       
-
         RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
-        List<CookOrderVO> list=cookOrderDAO.cookorderList(recipe_id);
+        List<CookOrderVO> list = cookOrderDAO.cookorderList(recipe_id);
 
         Map<String, Object> map = new HashMap<>();
         map.put("recipe",recipe);
