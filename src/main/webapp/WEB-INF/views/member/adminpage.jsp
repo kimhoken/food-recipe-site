@@ -7,6 +7,8 @@
             <link rel="stylesheet" href="css/admin.css" />
 
             <script>
+                let recipedetailrecipe;
+
                 function openDetail() {
                     document.querySelector(".ra-detail").classList.add("active");
                 }
@@ -23,7 +25,7 @@
                         body: "recipe_id=" + recipe_id
                     }).then(res => res.json())
                         .then(data => {
-                            
+                            recipedetailrecipe = data.recipe.recipe_id;
                             fileRecipe(data.recipe);
                             renderCookOrders(data.list);
                             openDetail();
@@ -44,16 +46,17 @@
                 }
 
                 function renderCookOrders(list) {
+                    console.log(list);
                     const box = document.getElementById("cookOrderBox");
                     box.innerHTML = "";
 
                     list.forEach(order => {
                         box.insertAdjacentHTML("beforeend", `
             <div class="ra-step">
-                <img class="ra-step-img" src="/upload/recipe/${order.cook_image}">
+                <img class="ra-step-img" src="/upload/recipe/\${order.cook_image}">
                 <div class="ra-step-body">
-                    <div class="ra-step-title">${order.order}단계</div>
-                    <small class="ra-step-desc">${order.description}</small>
+                    <div class="ra-step-title">\${order.cook_order}단계</div>
+                    <small class="ra-step-desc">\${order.description}</small>
                 </div>
             </div>
         `);
@@ -65,6 +68,12 @@
                 }
                 function setImg(id, src) {
                     document.getElementById(id).src = src;
+                }
+
+                function recipeprivate(){
+                    if(confirm("정말로 비공개 처리 하시겠습니까?")){
+                        fetch("/")
+                    }
                 }
 
             </script>
