@@ -4,7 +4,7 @@
         <html>
 
         <head>
-            <link rel="stylesheet" href="css/admin.css" />
+            <link rel="stylesheet" href="${pageContent.request.contentPath}/css/admin.css" />
 
             <script>
                 let recipedetailrecipe;
@@ -55,7 +55,7 @@
             <div class="ra-step">
                 <img class="ra-step-img" src="/upload/recipe/\${order.cook_image}">
                 <div class="ra-step-body">
-                    <div class="ra-step-title">\${order.cook_order}단계</div>
+                    <div class="ra-step-title">\${order.order}단계</div>
                     <small class="ra-step-desc">\${order.description}</small>
                 </div>
             </div>
@@ -65,6 +65,14 @@
 
                 function setText(id, value) {
                     document.getElementById(id).textContent = value ?? "-";
+
+                    
+
+                    if(value == 'public'){
+                        document.getElementById(id).textContent = "공개" ?? "-";
+                    }else if(value == 'private'){
+                        document.getElementById(id).textContent = "비공개" ?? "-";                        
+                    }
                 }
                 function setImg(id, src) {
                     document.getElementById(id).src = src;
@@ -72,8 +80,40 @@
 
                 function recipeprivate(){
                     if(confirm("정말로 비공개 처리 하시겠습니까?")){
-                        fetch("/")
+                        fetch("/admin/private",{
+                            method:'post',
+                            headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                            body:"recipe_id="+recipedetailrecipe
+                        }).then(res => res.json())
+                        .then(data => {
+                            if(data.result == 1){
+                                alert(data.title + " 수정돠었습니다.");
+                                location.href='redirect:/admin?menu=recipe';
+                            }
+                        })
                     }
+                }
+
+                function recipedel(){
+                    if(!confirm("정말로 삭제 하시겠습니까?")){
+                        
+                        return;
+                    }
+                    fetch("/admin/recipedel",{
+                        method:'post',
+                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                        body:"recipe_id="+recipedetailrecipe
+                    }).then(res => res.json())
+                    .then(data => {
+                        
+                        if(data.result == 1 && data.status == "delete"){
+                            alert(data.title+ "가 삭제되었습니다.");
+                        }else if(data.result == 1 && data.status == "public"){
+                            alert(data.title+ "가 복원되었습니다.");
+                        }else{
+                            alert("이스터에그 발견!!");
+                        }
+                    })
                 }
 
             </script>
@@ -115,22 +155,22 @@
 
                         <div class="menu-section">
                             <div class="sub-title">운영 관리</div>
-                            <a class="admin-menu ${menu eq 'home' ? 'active'  :''}" href="/admin?menu=home">
+                            <a class="admin-menu ${menu eq 'home' ? 'active'  :''}" href="/admin">
                                 대시 보드</a>
-                            <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin?menu=user">
+                            <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin/user">
                                 회원 관리</a>
-                            <a class="admin-menu ${menu eq 'recipe' ? 'active' :''}" href="/admin?menu=recipe">
+                            <a class="admin-menu ${menu eq 'recipe' ? 'active' :''}" href="/admin/recipe">
                                 레시피 관리</a>
-                            <a class="admin-menu ${menu eq 'stats' ? 'active'  :''}" href="/admin?menu=stats">
+                            <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
                                 통계 관리</a>
                         </div>
 
 
                         <div class="menu-section">
                             <div class="sub-title">고객지원</div>
-                            <a class="admin-menu ${menu eq 'inquiry' ? 'active' :''}" href="/admin?menu=inquiry">
+                            <a class="admin-menu ${menu eq 'inquiry' ? 'active' :''}" href="/admin/inquiry">
                                 문의 관리</a>
-                            <a class="admin-menu ${menu eq 'report' ? 'active' :''}" href="/admin?menu=report">
+                            <a class="admin-menu ${menu eq 'report' ? 'active' :''}" href="/admin/report">
                                 신고 관리</a>
                         </div>
 

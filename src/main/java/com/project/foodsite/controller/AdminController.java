@@ -16,7 +16,7 @@ import com.project.foodsite.dao.CommentDAO;
 import com.project.foodsite.dao.CookOrderDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
-import com.project.foodsite.dto.AdminRecipeDetailDTO;
+import com.project.foodsite.dto.AdminRecipeDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.MemberVO;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
-    
+
     @Autowired
     HttpSession httpSession;
 
@@ -36,95 +36,168 @@ public class AdminController {
     private final RecipeDAO recipeDAO;
     private final CommentDAO commentDAO;
     private final CookOrderDAO cookOrderDAO;
-    
-  
 
-     //레시피 페이징 함수
-    private void RecipePaging(int page, Model model){
-        
+    // 카테고리 매핑 함수
+    private String categorymapping(String category) {
 
-        int totalcount = recipeDAO.RecipeCount();
+        if (category == null || category.isBlank()) {
+            return null;
+        }
+        switch (category) {
+            case "korean":
+                return "한식";
+            case "recommend":
+                return "상황별추천";
+            case "western":
+                return "양식";
+            case "chinese":
+                return "중식";
+            case "japense":
+                return "일식";
+            case "asian":
+                return "아시안";
+            case "healthy":
+                return "건강식/다이어트";
+            case "quick":
+                return "초간단요리";
+            case "dessert":
+                return "디저트";
+            case "baking":
+                return "베이킹";
+            case "beverage":
+                return "음료/차";
+            default:
+                return null;
+        }
+    }
 
-        Paging paging = new Paging(page, 5, totalcount);
+    // 레시피 페이징 함수
+    private void RecipePaging( Model model, AdminRecipeDTO adminRecipeDTO) {
 
-        Map<String,Object> map = new HashMap<>();
-        
-        map.put("offset", paging.getOffset());
-        map.put("size", paging.getSize());
+        if(adminRecipeDTO.getPage() <=0){
+            adminRecipeDTO.setPage(1);
+        }
 
-        List<RecipeVO> list = recipeDAO.RecipeList(map);
+        adminRecipeDTO.setCategory_name(categorymapping(adminRecipeDTO.getCategory_name()));
+
+        int totalcount = recipeDAO.RecipeCount(adminRecipeDTO);
+
+        Paging paging = new Paging(adminRecipeDTO.getPage(), 5, totalcount);
+
+        adminRecipeDTO.setOffset(paging.getOffset());
+        adminRecipeDTO.setSize(paging.getSize());
+
+        List<RecipeVO> list = recipeDAO.RecipeList(adminRecipeDTO);
 
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);
         model.addAttribute("totalcount", totalcount);
+        model.addAttribute("adminRecipeDTO", adminRecipeDTO);
     }
 
-
     // 관리자 페이지 contentPage 설정 함수
-    public void setContentPage(Model model, String menu, int page){
+    public void setContentPage(Model model, String menu) {
 
         String contentPage = "/WEB-INF/views/member/admin/admin_home.jsp";
-        //레시피 일단 조회하는거 넣어놈 수정예정
-        List<RecipeVO> list = recipeDAO.recentlyrecipe();
-        model.addAttribute("list",list);
 
-        if(menu.equals("user")){    
+        if (menu.equals("user")) {
             contentPage = "/WEB-INF/views/member/admin/admin_user.jsp";
-        } else if(menu.equals("recipe")) {            
-            RecipePaging(page, model);
-            contentPage = "/WEB-INF/views/member/admin/admin_recipe.jsp";                    
-        } else if(menu.equals("stats")) {
-            contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";        
-        } else if(menu.equals("inquiry")) {
+        } else if (menu.equals("recipe")) {            
+            contentPage = "/WEB-INF/views/member/admin/admin_recipe.jsp";
+        } else if (menu.equals("stats")) {
+            contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";
+        } else if (menu.equals("inquiry")) {
             contentPage = "/WEB-INF/views/member/admin/admin_inquiry.jsp";
-        } else if(menu.equals("report")) {
+        } else if (menu.equals("report")) {
             contentPage = "/WEB-INF/views/member/admin/admin_report.jsp";
-        } else if(menu.equals("info")) {
+        } else if (menu.equals("info")) {
             contentPage = "/WEB-INF/views/member/admin/admin_info.jsp";
-        } else if(menu.equals("notice")) {
+        } else if (menu.equals("notice")) {
             contentPage = "/WEB-INF/views/member/admin/admin_notice.jsp";
         }
 
-        model.addAttribute("contentPage",contentPage);
+        model.addAttribute("contentPage", contentPage);
 
-    }  
+    }
 
     // 관리자 페이지 이동 함수
     @GetMapping("/admin")
-    public String adminpage(Model model, String menu, Integer page){
+    public String adminpage(Model model) {
 
-        MemberVO user = (MemberVO)httpSession.getAttribute("user");
-        
-        if(page == null){
-            page = 1;
-        }
-        if(user == null){
-            setContentPage(model, menu, page);
-            return "member/adminpage";
-        }
-        if(menu == null){
-            menu = "home";
-        }
-        
+        MemberVO user = (MemberVO) httpSession.getAttribute("user");
 
-        model.addAttribute("profileuser",user);
-        model.addAttribute("menu",menu);
+        model.addAttribute("profileuser", user);
+        model.addAttribute("contentPage", "/WEB-INF/views/member/admin/admin_home.jsp");
 
-        setContentPage(model, menu, page);
         return "member/adminpage";
 
     }
 
+    @GetMapping("/admin/recipe")
+    public String adminrecipepage(AdminRecipeDTO adminRecipeDTO, Model model) {
+        
+        RecipePaging(model, adminRecipeDTO);
+
+        setContentPage(model, "recipe");
+        return "member/adminpage";
+    }
+
+    // 레시피 상세 조회 함수
     @PostMapping("/admin/recipe")
     @ResponseBody
-    public Map<String, Object> recipedetail(int recipe_id){
+    public Map<String, Object> recipedetail(int recipe_id) {
 
         RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
         List<CookOrderVO> list = cookOrderDAO.cookorderList(recipe_id);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("recipe",recipe);
-        map.put("list",list);
+        map.put("recipe", recipe);
+        map.put("list", list);
+        return map;
+    }
+
+    // 레시피 공개/비공개 함수
+    @PostMapping("/admin/private")
+    @ResponseBody
+    public Map<String, Object> recipestatus(int recipe_id) {
+
+        RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
+        if (recipe.getStatus().equals("public")) {
+            recipe.setStatus("private");
+        } else if (recipe.getStatus().equals("private")) {
+            recipe.setStatus("public");
+        }
+
+        int res = recipeDAO.updateStatus(recipe);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("title", recipe.getTitle());
+        return map;
+
+    }
+
+    // 레시피 삭제/복원 함수
+    @PostMapping("/admin/recipedel")
+    @ResponseBody
+    public Map<String, Object> recipe_delete(int recipe_id) {
+
+        RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
+        if (!recipe.getStatus().equals("delete")) {
+            recipe.setStatus("delete");
+        } else {
+            recipe.setStatus("public");
+        }
+
+        int res = recipeDAO.updateStatus(recipe);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("title", recipe.getTitle());
+        map.put("status", recipe.getStatus());
+
         return map;
     }
 
