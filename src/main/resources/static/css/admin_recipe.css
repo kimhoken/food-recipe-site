@@ -112,7 +112,8 @@ section {
 }
 
 .ra-search {
-    flex: 1;
+    flex: 0 0 425px;
+    margin-right: 385px;
 }
 
 .ra-reset {

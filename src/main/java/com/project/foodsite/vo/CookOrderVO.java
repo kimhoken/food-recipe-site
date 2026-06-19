@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Alias("cook_order")
 public class CookOrderVO {
     private int cook_order_id;
-    private int cook_order;
+    private int order;
     private String cook_image;
     private String description;
     private int recipe_id;
