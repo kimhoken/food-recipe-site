@@ -23,7 +23,6 @@ public class FoodSiteController {
     private final Recommand rec;
     private final HttpSession session;
     private final TrendingService trendingService;
-
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -31,12 +30,13 @@ public class FoodSiteController {
         //조회수 기준으로 5개 불러오기          view_recipes -> 조회수 별로 순위도 매기기
         //등록일자 기준으로 5개 불러오기        reg_recipes
         //레시피중에 랜덤으로 하나 불러오기    today
+        //검색어는 처음 홈페이지 들어왔을때 그리고 레시피 검색했을때 세션에 저장
         //검색어 추천은 https://seungjjun.tistory.com/m/282 여기 참고하기
         
         model.addAttribute("reg_recipes", rec.recentlyList());      //등록일자 기준으로 레시피를 불러옴
         model.addAttribute("today", rec.randomList());              //오늘의 레시피를 한개 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());    //조회수를 기준으로 레시피를 불러옴
-        
+
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
         List<String> currentList = new LinkedList<>();
@@ -47,8 +47,12 @@ public class FoodSiteController {
             }
         }
         
+        session.removeAttribute("searchList");
+        session.removeAttribute("currentSearchList");
+
         session.setAttribute("searchList", trendingService.getTrendingKeywords());
         session.setAttribute("currentSearchList", currentList);
+        
         return "main";
     }
 

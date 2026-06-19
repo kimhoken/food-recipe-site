@@ -3,8 +3,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
         <script>
+            window.onload = () => {
+                let select = document.getElementById("selectHidden");
+                select.value = document.searchForm.select.value;
+            }
             const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {
@@ -53,7 +58,7 @@
 
                 <%-- 검색창 클릭시 나올 화면 --%>
                 <div class="search-wrapper" style="position: relative;">
-                    <form action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
+                    <form name="searchForm" action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
                         <div class="search-bar">
                             <select name="select" id="sel">
                                 <option value="recipe">레시피</option>
@@ -74,7 +79,7 @@
                                 <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">
                                     <c:forEach var="item" items="${currentSearchList}" varStatus="status">
                                         <input type="submit" value="${item}" name="search">
-                                        <input type="hidden" value="${sessionScope.select}" name="select">
+                                        <input type="hidden" value="recipe" id="selectHidden" name="select">
                                     </c:forEach>
                                 </form>
                             </c:if>
@@ -141,19 +146,18 @@
                                 <div>마이페이지</div>
                             </a>
                         </c:otherwise>
-
                     </c:choose>
                 </div>
             </div>
 
             <ul class="nav-bar">
-                <li class="active"><a href="/">홈</a></li>
-                <li><a href="/recipe_list.do"> 레시피</a></li>
-                <li>카테고리</li>
-                <li>랭킹</li>
-                <li><a href="/list.do">커뮤니티</a></li>
-                <li><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
-                <li><a href="/guide_list.do">키친가이드</a></li>
+                <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
+                <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
+                <li class="${param.currentMenu eq 'category' ? 'active' : ''}">카테고리</li>
+                <li class="${param.currentMenu eq 'ranking' ? 'active' : ''}">랭킹</li>
+                <li class="${param.currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
+                <li class="${param.currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+                <li class="${param.currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
             </ul>
         </header>
     </body>

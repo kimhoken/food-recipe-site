@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>레시피 목록</title>
+        <title>오늘 뭐 먹지? - 레시피 목록</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/category.css">
@@ -44,24 +44,6 @@
                 
                 f.submit();
             }//send
-            const logout = ()=>{
-                if(confirm("로그아웃 하시겠습니까?")){
-                    fetch("/logout.do", {
-                        method: "post",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            id: "${user.member_id}"
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.result == "success") {
-                            alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
-                        }
-                    })
-                }
-            }//logout
             document.addEventListener("DOMContentLoaded", function() {
                 const searchInput = document.getElementById("mainSearch");
                 const searchDropdown = document.getElementById("searchDropdown");
@@ -82,7 +64,9 @@
         </script>
     </head>
     <body>
-        
+        <jsp:include page="/WEB-INF/views/common/navibar.jsp">
+            <jsp:param name="currentMenu" value="recipe" />
+        </jsp:include>
         <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
             <div class="recipe-container">
                 <!-- 왼쪽 -->
@@ -159,21 +143,23 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${recipeList}" var="recipe">
-                                    <div class="recipe-card">
-                                        <img src="${pageContext.request.contextPath}${recipe.thumbnail}"/>
-                                        <div class="recipe-info">
-                                            <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
-                                            <div class="recipe-meta">
-                                                ⏱ ${recipe.cooking_time}
-                                                &nbsp;&nbsp;
-                                                등록일자: ${recipe.created_date}
-                                                <br>
-                                                👁 ${recipe.view_count}
-                                                &nbsp;&nbsp;
-                                                ❤️ ${recipe.like_count}
+                                    <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
+                                        <div class="recipe-card">
+                                            <img src="${pageContext.request.contextPath}/${recipe.thumbnail}"/>
+                                            <div class="recipe-info">
+                                                <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
+                                                <div class="recipe-meta">
+                                                    ⏱ ${recipe.cooking_time}
+                                                    &nbsp;&nbsp;
+                                                    등록일자: ${recipe.created_date}
+                                                    <br>
+                                                    👁 ${recipe.view_count}
+                                                    &nbsp;&nbsp;
+                                                    ❤️ ${recipe.like_count}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>                                                                                                                        
@@ -230,7 +216,7 @@
                         <div class="hours-info">
                             <p><strong>운영시간</strong></p>
                             <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                            <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>              
+                            <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
                         </div>
                     </div>
                     <div class="sns-icons">
@@ -273,29 +259,8 @@
                         <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
                     </div>
 
-                    <div class="footer-container">
-                        <div class="footer-bottom-row">
-                            <div class="company-info">
-                                <h4>주식회사 코코짱짱</h4>
-                                <p>
-                                    <span>상호 : KH 개발</span>
-                                    <span>대표자 : 장승연</span>
-                                    <span>개인정보관리책임자 : 장승연</span>
-                                    <span>사업자 등록번호 : 111-01-31111</span>
-                                </p>
-                                <p>
-                                    <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
-                                    <span>전화 : 1833-1234</span>
-                                    <span>팩스 : 031-8017-1800</span>
-                                </p>
-                                <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일:
-                                    kh@culture.net</p>
-                            </div>
-
-                            <div class="footer-logo-area">
-                                <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
-                            </div>
-                        </div>
+                    <div class="footer-logo-area">
+                        <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
                     </div>
                 </div>
             </div>

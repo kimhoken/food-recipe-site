@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
+import com.project.foodsite.dto.RecipeDetailDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.util.TrendingService;
+import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -107,7 +110,6 @@ public class RecipeController {
                     "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
             }
         }
-
         @SuppressWarnings("unchecked")
         Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
         List<String> currentList = new LinkedList<>();
@@ -117,9 +119,9 @@ public class RecipeController {
                 currentList.add(val);
             }
         }
-
-        model.addAttribute("searchList", trendingService.getTrendingKeywords());
-        model.addAttribute("currentSearchList", currentList);
+        
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
 
         return "recipe/recipe_list";
     }
@@ -205,8 +207,8 @@ public class RecipeController {
             }
         }
 
-        model.addAttribute("searchList", trendingService.getTrendingKeywords());
-        model.addAttribute("currentSearchList", currentList);
+        session.setAttribute("searchList", trendingService.getTrendingKeywords());
+        session.setAttribute("currentSearchList", currentList);
         
         if(select.equals("review")){
             model.addAttribute("list", boardDAO.search(search));
@@ -218,10 +220,23 @@ public class RecipeController {
         return "recipe/recipe_list";
     }
 
-    @GetMapping("/init")
-    public String getMethodName() {
-        session.removeAttribute("searchMap");
-        return "redirect:/";
+    @GetMapping("/recipe_detail.do")
+    public String recipeDetail(Model model, int recipeId){
+        model.addAttribute("recipeId", recipeId);
+        RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
+
+        List<IngredientVO> ilist = dto.getIngredientList();
+        List<CookOrderVO> olist = dto.getCookOrderList();
+        
+        Collections.sort(olist, (e1, e2) -> {
+            return e1.getOrder() - e2.getOrder();
+        });
+
+        model.addAttribute("dto", dto);
+        model.addAttribute("orderList", olist);
+        model.addAttribute("ingredients", ilist);
+        model.addAttribute("size", ilist.size());
+        return "recipe/recipe_detail";
     }
     
 

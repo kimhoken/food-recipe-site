@@ -3,7 +3,7 @@ package com.project.foodsite.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.project.foodsite.dto.AdminRecipeDetailDTO;
+import com.project.foodsite.dto.RecipeDetailDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -44,4 +44,5 @@ public interface RecipeDAO {
     int RecipeCount();
 
     RecipeVO selectrecipe(int recipe_id);
+    RecipeDetailDTO getRecipe(int recipeId);
 } 

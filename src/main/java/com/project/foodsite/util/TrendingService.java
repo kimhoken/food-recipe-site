@@ -27,4 +27,8 @@ public class TrendingService {
         return searchLogDAO.selectTrendingKeywords();
     }
 
+    @CachePut(cacheNames="trendingKeywords", key ="'all'")
+    public List<String> initCache(){
+        return searchLogDAO.initCache();
+    }
 }

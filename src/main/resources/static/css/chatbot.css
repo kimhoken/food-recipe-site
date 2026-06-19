@@ -4,11 +4,6 @@
     box-sizing: border-box;
 }
 
-body {
-    background: #F6F7F2;
-    font-family: Arial, sans-serif;
-}
-
 .chatbot-wrap {
     width: 400px;
     height: 620px;

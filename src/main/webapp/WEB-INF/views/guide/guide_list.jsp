@@ -1,67 +1,76 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
         <head>
-            <title>오늘 뭐 먹지? - 레시피 공유</title>
+            <title>키친가이드</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/guide.css">
             <link rel="stylesheet" href="/css/chatbot.css" />
             <script src="/js/chatbot.js"></script>
 
-            <script>
-                const path = "${pageContext.request.contextPath}";
-
-                window.onload = function () {
-                    showTab("all");     //'키친가이드' 탭 들어오면 전체보기 제일 먼저 실행
+                <script>
+                // 키친가이드 들어오면 자동 '전체보기' 
+                window.onload = function() {
+                    showTab('all');
                 };
 
-                function showTab(tab) {
+                function showTab(tabName) {
+                
+                    document.querySelectorAll(".tab-btn").forEach(function(btn) {
+                        btn.classList.remove("active");
+                    });
+                    let targetBtn = document.getElementById(tabName);
+                    if (targetBtn) {
+                        targetBtn.classList.add("active");
+                    }
 
-                    fetch(path + "/guide_tab.do?tab=" + tab)
-                        .then(res => res.json())
-                        .then(data => {
+                    fetch("${pageContext.request.contextPath}/guide_tab.do?tab=" + tabName, { method: "get" })
+                    .then( function(res) { return res.json(); } ) 
+                    .then( function(data) {
+                        
+                        let grid = document.getElementById("guideGrid");
+                        grid.innerHTML = ""; 
+                        
+                        for (let i = 0; i < data.length; i++) {
+                        let guide = data[i]; 
+                        
+                        // 소제목이 null일 때 화면에 'null'이라고 뜨는 걸 방지
+                        let subTitle = guide.sub_title ? guide.sub_title : "";                   
+                        let imgPath = "${pageContext.request.contextPath}/guide_img/" + guide.image;
 
-                            let html = "";
-
-                            data.forEach(function (guide) {
-
-                                html += `
-                    <div class="guide-card">
-                        <div class="card-img-box">
-                            <img src="${path}/upload/${guide.image}" alt="가이드이미지">
-                        </div>
-
-                        <div class="card-info">
-                            <h3>${guide.title}</h3>
-                        </div>
-                    </div>
-                `;
-
-                            });
-
-                            document.getElementById("guideGrid").innerHTML = html;
-
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
+                        //해당 guide-grid 클릭하면 guide_id로 상세페이지로 이동
+                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_detail.do?guide_id=" + guide.guide_id + "'\">" +
+                        "  <div class='guide-card'>" +
+                        "    <div class='card-img-box'>" +
+                        "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
+                        "    </div>" +
+                        "    <div class='card-info'>" +
+                        "      <p>" + subTitle + "</p>" +
+                        "      <h3 style='font-weight: 400;'>" + guide.title + "</h3>" +
+                        "    </div>" +
+                        "  </div>" +
+                        "</div>";
+                        grid.innerHTML += cardHtml;
+                    }
+                    })
+                    .catch(function(error) {
+                        console.error("데이터 로드 중 에러 발생:", error);
+                    });
                 }
-
             </script>
 
             <style>
                 /* 배경 흰색 고정 */
-                body.guide-page {
+                body{
                     background-color: #ffffff !important;
                 }
             </style>
         </head>
 
-        <body class="guide-page">
+        <body>
             <header>
                 <div class="header-top">
                     <div class="logo">
