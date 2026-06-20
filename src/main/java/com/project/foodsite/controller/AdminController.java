@@ -52,7 +52,7 @@ public class AdminController {
                 return "양식";
             case "chinese":
                 return "중식";
-            case "japense":
+            case "japanese":
                 return "일식";
             case "asian":
                 return "아시안";
@@ -72,13 +72,13 @@ public class AdminController {
     }
 
     // 레시피 페이징 함수
-    private void RecipePaging( Model model, AdminRecipeDTO adminRecipeDTO) {
+    private void RecipePaging(Model model, AdminRecipeDTO adminRecipeDTO) {
 
-        if(adminRecipeDTO.getPage() <=0){
+        if (adminRecipeDTO.getPage() <= 0) {
             adminRecipeDTO.setPage(1);
         }
 
-        adminRecipeDTO.setCategory_name(categorymapping(adminRecipeDTO.getCategory_name()));
+        adminRecipeDTO.setCategory(categorymapping(adminRecipeDTO.getCategory_name()));
 
         int totalcount = recipeDAO.RecipeCount(adminRecipeDTO);
 
@@ -92,7 +92,7 @@ public class AdminController {
         model.addAttribute("list", list);
         model.addAttribute("paging", paging);
         model.addAttribute("totalcount", totalcount);
-        model.addAttribute("adminRecipeDTO", adminRecipeDTO);
+        model.addAttribute("searchrecipe", adminRecipeDTO);
     }
 
     // 관리자 페이지 contentPage 설정 함수
@@ -102,7 +102,7 @@ public class AdminController {
 
         if (menu.equals("user")) {
             contentPage = "/WEB-INF/views/member/admin/admin_user.jsp";
-        } else if (menu.equals("recipe")) {            
+        } else if (menu.equals("recipe")) {
             contentPage = "/WEB-INF/views/member/admin/admin_recipe.jsp";
         } else if (menu.equals("stats")) {
             contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";
@@ -133,9 +133,10 @@ public class AdminController {
 
     }
 
+    // 레시피 페이지 검색 및 조회
     @GetMapping("/admin/recipe")
     public String adminrecipepage(AdminRecipeDTO adminRecipeDTO, Model model) {
-        
+
         RecipePaging(model, adminRecipeDTO);
 
         setContentPage(model, "recipe");
@@ -153,6 +154,38 @@ public class AdminController {
         Map<String, Object> map = new HashMap<>();
         map.put("recipe", recipe);
         map.put("list", list);
+        return map;
+    }
+
+    @PostMapping("/admin/recipe/search")
+    @ResponseBody
+    public Map<String, Object> recipesearch(AdminRecipeDTO adminRecipeDTO, Model model) {
+
+        System.out.println("keyword = " + adminRecipeDTO.getKeyword());
+        System.out.println("status = " + adminRecipeDTO.getStatus());
+        
+        
+        if (adminRecipeDTO.getPage() <= 0) {
+            adminRecipeDTO.setPage(1);
+        }
+        adminRecipeDTO.setCategory_name(categorymapping(adminRecipeDTO.getCategory_name()));
+        System.out.println("category = " + adminRecipeDTO.getCategory_name());
+        
+        int totalcount = recipeDAO.RecipeCount(adminRecipeDTO);
+
+        Paging paging = new Paging(adminRecipeDTO.getPage(), 5, totalcount);
+
+        adminRecipeDTO.setOffset(paging.getOffset());
+        adminRecipeDTO.setSize(paging.getSize());
+
+        List<RecipeVO> list = recipeDAO.RecipeList(adminRecipeDTO);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("list", list);
+        map.put("totalcount", totalcount);
+        map.put("paging", paging);
+
         return map;
     }
 

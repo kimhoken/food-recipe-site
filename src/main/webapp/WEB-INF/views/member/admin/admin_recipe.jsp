@@ -23,93 +23,112 @@
                     </div>
 
                     <form action="/admin/recipe" method="get">
-                        <input type="hidden" name="menu" value="recipe" />
                         <input type="hidden" name="page" value="1" />
                         <div class="ra-filter">
 
-                            <input type="text" class="ra-search" name="keyword" placeholder="레시피명, 작성자명 검색"
-                                value="${keyword}" />
+                            <input id="keyword" type="text" class="ra-search" name="keyword" placeholder="레시피명, 작성자명 검색"
+                                value="${searchrecipe.keyword}" onkeydown="eneterSearch(event)"/>
 
-                            <select class="ra-category" name="category" onchange="this.form.submit()">
+                            <select id="category" class="ra-category" name="category_name" onchange="searchRecipe()" >
                                 <option value="">카테고리 전체</option>
-                                <option value="recommend">상황별 추천</option>
-                                <option value="korean">한식</option>
-                                <option value="western">양식</option>
-                                <option value="chinese">중식</option>
-                                <option value="japense">일식</option>
-                                <option value="asian">아시안</option>
-                                <option value="healthy">건강식/다이어트</option>
-                                <option value="quick">초간단 요리</option>
-                                <option value="dessert">디저트</option>
-                                <option value="baking">베이킹</option>
-                                <option value="beverage">음료/차</option>
+                                <option value="recommend" ${searchrecipe.category_name eq 'recommend' ? 'selected' : ''
+                                    }>상황별 추천</option>
+                                <option value="korean" ${searchrecipe.category_name eq 'korean' ? 'selected' : '' }>한식
+                                </option>
+                                <option value="western" ${searchrecipe.category_name eq 'western' ? 'selected' : '' }>양식
+                                </option>
+                                <option value="chinese" ${searchrecipe.category_name eq 'chinese' ? 'selected' : '' }>중식
+                                </option>
+                                <option value="japanese" ${searchrecipe.category_name eq 'japanese' ? 'selected' : '' }>
+                                    일식</option>
+                                <option value="asian" ${searchrecipe.category_name eq 'asian' ? 'selected' : '' }>아시안
+                                </option>
+                                <option value="healthy" ${searchrecipe.category_name eq 'healthy' ? 'selected' : '' }>
+                                    건강식/다이어트</option>
+                                <option value="quick" ${searchrecipe.category_name eq 'quick' ? 'selected' : '' }>초간단 요리
+                                </option>
+                                <option value="dessert" ${searchrecipe.category_name eq 'dessert' ? 'selected' : '' }>
+                                    디저트</option>
+                                <option value="baking" ${searchrecipe.category_name eq 'baking' ? 'selected' : '' }>베이킹
+                                </option>
+                                <option value="beverage" ${searchrecipe.category_name eq 'beverage' ? 'selected' : '' }>
+                                    음료/차</option>
                             </select>
 
-                            <select class="ra-status" name="status" onchange="this.form.submit()">
+                            <select id="status" class="ra-status" name="status" onchange="searchRecipe()">
                                 <option value="">공개/비공개</option>
-                                <option value="public">공개</option>
-                                <option value="private">비공개</option>
-                                <option value="delete">삭제</option>
+                                <option value="public" ${searchrecipe.status eq 'public' ? 'selected' : '' }>공개
+                                </option>
+                                <option value="private" ${searchrecipe.status eq 'private' ? 'selected' : '' }>비공개
+                                </option>
+                                <option value="delete" ${searchrecipe.status eq 'delete' ? 'selected' : '' }>삭제</option>
                             </select>
 
-                            <input type="button" class="ra-reset" value="초기화" onclick="" />
+                            <input type="button" class="ra-reset" value="초기화" onclick="resetSerach()" />
 
                         </div>
-                        <table class="ra-table">
-                            <tr>
-                                <th>썸네일</th>
-                                <th>레시피 제목</th>
-                                <th>작성자</th>
-                                <th>등록일</th>
-                                <th>조회수</th>
-                                <th>좋아요</th>
-                                <th>상태</th>
-                                <th>관리</th>
-                            </tr>
-                            <!-- forEach문 들어갈 예정 -->
-                            <c:forEach var="recipe" items="${list}">
-                                <tr class="ra-row" onclick="recipe_view('${recipe.recipe_id}')">
-                                    <td><img class="ra-thumb" src="/upload/recipe/${recipe.thumbnail}" /></td>
-                                    <td class="ra-info">
-                                        <div class="ra-name">
-                                            <c:if test="${recipe.status eq 'delete'}">
-                                                [삭제됨]
-                                            </c:if>
-                                            ${recipe.title}
-                                        </div>
-                                        <small class="ra-category-label">${recipe.category_name}</small>
-                                    </td>
-                                    <td>${recipe.nickname}</td>
-                                    <td>${recipe.created_date}</td>
-                                    <td>${recipe.view_count}</td>
-                                    <td>${recipe.like_count}</td>
-                                    <td>
-                                        <c:if test="${recipe.status eq 'public'}">
-                                            <span class="badge badge-public">공개</span>
-                                        </c:if>
 
-                                        <c:if test="${recipe.status ne 'public'}">
-                                            <span class="badge badge-public">비공개</span>
-                                        </c:if>
-                                    </td>
-                                    <td>...</td>
+                        <div id="recipeResultArea">
+                            <table class="ra-table">
+                                <tr>
+                                    <th>썸네일</th>
+                                    <th>레시피 제목</th>
+                                    <th>작성자</th>
+                                    <th>등록일</th>
+                                    <th>조회수</th>
+                                    <th>좋아요</th>
+                                    <th>상태</th>
+                                    <th>관리</th>
                                 </tr>
-
-                            </c:forEach>
-                            <!--  -->
-                        </table>
-
-                        <div class="ra-footer">
-                            <span class="ra-total">전체 갯수: ${totalcount}</span>
-                            <div class="ra-page">
-                                <c:set var="pageUrl" value="/admin/recipe" scope="request" />
-                                <jsp:include page="/WEB-INF/views/common/paging.jsp" />
+                                <tbody id="recipeTableBody">                                
+                                <!-- forEach문 들어갈 예정 -->
+                                <c:forEach var="recipe" items="${list}">
+                                    <tr class="ra-row" onclick="recipe_view('${recipe.recipe_id}')">
+                                        <td><img class="ra-thumb" src="/upload/recipe/${recipe.thumbnail}" /></td>
+                                        <td class="ra-info">
+                                            <div class="ra-name">
+                                                <c:if test="${recipe.status eq 'delete'}">
+                                                    [삭제됨]
+                                                </c:if>
+                                                ${recipe.title}
+                                            </div>
+                                            <small class="ra-category-label">${recipe.category_name}</small>
+                                        </td>
+                                        <td>${recipe.nickname}</td>
+                                        <td>${recipe.created_date}</td>
+                                        <td>${recipe.view_count}</td>
+                                        <td>${recipe.like_count}</td>
+                                        <td>
+                                            <c:if test="${recipe.status eq 'public'}">
+                                                <span class="badge badge-public">공개</span>
+                                            </c:if>
+    
+                                            <c:if test="${recipe.status ne 'public'}">
+                                                <span class="badge badge-public">비공개</span>
+                                            </c:if>
+                                        </td>
+                                        <td>...</td>
+                                    </tr>
+    
+                                </c:forEach>
+                                <!--  -->
+                                </tbody>
+                            </table>
+    
+                            <div class="ra-footer">
+                                <span class="ra-total">전체 갯수: ${totalcount}</span>
+                                <div class="ra-page" id="recipePaging">
+                                    <c:set var="pageUrl" 
+                                           value="/admin/recipe?keyword=${searchrecipe.keyword}&category_name=${searchrecipe.category_name}&status=${searchrecipe.status}" 
+                                           scope="request"/>
+                                    <jsp:include page="/WEB-INF/views/common/paging.jsp" />
+                                </div>
+                                <select class="ra-size">
+                                    <option value="5">5개씩 보기</option>
+                                    <option value="10">10개씩 보기</option>
+                                    <option value="20">20개씩 보기</option>
+                                </select>
                             </div>
-                            <select class="ra-size">
-                                <option value="5">5개씩 보기</option>
-                                <option value="10">10개씩 보기</option>
-                                <option value="20">20개씩 보기</option>
-                            </select>
                         </div>
                     </form>
                 </div>
@@ -171,7 +190,4 @@
                         <input type="button" class="btn-delete" value="삭제하기" onclick="recipedel(this)" />
                     </div>
                 </div>
-
-
-
         </section>

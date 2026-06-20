@@ -16,7 +16,7 @@
                     document.querySelector(".ra-detail").classList.remove("active");
                 }
 
-
+                // 상세보기 함수
                 function recipe_view(recipe_id) {
 
                     fetch("/admin/recipe", {
@@ -66,54 +66,120 @@
                 function setText(id, value) {
                     document.getElementById(id).textContent = value ?? "-";
 
-                    
 
-                    if(value == 'public'){
+
+                    if (value == 'public') {
                         document.getElementById(id).textContent = "공개" ?? "-";
-                    }else if(value == 'private'){
-                        document.getElementById(id).textContent = "비공개" ?? "-";                        
+                    } else if (value == 'private') {
+                        document.getElementById(id).textContent = "비공개" ?? "-";
                     }
                 }
                 function setImg(id, src) {
                     document.getElementById(id).src = src;
                 }
 
-                function recipeprivate(){
-                    if(confirm("정말로 비공개 처리 하시겠습니까?")){
-                        fetch("/admin/private",{
-                            method:'post',
-                            headers:{"Content-Type": "application/x-www-form-urlencoded"},
-                            body:"recipe_id="+recipedetailrecipe
+                function recipeprivate() {
+                    if (confirm("정말로 비공개 처리 하시겠습니까?")) {
+                        fetch("/admin/private", {
+                            method: 'post',
+                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                            body: "recipe_id=" + recipedetailrecipe
                         }).then(res => res.json())
-                        .then(data => {
-                            if(data.result == 1){
-                                alert(data.title + " 수정돠었습니다.");
-                                location.href='redirect:/admin?menu=recipe';
-                            }
-                        })
+                            .then(data => {
+                                if (data.result == 1) {
+                                    alert(data.title + " 수정돠었습니다.");
+                                    location.href = 'redirect:/admin?menu=recipe';
+                                }
+                            })
                     }
                 }
 
-                function recipedel(){
-                    if(!confirm("정말로 삭제 하시겠습니까?")){
-                        
+                function recipedel() {
+                    if (!confirm("정말로 삭제 하시겠습니까?")) {
+
                         return;
                     }
-                    fetch("/admin/recipedel",{
-                        method:'post',
-                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
-                        body:"recipe_id="+recipedetailrecipe
+                    fetch("/admin/recipedel", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: "recipe_id=" + recipedetailrecipe
                     }).then(res => res.json())
-                    .then(data => {
-                        
-                        if(data.result == 1 && data.status == "delete"){
-                            alert(data.title+ "가 삭제되었습니다.");
-                        }else if(data.result == 1 && data.status == "public"){
-                            alert(data.title+ "가 복원되었습니다.");
-                        }else{
-                            alert("이스터에그 발견!!");
-                        }
-                    })
+                        .then(data => {
+
+                            if (data.result == 1 && data.status == "delete") {
+                                alert(data.title + "가 삭제되었습니다.");
+                            } else if (data.result == 1 && data.status == "public") {
+                                alert(data.title + "가 복원되었습니다.");
+                            } else {
+                                alert("이스터에그 발견!!");
+                            }
+                        })
+                }
+
+                function eneterSearch(e) {
+                    if (e.key === "Enter") {
+                        searchRecipe();
+                    }
+                }
+
+                function searchRecipe() {
+                    document.querySelector('form[action="/admin/recipe"]').submit();
+
+        //             let keyword = document.getElementById("keyword").value;
+        //             let category = document.getElementById("category").value;
+        //             let status = document.getElementById("status").value;
+        //             fetch("/admin/recipe/search", {
+        //                 method: 'post',
+        //                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        //                 body: 'keyword=' + keyword + '&category_name=' + category + '&status=' + status
+        //             }).then(res => res.json())
+        //                 .then(data => {
+
+        //                     console.log(data.list);
+        //                     let recipeTableBody = document.getElementById("recipeTableBody");
+        //                     recipeTableBody.innerHTML = "";
+
+        //                     data.list.forEach(recipe => {
+
+        //                         let statusHtml = "";
+
+        //                         if (recipe.status === "public") {
+        //                             statusHtml = `<span class="badge badge-public">공개</span>`;
+        //                         } else {
+        //                             statusHtml = `<span class="badge badge-public">비공개</span>`;
+        //                         }
+
+        //                         recipeTableBody.insertAdjacentHTML("beforeend", `
+        //     <tr class="ra-row" onclick="recipe_view('\${recipe.recipe_id}')">
+        //         <td>
+        //             <img class="ra-thumb" src="/upload/recipe/\${recipe.thumbnail}" />
+        //         </td>
+        //         <td class="ra-info">
+        //             <div class="ra-name">
+        //                 \${recipe.status === "delete" ? "[삭제됨]" : ""}
+        //                 \${recipe.title}
+        //             </div>
+        //             <small class="ra-category-label">\${recipe.category_name}</small>
+        //         </td>
+        //         <td>\${recipe.nickname}</td>
+        //         <td>\${recipe.created_date}</td>
+        //         <td>\${recipe.view_count}</td>
+        //         <td>\${recipe.like_count}</td>
+        //         <td>\${statusHtml}</td>
+        //         <td>...</td>
+        //     </tr>
+        // `);
+        //                     });
+        //                 });
+                }
+
+                function resetSearch() {
+
+                    document.getElementById("keyword").value = "";
+                    document.getElementById("category").value = "";
+                    document.getElementById("status").value = "";
+
+                    searchRecipe();
                 }
 
             </script>
