@@ -30,4 +30,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LIMIT 10
     </select>
 
+    <select id="getRecommand" resultType="String">
+        select keyword from v_keyword_ranking
+        order by score desc
+        LIMIT 10
+    </select>
+
 </mapper>
