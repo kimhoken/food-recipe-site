@@ -73,6 +73,11 @@ public class BoardController {
 
         System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
 
+        System.out.println("선택한 foodId = " + dto.getFoodId());
+        System.out.println("생성된 recipeId = " + dto.getRecipeId());
+        System.out.println("insert 후 recipeId = " + dto.getRecipeId());
+        System.out.println("insert 후 foodId = " + dto.getFoodId());
+
         System.out.println("제목 : " + dto.getTitle());
 
         System.out.println("재료명 : " + dto.getIngredientName());
@@ -102,7 +107,7 @@ public class BoardController {
             ingredient.setUnit(dto.getUnit().get(i));
 
             ingredient.setRecipe_id(dto.getRecipeId().intValue());
- 
+
             boardDao.insertIngredient(ingredient);
         }
 
