@@ -55,7 +55,17 @@
                         ${recipe.title}</td>
                     <td>${recipe.nickname}</td>
                     <td>${recipe.created_date}</td>
-                    <td>${recipe.status}</td>
+                    <td>
+                        <c:if test="${recipe.status eq 'public'}">
+                            공개
+                        </c:if>
+                        <c:if test="${recipe.status eq 'private'}">
+                            비공개
+                        </c:if>
+                        <c:if test="${recipe.status eq 'delete'}">
+                            삭제
+                        </c:if>
+                    </td>
                 </tr>
              </c:forEach>
             <!--  -->
@@ -67,16 +77,16 @@
 
         <h3>빠른 관리</h3>
         <div class="quick-menu">
-            <a href="/admin?menu=user">회원 관리
+            <a href="/admin/member">회원 관리
                 <small>회원 목록 및 관리</small>
             </a>
-            <a href="/admin?menu=recipe">레시피 관리
+            <a href="/admin/recipe">레시피 관리
                 <small>레시피 등록 및 관리</small>
             </a>
-            <a href="/admin?menu=inquiry">문의 관리
+            <a href="/admin/inquiry">문의 관리
                 <small> 문의 확인 및 답변</small>
             </a>
-            <a href="/admin?menu=report">신고 관리
+            <a href="/admin/report">신고 관리
                 <small>신고 확인 및 처리</small>
             </a>
         </div>

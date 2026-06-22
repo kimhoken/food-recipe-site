@@ -5,51 +5,102 @@
     -->
 <mapper namespace="com.project.foodsite.dao.BoardDAO">
 
-    <select id="selectAll" resultType="board"> SELECT b.*, m.nickname FROM board b JOIN member m ON
-        b.member_id = m.member_id </select>
+    <select id="selectAll" resultType="board"> 
+        SELECT b.*, m.nickname FROM board b 
+        JOIN member m ON b.member_id = m.member_id 
+    </select>
 
     <!-- 검색 -->
     <select id="search" resultType="board" parameterType="String">
-        <bind name="pattern" value="'%' + search + '%'" /> SELECT b.*, m.nickname FROM board b JOIN
-        member m ON b.member_id = m.member_id WHERE (b.title LIKE #{pattern} OR b.content LIKE
-        #{pattern}) AND b.status = 'Y' </select>
+        <bind name="pattern" value="'%' + search + '%'" /> 
+        SELECT b.*, m.nickname 
+        FROM board b 
+        JOIN member m 
+        ON b.member_id = m.member_id 
+        WHERE (b.title LIKE #{pattern} OR b.content LIKE #{pattern}) 
+        AND b.status = 'Y' 
+    </select>
 
     <!-- 레시피 등록 -->
-    <insert id="insertRecipe" parameterType="RecipeDTO"> INSERT INTO board (unit) VALUES
-        (#{vegiUnit}) </insert>
+    <insert id="insertRecipe" parameterType="RecipeDTO" useGeneratedKeys="true" keyProperty="recipeId"> 
+        INSERT INTO recipe(
+        title,
+        member_id,
+        food_id
+    )
+    VALUES(
+        #{title},
+        #{memberId},
+        #{foodId}
+    )
+    </insert>
 
-    <!-- 게시글 상세보기 -->
-    <select id="selectOne" parameterType="int" resultType="board"> SELECT b.*, m.nickname FROM board
-        b JOIN member m ON b.member_id = m.member_id WHERE b.board_id = #{board_id} </select>
+    <!-- 재료 등록 -->
+    <insert id="insertIngredient" parameterType="ingredient">
+    INSERT INTO ingredient(
+        ingredient_name,
+        quantity,
+        unit,
+        recipe_id
+    )
+    VALUES(
+        #{ingredient_name},
+        #{quantity},
+        #{unit},
+        #{recipe_id}
+    )
+    </insert>
 
-    <!-- 조회수 증가 -->
-    <update id="updateViewCount" parameterType="int"> UPDATE board SET view_count = view_count + 1
-        WHERE board_id = #{board_id} </update>
-
-    <!-- 작성자만 수정-->
-    <update id="update" parameterType="board"> UPDATE board SET title = #{title}, content =
-        #{content}, updated_date = NOW() WHERE board_id = #{board_id} </update>
-
-    <!-- 작성자만 삭제-->
-    <delete id="delete" parameterType="int"> 
-        DELETE FROM board 
-        WHERE board_id = #{board_id} 
-    </delete>
-
-    <!-- 커뮤니티 글쓰기 -->
+    <!-- board 저장 -->
     <insert id="insertBoard" parameterType="board">
     INSERT INTO board(
         member_id,
         title,
         content,
+        recipe_id,
         status
     )
     VALUES(
         #{member_id},
         #{title},
         #{content},
-        'Y'
+        #{recipe_id},
+        #{status}
     )
-    </insert>   
+    </insert>
+
+    <!-- 게시글 상세보기 -->
+    <select id="selectOne" parameterType="int" resultType="board"> 
+        SELECT b.*, m.nickname 
+        FROM board b 
+        JOIN member m 
+        ON b.member_id = m.member_id 
+        WHERE b.board_id = #{board_id} 
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updateViewCount" parameterType="int"> 
+        UPDATE board 
+        SET view_count = view_count + 1
+        WHERE board_id = #{board_id} 
+    </update>
+
+    <!-- 작성자만 수정-->
+    <update id="update" parameterType="board"> 
+        UPDATE board 
+        SET title = #{title}, content = #{content}, updated_date = NOW() 
+        WHERE board_id = #{board_id} 
+    </update>
+
+    <!-- 작성자만 삭제-->
+    <delete id="delete" parameterType="int"> 
+        DELETE FROM board WHERE board_id = #{board_id} 
+    </delete>
+
+    <!-- 커뮤니티 글쓰기 
+    <insert id="insertBoard" parameterType="board"> 
+        INSERT INTO board(member_id, title, content, status ) 
+        VALUES( #{member_id}, #{title}, #{content}, 'Y' ) 
+    </insert>-->
 
 </mapper>

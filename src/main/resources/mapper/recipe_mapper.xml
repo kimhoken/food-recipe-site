@@ -157,13 +157,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 OR m.nickname LIKE concat('%',#{keyword}, '%')
             )
         </if>
-        <if test="category_name != null and category_name != ''">
-        AND c.category_name = #{category_name}
+         <if test="category != null and category != ''">
+        AND c.category_name = #{category}
         </if>
 
         <if test="status != null and status != ''">
             AND r.status = #{status}
-        </if>    
+        </if> 
+
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
+
     </select>
 
     <select id="RecipeList" parameterType="adminrecipe" resultType="recipe">
@@ -183,13 +188,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             )
         </if>
 
-        <if test="category_name != null and category_name != ''">
-            AND c.category_name = #{category_name}
+        <if test="category != null and category != ''">
+            AND c.category_name = #{category}
         </if>
 
         <if test="status != null and status != ''">
             AND r.status = #{status}
         </if>
+
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
 
         ORDER BY r.recipe_id DESC
         LIMIT #{size} OFFSET #{offset}
@@ -206,6 +215,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <update id="updateStatus" parameterType="recipe">
         update recipe set status = #{status} where recipe_id = #{recipe_id} 
+    </update>
+
+    <update id="updateRecipe" parameterType="recipe">
+        update recipe set recommend = #{recommend} where recipe_id = #{recipe_id}
     </update>
 
     <resultMap id="RecipeDetailMap" type="RecipeDetailDTO">
@@ -255,5 +268,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE r.recipe_id = #{recipeId}
     </select>
 
+
+    <!--  -->
+    <select id="selectAllFood" resultType="map">
+    SELECT
+        food_id AS foodId,
+        food_name AS foodName
+    FROM food
+    ORDER BY food_name
+    </select>
 
 </mapper>
