@@ -339,17 +339,12 @@
                 <div class="btn-wrap">
                     <button type="button" onclick="addStep()">+ 조리순서 추가</button>
                 </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 4e631c8 (board_regiRecipe.jsp, community_form.jsp- footer 하단에 추가/ 레시피 등록 버튼 css 수정, 등록 에러 수정 중)
 
                 <div class="btn-wrap">
                     <button type="button" onclick="send(this.form)">내 레시피 등록!</button>
                 </div>
             </form>
 
-<<<<<<< HEAD
             <footer>
                 <div class="footer-container">
                     <div class="footer-top-row">
@@ -374,10 +369,6 @@
                         </div>
                     </div>
                 </div>
-=======
-</form>
-=======
->>>>>>> 4e631c8 (board_regiRecipe.jsp, community_form.jsp- footer 하단에 추가/ 레시피 등록 버튼 css 수정, 등록 에러 수정 중)
             <footer>
                 <div class="footer-container">
                     <div class="footer-top-row">
@@ -402,8 +393,7 @@
                         </div>
                     </div>
                 </div>
->>>>>>> 262ba60 (레시피 등록 버튼 수정, jsp (하단에 footer 추가))
-
+                
                 <div class="footer-nav-bar">
                     <div class="footer-container">
                         <div class="nav-links">
