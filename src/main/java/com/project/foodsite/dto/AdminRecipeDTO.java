@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("adminrecipe")
 public class AdminRecipeDTO extends SearchDTO {
-    private String category_name;
+    private String category_name, category;
+    private boolean recommend;
 
 }
