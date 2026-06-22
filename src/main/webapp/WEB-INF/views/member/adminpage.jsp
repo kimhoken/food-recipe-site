@@ -270,7 +270,7 @@
                                 </li>
 
                                 <li>
-                                    <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin/user">
+                                    <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin/member">
                                         회원 관리</a>
                                 </li>
 

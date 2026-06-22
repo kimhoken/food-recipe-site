@@ -77,7 +77,7 @@
 
         <h3>빠른 관리</h3>
         <div class="quick-menu">
-            <a href="/admin/user">회원 관리
+            <a href="/admin/member">회원 관리
                 <small>회원 목록 및 관리</small>
             </a>
             <a href="/admin/recipe">레시피 관리
