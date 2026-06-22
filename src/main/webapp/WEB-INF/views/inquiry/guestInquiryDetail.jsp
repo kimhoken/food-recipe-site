@@ -50,15 +50,12 @@
                 <tr>
                     <th>첨부이미지</th>
                     <td>
-
                         <div class="image-list">
-
                             <c:forEach var="img" items="${imgList}">
-                                <img src="/upload/${img.image_list}" alt="">
+                                <img src="/upload/${img.image_list}" alt="첨부이미지">
                             </c:forEach>
 
                         </div>
-
                     </td>
                 </tr>
             </c:if>

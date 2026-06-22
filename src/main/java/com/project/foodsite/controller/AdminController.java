@@ -16,6 +16,7 @@ import com.project.foodsite.dao.CookOrderDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.AdminRecipeDTO;
 import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
