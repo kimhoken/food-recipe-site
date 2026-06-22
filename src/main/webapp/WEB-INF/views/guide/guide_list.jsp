@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <!DOCTYPE html>
         <html>
 
         <head>
-            <title>오늘 뭐 먹지? - 레시피 공유</title>
+            <title>키친가이드</title>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/guide.css">
@@ -32,8 +31,6 @@
                     .then( function(res) { return res.json(); } ) 
                     .then( function(data) {
                         
-                        console.log("서버에서 받아온 데이터 목록:", data); // 데이터 잘 왔는지 확인할라고 씀
-                        
                         let grid = document.getElementById("guideGrid");
                         grid.innerHTML = ""; 
                         
@@ -45,14 +42,14 @@
                         let imgPath = "${pageContext.request.contextPath}/guide_img/" + guide.image;
 
                         //해당 guide-grid 클릭하면 guide_id로 상세페이지로 이동
-                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_list.do/" + guide.guide_id + "'\">" +
+                        let cardHtml = "<div class='guide-card-link' onclick=\"location.href='${pageContext.request.contextPath}/guide_detail.do?guide_id=" + guide.guide_id + "'\">" +
                         "  <div class='guide-card'>" +
                         "    <div class='card-img-box'>" +
                         "      <img src='" + imgPath + "' alt='가이드 이미지'>" +
                         "    </div>" +
                         "    <div class='card-info'>" +
                         "      <p>" + subTitle + "</p>" +
-                        "      <h3>" + guide.title + "</h3>" +
+                        "      <h3 style='font-weight: 400;'>" + guide.title + "</h3>" +
                         "    </div>" +
                         "  </div>" +
                         "</div>";
@@ -67,13 +64,13 @@
 
             <style>
                 /* 배경 흰색 고정 */
-                body.guide-page {
+                body{
                     background-color: #ffffff !important;
                 }
             </style>
         </head>
 
-        <body class="guide-page">
+        <body>
             <header>
                 <div class="header-top">
                     <div class="logo">

@@ -153,7 +153,6 @@
             <ul class="nav-bar">
                 <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
                 <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
-                <li class="${param.currentMenu eq 'category' ? 'active' : ''}">카테고리</li>
                 <li class="${param.currentMenu eq 'ranking' ? 'active' : ''}">랭킹</li>
                 <li class="${param.currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
                 <li class="${param.currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>

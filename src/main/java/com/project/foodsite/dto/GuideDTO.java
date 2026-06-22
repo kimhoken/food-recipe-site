@@ -19,5 +19,6 @@ public class GuideDTO {
     private String sub_title; //작은제목
     private String image; //대표이미지
     private String tab;          // storage, trim, tip, etc
+    
 
 }
