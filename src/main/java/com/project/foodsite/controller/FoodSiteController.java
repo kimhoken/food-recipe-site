@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.util.Recommand;
 import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.MemberVO;
@@ -23,6 +24,7 @@ public class FoodSiteController {
     private final Recommand rec;
     private final HttpSession session;
     private final TrendingService trendingService;
+    private final SearchLogDAO logDAO;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -52,7 +54,7 @@ public class FoodSiteController {
 
         session.setAttribute("searchList", trendingService.getTrendingKeywords());
         session.setAttribute("currentSearchList", currentList);
-        
+        session.setAttribute("recommandSearch", logDAO.getRecommand() );
         return "main";
     }
 

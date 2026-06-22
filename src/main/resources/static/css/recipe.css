@@ -58,13 +58,13 @@ a { text-decoration: none; color: inherit; }
     padding: 20px;
 }
 
-.filter-area {
-    width: 250px;
-    flex-shrink: 0;
-}
-
+/* 오른쪽 전체 영역 (레시피 리스트 감싸는 곳) */
 .recipe-area {
     flex: 1;
+    border: 1px solid #e5e5e5; /* 왼쪽 필터 영역과 똑같은 선 색상 적용 */
+    border-radius: 15px;       /* 모서리 둥글게 */
+    padding: 30px;             /* 선 안쪽으로 여백을 줘서 답답하지 않게! */
+    background-color: #fff;    /* 안쪽 배경을 흰색으로 깔끔하게 채움 */
 }
 
 .recipe-header {
@@ -128,6 +128,19 @@ a { text-decoration: none; color: inherit; }
     color:white;
     cursor:pointer;
 }
+
+/*레시피 등록 버튼*/
+.recipe-write-btn input{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#5a7e4d;
+    color:white;
+    cursor:pointer;
+}
+
 /* 페이징 */
 .paging {
     display: flex;
@@ -179,21 +192,4 @@ a { text-decoration: none; color: inherit; }
     word-break: keep-all;
 }
 
-/*레시피 등록 버튼*/
-.recipe-write-btn{
-    text-align:center;
-    margin-top:40px;
-    margin-bottom:20px;
-}
 
-.recipe-write-btn input{
-    width:180px;
-    height:55px;
-    border:none;
-    border-radius:30px;
-    background:#e67e4d;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-}

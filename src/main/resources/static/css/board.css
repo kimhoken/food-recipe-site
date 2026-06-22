@@ -4,7 +4,7 @@
 
 /* 기존 body에 있던 배경과 여백을 게시판 전용 컨테이너로 이동 */
 .board-area {
-    background-color: #F9F7F2;
+    background-color: #fff;
     color: #444;
     padding: 50px 30px; /* 게시판 영역 안쪽 여백 */
     min-height: 100vh; /* 필요에 따라 높이 조절 */
