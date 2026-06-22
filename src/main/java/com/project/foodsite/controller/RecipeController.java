@@ -76,10 +76,12 @@ public class RecipeController {
         }
 
         String sort = searchDTO.getSort();
-        if (sort.equals("latest")) {
+        //카테고리 미선택시 최신순으로 정렬됨
+        if(sort.equals("name")){
             Collections.sort(recipeList, (e1, e2) -> {
-                return e1.getCreated_date().compareTo(e2.getCreated_date());
+                return e1.getTitle().compareTo(e2.getTitle());
             });
+
         } else if (sort.equals("view")) {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e2.getView_count() - e1.getView_count();
