@@ -182,7 +182,7 @@
             
             const member_id = '${sessionScope.user.member_id}';
             // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
-            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null ) {
+            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null && member_id != '') {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/js/alarm.js')
                     .then(function(registration) {
@@ -299,9 +299,9 @@
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
-                            <a href="/recipe_detail.do?id=${recipe.recipe_id}">
+                            <a href="/recipe_detail.do?reciprId=${recipe.recipe_id}">
                                 <div class="recipe-img">
-                                    <img src="/upload/${recipe.thumbnail}"/>
+                                    <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}"/>
                                 </div>
                                 <div class="rank-badge">${status.index + 1}</div>
                                 <div class="recipe-info">
@@ -358,7 +358,9 @@
                 <!-- 등록일자 기준으로 조회 -->
                 <c:forEach var="recipe" items="${reg_recipes}" >
                     <div class="recipe-card">
-                        <div class="recipe-img"></div>
+                        <div class="recipe-img">
+                            <img src="/images/${recipe.thumbnail}"/>
+                        </div>
                         <div class="recipe-info">
                             <div class="recipe-name">${recipe.title}</div>
                             <div class="recipe-author">👤 ${recipe.nickname}</div>
@@ -369,12 +371,12 @@
             </div>
         </div>
 
-        <div class="info-bar">
+        <%-- <div class="info-bar">
             <div class="info-item">🍳 <span>쉽고 간단한 레시피<br><small>누구나 따라할 수 있어요</small></span></div>
             <div class="info-item">🍱 <span>다양한 카테고리<br><small>원하는 메뉴를 쉽게 찾아보세요</small></span></div>
             <div class="info-item">🥕 <span>냉장고 재료 활용<br><small>남은 재료로 알뜰하게 요리해요</small></span></div>
             <div class="info-item">💬 <span>요리로 소통해요<br><small>후기와 팁을 공유해보세요</small></span></div>
-        </div>
+        </div> --%>
 
         <!-- footer 회사 정보 jsp 파일 include -->
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

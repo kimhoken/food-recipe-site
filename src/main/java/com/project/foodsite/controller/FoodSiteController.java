@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.util.Recommand;
 import com.project.foodsite.util.TrendingService;
 import com.project.foodsite.vo.MemberVO;
@@ -23,7 +24,7 @@ public class FoodSiteController {
     private final Recommand rec;
     private final HttpSession session;
     private final TrendingService trendingService;
-    
+    private final SearchLogDAO logDAO;
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
         //레시피테이블에서 조회수 기준으로 불러옴 join으로 member테이블에 nickname까지 불러오기
@@ -52,7 +53,7 @@ public class FoodSiteController {
 
         session.setAttribute("searchList", trendingService.getTrendingKeywords());
         session.setAttribute("currentSearchList", currentList);
-        
+        session.setAttribute("recommandSearch", logDAO.getRecommand() );
         return "main";
     }
 

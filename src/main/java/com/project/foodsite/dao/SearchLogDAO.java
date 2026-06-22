@@ -7,4 +7,5 @@ public interface SearchLogDAO {
     List<String> selectTrendingKeywords();
     int deleteLog();
     List<String> initCache();
+    List<String> getRecommand();
 }

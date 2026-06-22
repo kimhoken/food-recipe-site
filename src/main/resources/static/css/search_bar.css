@@ -59,6 +59,11 @@
     transition: color 0.2s ease;
 }
 
+.trending-item button{
+    border: none;
+    background-color: #fff;
+}
+
 /* 검색어 아이템에 마우스 올렸을 때 */
 .trending-item:hover {
     color: #1e293b;
@@ -72,8 +77,10 @@
     font-weight: bold;
     color: #5a7e4d; /* 메인 컬러(초록색)로 포인트 */
 }
-/* 최근 검색어 아이템 (둥근 태그 스타일) */
-#recent input {
+/* 최근 검색어 & 추천 검색어 아이템 (둥근 태그 공통 스타일) */
+.search-section > #recent input[type="submit"],
+.recommand-search input[type="button"],
+.recommand-search input[type="submit"], input {
     display: inline-block;
     padding: 8px 16px;
     background-color: #fff; /* 배경 하얗게 */
@@ -83,13 +90,24 @@
     color: #475569;
     margin-right: 8px;
     margin-bottom: 8px;
+    cursor: pointer; /* 클릭 가능한 버튼이라는 걸 확실히 보여줌 */
+    outline: none; /* 브라우저 기본 파란색 포커스 테두리 제거 */
     transition: all 0.2s ease;
 }
 
-/* 마우스 올렸을 때 초록색으로 반전 */
-#recent input:hover {
+/* 마우스 올렸을 때 메인 컬러(초록색)로 반전 */
+#recent input[type="submit"]:hover,
+.recommand-search input[type="button"]:hover {
     background-color: #5a7e4d;
     color: #fff;
     border-color: #5a7e4d;
-    transform: translateY(-1px);
+    transform: translateY(-2px); /* 살짝 위로 떠오르는 효과 강조 */
+    box-shadow: 0 2px 5px rgba(90, 126, 77, 0.3); /* 살짝 그림자 줘서 입체감 추가 */
+}
+
+/* 최근 검색어 없을 때 나오는 텍스트 스타일 수정 (선택사항) */
+#recent .empty-text {
+    font-size: 13px;
+    color: #94a3b8;
+    padding: 8px 0;
 }
