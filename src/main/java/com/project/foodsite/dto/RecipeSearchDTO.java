@@ -38,7 +38,12 @@ public class RecipeSearchDTO {     // 사용자가 레시피 목록 페이지에
     private int page = 1;  //기본값 1페이지
 
     public int getOffset() { 
-        return (this.page - 1) * 9; 
+        /*
+         * 페이지가 1일때 0 ~ 9
+         * 페이지가 2일때 10 ~ 18
+         * 페이지가 3일때 19 ~ 27
+        */
+        return this.page * 9; 
     }
 
 }

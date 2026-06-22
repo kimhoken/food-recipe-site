@@ -173,12 +173,17 @@
                             <c:set var="cookTimesQuery" value="" />
                             <c:if test="${not empty recipeSearchDTO.cookTimes}">
                                 <c:forEach var="t" items="${recipeSearchDTO.cookTimes}">
-                                    <c:set var="cookTimesQuery" value="${cookTimesQuery}&cookTimes=${t}" />
+                                    <c:set var="cookTimesQuery" value="&cookTimes=${t}" />
                                 </c:forEach>
                             </c:if>
 
+                            <c:set var="nowSort" value="" />
+                            <c:if test="${not empty sort}">
+                                <c:set var="nowSort" value="&sort=${sort}" />
+                            </c:if>
+
                             <%-- 2. 이전 버튼 (미리 만든 cookTimesQuery를 concat으로 붙이기) --%>
-                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery) : '#'}"
+                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(sort) : '#'}"
                             class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
                             <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
@@ -190,81 +195,22 @@
 
                             <%-- 3. 페이지 번호 (여기도 cookTimesQuery 변수 사용) --%>
                             <c:forEach var="i" begin="${startP}" end="${endP}">
-                                <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}${cookTimesQuery}"
+                                <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}${nowSort}"
                                 class="${i == curPage ? 'active' : ''}">
                                 ${i}
                                 </a>
                             </c:forEach>
 
                             <%-- 4. 다음 버튼 --%>
-                            <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat('&sort=').concat(currentSort).concat(cookTimesQuery) : '#'}"
+                            <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat(nowSort): '#'}"
                             class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
                         </div>
                     </c:if>
                 </section>
             </div>
         </form>
-        <footer>
-            <div class="footer-container">
-                <div class="footer-top-row">
-                    <div class="cs-section">
-                        <h3>고객센터</h3>
-                        <div class="cs-buttons">
-                            <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
-                            <div class="cs-btn">💬 1:1문의하기</div>
-                        </div>
-                        <div class="hours-info">
-                            <p><strong>운영시간</strong></p>
-                            <p>전화문의 - 10:00 ~ 12:00, 13:00 ~ 17:00 / 주말·공휴일 휴무</p>
-                            <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
-                        </div>
-                    </div>
-                    <div class="sns-icons">
-                        <span class="sns-icon">▶</span>
-                        <span class="sns-icon">★</span>
-                        <span class="sns-icon">☆</span>
-                        <span class="sns-icon">◆</span>
-                        <span class="sns-icon">♬</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-nav-bar">
-                <div class="footer-container">
-                    <div class="nav-links">
-                        <a href="#"><strong>이용약관</strong></a>
-                        <a href="#"><strong>개인정보처리방침</strong></a>
-                        <a href="/notice.do">공지사항</a>
-                        <a href="#">자주묻는질문</a>
-                        <span class="partner-mail">광고/제휴 문의: kh@culture.net</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-container">
-                <div class="footer-bottom-row">
-                    <div class="company-info">
-                        <h4>주식회사 코코짱짱</h4>
-                        <p>
-                            <span>상호 : KH 개발</span>
-                            <span>대표자 : 장승연</span>
-                            <span>개인정보관리책임자 : 장승연</span>
-                            <span>사업자 등록번호 : 111-01-31111</span>
-                        </p>
-                        <p>
-                            <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
-                            <span>전화 : 1833-1234</span>
-                            <span>팩스 : 031-8017-1800</span>
-                        </p>
-                        <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
-                    </div>
-
-                    <div class="footer-logo-area">
-                        <p class="copyright">© 2026 by Khculture. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <!-- footer 회사 정보 jsp 파일 include -->
+        <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
         <!-- 챗봇 -->
         <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
     </body>

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.Paging;
-import com.project.foodsite.dao.CommentDAO;
 import com.project.foodsite.dao.CookOrderDAO;
-import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.AdminRecipeDTO;
-import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -28,13 +24,9 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
-
-    @Autowired
-    HttpSession httpSession;
-
-    private final MemberDAO memberDAO;
+    
+    private final HttpSession httpSession;
     private final RecipeDAO recipeDAO;
-    private final CommentDAO commentDAO;
     private final CookOrderDAO cookOrderDAO;
 
     // 카테고리 매핑 함수
