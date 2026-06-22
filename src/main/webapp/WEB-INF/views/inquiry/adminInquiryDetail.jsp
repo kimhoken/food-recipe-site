@@ -23,6 +23,14 @@
 
             f.submit();
         }
+        function openImageModal(src) {
+            document.getElementById("imageModal").style.display = "flex";
+            document.getElementById("modalImage").src = src;
+        }
+
+        function closeImageModal() {
+            document.getElementById("imageModal").style.display = "none";
+        }
     </script>
 </head>
 
@@ -33,7 +41,6 @@
     <div class="admin-inquiry-form">
 
         <div class="admin-title-box">
-            <span class="admin-label">ADMIN INQUIRY</span>
             <h2>문의 상세</h2>
             <p>사용자가 남긴 문의 내용을 확인하고 답변을 등록할 수 있습니다.</p>
         </div>
@@ -65,7 +72,9 @@
                     <td>
                         <div class="image-list">
                             <c:forEach var="img" items="${imgList}">
-                                <img src="/upload/${img.image_list}">
+                                <img src="/upload/${img.image_list}"
+                                    class="inquiry-img"
+                                    onclick="openImageModal(this.src)">
                             </c:forEach>
                         </div>
                     </td>
@@ -77,10 +86,10 @@
                 <td>
                     <c:choose>
                         <c:when test="${not empty vo.member_id}">
-                            회원번호 ${vo.member_id}
+                            ${vo.nickname}
                         </c:when>
                         <c:otherwise>
-                            ${vo.guest_name} / ${vo.guest_email}
+                            비회원 (${vo.guest_name} / ${vo.guest_email})
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -115,6 +124,15 @@
             </c:if>
         </table>
 
+        <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+            <div class="image-modal-box" onclick="event.stopPropagation()">
+                <button type="button" class="image-modal-close" onclick="closeImageModal()">
+                    &times;
+                </button>
+                <img id="modalImage" class="image-modal-content">
+            </div>
+        </div>
+
         <form action="/inquiry/admin/answer" method="post" class="answer-form">
 
             <input type="hidden" name="inquiry_id" value="${vo.inquiry_id}">
@@ -132,7 +150,7 @@
 
             <div class="btn-area">
                 <input type="button" value="답변 등록" class="submit-btn" onclick="sendAnswer(this.form)">
-                <input type="button" value="목록" class="cancel-btn" onclick="location.href='/inquiry/admin/list'">
+                <input type="button" value="목록" class="cancel-btn" onclick="location.href='/admin/inquiry'">
             </div>
 
         </form>
