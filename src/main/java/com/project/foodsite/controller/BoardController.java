@@ -17,6 +17,7 @@ import com.project.foodsite.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
+import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.RecipeDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import jakarta.servlet.http.HttpSession;
 public class BoardController {
 
     private final BoardDAO boardDao;
+    private final RecipeDAO recipeDao;
     private final HttpSession session;
 
     // board list 조회
@@ -54,7 +56,13 @@ public class BoardController {
     // recipe 등록 폼
     @GetMapping("/regiRecipe.do")
     public String recipeForm(Model model, String id) {
+
         model.addAttribute("id", id);
+
+        model.addAttribute(
+                "foodList",
+                recipeDao.selectAllFood());
+
         return "board/board_regiRecipe";
     }
 
@@ -64,6 +72,11 @@ public class BoardController {
         // 등록 데이터 잘 들어오는지 확인용
 
         System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
+
+        System.out.println("선택한 foodId = " + dto.getFoodId());
+        System.out.println("생성된 recipeId = " + dto.getRecipeId());
+        System.out.println("insert 후 recipeId = " + dto.getRecipeId());
+        System.out.println("insert 후 foodId = " + dto.getFoodId());
 
         System.out.println("제목 : " + dto.getTitle());
 
@@ -94,24 +107,9 @@ public class BoardController {
             ingredient.setUnit(dto.getUnit().get(i));
 
             ingredient.setRecipe_id(dto.getRecipeId().intValue());
- 
+
             boardDao.insertIngredient(ingredient);
         }
-
-        // 3. board 저장
-        BoardVO board = new BoardVO();
-
-        board.setMember_id(dto.getMemberId().intValue());
-        board.setTitle(dto.getTitle());
-
-        board.setRecipe_id(dto.getRecipeId().intValue());
-
-        board.setStatus("Y");
-
-        //임시 확인용
-        board.setContent("레시피 게시글");
-
-        boardDao.insertBoard(board);
 
         return "redirect:/recipe_list.do";
     }
@@ -126,21 +124,43 @@ public class BoardController {
 
     @GetMapping("/view.do")
     public String boardView(int board_id, Model model, HttpServletRequest req) {
-        @SuppressWarnings("unchecked")
-        HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>()
-                : (HashMap<String, LinkedList<Integer>>) session.getAttribute("viewMap");
+        System.out.println("받은 board_id = " + board_id);
 
-        // 세션에서 IP, 게시글 ID를 확인해 없을경우 조회수 증가
-        if (map.get(req.getRemoteAddr()) == null && !map.get(req.getRemoteAddr()).contains(board_id)) {
-            // 조회수 증가
+        
+         @SuppressWarnings("unchecked")
+         HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") ==
+         null ? new HashMap<>()
+         : (HashMap<String, LinkedList<Integer>>) session.getAttribute("viewMap");
+         /* 
+         * // 세션에서 IP, 게시글 ID를 확인해 없을경우 조회수 증가
+         * if (map.get(req.getRemoteAddr()) == null &&
+         * !map.get(req.getRemoteAddr()).contains(board_id)) {
+         * // 조회수 증가
+         * boardDao.updateViewCount(board_id);
+         * map.computeIfAbsent(req.getRemoteAddr(), k -> new
+         * LinkedList<>()).add(board_id);
+         * session.setAttribute("viewMap", map);
+         * session.setMaxInactiveInterval(3600);
+         * }
+         */
+
+        //조회수 처리
+        String ip = req.getRemoteAddr();
+
+        LinkedList<Integer> viewedList = map.computeIfAbsent(ip, k -> new LinkedList<>());
+
+        if (!viewedList.contains(board_id)) {
+
             boardDao.updateViewCount(board_id);
-            map.computeIfAbsent(req.getRemoteAddr(), k -> new LinkedList<>()).add(board_id);
+
+            viewedList.add(board_id);
+
             session.setAttribute("viewMap", map);
-            session.setMaxInactiveInterval(3600);
         }
 
         // 게시글 조회
         BoardVO board = boardDao.selectOne(board_id);
+        System.out.println("조회결과 = " + board);
 
         model.addAttribute("board", board);
 

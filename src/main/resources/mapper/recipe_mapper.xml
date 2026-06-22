@@ -192,4 +192,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+    <!--  -->
+    <select id="selectAllFood" resultType="map">
+    SELECT
+        food_id AS foodId,
+        food_name AS foodName
+    FROM food
+    ORDER BY food_name
+    </select>
+
 </mapper>

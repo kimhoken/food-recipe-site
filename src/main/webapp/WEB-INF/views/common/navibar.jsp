@@ -158,10 +158,6 @@
                 <li class="${param.currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
                 <li class="${param.currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
                 <li class="${param.currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
-<<<<<<< HEAD
->>>>>>> 8154be1 (중간저장(06/18))
-=======
->>>>>>> 7c75f58 (중간저장)
             </ul>
         </header>
     </body>

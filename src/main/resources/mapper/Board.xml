@@ -26,13 +26,11 @@
         INSERT INTO recipe(
         title,
         member_id,
-        category_id,
         food_id
     )
     VALUES(
         #{title},
         #{memberId},
-        #{categoryId},
         #{foodId}
     )
     </insert>
