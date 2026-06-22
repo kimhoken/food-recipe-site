@@ -19,6 +19,7 @@ import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.AdminRecipeDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
@@ -107,7 +108,7 @@ public class AdminController {
         } else if (menu.equals("stats")) {
             contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";
         } else if (menu.equals("inquiry")) {
-            contentPage = "/WEB-INF/views/member/admin/admin_inquiry.jsp";
+            contentPage = "/WEB-INF/views/inquiry/adminInquiryList.jsp";
         } else if (menu.equals("report")) {
             contentPage = "/WEB-INF/views/member/admin/admin_report.jsp";
         } else if (menu.equals("info")) {
