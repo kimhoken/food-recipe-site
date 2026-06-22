@@ -112,6 +112,7 @@
                 <div class="comment-insert-div">
                     <table>
                         <tr>
+                            <td>댓글 달기</td>
                             <td>
                                 <input type="hidden" name="member_id" value="${sessionScope.user.member_id}">
                                 <input type="hidden" name="recipe_id" value="${param.recipeId}">
@@ -132,9 +133,8 @@
                 <c:forEach var="vo" items="${commentList}">
                     <table>
                         <tr>
-                            <td><input type="text" value="${vo.content}" readOnly="readonly"></td>
-                            <td>작성자</td> 
-                            <td><input type="text" value="${vo.nickname}"></td>
+                            <td>${vo.nickname}</td>
+                            <td><textarea class="comment-content" >${vo.content}</textarea></td>
                             <c:if test="${vo.memberId eq sessionScope.user.member_id}">
                                 <td>
                                     <input type="button" value="수정" onClick="location.href='/comment_modify.do?member_id=${vo.memberId}'" />
