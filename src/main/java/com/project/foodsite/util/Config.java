@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
-public class Config {
+public class Config{
     @Value("${vapid.public-key}")
     private String publicKey;
 
@@ -40,4 +40,5 @@ public class Config {
     public String getSubject() {
         return subject;
     }
+
 }
