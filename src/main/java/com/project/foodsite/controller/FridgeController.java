@@ -81,7 +81,7 @@ public class FridgeController {
         return map;
     }//del
 
-    @PostMapping("/modity.do")
+    @PostMapping("/modify.do")
     @ResponseBody
     public Map<String, String> modi(@RequestBody Map<String, String> map) {
         int res = fdao.modify(map);

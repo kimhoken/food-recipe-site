@@ -182,7 +182,7 @@
             
             const member_id = '${sessionScope.user.member_id}';
             // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
-            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null ) {
+            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null && member_id != '') {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/js/alarm.js')
                     .then(function(registration) {
