@@ -17,7 +17,6 @@ import com.project.foodsite.dao.CookOrderDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.AdminRecipeDTO;
-import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -126,7 +125,10 @@ public class AdminController {
 
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
 
+        List<RecipeVO> recentlyRecipe = recipeDAO.recentlyrecipe();
+
         model.addAttribute("profileuser", user);
+        model.addAttribute("list",recentlyRecipe);
         model.addAttribute("contentPage", "/WEB-INF/views/member/admin/admin_home.jsp");
 
         return "member/adminpage";
@@ -136,6 +138,10 @@ public class AdminController {
     // 레시피 페이지 검색 및 조회
     @GetMapping("/admin/recipe")
     public String adminrecipepage(AdminRecipeDTO adminRecipeDTO, Model model) {
+
+        MemberVO user = (MemberVO) httpSession.getAttribute("user");
+
+        model.addAttribute("profileuser", user);
 
         RecipePaging(model, adminRecipeDTO);
 
@@ -157,6 +163,7 @@ public class AdminController {
         return map;
     }
 
+    // 레시피 검색 및 페이징 처리 
     @PostMapping("/admin/recipe/search")
     @ResponseBody
     public Map<String, Object> recipesearch(AdminRecipeDTO adminRecipeDTO, Model model) {
@@ -187,7 +194,29 @@ public class AdminController {
         map.put("paging", paging);
 
         return map;
-    }
+    }   
+
+    // 레시피 추천 등록/ 해제 함수
+    @PostMapping("/admin/recipe/recommend")
+    @ResponseBody
+    public Map<String, Object> reciperecommend(int recipe_id){
+        RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
+        if(recipe.isRecommend()){
+            recipe.setRecommend(false);
+        }else{
+            recipe.setRecommend(true);
+        }
+
+        int res = recipeDAO.updateRecipe(recipe);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("result",res );
+        map.put("title",recipe.getTitle());
+        map.put("recommend",recipe.isRecommend());
+
+        return map;
+        }
 
     // 레시피 공개/비공개 함수
     @PostMapping("/admin/private")

@@ -162,7 +162,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         <if test="status != null and status != ''">
             AND r.status = #{status}
-        </if>    
+        </if> 
+
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
+
     </select>
 
     <select id="RecipeList" parameterType="adminrecipe" resultType="recipe">
@@ -190,6 +195,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND r.status = #{status}
         </if>
 
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
+
         ORDER BY r.recipe_id DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
@@ -205,6 +214,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <update id="updateStatus" parameterType="recipe">
         update recipe set status = #{status} where recipe_id = #{recipe_id} 
+    </update>
+
+    <update id="updateRecipe" parameterType="recipe">
+        update recipe set recommend = #{recommend} where recipe_id = #{recipe_id}
     </update>
 
     <resultMap id="RecipeDetailMap" type="RecipeDetailDTO">

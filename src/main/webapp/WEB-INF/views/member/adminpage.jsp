@@ -9,6 +9,7 @@
             <script>
                 let recipedetailrecipe;
 
+                // 레시피 상세 보기 모달 열기 닫기 함수
                 function openDetail() {
                     document.querySelector(".ra-detail").classList.add("active");
                 }
@@ -32,6 +33,7 @@
                         })
                 }
 
+                // 레시피 상세보기 데이터 값 너흔 함수
                 function fileRecipe(recipe) {
                     setText("model_title", recipe.title);
                     setText("model_nickname", recipe.nickname);
@@ -45,6 +47,7 @@
                     setImg("model_img", "/upload/recipe/" + recipe.thumbnail);
                 }
 
+                // 상세보기 조리 순서 출력 함수
                 function renderCookOrders(list) {
                     console.log(list);
                     const box = document.getElementById("cookOrderBox");
@@ -63,11 +66,9 @@
                     });
                 }
 
+                // 상세보기 정보 입력 함수
                 function setText(id, value) {
                     document.getElementById(id).textContent = value ?? "-";
-
-
-
                     if (value == 'public') {
                         document.getElementById(id).textContent = "공개" ?? "-";
                     } else if (value == 'private') {
@@ -78,6 +79,7 @@
                     document.getElementById(id).src = src;
                 }
 
+                // 레시피 공개/ 비공개 함수
                 function recipeprivate() {
                     if (confirm("정말로 비공개 처리 하시겠습니까?")) {
                         fetch("/admin/private", {
@@ -94,6 +96,7 @@
                     }
                 }
 
+                // 레시피 삭제 및 복원 함수
                 function recipedel() {
                     if (!confirm("정말로 삭제 하시겠습니까?")) {
 
@@ -115,64 +118,19 @@
                             }
                         })
                 }
-
+                // 검색창에서 엔터시 검색되는 함수
                 function eneterSearch(e) {
                     if (e.key === "Enter") {
                         searchRecipe();
                     }
                 }
 
+                // 카테고리 및 공개/비공개 레시피 조회하는 함수
                 function searchRecipe() {
                     document.querySelector('form[action="/admin/recipe"]').submit();
-
-        //             let keyword = document.getElementById("keyword").value;
-        //             let category = document.getElementById("category").value;
-        //             let status = document.getElementById("status").value;
-        //             fetch("/admin/recipe/search", {
-        //                 method: 'post',
-        //                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //                 body: 'keyword=' + keyword + '&category_name=' + category + '&status=' + status
-        //             }).then(res => res.json())
-        //                 .then(data => {
-
-        //                     console.log(data.list);
-        //                     let recipeTableBody = document.getElementById("recipeTableBody");
-        //                     recipeTableBody.innerHTML = "";
-
-        //                     data.list.forEach(recipe => {
-
-        //                         let statusHtml = "";
-
-        //                         if (recipe.status === "public") {
-        //                             statusHtml = `<span class="badge badge-public">공개</span>`;
-        //                         } else {
-        //                             statusHtml = `<span class="badge badge-public">비공개</span>`;
-        //                         }
-
-        //                         recipeTableBody.insertAdjacentHTML("beforeend", `
-        //     <tr class="ra-row" onclick="recipe_view('\${recipe.recipe_id}')">
-        //         <td>
-        //             <img class="ra-thumb" src="/upload/recipe/\${recipe.thumbnail}" />
-        //         </td>
-        //         <td class="ra-info">
-        //             <div class="ra-name">
-        //                 \${recipe.status === "delete" ? "[삭제됨]" : ""}
-        //                 \${recipe.title}
-        //             </div>
-        //             <small class="ra-category-label">\${recipe.category_name}</small>
-        //         </td>
-        //         <td>\${recipe.nickname}</td>
-        //         <td>\${recipe.created_date}</td>
-        //         <td>\${recipe.view_count}</td>
-        //         <td>\${recipe.like_count}</td>
-        //         <td>\${statusHtml}</td>
-        //         <td>...</td>
-        //     </tr>
-        // `);
-        //                     });
-        //                 });
                 }
 
+                // 검색 결과 리셋 함수
                 function resetSearch() {
 
                     document.getElementById("keyword").value = "";
@@ -181,6 +139,51 @@
 
                     searchRecipe();
                 }
+
+                function reciperecommend() {
+
+                    fetch("/admin/recipe/recommend", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: "recipe_id=" + recipedetailrecipe
+                    }).then(res => res.json())
+                        .then(data => {
+                            if (data.result > 0 && data.recommend) {
+                                alert(data.title + "가 추천 레시피에 등록되었습니다");
+                            } else if (data.result > 0 && !data.recommend) {
+                                alert(data.title + "가 추천 레시피에 해제 되었습니다.");
+                            }
+                        })
+
+                }
+
+                document.addEventListener("DOMContentLoaded", () => {
+                    const profileName = document.querySelector(".profile-name");
+                    const profileTrigger = document.querySelector(".profile-trigger");
+
+                    if (!profileName || !profileTrigger) return;
+
+                    profileTrigger.addEventListener("click", (event) => {
+                        event.stopPropagation();
+
+                        const isOpen = profileName.classList.toggle("open");
+                        profileTrigger.setAttribute("aria-expanded", isOpen);
+                    });
+
+                    document.addEventListener("click", (event) => {
+                        if (profileName.contains(event.target)) return;
+
+                        profileName.classList.remove("open");
+                        profileTrigger.setAttribute("aria-expanded", "false");
+                    });
+
+                    document.addEventListener("keydown", (event) => {
+                        if (event.key !== "Escape") return;
+
+                        profileName.classList.remove("open");
+                        profileTrigger.setAttribute("aria-expanded", "false");
+                    });
+                });
 
             </script>
         </head>
@@ -214,43 +217,96 @@
                                 </c:choose>
 
                             </div>
-                            <strong>${profileuser.nickname}</strong>
+                            <ul class="profile-menu">
+                                <li class="profile-name">
+                                    <button type="button" class="profile-trigger" aria-expanded="false">
+                                        <strong>${profileuser.nickname}</strong>
+                                        <span class="menu-arrow" aria-hidden="true">⌄</span>
+                                    </button>
+
+                                    <ul class="profile-submenu">
+                                        <li>
+                                            <a href="#">내 정보</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">알림</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">로그아웃</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                             <p>맛있는 하루 되세요!</p>
                         </div>
 
 
                         <div class="menu-section">
                             <div class="sub-title">운영 관리</div>
-                            <a class="admin-menu ${menu eq 'home' ? 'active'  :''}" href="/admin">
-                                대시 보드</a>
-                            <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin/user">
-                                회원 관리</a>
-                            <a class="admin-menu ${menu eq 'recipe' ? 'active' :''}" href="/admin/recipe">
-                                레시피 관리</a>
-                            <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
-                                통계 관리</a>
+                            <ul class="admin-menu-list">
+                                <li>
+                                    <a class="admin-menu ${menu eq 'home' ? 'active'  :''}" href="/admin">
+                                        대시 보드</a>
+                                </li>
+
+                                <li>
+                                    <a class="admin-menu ${menu eq 'user' ? 'active'  : ''}" href="/admin/user">
+                                        회원 관리</a>
+                                </li>
+
+                                <li class="has-sub">
+                                    <a class="admin-menu ${menu eq 'recipe' ? 'active' :''}" href="/admin/recipe">
+                                        <span>레시피 관리</span>
+                                        <span class="menu-arrow" aria-hidden="true">›</span>
+                                    </a>
+                                    <ul class="admin-submenu">
+                                        <li>
+                                            <a href="/admin/recipe">전체 레시피</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/admin/recipe?recommend=true">추천 레시피</a>
+                                        </li>
+                                            
+                                        <li>
+                                            <a href="/admin/recipe?delete=true">삭제 레시피</a>
+                                        </li>
+                                            
+                                        <li>
+                                            <a href="/admin/recipe/review">레시피 후기</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
+                                        통계 관리</a>
+                                </li>
+                                <li>
+                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
+                                        게시글 관리</a>
+                                </li>
+                                <li>
+                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
+                                        댓글 관리</a>
+                                </li>
+                            </ul>
+                            
                         </div>
 
 
                         <div class="menu-section">
                             <div class="sub-title">고객지원</div>
+                            
                             <a class="admin-menu ${menu eq 'inquiry' ? 'active' :''}" href="/admin/inquiry">
                                 문의 관리</a>
                             <a class="admin-menu ${menu eq 'report' ? 'active' :''}" href="/admin/report">
                                 신고 관리</a>
                         </div>
 
-                        <div class="menu-section">
-                            <div class="sub-title">계정 관리</div>
-                            <a class="admin-menu ${menu eq 'info' ? 'active'  :''}" href="/admin?menu=info">
-                                내 정보</a>
-                            <button type="button" onclick="logout()">
-                                <img src="/images/logout.png" />
-                                로그아웃</button>
-                            <a class="admin-menu ${menu eq 'notice' ? 'active' :''}" href="/admin?menu=notice">
-                                알림</a>
-
-                        </div>
+                       
 
                     </aside>
 

@@ -304,3 +304,132 @@ body {
     font-size: 14px;
     color: #444;
 }
+
+
+.admin-menu-list,
+.admin-submenu,
+.profile-menu,
+.profile-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-menu-list > li {
+    position: relative;
+}
+
+.admin-submenu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    margin: 2px 0 10px;
+    padding: 7px 0 7px 16px;
+    border-left: 2px solid #dbe8ce;
+}
+
+.has-sub:hover > .admin-submenu {
+    display: flex;
+}
+
+.has-sub > .admin-menu .menu-arrow {
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.has-sub:hover > .admin-menu .menu-arrow {
+    transform: rotate(90deg);
+}
+
+.admin-submenu li a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #6b5b4d;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-submenu li a:hover {
+    background: #edf5e5;
+    color: #315f1b;
+    font-weight: 600;
+    transform: translateX(3px);
+}
+
+.profile-menu {
+    margin-top: 10px;
+}
+
+.profile-name {
+    position: relative;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #2f3b28;
+    cursor: pointer;
+}
+
+.profile-trigger:hover,
+.profile-name.open .profile-trigger {
+    background: #f1f7eb;
+}
+
+.profile-trigger strong {
+    margin: 0;
+    font-size: 18px;
+}
+
+.profile-trigger .menu-arrow {
+    font-size: 17px;
+    transition: transform 0.2s ease;
+}
+
+.profile-name.open .profile-trigger .menu-arrow {
+    transform: rotate(180deg);
+}
+
+.profile-submenu {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 7px);
+    left: 50%;
+    display: none;
+    width: 160px;
+    padding: 7px;
+    border: 1px solid #e5ddcf;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(47, 37, 31, 0.14);
+    text-align: left;
+    transform: translateX(-50%);
+}
+
+.profile-name.open .profile-submenu {
+    display: block;
+}
+
+.profile-submenu a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #4b4038;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.profile-submenu a:hover {
+    background: #edf5e5;
+    color: #315f1b;
+    font-weight: 600;
+}

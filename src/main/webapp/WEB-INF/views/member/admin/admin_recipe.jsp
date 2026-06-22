@@ -14,22 +14,25 @@
                             <h3 class="ra-title">레시피 관리</h3>
                             <p class="ra-desc">등록된 레시피를 관리하고 추천 레시피를 설정할수 있습니다.</p>
                         </div>
-                        <input type="button" class="ra-add-btn" value="레시피 등록" onclick="" />
                     </div>
 
                     <div class="ra-tabs">
-                        <input class="ra-tab" type="button" value="전체 레시피" />
-                        <input class="ra-tab" type="button" value="추천 레시피 설정" />
+                        <input class="ra-tab" type="button" value="전체 레시피" onclick="location.href='/admin/recipe'" />
+                        <input class="ra-tab" type="button" value="추천 레시피"
+                            onclick="location.href='/admin/recipe?recommend=true'" />
                     </div>
 
                     <form action="/admin/recipe" method="get">
+
                         <input type="hidden" name="page" value="1" />
+                        <input type="hidden" name="recommend" value="${searchrecipe.recommend}" />
+
                         <div class="ra-filter">
 
                             <input id="keyword" type="text" class="ra-search" name="keyword" placeholder="레시피명, 작성자명 검색"
-                                value="${searchrecipe.keyword}" onkeydown="eneterSearch(event)"/>
+                                value="${searchrecipe.keyword}" onkeydown="eneterSearch(event)" />
 
-                            <select id="category" class="ra-category" name="category_name" onchange="searchRecipe()" >
+                            <select id="category" class="ra-category" name="category_name" onchange="searchRecipe()">
                                 <option value="">카테고리 전체</option>
                                 <option value="recommend" ${searchrecipe.category_name eq 'recommend' ? 'selected' : ''
                                     }>상황별 추천</option>
@@ -64,7 +67,9 @@
                                 <option value="delete" ${searchrecipe.status eq 'delete' ? 'selected' : '' }>삭제</option>
                             </select>
 
-                            <input type="button" class="ra-reset" value="초기화" onclick="resetSerach()" />
+                            <button type="button" class="ra-reset" onclick="resetSearch()">
+                                <img src="/images/reset.png"/>
+                            </button>
 
                         </div>
 
@@ -80,60 +85,58 @@
                                     <th>상태</th>
                                     <th>관리</th>
                                 </tr>
-                                <tbody id="recipeTableBody">                                
-                                <!-- forEach문 들어갈 예정 -->
-                                <c:forEach var="recipe" items="${list}">
-                                    <tr class="ra-row" onclick="recipe_view('${recipe.recipe_id}')">
-                                        <td><img class="ra-thumb" src="/upload/recipe/${recipe.thumbnail}" /></td>
-                                        <td class="ra-info">
-                                            <div class="ra-name">
-                                                <c:if test="${recipe.status eq 'delete'}">
-                                                    [삭제됨]
+                                <tbody id="recipeTableBody">
+                                    <!-- forEach문 들어갈 예정 -->
+                                    <c:forEach var="recipe" items="${list}">
+                                        <tr class="ra-row" onclick="recipe_view('${recipe.recipe_id}')">
+                                            <td><img class="ra-thumb" src="/upload/recipe/${recipe.thumbnail}" /></td>
+                                            <td class="ra-info">
+                                                <div class="ra-name">
+                                                    <c:if test="${recipe.status eq 'delete'}">
+                                                        [삭제됨]
+                                                    </c:if>
+                                                    ${recipe.title}
+                                                </div>
+                                                <small class="ra-category-label">${recipe.category_name}</small>
+                                            </td>
+                                            <td>${recipe.nickname}</td>
+                                            <td>${recipe.created_date}</td>
+                                            <td>${recipe.view_count}</td>
+                                            <td>${recipe.like_count}</td>
+                                            <td>
+                                                <c:if test="${recipe.status eq 'public'}">
+                                                    <span class="badge badge-public">공개</span>
                                                 </c:if>
-                                                ${recipe.title}
-                                            </div>
-                                            <small class="ra-category-label">${recipe.category_name}</small>
-                                        </td>
-                                        <td>${recipe.nickname}</td>
-                                        <td>${recipe.created_date}</td>
-                                        <td>${recipe.view_count}</td>
-                                        <td>${recipe.like_count}</td>
-                                        <td>
-                                            <c:if test="${recipe.status eq 'public'}">
-                                                <span class="badge badge-public">공개</span>
-                                            </c:if>
-    
-                                            <c:if test="${recipe.status ne 'public'}">
-                                                <span class="badge badge-public">비공개</span>
-                                            </c:if>
-                                        </td>
-                                        <td>...</td>
-                                    </tr>
-    
-                                </c:forEach>
-                                <!--  -->
+
+                                                <c:if test="${recipe.status ne 'public'}">
+                                                    <span class="badge badge-public">비공개</span>
+                                                </c:if>
+                                            </td>
+                                            <td>...</td>
+                                        </tr>
+
+                                    </c:forEach>
+                                    <!--  -->
                                 </tbody>
                             </table>
-    
+
                             <div class="ra-footer">
                                 <span class="ra-total">전체 갯수: ${totalcount}</span>
                                 <div class="ra-page" id="recipePaging">
-                                    <c:set var="pageUrl" 
-                                           value="/admin/recipe?keyword=${searchrecipe.keyword}&category_name=${searchrecipe.category_name}&status=${searchrecipe.status}" 
-                                           scope="request"/>
+                                    <c:set var="pageUrl"
+                                        value="/admin/recipe?keyword=${searchrecipe.keyword}&category_name=${searchrecipe.category_name}&status=${searchrecipe.status}&recommend=${searchrecipe.recommend}"
+                                        scope="request" />
                                     <jsp:include page="/WEB-INF/views/common/paging.jsp" />
                                 </div>
-                                <select class="ra-size">
-                                    <option value="5">5개씩 보기</option>
-                                    <option value="10">10개씩 보기</option>
-                                    <option value="20">20개씩 보기</option>
-                                </select>
+
+                                <input type="button" class="ra-add-btn" value="레시피 등록" onclick="" />
+
                             </div>
                         </div>
                     </form>
                 </div>
 
-                <!-- 모달로 구현할 예정 -->
+                <!-- 레시피 상세보기 모달로 구현 -->
                 <div class="ra-detail">
 
                     <div class="ra-detail-head">
@@ -188,6 +191,7 @@
                         <input type="button" class="btn-edit" value="수정하기" onclick="recipemodify(this)" />
                         <input type="button" class="btn-private" value="비공개 전환" onclick="recipeprivate(this)" />
                         <input type="button" class="btn-delete" value="삭제하기" onclick="recipedel(this)" />
+                        <input type="button" class="btn-recommend" value="추천" onclick="reciperecommend(this)" />
                     </div>
                 </div>
         </section>
