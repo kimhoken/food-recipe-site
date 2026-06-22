@@ -249,7 +249,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, int recipeId) {
+    public String recipeDetail(Model model, int recipeId){
         model.addAttribute("recipeId", recipeId);
         RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
 
@@ -260,19 +260,12 @@ public class RecipeController {
             return e1.getOrder() - e2.getOrder();
         });
 
-        for (IngredientVO vo : ilist) {
-            System.out.println(vo.getIngredient_name());
-            System.out.println(vo.getQuantity() + " " + vo.getUnit());
-        }
-        System.out.println("==========================================================================");
-        for (CookOrderVO vo : olist) {
-            System.out.println(vo.getOrder() + " " + vo.getDescription());
-        }
-
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);
+        model.addAttribute("size", ilist.size());
         return "recipe/recipe_detail";
     }
+    
 
 }
