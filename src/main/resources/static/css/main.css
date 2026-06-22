@@ -10,7 +10,7 @@
 }
 
 body {
-    background-color: #F6F7F2;
+    background-color: #fff;
     color: #333;
     overflow-x: hidden;
     font-family: Arial, sans-serif;
@@ -260,7 +260,7 @@ header {
     width: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #f1ede4;
+    background-color: #ffffff;
     padding: 24px 0;
 }
 
@@ -280,7 +280,6 @@ header {
     width: 100%;
     height: 370px;
     overflow: hidden;
-    border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
 
@@ -356,23 +355,32 @@ header {
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 기본 그림자 투명도를 살짝 높여서 배경과 분리 */
     position: relative;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid #f1f5f9;
+    border: 1px solid #cbd5e1; /* 기존 #f1f5f9 보다 확실히 진한 테두리 색상 적용 */
 }
 
 .recipe-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18); /* 호버 시 그림자를 훨씬 진하고 넓게 퍼지게 수정 */
+    border-color: #5a7e4d; /* 호버 시 사이트 포인트 컬러(초록색)로 테두리 변경 효과 추가 */
 }
 
+/* 기존 .recipe-img 속성 수정 */
 .recipe-img {
     width: 100%;
     height: 130px;
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
+}
+
+/* 새로 추가할 부분: img 태그가 부모 박스에 예쁘게 꽉 차도록 설정 */
+.recipe-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ⭐️ 핵심: 비율을 유지하면서 박스 크기에 맞게 남는 부분을 잘라내줌 */
+    display: block;
 }
 
 .rank-badge {

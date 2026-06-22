@@ -13,9 +13,11 @@
     <body>
         <jsp:include page="/WEB-INF/views/common/navibar.jsp"/>
         <%-- 레시피의 조리순서, 재료, 사진 등을 보여주기 --%>
-        <div class="recipe-detail-wrap">
+        <div class="title-wrap">
+            <h1>${dto.recipeTitle}</h1>
             <div class="recipe-author">작성자: ${dto.nickName}</div>
-            
+        </div>
+        <div class="recipe-detail-wrap">
             <div class="recipe-top-section">
                 <table class="ingredient-table">
                     <tr>
@@ -28,7 +30,6 @@
                         <tr class="ingredient-row">
                             <td class="ing-name">${vo.ingredient_name}</td>
                             <td class="ing-amount">${vo.quantity}${vo.unit}</td>
-                            
                         </tr>
                     </c:forEach>
                 </table>
