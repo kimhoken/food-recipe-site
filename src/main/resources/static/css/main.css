@@ -144,9 +144,9 @@ header {
 /* 🔍 새로 추가할 버튼 스타일 */
 .search-bar button {
     position: absolute;
-    right: 15px;
+    right: 5%;
     /* 우측에서 15px 띄움 */
-    top: 50%;
+    top: 40%;
     /* 부모의 세로 중앙으로 이동 */
     transform: translateY(-50%);
     /* 정확한 세로 중앙 정렬 */

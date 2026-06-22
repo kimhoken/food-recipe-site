@@ -30,7 +30,7 @@
                     .then(data => {
                         if (data.result == "success") {
                             alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
+                            location.reload();
                         }
                     })
                 }
