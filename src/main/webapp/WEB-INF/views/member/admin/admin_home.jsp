@@ -55,7 +55,17 @@
                         ${recipe.title}</td>
                     <td>${recipe.nickname}</td>
                     <td>${recipe.created_date}</td>
-                    <td>${recipe.status}</td>
+                    <td>
+                        <c:if test="${recipe.status eq 'public'}">
+                            공개
+                        </c:if>
+                        <c:if test="${recipe.status eq 'private'}">
+                            비공개
+                        </c:if>
+                        <c:if test="${recipe.status eq 'delete'}">
+                            삭제
+                        </c:if>
+                    </td>
                 </tr>
              </c:forEach>
             <!--  -->

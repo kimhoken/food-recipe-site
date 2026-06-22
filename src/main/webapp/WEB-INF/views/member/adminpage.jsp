@@ -8,6 +8,7 @@
 
             <script>
                 let recipedetailrecipe;
+                let recipeStatus;
 
                 // 레시피 상세 보기 모달 열기 닫기 함수
                 function openDetail() {
@@ -27,13 +28,14 @@
                     }).then(res => res.json())
                         .then(data => {
                             recipedetailrecipe = data.recipe.recipe_id;
+                            recipeStatus = data.recipe.status;
                             fileRecipe(data.recipe);
                             renderCookOrders(data.list);
                             openDetail();
                         })
                 }
 
-                // 레시피 상세보기 데이터 값 너흔 함수
+                // 레시피 상세보기 데이터 값 넣는 함수
                 function fileRecipe(recipe) {
                     setText("model_title", recipe.title);
                     setText("model_nickname", recipe.nickname);
@@ -45,6 +47,22 @@
                     setText("model_status", recipe.status);
 
                     setImg("model_img", "/upload/recipe/" + recipe.thumbnail);
+
+                    document.querySelector(".btn-private").value=
+                    recipe.status === "public"
+                    ? "비공개 전환" 
+                    : "공개 전환";
+
+                    document.querySelector(".btn-delete").value=
+                    recipe.status === "delete"
+                    ? "복원 하기" 
+                    : "삭제 하기";
+
+                    document.querySelector(".btn-recommend").value=
+                    recipe.recommend
+                    ? "추천 해제" 
+                    : "추천 등록";
+
                 }
 
                 // 상세보기 조리 순서 출력 함수
@@ -164,8 +182,8 @@
                     if (!profileName || !profileTrigger) return;
 
                     profileTrigger.addEventListener("click", (event) => {
+                        
                         event.stopPropagation();
-
                         const isOpen = profileName.classList.toggle("open");
                         profileTrigger.setAttribute("aria-expanded", isOpen);
                     });
@@ -271,7 +289,7 @@
                                         </li>
                                             
                                         <li>
-                                            <a href="/admin/recipe?delete=true">삭제 레시피</a>
+                                            <a href="/admin/recipe?status=delete">삭제 레시피</a>
                                         </li>
                                             
                                         <li>

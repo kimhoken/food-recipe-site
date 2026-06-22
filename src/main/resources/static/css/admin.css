@@ -277,6 +277,7 @@ body {
 .quick-menu a {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
     height: 90px;
     border: 1px solid #eadfce;
@@ -392,11 +393,6 @@ body {
 
 .profile-trigger .menu-arrow {
     font-size: 17px;
-    transition: transform 0.2s ease;
-}
-
-.profile-name.open .profile-trigger .menu-arrow {
-    transform: rotate(180deg);
 }
 
 .profile-submenu {

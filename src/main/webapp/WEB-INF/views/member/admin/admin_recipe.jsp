@@ -64,7 +64,7 @@
                                 </option>
                                 <option value="private" ${searchrecipe.status eq 'private' ? 'selected' : '' }>비공개
                                 </option>
-                                <option value="delete" ${searchrecipe.status eq 'delete' ? 'selected' : '' }>삭제</option>
+                                
                             </select>
 
                             <button type="button" class="ra-reset" onclick="resetSearch()">
@@ -91,10 +91,7 @@
                                         <tr class="ra-row" onclick="recipe_view('${recipe.recipe_id}')">
                                             <td><img class="ra-thumb" src="/upload/recipe/${recipe.thumbnail}" /></td>
                                             <td class="ra-info">
-                                                <div class="ra-name">
-                                                    <c:if test="${recipe.status eq 'delete'}">
-                                                        [삭제됨]
-                                                    </c:if>
+                                                <div class="ra-name">                                                    
                                                     ${recipe.title}
                                                 </div>
                                                 <small class="ra-category-label">${recipe.category_name}</small>
@@ -108,8 +105,12 @@
                                                     <span class="badge badge-public">공개</span>
                                                 </c:if>
 
-                                                <c:if test="${recipe.status ne 'public'}">
-                                                    <span class="badge badge-public">비공개</span>
+                                                <c:if test="${recipe.status eq 'private'}">
+                                                    <span class="badge badge-private">비공개</span>
+                                                </c:if>
+
+                                                <c:if test="${recipe.status eq 'delete'}">
+                                                    <span class="badge badge-delete">삭제</span>
                                                 </c:if>
                                             </td>
                                             <td>...</td>
@@ -154,26 +155,26 @@
                         <dl class="ra-meta">
 
                             <dt>작성자</dt>
-                            <dd id="model_nickname">관리자</dd>
+                            <dd id="model_nickname"></dd>
 
                             <dt>카테고리</dt>
-                            <dd id="model_category">한식</dd>
+                            <dd id="model_category"></dd>
 
                             <dt>등록일</dt>
-                            <dd id="model_created">2026-06-18</dd>
+                            <dd id="model_created"></dd>
 
                             <dt>수정일</dt>
-                            <dd id="model_modify">2026-06-18</dd>
+                            <dd id="model_modify"></dd>
 
                             <dt>조회수</dt>
-                            <dd id="model_count">112</dd>
+                            <dd id="model_count"></dd>
 
 
                             <dt>좋아요</dt>
-                            <dd id="model_like">50</dd>
+                            <dd id="model_like"></dd>
 
                             <dt>상태</dt>
-                            <dd id="model_status">정상</dd>
+                            <dd id="model_status"></dd>
 
                         </dl>
 
@@ -188,10 +189,10 @@
 
                     </div>
                     <div class="ra-actions">
-                        <input type="button" class="btn-edit" value="수정하기" onclick="recipemodify(this)" />
-                        <input type="button" class="btn-private" value="비공개 전환" onclick="recipeprivate(this)" />
-                        <input type="button" class="btn-delete" value="삭제하기" onclick="recipedel(this)" />
-                        <input type="button" class="btn-recommend" value="추천" onclick="reciperecommend(this)" />
+                        <input type="button" class="btn-edit" value="수정 하기" onclick="recipemodify(this)" />                        
+                        <input type="button" class="btn-private" value="" onclick="recipeprivate(this)" />
+                        <input type="button" class="btn-delete" value="" onclick="recipedel(this)" />
+                        <input type="button" class="btn-recommend" value="" onclick="reciperecommend(this)" />
                     </div>
                 </div>
         </section>
