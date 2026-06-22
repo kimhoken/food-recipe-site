@@ -295,7 +295,7 @@
         </div>
 
         <div class="container main-page">
-            <div class="section-title">지금 인기있는 레시피</div>
+            <div class="section-title">조회수 TOP 5 레시피</div>
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
