@@ -67,10 +67,10 @@
 
         <h3>빠른 관리</h3>
         <div class="quick-menu">
-            <a href="/admin?menu=user">회원 관리
+            <a href="/admin/user">회원 관리
                 <small>회원 목록 및 관리</small>
             </a>
-            <a href="/admin?menu=recipe">레시피 관리
+            <a href="/admin/recipe">레시피 관리
                 <small>레시피 등록 및 관리</small>
             </a>
             <a href="/admin?menu=inquiry">문의 관리

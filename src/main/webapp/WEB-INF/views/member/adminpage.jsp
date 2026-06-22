@@ -124,53 +124,7 @@
 
                 function searchRecipe() {
                     document.querySelector('form[action="/admin/recipe"]').submit();
-
-        //             let keyword = document.getElementById("keyword").value;
-        //             let category = document.getElementById("category").value;
-        //             let status = document.getElementById("status").value;
-        //             fetch("/admin/recipe/search", {
-        //                 method: 'post',
-        //                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        //                 body: 'keyword=' + keyword + '&category_name=' + category + '&status=' + status
-        //             }).then(res => res.json())
-        //                 .then(data => {
-
-        //                     console.log(data.list);
-        //                     let recipeTableBody = document.getElementById("recipeTableBody");
-        //                     recipeTableBody.innerHTML = "";
-
-        //                     data.list.forEach(recipe => {
-
-        //                         let statusHtml = "";
-
-        //                         if (recipe.status === "public") {
-        //                             statusHtml = `<span class="badge badge-public">공개</span>`;
-        //                         } else {
-        //                             statusHtml = `<span class="badge badge-public">비공개</span>`;
-        //                         }
-
-        //                         recipeTableBody.insertAdjacentHTML("beforeend", `
-        //     <tr class="ra-row" onclick="recipe_view('\${recipe.recipe_id}')">
-        //         <td>
-        //             <img class="ra-thumb" src="/upload/recipe/\${recipe.thumbnail}" />
-        //         </td>
-        //         <td class="ra-info">
-        //             <div class="ra-name">
-        //                 \${recipe.status === "delete" ? "[삭제됨]" : ""}
-        //                 \${recipe.title}
-        //             </div>
-        //             <small class="ra-category-label">\${recipe.category_name}</small>
-        //         </td>
-        //         <td>\${recipe.nickname}</td>
-        //         <td>\${recipe.created_date}</td>
-        //         <td>\${recipe.view_count}</td>
-        //         <td>\${recipe.like_count}</td>
-        //         <td>\${statusHtml}</td>
-        //         <td>...</td>
-        //     </tr>
-        // `);
-        //                     });
-        //                 });
+        
                 }
 
                 function resetSearch() {
