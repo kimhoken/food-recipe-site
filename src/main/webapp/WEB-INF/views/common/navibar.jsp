@@ -72,6 +72,10 @@
                     }
                 });
             });
+            const send_search = (f, btn) => {
+                document.getElementById("mainSearch").value = btn.value;
+                f.submit();
+            }
         </script>
     </head>
     <body>
@@ -84,51 +88,51 @@
                 </div>
 
                 <%-- 검색창 클릭시 나올 화면 --%>
-                <div class="search-wrapper" style="position: relative;">
-                    <form name="searchForm" action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
+                <form name="searchForm" action="${pageContext.request.contextPath}/search_recipe.do" method="post" class="search-bar-form">
+                    <div class="search-wrapper" style="position: relative;">
                         <div class="search-bar">
                             <select name="select" id="sel">
-                                <option value="recipe">레시피</option>
-                                <option value="review">후기</option>
+                                    <option value="recipe">레시피</option>
+                                    <option value="review">후기</option>
                             </select>
                             <input type="text" id="mainSearch" name="search" placeholder="재료, 요리명으로 검색해보세요!" autocomplete="off">
                             <button type="submit">⌕</button>
                         </div>
-                    </form>
-
-                    <div id="searchDropdown" class="search-dropdown">
-                        <div class="search-section" id="recent">
-                            <h4>최근 검색어</h4>
-                            <c:if test="${empty sessionScope.currentSearchList}">
-                                <p class="empty-text">최근 검색어가 없습니다.</p>
-                            </c:if>
-                            <c:if test="${!empty sessionScope.currentSearchList}">
-                                <form action="${pageContext.request.contextPath}/search_recipe.do" method="post">
+                        
+                        <div id="searchDropdown" class="search-dropdown">
+                            <div class="search-section" id="recent">
+                                <h4>최근 검색어</h4>
+                                <c:if test="${empty sessionScope.currentSearchList}">
+                                    <p class="empty-text">최근 검색어가 없습니다.</p>
+                                </c:if>
+                                <c:if test="${!empty sessionScope.currentSearchList}">
                                     <c:forEach var="item" items="${currentSearchList}" varStatus="status">
-                                        <input type="submit" value="${item}" name="search">
-                                        <input type="hidden" value="recipe" id="selectHidden" name="select">
+                                        <input type="button" value="${item}" onClick="send_search(this.form, this)">
                                     </c:forEach>
-                                </form>
-                            </c:if>
-                        </div>
-
-                        <div class="search-section" id="recommend">
-                            <h4>추천 검색어</h4>
-                        </div>
-
-                        <div class="search-section">
-                            <h4>급상승 검색어</h4>
-                            <div class="trending-list">
-                                <c:forEach var="vo" items="${sessionScope.searchList}" varStatus="status">
-                                    <div class="trending-item">
-                                        <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
-                                        <a href="#"><span class="rank-num">${status.index + 1}</span> ${vo}</a>
-                                    </div>
-                                </c:forEach>
+                                </c:if>
+                            </div>
+                            <div class="search-section" id="recommend">
+                                <h4>추천 검색어</h4>
+                                <div class="recommand-search">
+                                    <c:forEach var="val" items="${recommandSearch}">
+                                        <input type="button" value="${val}" onClick="send_search(this.form, this)">
+                                    </c:forEach>
+                                </div>
+                            </div>
+                            <div class="search-section">
+                                <h4>급상승 검색어</h4>
+                                <div class="trending-list">
+                                    <c:forEach var="vo" items="${sessionScope.searchList}" varStatus="status">
+                                        <div class="trending-item">
+                                            <!-- 상세보기 만들면 거기에 맞는 상세보기로 바로 이동 -->
+                                            <button type="submit"><span class="rank-num">${status.index + 1}</span> ${vo}</button>
+                                        </div>
+                                    </c:forEach>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <div class="user-menu">
                     <%-- 로그인/로그아웃으로 session에 값에 따라 변경 --%>
@@ -178,18 +182,12 @@
             </div>
 
             <ul class="nav-bar">
-
-                    <!-- <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
-                    <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li> -->
-
-                <li class="${empty currentMenu ? 'active' : ''}"><a href="/">홈</a></li>  
-                <li class="${currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
-                <li>랭킹</li>
-                <li class="${currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
-                <li class="${currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>          
-                <li class="${currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
-
-                
+                <li class="${param.currentMenu eq 'home' ? 'active' : ''}"><a href="/">홈</a></li>
+                <li class="${param.currentMenu eq 'recipe' ? 'active' : ''}"><a href="/recipe_list.do"> 레시피</a></li>
+                <li class="${param.currentMenu eq 'ranking' ? 'active' : ''}">랭킹</li>
+                <li class="${param.currentMenu eq 'community' ? 'active' : ''}"><a href="/list.do">커뮤니티</a></li>
+                <li class="${param.currentMenu eq 'fridge' ? 'active' : ''}"><a href="/fridge_list.do?member_id=${user.member_id}">냉장고 추천</a></li>
+                <li class="${param.currentMenu eq 'guide' ? 'active' : ''}"><a href="/guide_list.do">키친가이드</a></li>
             </ul>
         </header>
     </body>
