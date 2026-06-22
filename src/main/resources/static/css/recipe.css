@@ -128,6 +128,19 @@ a { text-decoration: none; color: inherit; }
     color:white;
     cursor:pointer;
 }
+
+/*레시피 등록 버튼*/
+.recipe-write-btn input{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#5a7e4d;
+    color:white;
+    cursor:pointer;
+}
+
 /* 페이징 */
 .paging {
     display: flex;
@@ -179,21 +192,4 @@ a { text-decoration: none; color: inherit; }
     word-break: keep-all;
 }
 
-/*레시피 등록 버튼*/
-.recipe-write-btn{
-    text-align:center;
-    margin-top:40px;
-    margin-bottom:20px;
-}
 
-.recipe-write-btn input{
-    width:180px;
-    height:55px;
-    border:none;
-    border-radius:30px;
-    background:#e67e4d;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-}

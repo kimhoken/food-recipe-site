@@ -49,4 +49,7 @@ public interface RecipeDAO {
 
     RecipeVO selectrecipe(int recipe_id);
     RecipeDetailDTO getRecipe(int recipeId);
+
+    //레시피 등록시 (음식 선택 드롭다운용) 전체 음식 목록 조회
+    List<Map<String,Object>> selectAllFood();
 } 

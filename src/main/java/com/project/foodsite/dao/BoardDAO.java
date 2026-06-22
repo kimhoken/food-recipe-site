@@ -3,6 +3,7 @@ package com.project.foodsite.dao;
 import java.util.List;
 
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.dto.RecipeDTO;
 
 public interface BoardDAO {
@@ -22,5 +23,7 @@ public interface BoardDAO {
     int delete(int board_id); // 삭제
 
     int insertBoard(BoardVO vo); // 커뮤니티 글쓰기
+
+    int insertIngredient(IngredientVO vo); //재료추가 
 
 }
