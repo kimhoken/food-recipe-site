@@ -75,7 +75,7 @@
 
             <div class="guide-header-frame">
                 <div class="guide-title-box">
-                    <h1>KITCHEN GUIDE</h1>
+                    <h1>키친가이드</h1>
                     <h2>일상이 깊어지는 곳, 당신만의 주방 가이드</h2>
                 </div>
             </div>

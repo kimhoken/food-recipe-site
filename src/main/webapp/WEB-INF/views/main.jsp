@@ -296,7 +296,7 @@
         </div>
 
         <div class="container main-page">
-            <div class="section-title">지금 인기있는 레시피</div>
+            <div class="section-title">조회수 TOP 5 레시피</div>
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
@@ -351,9 +351,9 @@
 
         <div class="container main-page">
             <div class="section-title-space">
-                <div class="section-title">최신 레시피 후기 </div>
-                <!-- 링크 누르면 최신 레시피 더 보여주는곳으로 이동 -->
-                <a href="#" class="more-btn">더보기 &gt;</a>
+                <div class="section-title">최근 레시피 후기 </div>
+                <!-- 링크 누르면 최근 등록한 레시피 더 보여주는곳으로 이동 -->
+                <a href="${pageContext.request.contextPath}/list.do?tab=review" class="more-btn">더보기 &gt;</a>
             </div>
             <div class="recipe-grid">
                 <!-- 등록일자 기준으로 조회 -->
