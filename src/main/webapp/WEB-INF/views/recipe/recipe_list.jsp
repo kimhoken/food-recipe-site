@@ -118,13 +118,11 @@
                     <button class="filter-btn" type="button" onclick="send()">
                         적용하기
                     </button>
-
-                    <c:if test="${!empty sessionScope.user}">
-                            <div class="recipe-write-btn">
-                                <input type="button" value="레시피 등록" onclick="location.href='/regiRecipe.do'" />
-                            </div>
+                    <c:if test="${not empty sessionScope.user}">
+                        <div class="recipe-write-btn">
+                            <input type="button" value="레시피 등록" onclick="location.href='/regiRecipe.do'" />
+                        </div>
                     </c:if>
-
                 </aside> 
                 <!-- 오른쪽 -->
                 <section class="recipe-area">
@@ -188,9 +186,9 @@
                             <c:if test="${not empty sort}">
                                 <c:set var="nowSort" value="&sort=${sort}" />
                             </c:if>
-
+                            
                             <%-- 2. 이전 버튼 (미리 만든 cookTimesQuery를 concat으로 붙이기) --%>
-                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(sort) : '#'}"
+                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(nowSort) : '#'}"
                             class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
                             <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />

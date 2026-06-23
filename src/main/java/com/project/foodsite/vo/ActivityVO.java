@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Alias("activity")
 public class ActivityVO {
     
-     private String member_id;
+    private String member_id;
     private String activity_type, activity_title, created_date;
 }

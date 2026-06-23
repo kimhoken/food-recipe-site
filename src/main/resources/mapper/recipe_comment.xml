@@ -7,14 +7,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     -->
 <mapper namespace="com.project.foodsite.dao.RecipeCommentDAO">
 	<insert id="insertComment" parameterType="recipeComment">
-        INSERT INTO recipe_comment(recipe_id, title, content, member_id)
-        VALUES(#{recipeId}, #{title}, #{content}, #{memberId})
+        INSERT INTO recipe_comment(recipe_id, content, member_id)
+        VALUES(#{recipeId}, #{content}, #{memberId})
     </insert>
 
     <select id="getList" parameterType="int" resultType="recipeComment">
-        SELECT rec.title, rec.content, rec.recipe_id recipeId, rec.member_id memberId, m.nickname FROM recipe_comment rec
+        SELECT rec.content, rec.recipe_id recipeId, rec.member_id memberId, rec.comment_id commentId, m.nickname 
+        FROM recipe_comment rec
         LEFT JOIN member m ON rec.member_id = m.member_id
         WHERE rec.recipe_id = #{recipeId}
-        ORDER BY res.comment_id
+        ORDER BY rec.comment_id
     </select>
+
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM recipe_comment
+        WHERE comment_id = #{commentId}
+    </delete>
+
+    <update id="update" parameterType="java.util.Map">
+        UPDATE recipe_comment
+        SET content = #{content}
+        WHERE comment_id = #{commentId}
+    </update>
 </mapper>
