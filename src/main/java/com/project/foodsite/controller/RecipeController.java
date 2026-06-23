@@ -86,7 +86,7 @@ public class RecipeController {
                 if(e1.getCreated_date().compareTo(e2.getCreated_date()) == 0){
                     return e2.getTitle().compareTo(e1.getTitle());
                 }
-                return e1.getCreated_date().compareTo(e2.getCreated_date());
+                return e2.getCreated_date().compareTo(e1.getCreated_date());
             });
         }
 

@@ -186,9 +186,9 @@
                             <c:if test="${not empty sort}">
                                 <c:set var="nowSort" value="&sort=${sort}" />
                             </c:if>
-
+                            
                             <%-- 2. 이전 버튼 (미리 만든 cookTimesQuery를 concat으로 붙이기) --%>
-                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(sort) : '#'}"
+                            <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(nowSort) : '#'}"
                             class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
                             <c:set var="startP" value="${curPage - 1 < 1 ? 1 : (curPage == totalPage and totalPage >= 3 ? totalPage - 2 : curPage - 1)}" />
