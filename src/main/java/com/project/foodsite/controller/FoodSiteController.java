@@ -25,6 +25,7 @@ public class FoodSiteController {
     private final HttpSession session;
     private final TrendingService trendingService;
     private final SearchLogDAO logDAO;
+    
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
         //레시피테이블에서 조회수 기준으로 불러옴 join으로 member테이블에 nickname까지 불러오기

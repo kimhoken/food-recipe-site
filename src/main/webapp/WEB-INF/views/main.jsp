@@ -299,7 +299,7 @@
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
-                            <a href="/recipe_detail.do?reciprId=${recipe.recipe_id}">
+                            <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
                                 <div class="recipe-img">
                                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}"/>
                                 </div>

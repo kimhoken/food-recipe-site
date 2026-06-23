@@ -18,7 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 전체 레시피 목록 조회 (최신순) -->
     <select id="selectAll">
-        SELECT * FROM recipe ORDER BY created_date DESC
+        SELECT r.* FROM recipe 
+        ORDER BY created_date DESC
     </select>
 
     <!-- 냉장고 재료로 레시피 검색 -->
@@ -47,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </where>
     </select>
+
     <!-- 카테고리/조리시간 필터링 레시피 목록 조회  -->
     <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
         SELECT DISTINCT r.*, f.food_name FROM recipe r
@@ -70,7 +72,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 ORDER BY r.created_date DESC
             </otherwise>
         </choose>
-        LIMIT 9 OFFSET #{offset}
     </select>
 
     <!-- 대분류별 소분류 음식 목록 조회 -->
@@ -156,13 +157,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 OR m.nickname LIKE concat('%',#{keyword}, '%')
             )
         </if>
-         <if test="category_name != null and category_name != ''">
-        AND c.category_name = #{category_name}
+         <if test="category != null and category != ''">
+        AND c.category_name = #{category}
         </if>
 
         <if test="status != null and status != ''">
             AND r.status = #{status}
-        </if>    
+        </if> 
+
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
+
     </select>
 
     <select id="RecipeList" parameterType="adminrecipe" resultType="recipe">
@@ -182,13 +188,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             )
         </if>
 
-        <if test="category_name != null and category_name != ''">
-            AND c.category_name = #{category_name}
+        <if test="category != null and category != ''">
+            AND c.category_name = #{category}
         </if>
 
         <if test="status != null and status != ''">
             AND r.status = #{status}
         </if>
+
+        <if test="recommend != null ">
+            AND r.recommend = #{recommend}
+        </if> 
 
         ORDER BY r.recipe_id DESC
         LIMIT #{size} OFFSET #{offset}
@@ -205,6 +215,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <update id="updateStatus" parameterType="recipe">
         update recipe set status = #{status} where recipe_id = #{recipe_id} 
+    </update>
+
+    <update id="updateRecipe" parameterType="recipe">
+        update recipe set recommend = #{recommend} where recipe_id = #{recipe_id}
     </update>
 
     <resultMap id="RecipeDetailMap" type="RecipeDetailDTO">

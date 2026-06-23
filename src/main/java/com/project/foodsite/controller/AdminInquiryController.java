@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.foodsite.common.MailSendService;
+import com.project.foodsite.common.Paging;
 import com.project.foodsite.dao.ImgDAO;
 import com.project.foodsite.dao.InquiryDAO;
 import com.project.foodsite.vo.ImgVO;
@@ -27,8 +28,15 @@ public class AdminInquiryController {
     private final MailSendService mailSendService;
     private final ImgDAO imgDao;
 
-    @GetMapping("/inquiry/admin/list")
-    public String adminInquiryList(HttpSession session, Model model) {
+    @GetMapping("/admin/inquiry")
+    public String adminInquiryList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "") String sort,
+            @RequestParam(defaultValue = "") String type,
+            HttpSession session,
+            Model model
+    ) {
 
         MemberVO user = (MemberVO) session.getAttribute("user");
 
@@ -36,11 +44,64 @@ public class AdminInquiryController {
             return "redirect:/main_list.do";
         }
 
-        List<InquiryVO> list = inquiryDao.adminInquiryList();
+        if (page <= 0) {
+            page = 1;
+        }
+
+        List<InquiryVO> allList = inquiryDao.adminInquiryList();
+
+        if (!status.isBlank()) { 
+            allList.removeIf(vo -> !status.equals(vo.getStatus()));
+        }
+
+        if (!type.isBlank()) { 
+            allList.removeIf(vo -> !type.equals(vo.getType()));
+        }
+
+       if ("oldest".equals(sort)) {
+            allList.sort((a, b) ->
+                Long.compare(a.getInquiry_id(), b.getInquiry_id()));
+
+        } else if ("title".equals(sort)) {
+
+            allList.sort((a, b) ->
+                a.getTitle().compareToIgnoreCase(b.getTitle()));
+
+        } else {
+
+            allList.sort((a, b) ->
+                Long.compare(b.getInquiry_id(), a.getInquiry_id()));
+        }
+
+        int totalcount = allList.size();
+
+        Paging paging = new Paging(page, 10, totalcount);
+
+        int start = paging.getOffset();
+
+        if (start > totalcount) {
+            page = 1;
+            paging = new Paging(page, 10, totalcount);
+            start = paging.getOffset();
+        }
+
+        int end = Math.min(start + paging.getSize(), totalcount);
+
+        List<InquiryVO> list = allList.subList(start, end);
 
         model.addAttribute("list", list);
+        model.addAttribute("paging", paging);
+        model.addAttribute("totalcount", totalcount);
+        model.addAttribute("page", page);
 
-        return "inquiry/adminInquiryList";
+        model.addAttribute("status", status);
+        model.addAttribute("sort", sort);    
+        model.addAttribute("type", type);     
+
+        model.addAttribute("menu", "inquiry");
+        model.addAttribute("contentPage", "/WEB-INF/views/inquiry/adminInquiryList.jsp");
+
+        return "member/adminpage";
     }
 
     @GetMapping("/inquiry/admin/detail")

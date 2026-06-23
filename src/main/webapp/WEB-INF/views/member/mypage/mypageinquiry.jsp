@@ -14,6 +14,22 @@
             item.classList.add("open");
         }
     }
+
+    function openImageModal(src) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+
+        modalImg.src = src;
+        modal.style.display = "flex";
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+
+        modal.style.display = "none";
+        modalImg.src = "";
+    }
 </script>
 
 <div class="my-inquiry-wrap">
@@ -21,19 +37,29 @@
     <div class="my-inquiry-top">
         <div>
             <h2>문의 내역</h2>
-            <p>전체 <strong>${inquiryList.size()}</strong>건</p>
         </div>
-
-        <button type="button" onclick="location.href='/inquiry'">
-            ✎ 문의 작성
-        </button>
     </div>
 
     <div class="inquiry-filter-row">
-        <button type="button" class="active">전체</button>
-        <button type="button">접수</button>
-        <button type="button">처리중</button>
-        <button type="button">답변완료</button>
+
+        <button type="button"
+                class="${empty status ? 'active' : ''}"
+                onclick="location.href='/mypage.do?menu=inquiry'">
+            전체
+        </button>
+
+        <button type="button"
+                class="${status eq 'n' ? 'active' : ''}"
+                onclick="location.href='/mypage.do?menu=inquiry&status=n'">
+            답변대기
+        </button>
+
+        <button type="button"
+                class="${status eq 'y' ? 'active' : ''}"
+                onclick="location.href='/mypage.do?menu=inquiry&status=y'">
+            답변완료
+        </button>
+
     </div>
 
     <div class="inquiry-list">
@@ -57,7 +83,7 @@
                             <span class="status ${vo.status eq 'y' ? 'done' : 'wait'}">
                                 <c:choose>
                                     <c:when test="${vo.status eq 'y'}">답변완료</c:when>
-                                    <c:otherwise>접수</c:otherwise>
+                                    <c:otherwise>답변대기</c:otherwise>
                                 </c:choose>
                             </span>
 
@@ -69,9 +95,20 @@
                         </div>
 
                         <div class="inquiry-detail">
+
                             <div class="question-box">
                                 <p>${vo.content}</p>
                             </div>
+
+                            <c:if test="${not empty inquiryImgMap[vo.inquiry_id]}">
+                                <div class="my-inquiry-img-list">
+                                    <c:forEach var="img" items="${inquiryImgMap[vo.inquiry_id]}">
+                                        <img src="/upload/${img.image_list}"
+                                             alt="첨부 이미지"
+                                             onclick="event.stopPropagation(); openImageModal(this.src);">
+                                    </c:forEach>
+                                </div>
+                            </c:if>
 
                             <c:if test="${vo.status eq 'y'}">
                                 <div class="answer-box">
@@ -93,6 +130,7 @@
                                     아직 답변이 등록되지 않았습니다.
                                 </div>
                             </c:if>
+
                         </div>
 
                     </div>
@@ -102,4 +140,56 @@
 
     </div>
 
+    <div class="inquiry-bottom-box">
+
+        <div class="inquiry-total-count">
+            전체 <strong>${totalcount}</strong>건
+        </div>
+
+        <div class="paging-box">
+            
+            <a href="/mypage.do?menu=inquiry&page=${startPage - 1}&status=${status}">
+                ◀
+            </a>
+
+            <c:forEach begin="${startPage}" end="${endPage}" var="i">
+
+                <c:choose>
+                    <c:when test="${i == page}">
+                        <strong>${i}</strong>
+                    </c:when>
+
+                    <c:otherwise>
+                        <a href="/mypage.do?menu=inquiry&page=${i}&status=${status}">
+                            ${i}
+                        </a>
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+                
+            <a href="/mypage.do?menu=inquiry&page=${endPage + 1}&status=${status}">
+                ▶
+            </a>       
+        
+        </div>
+
+        <button type="button"
+                class="write-inquiry-btn"
+                onclick="location.href='/inquiry'">
+            문의 작성
+        </button>
+
+    </div>
+
+</div>
+
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <button type="button"
+            class="image-modal-close"
+            onclick="event.stopPropagation(); closeImageModal();">
+        ×
+    </button>
+
+    <img id="modalImage" src="" alt="확대 이미지" onclick="event.stopPropagation();">
 </div>
