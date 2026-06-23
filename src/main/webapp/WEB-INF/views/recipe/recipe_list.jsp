@@ -4,6 +4,7 @@
         <!-- 레시피 탭 -->
         <!-- 로그인 유무 처리 기능 -->
         <jsp:include page="/WEB-INF/views/common/is_login.jsp" />
+        <jsp:include page="/WEB-INF/views/common/navibar.jsp" />
         <!DOCTYPE html>
         <html>
 

@@ -18,13 +18,23 @@ public class TrendingService {
     @Cacheable(cacheNames="trendingKeywords", key ="'all'")
     public List<String> getTrendingKeywords(){
         //캐시에 값이 없을때만 DB에서 값을 가져옴
-        return searchLogDAO.selectTrendingKeywords();
+        List<String> list = searchLogDAO.selectTrendingKeywords();
+        if(list == null || list.isEmpty()){
+            list = searchLogDAO.initCache();
+        }
+        return list;
     }
 
     @CachePut(cacheNames="trendingKeywords", key ="'all'")
     public List<String> updateTrendingKeywords(){
         //호출시 무조건 실행되서 DB조회를 새로 해서 캐시에 새로 담음
         return searchLogDAO.selectTrendingKeywords();
+    }
+
+    @CachePut(cacheNames="trendingKeywords", key ="'all'")
+    public List<String> updateTrendingKeywords(List<String> rank){
+        //호출시 무조건 실행되서 DB조회를 새로 해서 캐시에 새로 담음
+        return rank;
     }
 
     @CachePut(cacheNames="trendingKeywords", key ="'all'")
