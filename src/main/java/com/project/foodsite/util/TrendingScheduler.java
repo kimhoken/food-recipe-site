@@ -19,13 +19,19 @@ public class TrendingScheduler {
     private final SearchLogDAO logDAO;
 
     private List<String> lastRank = Arrays.asList("스팸마요", "치킨마요", "햄버거");
+    private boolean isExclude = false;
 
     @Scheduled(fixedDelay = 300000)
     public void autoRefresh(){
+        //최초 한번만 실행
+        if(isExclude){
+            trendingService.initCache();
+            isExclude = true;
+        }
         //5분마다 캐시에 업데이트
         System.out.println("캐시 업데이트 완료 " + LocalDate.now() + "/" + LocalTime.now());
         List<String> rank = logDAO.selectTrendingKeywords();
-        if(rank == null || rank.isEmpty()){
+        if(rank == null || rank.isEmpty() || rank.size() <= 9){
             rank = lastRank;
         }else{
             lastRank = rank;
