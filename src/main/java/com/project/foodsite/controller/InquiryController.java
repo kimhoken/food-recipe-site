@@ -3,11 +3,12 @@ package com.project.foodsite.controller;
 import java.io.File;
 import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -29,28 +31,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class InquiryController {
 
-    @Value("${file.upload.path}")
-    private String savePath;
-
-
     private final InquiryDAO inquiryDao;
     private final ImgDAO imgDao;
     private final pwdSecurity pwdSecurity;
 
     @GetMapping("/inquiry")
-    public String inquiryform() {
+    public String inquiryform(HttpServletRequest request, HttpSession session) {
+
+        String referer = request.getHeader("Referer");
+
+        if (referer != null && !referer.contains("/inquiry")) {
+            session.setAttribute("prevPage", referer);
+        }
+
         return "inquiry/inquiryForm";
     }
 
     @PostMapping("/inquiry")
     public String insertInquiry(
             InquiryVO vo,
-
             @RequestParam(value = "image", required = false) MultipartFile[] images,
-
             HttpSession session
     ) throws Exception {
-
 
         MemberVO user = (MemberVO) session.getAttribute("user");
 
@@ -75,8 +77,9 @@ public class InquiryController {
 
         inquiryDao.updateInquiryCode(vo);
 
-        if (images != null && images.length > 0) {            
-           
+        if (images != null && images.length > 0) {
+
+            String savePath = "/Users/shinyeyoung/upload/";
 
             File dir = new File(savePath);
             if (!dir.exists()) {
@@ -106,6 +109,13 @@ public class InquiryController {
             }
         }
 
+        String prevPage = (String) session.getAttribute("prevPage");
+
+        if (prevPage != null && !prevPage.isBlank()) {
+            session.removeAttribute("prevPage");
+            return "redirect:" + prevPage;
+        }
+
         return "redirect:/main_list.do";
     }
 
@@ -114,6 +124,27 @@ public class InquiryController {
             @RequestParam("code") String inquiry_code,
             Model model
     ) {
+
+        InquiryVO vo = inquiryDao.guestInquiryCode(inquiry_code); 
+
+        if (vo == null) { 
+            model.addAttribute("msg", "존재하지 않는 문의입니다."); 
+            return "inquiry/guestInquiryPasswordForm"; 
+        }
+
+        LocalDateTime createdDate = vo.getCreated_date() 
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        // 테스트용 70초
+        LocalDateTime expireDate = createdDate.plusSeconds(70); 
+        // 비회원 문의 확인 기간 7일
+        //LocalDateTime expireDate = createdDate.plusDays(7); 
+
+        if (LocalDateTime.now().isAfter(expireDate)) { 
+            model.addAttribute("expired", "yes"); 
+            return "inquiry/guestInquiryPasswordForm"; 
+        }
 
         model.addAttribute("inquiry_code", inquiry_code);
         return "inquiry/guestInquiryPasswordForm";
@@ -135,6 +166,7 @@ public class InquiryController {
             return "inquiry/guestInquiryPasswordForm";
         }
 
+
         boolean pwdCheck = pwdSecurity.pwdDecoding(guest_password, vo.getGuest_password());
 
         if (!pwdCheck) {
@@ -142,13 +174,10 @@ public class InquiryController {
             model.addAttribute("inquiry_code", inquiry_code);
             return "inquiry/guestInquiryPasswordForm";
         }
-        
 
         List<ImgVO> imgList = imgDao.img_select_inquiry(vo.getInquiry_id());
 
         model.addAttribute("vo", vo);
-
-
         model.addAttribute("imgList", imgList);
 
         return "inquiry/guestInquiryDetail";

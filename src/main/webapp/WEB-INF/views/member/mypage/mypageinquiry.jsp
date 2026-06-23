@@ -30,6 +30,38 @@
         modal.style.display = "none";
         modalImg.src = "";
     }
+    function updateExpireCount() {
+        const items = document.querySelectorAll(".expire-count");
+
+        items.forEach(item => {
+            const createdText = item.dataset.created.replace(" ", "T");
+            const limitSeconds = Number(item.dataset.limit);
+
+            const createdTime = new Date(createdText).getTime();
+            const expireTime = createdTime + (limitSeconds * 1000);
+            const now = new Date().getTime();
+
+            let remain = Math.floor((expireTime - now) / 1000);
+
+            if (remain <= 0) {
+            const card = item.closest(".inquiry-card");
+            if (card) {
+                card.remove();
+                }
+                return;
+            }
+            // 유효기간 30초 남았을 때 메세지 띄움
+            if (remain <= 30) {
+                item.textContent = remain + "초 남음";
+            } else {
+                item.textContent = "";
+            }
+        });
+    }
+
+    setInterval(updateExpireCount, 1000);
+    window.addEventListener("load", updateExpireCount);
+
 </script>
 
 <div class="my-inquiry-wrap">
@@ -89,8 +121,14 @@
 
                             <strong class="title">${vo.title}</strong>
 
-                            <span class="date">
+                           <span class="date">
                                 <fmt:formatDate value="${vo.created_date}" pattern="yyyy.MM.dd"/>
+                            </span>
+
+                            <span class="expire-count"
+                                data-created="<fmt:formatDate value='${vo.created_date}' pattern='yyyy-MM-dd HH:mm:ss'/>"
+                                data-limit="100">
+                                <!-- !!!!!100초 기준으로 지워짐!!!!!(맵퍼랑 같은 시간으로 변경해야함) -->
                             </span>
                         </div>
 

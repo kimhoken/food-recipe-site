@@ -70,8 +70,19 @@
     </update>
 
     <select id="myInquiryList" parameterType="int" resultType="inquiry">
-        select * from inquiry
+        select *
+        from inquiry
         where member_id = #{member_id}
+        <!-- 테스트용 회원 유효기간 100초 -->
+        and (
+                created_date >= date_sub(now(), interval 100 second)
+                or answered_date >= date_sub(now(), interval 100 second)
+            )
+        <!-- 회원 유효기간 90일 -->
+        <!-- and (
+                created_date >= date_sub(now(), interval 90 day)
+                or answered_date >= date_sub(now(), interval 90 day)
+            ) -->
         order by inquiry_id desc
     </select>
     

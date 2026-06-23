@@ -306,3 +306,13 @@
     line-height: 1;
     cursor: pointer;
 }
+.expire-count {
+    margin-left: 12px;
+    color: #ef6c00;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.expire-count.expired {
+    color: #999;
+}

@@ -23,6 +23,13 @@
 
     <body>
 
+        <c:if test="${expired eq 'yes'}">
+            <script>
+                alert("비회원 문의 확인 기간이 만료되었습니다."); 
+                location.href="/main_list.do"; 
+            </script>
+        </c:if>
+
         <div class="guest-inquiry-page">
 
             <div class="guest-inquiry-box">
