@@ -49,4 +49,5 @@ public interface RecipeDAO {
 
     RecipeVO selectrecipe(int recipe_id);
     RecipeDetailDTO getRecipe(int recipeId);
+    
 } 

@@ -10,11 +10,7 @@
 }
 
 body {
-<<<<<<< HEAD
-    background-color: #ffffff;
-=======
     background-color: #fff;
->>>>>>> 9b4c8b10878444f9755e5f5358465c6937cb8b54
     color: #333;
     overflow-x: hidden;
     font-family: Arial, sans-serif;
@@ -357,7 +353,7 @@ header {
 
 .recipe-card {
     background: #fff;
-    border-radius: 12px;
+    
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 기본 그림자 투명도를 살짝 높여서 배경과 분리 */
     position: relative;
@@ -369,7 +365,7 @@ header {
 .recipe-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18); /* 호버 시 그림자를 훨씬 진하고 넓게 퍼지게 수정 */
-    border-color: #5a7e4d; /* 호버 시 사이트 포인트 컬러(초록색)로 테두리 변경 효과 추가 */
+    
 }
 
 /* 기존 .recipe-img 속성 수정 */

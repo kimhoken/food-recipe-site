@@ -14,14 +14,15 @@ public class RecipeVO {
     //레시피 테이블
     private int recipe_id;
     private String title;
-    private String thumbnail;
+    private String thumbnail;  //이미지
     private String cooking_time;
     private String difficulty;
-    private int view_count;
+    private int view_count; //조회수
     private int like_count;
+    private double rating; //별점(평점)
     private String status;
-    private String created_date;
-    private String updated_date;
+    private String created_date; //작성일
+    private String updated_date;  //수정일
     private int member_id;
     private int bookmark_id;
     private int nutrition_id;

@@ -238,6 +238,7 @@ public class RecipeController {
         model.addAttribute("size", ilist.size());
         return "recipe/recipe_detail";
     }
-    
+
+
 
 }

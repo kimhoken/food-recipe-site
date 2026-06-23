@@ -49,8 +49,77 @@
                         searchDropdown.style.display = "none";
                     }
                 });
+/* 1. 승연추가 */
+                // Main에서 최근레시피 후기 더보기 클릭 시 커뮤니티 최근레시피 후기로 이동
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentTab = urlParams.get('tab');
+
+                if (currentTab === 'review') {
+                    showReview(); // 더보기 버튼을 통해 레시피후기 활성화
+                } else {
+                    showBoard();  // 자유게시판 활성화
+                }
             });
 
+/* 2. 승연추가 */
+            // 게시판 전체보기
+            function showBoard() {
+
+                document.getElementById("boardArea").style.display = "block";
+                document.getElementById("reviewArea").style.display = "none";
+
+                document.getElementById("boardBtn").classList.add("active");
+                document.getElementById("reviewBtn").classList.remove("active");
+            }
+/* 3. 승연추가 */
+            // 최근 레시피 후기
+            function showReview() {
+
+                document.getElementById("boardArea").style.display = "none";
+                document.getElementById("reviewArea").style.display = "block";
+
+                document.getElementById("boardBtn").classList.remove("active");
+                document.getElementById("reviewBtn").classList.add("active");
+            }
+/* 4. 승연추가 */
+            //레시피 후기 최신순, 인기순, 별점
+            function handleMainSort(sortValue) {
+                const subTabs = document.getElementById("popularSubTabs");
+                
+                //  인기순(popular)을 골랐을 때만 서브탭 보여주기
+                if (sortValue === "popular") {
+                    subTabs.classList.add("show"); 
+                    fetchReviewData("popular", "all");
+                } else {
+                    // 최신순이나 별점 높은순으로 돌아가면 서브탭을 다시 숨긴다
+                    subTabs.classList.remove("show"); 
+                    resetSubTabs();
+                    fetchReviewData(sortValue, null);
+                }
+            }
+/* 5. 승연추가 */            
+            //[전체기간], [주간], [월간] 중 하나를 클릭했을 때 실행
+            function changePeriod(periodValue, event) {
+                const buttons = document.querySelectorAll(".sub-tab-btn");
+                buttons.forEach(btn => btn.classList.remove("active"));
+                event.target.classList.add("active");
+                fetchReviewData("popular", periodValue);
+            }
+/* 6. 승연추가 */           
+            //서브탭들의 선택 상태를 맨 처음 상태([전체기간])로 초기화
+            function resetSubTabs() {
+                const buttons = document.querySelectorAll(".sub-tab-btn");
+                buttons.forEach((btn, index) => {
+                    if(index === 0) btn.classList.add("active");
+                    else btn.classList.remove("active");
+                });
+            }
+/* 7. 승연추가 */
+            // 드롭다운,서브탭이 바뀔 때마다 데이터 비동기로 요청
+            function fetchReviewData(sort, period) {
+                console.log("서버 요청 -> 정렬:", sort, "| 기간:", period);
+            }
+            
         </script>
     </head>
 
@@ -59,7 +128,36 @@
         <jsp:include page="/WEB-INF/views/common/navibar.jsp">
             <jsp:param name="currentMenu" value="community" />
         </jsp:include>
-        <div class="board-area">
+
+<!-- 8. 승연추가-->
+    <!-- 커뮤니티 헤더 -->
+        <div class="community-header-frame">
+            <div class="community-title-box">
+                <h1>커뮤니티</h1>
+                <h2>소소한 요리 일상과 생생한 레시피 후기를 나누는 공간</h2>
+            </div>
+        <!-- 커뮤니티 들어왔을 때 게시판(기본값) 먼저 보여지게 하기-->
+            <div class="community-menu">
+                <button id="boardBtn"
+                        class="community-btn active"
+                        onclick="showBoard()">
+                    게시판 전체보기
+                </button>
+
+                <button id="reviewBtn"
+                        class="community-btn"
+                        onclick="showReview()">
+                    최근 레시피 후기
+                </button>
+            </div>
+        </div>
+
+
+
+
+        <!-- 게시판 -->
+        <div class="board-area" id="boardArea">
+
             <c:if test="${not empty list}">
                 <table>
                     <thead>
@@ -106,10 +204,87 @@
 
         </div>
 
+
+<!-- 9. 승연추가-->
+
+
+<!-- 최근 레시피 후기 -->
+
+    <div class="review-area" id="reviewArea" style="display:none;">
+
+        <div class="review-filter-wrap">
+            
+            <div class="filter-controls">
+                <div id="popularSubTabs" class="sub-tabs">
+                    <button type="button" class="sub-tab-btn active" onclick="changePeriod('all', event)">전체기간</button>
+                    <button type="button" class="sub-tab-btn" onclick="changePeriod('weekly', event)">주간</button>
+                    <button type="button" class="sub-tab-btn" onclick="changePeriod('monthly', event)">월간</button>
+                </div>
+
+                <select id="mainSortSelect" class="sort-dropdown" onchange="handleMainSort(this.value)">
+                    <option value="latest" selected>최신순</option>
+                    <option value="popular">조회수 순</option>
+                    <option value="rating">별점</option>
+                </select>
+            </div>
+        </div>
+
+       <!-- 후기 리스트들 -->
+        <div id="reviewFeedList" class="review-feed-list">
+
+    <c:forEach var="review" items="${reviewList}">
+
+        <div class="review-card">
+
+            <div class="review-card-image">
+                <c:choose>
+                    <c:when test="${not empty review.image}">
+                        <img src="/upload/${review.image}" alt="후기 이미지">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="/images/no_image.png" alt="이미지 없음">
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <div class="review-card-content">
+
+                <div class="review-info-top">
+                    <h3 class="review-title">
+                        <a href="/review_view.do?review_id=${review.review_id}">
+                            ${review.title}
+                        </a>
+                    </h3>
+
+                    <span class="review-rating">[★ ${review.rating}]</span>
+                </div>
+
+                <div class="review-info-meta">
+                    <span class="review-nickname">${review.nickname}</span>
+                    <span class="review-divider">•</span>
+                    <span class="review-views">조회수 ${review.view_count}</span>
+                </div>
+
+                <p class="review-body">
+                    ${review.content} <a href="/review_view.do?review_id=${review.review_id}" class="more-link">(더보기)</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </c:forEach>
+
+</div>
+
+
+
+
+
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
                 <!-- 챗봇 -->
                 <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
             </body>
 
-        </html>
+        </html> 
