@@ -6,8 +6,11 @@
 <mapper namespace="com.project.foodsite.dao.BoardDAO">
 
     <select id="selectAll" resultType="board"> 
-        SELECT b.*, m.nickname FROM board b 
-        JOIN member m ON b.member_id = m.member_id 
+        SELECT b.*, m.nickname 
+        FROM board b 
+        JOIN member m 
+        ON b.member_id = m.member_id 
+        WHERE b.board_type = 'COMMUNITY'
     </select>
 
     <!-- 검색 -->
@@ -19,6 +22,7 @@
         ON b.member_id = m.member_id 
         WHERE (b.title LIKE #{pattern} OR b.content LIKE #{pattern}) 
         AND b.status = 'Y' 
+        AND b.recipe_id IS NULL
     </select>
 
     <!-- 레시피 등록 -->
@@ -51,6 +55,19 @@
     )
     </insert>
 
+    <insert id="insertCookOrder" parameterType="cook_order">
+    INSERT INTO cook_order(
+        cook_order,
+        description,
+        recipe_id
+    )
+    VALUES(
+        #{order},
+        #{description},
+        #{recipe_id}
+    )
+    </insert>
+
     <!-- board 저장 -->
     <insert id="insertBoard" parameterType="board">
     INSERT INTO board(
@@ -58,18 +75,21 @@
         title,
         content,
         recipe_id,
-        status
+        status,
+        board_type
     )
+
     VALUES(
         #{member_id},
         #{title},
         #{content},
         #{recipe_id},
-        #{status}
+        #{status},
+        #{board_type}
     )
     </insert>
 
-    <!-- 게시글 상세보기 -->
+    <!-- 커뮤니티 상세보기 -->
     <select id="selectOne" parameterType="int" resultType="board"> 
         SELECT b.*, m.nickname 
         FROM board b 

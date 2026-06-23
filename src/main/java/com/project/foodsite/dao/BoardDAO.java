@@ -3,6 +3,7 @@ package com.project.foodsite.dao;
 import java.util.List;
 
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.dto.RecipeDTO;
 
@@ -25,5 +26,5 @@ public interface BoardDAO {
     int insertBoard(BoardVO vo); // 커뮤니티 글쓰기
 
     int insertIngredient(IngredientVO vo); //재료추가 
-
+    int insertCookOrder(CookOrderVO vo); //조리과정 추가
 }

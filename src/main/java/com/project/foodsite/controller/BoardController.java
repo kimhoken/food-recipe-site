@@ -13,6 +13,7 @@ import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.ReviewVO;
@@ -104,7 +105,6 @@ public class BoardController {
         for (int i = 0; i < dto.getIngredientName().size(); i++) {
 
             IngredientVO ingredient = new IngredientVO();
-            System.out.println("생성된 recipe_id : " + dto.getRecipeId());
 
             ingredient.setIngredient_name(
                     dto.getIngredientName().get(i));
@@ -119,57 +119,18 @@ public class BoardController {
             boardDao.insertIngredient(ingredient);
         }
 
-        // 3. board 저장
-        BoardVO board = new BoardVO();
+        System.out.println("생성된 recipe_id : " + dto.getRecipeId());
 
-        board.setMember_id(dto.getMemberId().intValue());
-        board.setTitle(dto.getTitle());
+        // 3. 조리과정 저장
+        for (int i = 0; i < dto.getStep().size(); i++) {
 
-        board.setRecipe_id(dto.getRecipeId().intValue());
+            CookOrderVO order = new CookOrderVO();
 
-        board.setStatus("Y");
+            order.setOrder(i + 1);
+            order.setDescription(dto.getStep().get(i));
+            order.setRecipe_id(dto.getRecipeId().intValue());
 
-        //임시 확인용
-        board.setContent("레시피 게시글");
-
-        boardDao.insertBoard(board);
-
-        System.out.println("선택한 foodId = " + dto.getFoodId());
-        System.out.println("생성된 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 foodId = " + dto.getFoodId());
-
-        System.out.println("제목 : " + dto.getTitle());
-
-        System.out.println("재료명 : " + dto.getIngredientName());
-        System.out.println("수량 : " + dto.getAmount());
-        System.out.println("단위 : " + dto.getUnit());
-
-        System.out.println("조리순서 : " + dto.getStep());
-
-        System.out.println(dto.getMemberId());
-        System.out.println(dto.getRecipeId());
-
-        // 1. 레시피테이블에 레시피 등록
-        boardDao.insertRecipe(dto);
-
-        // 2. ingredient 저장
-        for (int i = 0; i < dto.getIngredientName().size(); i++) {
-
-            IngredientVO ingredient = new IngredientVO();
-            System.out.println("생성된 recipe_id : " + dto.getRecipeId());
-
-            ingredient.setIngredient_name(
-                    dto.getIngredientName().get(i));
-
-            ingredient.setQuantity(
-                    Long.parseLong(dto.getAmount().get(i)));
-
-            ingredient.setUnit(dto.getUnit().get(i));
-
-            ingredient.setRecipe_id(dto.getRecipeId().intValue());
-
-            boardDao.insertIngredient(ingredient);
+            boardDao.insertCookOrder(order);
         }
 
         return "redirect:/recipe_list.do";
@@ -187,12 +148,10 @@ public class BoardController {
     public String boardView(int board_id, Model model, HttpServletRequest req) {
         System.out.println("받은 board_id = " + board_id);
 
-        
-         @SuppressWarnings("unchecked")
-         HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") ==
-         null ? new HashMap<>()
-         : (HashMap<String, LinkedList<Integer>>) session.getAttribute("viewMap");
-         /* 
+        @SuppressWarnings("unchecked")
+        HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>()
+                : (HashMap<String, LinkedList<Integer>>) session.getAttribute("viewMap");
+        /*
          * // 세션에서 IP, 게시글 ID를 확인해 없을경우 조회수 증가
          * if (map.get(req.getRemoteAddr()) == null &&
          * !map.get(req.getRemoteAddr()).contains(board_id)) {
@@ -205,7 +164,7 @@ public class BoardController {
          * }
          */
 
-        //조회수 처리
+        // 조회수 처리
         String ip = req.getRemoteAddr();
 
         LinkedList<Integer> viewedList = map.computeIfAbsent(ip, k -> new LinkedList<>());
@@ -279,6 +238,9 @@ public class BoardController {
         MemberVO user = (MemberVO) session.getAttribute("user");
 
         vo.setMember_id(user.getMember_id());
+
+        vo.setBoard_type("COMMUNITY");
+        vo.setRecipe_id(1);
 
         boardDao.insertBoard(vo);
 
