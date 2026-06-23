@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class InquiryController {
+
+    @Value("${file.upload.path}")
+    private String uploadPath;
 
     private final InquiryDAO inquiryDao;
     private final ImgDAO imgDao;
@@ -81,7 +85,7 @@ public class InquiryController {
 
             String savePath = "/Users/shinyeyoung/upload/";
 
-            File dir = new File(savePath);
+            File dir = new File(uploadPath);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -97,7 +101,7 @@ public class InquiryController {
                 long time = System.currentTimeMillis();
                 filename = time + "_" + filename;
 
-                File saveFile = new File(savePath, filename);
+                File saveFile = new File(uploadPath, filename);
 
                 image.transferTo(saveFile);
 
