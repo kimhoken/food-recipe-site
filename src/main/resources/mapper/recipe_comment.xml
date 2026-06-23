@@ -12,7 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="getList" parameterType="int" resultType="recipeComment">
-        SELECT rec.title, rec.content, rec.recipe_id recipeId, rec.member_id memberId, m.nickname FROM recipe_comment rec
+        SELECT rec.title, rec.content, rec.recipe_id recipeId, rec.member_id memberId, m.nickname 
+        FROM recipe_comment rec
         LEFT JOIN member m ON rec.member_id = m.member_id
         WHERE rec.recipe_id = #{recipeId}
         ORDER BY res.comment_id
