@@ -38,7 +38,7 @@ public class Recommand {
 
     //레시피 테이블
     private final RecipeDAO recipeDAO;
-
+    
     //랜덤함수
     private Random rand = new Random();
     
@@ -67,6 +67,8 @@ public class Recommand {
 
         return score;   
     }
+
+
 
     private int getDate(int month){
         switch(month){

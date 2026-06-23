@@ -41,6 +41,7 @@ public class RecipeController {
             model.addAttribute("recipeList", new ArrayList<>());
             model.addAttribute("totalPage", 0);
             model.addAttribute("recipeSearchDTO", searchDTO);
+            model.addAttribute("emptyMsg", "카테고리에서 목록을 선택후 조회해주세요!");
             return "recipe/recipe_list";
         }
 
@@ -76,10 +77,12 @@ public class RecipeController {
         }
 
         String sort = searchDTO.getSort();
-        if (sort.equals("latest")) {
+        //카테고리 미선택시 최신순으로 정렬됨
+        if(sort.equals("name")){
             Collections.sort(recipeList, (e1, e2) -> {
-                return e1.getCreated_date().compareTo(e2.getCreated_date());
+                return e1.getTitle().compareTo(e2.getTitle());
             });
+
         } else if (sort.equals("view")) {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e2.getView_count() - e1.getView_count();
@@ -90,13 +93,14 @@ public class RecipeController {
             });
         } else {
             Collections.sort(recipeList, (e1, e2) -> {
-                return e1.getTitle().compareTo(e2.getTitle());
+                return e1.getCreated_date().compareTo(e2.getCreated_date());
             });
         }
 
         model.addAttribute("recipeList", recipeList);
         model.addAttribute("recipeSearchDTO", searchDTO);
         model.addAttribute("sort", sort);
+        
         // 4. 조리시간 선택 후 결과가 아예 없을 때 메시지 처리
         if (times != null && !times.isEmpty() && recipeList.isEmpty()) {
 
@@ -247,7 +251,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, int recipeId) {
+    public String recipeDetail(Model model, int recipeId){
         model.addAttribute("recipeId", recipeId);
         RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
 
@@ -258,19 +262,12 @@ public class RecipeController {
             return e1.getOrder() - e2.getOrder();
         });
 
-        for (IngredientVO vo : ilist) {
-            System.out.println(vo.getIngredient_name());
-            System.out.println(vo.getQuantity() + " " + vo.getUnit());
-        }
-        System.out.println("==========================================================================");
-        for (CookOrderVO vo : olist) {
-            System.out.println(vo.getOrder() + " " + vo.getDescription());
-        }
-
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);
+        model.addAttribute("size", ilist.size());
         return "recipe/recipe_detail";
     }
+    
 
 }
