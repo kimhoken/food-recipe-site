@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,12 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class NoticeController {
-
+    @Value("${file.upload.path}")
+    private String savePath;
+    
     private final NoticeDAO noticeDao;
     private final HttpSession session;
 
-    private final String savePath = "/Users/shinyeyoung/upload/";
 
     @GetMapping("/notice.do")
     public String getArticleList(

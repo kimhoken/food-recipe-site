@@ -19,7 +19,8 @@
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
             // 선택한 카테고리들 열기
             function selectCategory(category){
-                //location.href = "/recipe/list?category=" + category;
+                document.getElementById("categoryModal").style.display = 'flex';
+                sideTabCategory(category);
             }
             
             // 전체보기 모달 열기 (열릴 때 자동으로 첫 번째 카테고리 '상황별추천')
@@ -182,7 +183,7 @@
             
             const member_id = '${sessionScope.user.member_id}';
             // 2. 브라우저가 서비스 워커와 푸시를 지원하는지 확인 후 등록
-            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null ) {
+            if ('serviceWorker' in navigator && 'PushManager' in window && member_id != null && member_id != '') {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register('/js/alarm.js')
                     .then(function(registration) {
@@ -261,31 +262,31 @@
 
         <div class="container main-page">
             <div class="category-list">
-                <button type="button" class="category-item" data-category="korean" onclick="selectCategory('korean')">
+                <button type="button" class="category-item" data-category="korean" onclick="selectCategory('한식')">
                     <div class="category-icon">🍚</div>한식
                 </button>
-                <button type="button" class="category-item" data-category="western" onclick="selectCategory('western')">
+                <button type="button" class="category-item" data-category="western" onclick="selectCategory('양식')">
                     <div class="category-icon">🍝</div>양식
                 </button>
-                <button type="button" class="category-item" data-category="chinese" onclick="selectCategory('chinese')">
+                <button type="button" class="category-item" data-category="chinese" onclick="selectCategory('중식')">
                     <div class="category-icon">🍳</div>중식
                 </button>
-                <button type="button" class="category-item" data-category="japanese" onclick="selectCategory('japanese')">
+                <button type="button" class="category-item" data-category="japanese" onclick="selectCategory('일식')">
                     <div class="category-icon">🍣</div>일식
                 </button>
-                <button type="button" class="category-item" data-category="asian" onclick="selectCategory('asian')">
+                <button type="button" class="category-item" data-category="asian" onclick="selectCategory('아시안')">
                     <div class="category-icon">🌏</div>아시안
                 </button>
-                <button type="button" class="category-item" data-category="diet" onclick="selectCategory('diet')">
-                    <div class="category-icon">🥗</div>다이어트
+                <button type="button" class="category-item" data-category="diet" onclick="selectCategory('건강식/다이어트')">
+                    <div class="category-icon">🌿</div>건강식/다이어트
                 </button>
-                <button type="button" class="category-item" data-category="easy" onclick="selectCategory('easy')">
+                <button type="button" class="category-item" data-category="easy" onclick="selectCategory('초간단요리')">
                     <div class="category-icon">⏱️</div>초간단요리
                 </button>
-                <button type="button" class="category-item" data-category="dessert" onclick="selectCategory('dessert')">
+                <button type="button" class="category-item" data-category="dessert" onclick="selectCategory('디저트')">
                     <div class="category-icon">🍰</div>디저트
                 </button>
-                <button type="button" class="category-item" data-category="baking" onclick="selectCategory('baking')">
+                <button type="button" class="category-item" data-category="baking" onclick="selectCategory('베이킹')">
                     <div class="category-icon">🍞</div>베이킹
                 </button>
                 <button type="button" class="category-item" id="btnAllCategory" onclick="openModal()">
@@ -299,7 +300,7 @@
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
-                            <a href="/recipe_detail.do?reciprId=${recipe.recipe_id}">
+                            <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
                                 <div class="recipe-img">
                                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}"/>
                                 </div>

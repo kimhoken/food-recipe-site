@@ -6,6 +6,17 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
         <script>
+            window.onload = () => {
+                const sort = '${sort}';
+                let select = document.getElementById("sort");
+                let arr = ["latest", "name", "view", "like" ];
+
+                for(let i=0 ; i<arr.length ; i++){
+                    if(arr[i] == sort){
+                        select.options[i].selected = true;
+                    }
+                }
+            }
             const logout = ()=>{
                 if(confirm("로그아웃 하시겠습니까?")){
                     fetch("/logout.do", {
@@ -19,11 +30,31 @@
                     .then(data => {
                         if (data.result == "success") {
                             alert("로그아웃 되었습니다.")
-                            location.href = "/main_list.do";
+                            location.reload();
                         }
                     })
                 }
             }
+             function send() {
+                let f = document.frm;
+                //카테고리 선택 여부
+                let catChecked = false;
+                let categoryList = document.getElementsByName("category");
+                for (let i = 0; i < categoryList.length; i++) {
+                    if (categoryList[i].checked) {
+                        catChecked = true;
+                        break;
+                    }
+                }
+                
+                if (!catChecked) {
+                    alert("카테고리를 선택해주세요!");
+                    return;
+                }
+                
+                f.submit();
+            }//send
+
             document.addEventListener("DOMContentLoaded", function() {
                 const searchInput = document.getElementById("mainSearch");
                 const searchDropdown = document.getElementById("searchDropdown");
