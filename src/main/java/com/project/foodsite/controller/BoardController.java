@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.project.foodsite.dao.BoardDAO;
+import com.project.foodsite.dao.RecipeDAO;
+import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.MemberVO;
+import com.project.foodsite.vo.ReviewVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,12 +33,18 @@ public class BoardController {
     private final BoardDAO boardDao;
     private final RecipeDAO recipeDao;
     private final HttpSession session;
+    private final ReviewDAO reviewDao;
 
     // board list 조회
     @GetMapping("/list.do")
     public String boardList(Model model) {
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);
+
+        // 레시피 후기 탭의 조회 
+        List<ReviewVO> reviewList = reviewDao.reviewLatest();
+        model.addAttribute("reviewList", reviewList);
+
         return "board/board_list";
     }
 

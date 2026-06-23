@@ -123,4 +123,7 @@
         VALUES( #{member_id}, #{title}, #{content}, 'Y' ) 
     </insert>-->
 
+
+
+
 </mapper>
