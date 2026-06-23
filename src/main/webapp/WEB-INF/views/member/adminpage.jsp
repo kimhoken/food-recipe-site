@@ -146,6 +146,7 @@
                 // 카테고리 및 공개/비공개 레시피 조회하는 함수
                 function searchRecipe() {
                     document.querySelector('form[action="/admin/recipe"]').submit();
+        
                 }
 
                 // 검색 결과 리셋 함수
@@ -174,7 +175,7 @@
                         })
 
                 }
-
+                // 관리자 정보 드롭 업/다운 시켜주는 기능
                 document.addEventListener("DOMContentLoaded", () => {
                     const profileName = document.querySelector(".profile-name");
                     const profileTrigger = document.querySelector(".profile-trigger");

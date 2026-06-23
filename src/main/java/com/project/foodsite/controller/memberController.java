@@ -34,14 +34,7 @@ public class memberController {
     private final NicknameGenerater nicknameGenerater;
     private final TokenDAO tokenDAO;
 
-    // 회원 리스트 출력
-    @GetMapping(value = { "/member_list.do" })
-    public String selectlist(Model model) {
-        List<MemberVO> list = memberDAO.selectList();
-        model.addAttribute("list", list);
-        return "/member/member_list";
-    }
-
+    
     // 로그인 페이지
     @GetMapping("/login.do")
     public String loginpage() {
