@@ -18,7 +18,6 @@ public class AdminMemberContorller {
     
     @Autowired
     HttpSession httpSession;
-
    
     private final AdminUtil adminUtil;
 
