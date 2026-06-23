@@ -1,6 +1,5 @@
 package com.project.foodsite.controller;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam; // 추가
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.common.Paging;
@@ -20,11 +20,13 @@ import com.project.foodsite.common.pwdSecurity;
 import com.project.foodsite.dao.ActivityDAO;
 import com.project.foodsite.dao.BookmarkDAO;
 import com.project.foodsite.dao.CommentDAO;
+import com.project.foodsite.dao.ImgDAO;
 import com.project.foodsite.dao.InquiryDAO;
 import com.project.foodsite.dao.MemberDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.vo.BookmarkVO;
 import com.project.foodsite.vo.CommentVO;
+import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.InquiryVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -39,7 +41,6 @@ public class MypageController {
     @Value("${file.upload.path}")
     private String uploadPath;
 
-
     private final HttpSession httpSession;    
 
     private final MemberDAO memberDAO;
@@ -50,11 +51,10 @@ public class MypageController {
     private final CommentDAO commentDAO;
     private final BookmarkDAO bookmarkDAO;
     private final InquiryDAO inquiryDAO; 
+    private final ImgDAO imgDAO;
 
-    //레시피 페이징 함수
     private void userRecipePaging(int page, Model model, MemberVO user){
         
-
         int totalcount = recipeDAO.countUserRecipe(user.getMember_id());
 
         Paging paging = new Paging(page, 5, totalcount);
@@ -71,10 +71,8 @@ public class MypageController {
         model.addAttribute("paging", paging);
     }
 
-    //댓글 페이징 함수
     private void userCommentPaging(int page, Model model, MemberVO user){
         
-
         int totalcount = commentDAO.countUserComment(user.getMember_id());
 
         Paging paging = new Paging(page, 5, totalcount);
@@ -91,10 +89,8 @@ public class MypageController {
         model.addAttribute("paging", paging);
     }
 
-    //북마크 페이징 함수
     private void userBookmarkPaging(int page, Model model, MemberVO user){
         
-
         int totalcount = bookmarkDAO.countUserBookmark(user.getMember_id());
 
         Paging paging = new Paging(page, 5, totalcount);
@@ -112,23 +108,58 @@ public class MypageController {
     }
 
     public void userHomePage(Model model, int member_id){
-        model.addAttribute("activity", activityDAO.userActivity(member_id)) ;
+        model.addAttribute("activity", activityDAO.userActivity(member_id));
         model.addAttribute("recentlyRecipeList", recipeDAO.recentlyUserRecipe(member_id));
         model.addAttribute("commentList", commentDAO.userComment(member_id));
         model.addAttribute("bookmarkList", bookmarkDAO.userBookmark(member_id));
     }
 
-    // 로그인한 회원의 문의 내역 조회
-    private void userInquiry(Model model, MemberVO user){
+    private void userInquiry(int page, Model model, MemberVO user, String status){
 
-        List<InquiryVO> inquiryList = inquiryDAO.myInquiryList(user.getMember_id());
+        List<InquiryVO> allList = inquiryDAO.myInquiryList(user.getMember_id());
+
+        if (status != null && !status.isBlank()) {
+            allList.removeIf(vo -> !status.equals(vo.getStatus()));
+        }
+
+        int totalcount = allList.size();
+
+        Paging paging = new Paging(page, 10, totalcount);
+
+        int start = paging.getOffset();
+
+        if (start >= totalcount && totalcount > 0) {
+            page = 1;
+            paging = new Paging(page, 10, totalcount);
+            start = paging.getOffset();
+        }
+
+        int end = Math.min(start + paging.getSize(), totalcount);
+
+        List<InquiryVO> inquiryList = allList.subList(start, end);
+
+        Map<Integer, List<ImgVO>> inquiryImgMap = new HashMap<>();
+
+        for (InquiryVO inquiry : inquiryList) {
+            List<ImgVO> imgList = imgDAO.img_select_inquiry(inquiry.getInquiry_id());
+            inquiryImgMap.put(inquiry.getInquiry_id(), imgList);
+        }      
 
         model.addAttribute("inquiryList", inquiryList);
+        model.addAttribute("inquiryImgMap", inquiryImgMap);
+        
+        model.addAttribute("paging", paging);
+        model.addAttribute("page", page);
+        model.addAttribute("totalcount", totalcount);
+        model.addAttribute("startPage", paging.getStartpage());
+        model.addAttribute("endPage", paging.getEndpage());
+        model.addAttribute("totalPage", paging.getTotalpage());
+        model.addAttribute("prev", paging.isPrev());
+        model.addAttribute("next", paging.isNext());
+
+        model.addAttribute("status", status);
     }
 
-
-
-    // 마이페이지 대시 카드 교체 함수 (기본값 활동내역 출력)
     private void setContentPage(Model model, String menu){
 
         boolean mainshow = false;
@@ -143,7 +174,7 @@ public class MypageController {
             mainshow = true;          
         } else if (menu.equals("pwd")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_pwd.jsp";    
-            mainshow =true;       
+            mainshow = true;       
         } else if (menu.equals("del")) {
             contentPage = "/WEB-INF/views/member/mypage/mypage_del.jsp";            
             mainshow = true;          
@@ -157,22 +188,18 @@ public class MypageController {
             contentPage = "/WEB-INF/views/member/mypage/mypage_bookmark.jsp";                        
         } 
         
-        model.addAttribute("contentPage",contentPage);
-        model.addAttribute("mainshow",mainshow);
+        model.addAttribute("contentPage", contentPage);
+        model.addAttribute("mainshow", mainshow);
     }
 
-    //회원의 레시피, 댓글, 북마크 갯수 조회하는 함수
-    private void setTotalCount(int member_id,Model model){
+    private void setTotalCount(int member_id, Model model){
         model.addAttribute("recipeCount", recipeDAO.countUserRecipe(member_id));
         model.addAttribute("commentCount", commentDAO.countUserComment(member_id));
         model.addAttribute("bookmarkCount", bookmarkDAO.countUserBookmark(member_id));
     }
     
-    // 다른 회원 조회 기능
     @GetMapping("/user/{member_id}")
     public String viewUser(@PathVariable int member_id, Model model, String menu, Integer page){
-
-        System.out.println("조회할 회원 ID: " + member_id);
 
         MemberVO profileUser = memberDAO.getUserByMemberId(member_id);
 
@@ -185,17 +212,16 @@ public class MypageController {
         }
         
         if(profileUser == null){
-            model.addAttribute("notfound",true);
-            model.addAttribute("contentPage","/WEB-INF/views/member/mypage/mypage_profile_notfound.jsp");
+            model.addAttribute("notfound", true);
+            model.addAttribute("contentPage", "/WEB-INF/views/member/mypage/mypage_profile_notfound.jsp");
             return "member/mypage/mypage_profile";
         }                      
         
         model.addAttribute("profileUser", profileUser);
-        model.addAttribute(menu,"menu"); 
+        model.addAttribute(menu, "menu"); 
         
         String contentPage = "/WEB-INF/views/member/mypage/mypage_profile_home.jsp";
         userHomePage(model, member_id);
-
         
         if (menu.equals("recipe")){
             userRecipePaging(page, model, profileUser);
@@ -212,15 +238,18 @@ public class MypageController {
         return "member/mypage/mypage_profile";
     }   
 
-    //마이 페이지 조회 및 메뉴 선택 
     @GetMapping("/mypage.do")
-    public String gomypage(Model model, String menu, Integer page) {        
-        
-       
+    public String gomypage(
+            Model model,
+            String menu,
+            Integer page,
+            @RequestParam(required = false) String status 
+    ) {        
 
         if(page == null){
             page = 1;
         }
+
         if(menu == null){
             menu = "home";
         }
@@ -228,16 +257,14 @@ public class MypageController {
         MemberVO user = (MemberVO) httpSession.getAttribute("user");
 
         if(user == null){
-           
             setContentPage(model, menu);
             return "member/mypage";
         }
-        System.out.println("회원 번호 : "+user.getMember_id());
         
         model.addAttribute("profileuser", user);
                
         if(menu.equals("home")){
-            userHomePage(model,user.getMember_id());
+            userHomePage(model, user.getMember_id());
         } else if(menu.equals("recipe")){
             userRecipePaging(page, model, user);
         } else if(menu.equals("comment")){
@@ -245,7 +272,7 @@ public class MypageController {
         } else if(menu.equals("bookmark")){
             userBookmarkPaging(page, model, user);
         } else if(menu.equals("inquiry")){
-            userInquiry(model, user);
+            userInquiry(page, model, user, status);
         }
 
         setTotalCount(user.getMember_id(), model);
@@ -255,26 +282,23 @@ public class MypageController {
         return "member/mypage";
     }
    
-
-    // 회원 정보 수정 기능
     @PostMapping("/mypage_update.do")
     public String update(MemberVO vo, String filechange) throws Exception{
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
      
-
-        String savePath = uploadPath + "/profile" ;
-        System.out.println("경로:"+savePath);
+        String savePath = uploadPath + "/profile";
+        System.out.println("경로:" + savePath);
         
         String filename = user.getProfile_img();
 
         MultipartFile photo = vo.getPhoto();
-        // 기존이미지 삭제
+
         if(filechange.equals("yes")){
 
             fileupload.deleteFile(savePath, filename);
 
-            filename ="no_file.png";
+            filename = "no_file.png";
 
         }else if(photo != null && !photo.isEmpty()){
 
@@ -297,12 +321,9 @@ public class MypageController {
             return "redirect:/mypage.do?menu=account";
         }else{
             return "redirect:/mypage.do?menu=update";
-
         }
-                 
     }
 
-    // 비밀번호 유효성 검사
     @PostMapping("/userpwdcheck.do")
     @ResponseBody
     public String userpwdcheck(String currpwd){
@@ -312,11 +333,10 @@ public class MypageController {
         if(pwdSecurity.pwdDecoding(currpwd, user.getPassword())){
             return "ok";
         }
-        return "no";
 
+        return "no";
     }
 
-    //비밀번호 재설정 기능
     @PostMapping("/resetpwdpage.do")
     @ResponseBody
     public String userrestpassword(String password){
@@ -328,32 +348,30 @@ public class MypageController {
         MemberVO vo = new MemberVO();
         
         vo.setMember_id(user.getMember_id());
-        
         vo.setPassword(enc_pwd);
         
         int res = memberDAO.userPwdUpdate(vo);
         
-        if( res>0){
+        if(res > 0){
             return "success";
         } else{
             return "fail";
         }
     }
 
-    //회원 탈퇴 기능
     @PostMapping("/secessionUser.do")
     @ResponseBody
-    public String secessionuser( MemberVO vo){
+    public String secessionuser(MemberVO vo){
 
-        String savePath = uploadPath+"/profile";
+        String savePath = uploadPath + "/profile";
 
         fileupload.deleteFile(savePath, vo.getProfile_img());
 
         vo.setStatus("no");
         vo.setLogin_id(null);
         vo.setPassword(null);
-        vo.setNickname("탈퇴회원_"+vo.getMember_id());
-        vo.setEmail("withdraw_"+ vo.getMember_id()+"@delete.com");
+        vo.setNickname("탈퇴회원_" + vo.getMember_id());
+        vo.setEmail("withdraw_" + vo.getMember_id() + "@delete.com");
         vo.setProvider(null);
         vo.setProvider_id(null);
         vo.setMember_intro(null);
@@ -362,14 +380,11 @@ public class MypageController {
         
         int res = memberDAO.secessionUser(vo);
 
-        if( res > 0 ){
+        if(res > 0){
             httpSession.removeAttribute("user");
             return "yes";
         }else{
             return "no";
         }        
-        
     }
-    
-
 }

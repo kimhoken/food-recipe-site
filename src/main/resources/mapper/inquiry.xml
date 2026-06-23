@@ -40,16 +40,20 @@
     </select>
 
     <select id="adminInquiryList" resultType="inquiry">
-        select * from inquiry
-        order by inquiry_id desc
+        select i.*, m.nickname as nickname
+        from inquiry i
+        left join member m
+            on i.member_id = m.member_id
+        order by i.inquiry_id desc
     </select>
 
-    <select id="adminInquiryDetail"
-            parameterType="int"
-            resultType="inquiry">
-
-        select * from inquiry
-        where inquiry_id = #{inquiry_id}
+    <select id="adminInquiryDetail" parameterType="int" resultType="inquiry">
+        
+        select i.*, m.nickname as nickname
+        from inquiry i
+        left join member m
+            on i.member_id = m.member_id
+        where i.inquiry_id = #{inquiry_id}
 
     </select>
 
