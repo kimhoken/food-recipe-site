@@ -175,7 +175,7 @@
                         })
 
                 }
-
+                // 관리자 정보 드롭 업/다운 시켜주는 기능
                 document.addEventListener("DOMContentLoaded", () => {
                     const profileName = document.querySelector(".profile-name");
                     const profileTrigger = document.querySelector(".profile-trigger");

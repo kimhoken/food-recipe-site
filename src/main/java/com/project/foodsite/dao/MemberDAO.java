@@ -2,12 +2,11 @@ package com.project.foodsite.dao;
 
 import java.util.List;
 
+import com.project.foodsite.dto.AdminMemberDTO;
 import com.project.foodsite.vo.MemberVO;
 
 public interface MemberDAO {
-    
-    List<MemberVO> selectList();
-    
+           
     MemberVO getUserById(String id);    
     
     int userInsert(MemberVO vo);
@@ -25,4 +24,10 @@ public interface MemberDAO {
     MemberVO getSocialUser(String provider,String provider_id);
 
     int secessionUser( MemberVO vo);
+
+    int memberCount();
+
+    List<MemberVO> MemberSearch( AdminMemberDTO admin );
+
+    AdminMemberDTO memberDetail( int member_id );
 } 
