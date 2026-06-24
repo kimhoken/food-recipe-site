@@ -9,7 +9,7 @@
         <script>
             let files = [];
 
-            function send(f) {
+            function noticeSend(f) {
                 if (f.title.value.trim() === "") {
                     alert("공지사항 제목을 입력하세요.");
                     f.title.focus();
@@ -107,7 +107,7 @@
                         <input type="file" name="images" id="images" multiple>
 
                         <div class="btn-area">
-                            <button type="button" onclick="send(this.form)">등록하기</button>
+                            <button type="button" onclick="noticeSend(this.form)">등록하기</button>
                             <button type="button" onclick="location.href='notice.do'">취소</button>
                         </div>
 
