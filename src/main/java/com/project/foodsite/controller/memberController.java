@@ -92,6 +92,7 @@ public class memberController {
         model.addAttribute("nickname",nickname);
         return "member/register_form";
     }
+
     //회원가입 
     @PostMapping("/register.do")
     @ResponseBody
@@ -113,7 +114,7 @@ public class memberController {
 
         vo.setMember_intro("안녕하십니까 "+vo.getName()+" 입니다.");
         vo.setRole("USER");
-        vo.setStatus("yes");
+        vo.setStatus("ACTIVE");
 
         int res = memberDAO.userInsert(vo);
 
