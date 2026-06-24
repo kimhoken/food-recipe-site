@@ -108,6 +108,8 @@
                 <option value="큰술">큰술</option>
                 <option value="작은술">작은술</option>
                 <option value="컵">컵</option>
+                <option value="적당히">적당히</option>
+                <option value="원하는 만큼">원하는 만큼</option>
                 <option value="direct">직접입력</option>
                 </select>
                 
@@ -301,6 +303,8 @@
                                 <option>큰술</option>
                                 <option>작은술</option>
                                 <option>컵</option>
+                                <option>적당히</option>
+                                <option>원하는 만큼</option>
                                 <option value="direct">직접입력</option>
                             </select>
                             <input type="text" name="customUnit" placeholder="단위 입력" style="display:none;" />
