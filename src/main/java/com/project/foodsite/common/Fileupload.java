@@ -62,8 +62,8 @@ public class Fileupload {
         }
 
     }
-
-    // 여러 이미지 파일 저장 함수
+    
+    // 여러 이미지 파일 저장 함수 
     public String saveFiles(List<MultipartFile> files, String folder) throws Exception{
 
         List<String> filenames = new ArrayList<>();
