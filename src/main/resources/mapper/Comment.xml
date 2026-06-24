@@ -27,5 +27,62 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LIMIT #{size} OFFSET #{offest}
     </select>
 
+    <select id="commentCount" parameterType="admincomment">
+        select count(c.comment_id) 
+        from comment c
+        join member m on c.member_id = m.member_id
+        join board b on c.board_id = b.board_id
+        join recipe r on r.recipe_id = c.recipe_id
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+        and (
+            m.nicknam like concat('%',#{keyword},'%')
+            or b.title like concat('%',#{keyword},'%')
+        )
+        </if>
+        <if test="status != null and status != '' ">
+        and status = #{status}
+        </if>       
+
+    </select>
+
+    <select id = "CommentSearch" parameterType="admincomment" resultType="admincomment">
+        select c.*, m.nickname, b.title
+        from comment c
+        join member m on c.member_id = m.member_id
+        join board b on c.board_id = b.board_id
+        join recipe r on r.recipe_id = c.recipe_id
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+        and (
+            m.nickname like concat('%'',#{keyword},'%')
+            or b.title like concat('%',#{keyword},'%')
+        )
+        </if>
+        <if test="status != null and status != '' ">
+        and status = #{status}
+        </if>       
+        <choose>
+
+            <when test="sort == 'oldest'">
+                order by created_date ASC
+            </when>
+
+            <when test="sort == 'latest'">
+                order by created_date DESC
+            </when>
+
+            <when test="sort == 'status'">
+                order by status desc
+            </when>
+
+        </choose>        
+
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+
 
 </mapper>
