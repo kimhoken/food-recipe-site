@@ -16,6 +16,6 @@ public class RecipeCommentVO {
     private String content;
     private String memberId;
     private String recipeId;
-
+    private float rating;
     private String nickname;
 }

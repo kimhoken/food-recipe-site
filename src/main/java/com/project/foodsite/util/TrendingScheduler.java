@@ -18,7 +18,7 @@ public class TrendingScheduler {
     private final TrendingService trendingService;
     private final SearchLogDAO logDAO;
 
-    private List<String> lastRank = Arrays.asList("스팸마요", "치킨마요", "햄버거");
+    private List<String> lastRank = Arrays.asList("스팸마요", "치킨마요", "햄버거", "피자", "치킨", "카레", "김치찜", "수육", "족발");
     private boolean isExclude = false;
 
     @Scheduled(fixedDelay = 300000)
