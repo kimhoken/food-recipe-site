@@ -83,7 +83,7 @@ public class InquiryController {
 
         if (images != null && images.length > 0) {
 
-            String savePath = "/Users/shinyeyoung/upload/";
+            // String savePath = "/Users/shinyeyoung/upload/";
 
             File dir = new File(uploadPath);
             if (!dir.exists()) {
