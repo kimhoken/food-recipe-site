@@ -51,7 +51,7 @@ public class AdminUtil {
             contentPage = "/WEB-INF/views/member/admin/admin_member.jsp";
         } else if (menu.equals("recipe")) {
             contentPage = "/WEB-INF/views/member/admin/admin_recipe.jsp";
-        } else if (menu.equals("stats")) {
+        } else if (menu.equals("status")) {
             contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";
         } else if (menu.equals("inquiry")) {
             contentPage = "/WEB-INF/views/member/admin/admin_inquiry.jsp";
@@ -61,6 +61,12 @@ public class AdminUtil {
             contentPage = "/WEB-INF/views/member/admin/admin_info.jsp";
         } else if (menu.equals("notice")) {
             contentPage = "/WEB-INF/views/member/admin/admin_notice.jsp";
+        } else if (menu.equals("comment")){
+            contentPage = "/WEB-INF/views/member/admin/admin_comment.jsp";
+        } else if(menu.equals("recipecomment")){
+            contentPage = "/WEB-INF/views/member/admin/admin_recipe_comment.jsp";            
+        } else if(menu.equals("board")){
+            contentPage = "/WEB-INF/views/member/admin/admin_board.jsp";            
         }
 
         model.addAttribute("contentPage", contentPage);

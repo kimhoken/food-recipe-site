@@ -3,6 +3,7 @@ package com.project.foodsite.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.project.foodsite.dto.AdminCommentDTO;
 import com.project.foodsite.vo.CommentVO;
 
 public interface CommentDAO {
@@ -12,5 +13,9 @@ public interface CommentDAO {
     int countUserComment(int member_id);
 
     List<CommentVO> getUserCommentList(Map<String,Object> map);
+
+    int commentCount(AdminCommentDTO comment);
+
+    List<AdminCommentDTO> CommentSearch(AdminCommentDTO comment);
 
 }

@@ -294,7 +294,7 @@
                                         </li>
                                             
                                         <li>
-                                            <a href="/admin/recipe/review">레시피 후기</a>
+                                            <a href="/admin/recipecomment">레시피 후기</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -304,11 +304,11 @@
                                         통계 관리</a>
                                 </li>
                                 <li>
-                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
+                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/board">
                                         게시글 관리</a>
                                 </li>
                                 <li>
-                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/status">
+                                    <a class="admin-menu ${menu eq 'status' ? 'active'  :''}" href="/admin/comment">
                                         댓글 관리</a>
                                 </li>
                             </ul>
