@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.util.Recommand;
-import com.project.foodsite.util.TrendingService;
+import com.project.foodsite.util.SearchLog;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,8 +22,7 @@ public class FoodSiteController {
     
     private final Recommand rec;
     private final HttpSession session;
-    private final TrendingService trendingService;
-    private final SearchLogDAO logDAO;
+    private final SearchLog log;
     
     @GetMapping( value={"/", "/main_list.do"})
     public String food_main(Model model){
@@ -38,23 +36,7 @@ public class FoodSiteController {
         model.addAttribute("reg_recipes", rec.recentlyList());      //등록일자 기준으로 레시피를 불러옴
         model.addAttribute("today", rec.randomList());              //오늘의 레시피를 한개 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());    //조회수를 기준으로 레시피를 불러옴
-
-        @SuppressWarnings("unchecked")
-        Queue<String> currentQueue = (Queue<String>)session.getAttribute("searchQueue");
-        List<String> currentList = new LinkedList<>();
-
-        if(currentQueue != null && !currentQueue.isEmpty()){
-            for(String val : currentQueue){
-                currentList.add(val);
-            }
-        }
-        
-        session.removeAttribute("searchList");
-        session.removeAttribute("currentSearchList");
-
-        session.setAttribute("searchList", trendingService.getTrendingKeywords());
-        session.setAttribute("currentSearchList", currentList);
-        session.setAttribute("recommandSearch", logDAO.getRecommand() );
+        log.getSearchLog();
         return "main";
     }
 

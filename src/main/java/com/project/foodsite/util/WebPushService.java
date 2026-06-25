@@ -19,9 +19,9 @@ public class WebPushService {
     //몇일 전에 알람을 보낼 지 지정
     private final int DAYS = 3;
 
-    private WebPushDAO webPushDAO;
+    private final WebPushDAO webPushDAO;
 
-    private Config config;
+    private final Config config;
 
     // 구독 정보 저장 또는 업데이트
     public void saveSubscription(WebPushSubscriptionVO subscription) {

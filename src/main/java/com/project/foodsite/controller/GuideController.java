@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GuideController {
 
-     private final GuideDAO guideDao;
+    private final GuideDAO guideDao;
 
     @GetMapping("/guide_list.do")
     public String guideList(){

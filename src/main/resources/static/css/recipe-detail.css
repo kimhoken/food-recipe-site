@@ -6,6 +6,7 @@
 * {
     background-color: #fff;
 }
+
 .title-wrap {
     text-align: center;
     margin: 50px 0 40px 0;
@@ -13,15 +14,19 @@
 
 /* 제목 스타일링 */
 .title-wrap h1 {
-    font-family: 'Noto Serif KR', 'Playfair Display', serif !important; /* 한글은 명조체로 우아하게 */
+    font-family: sans serif !important;
+    /* 한글은 명조체로 우아하게 */
     font-size: 38px;
     font-weight: 600;
-    letter-spacing: 2px; /* 너무 넓었던 자간을 적당히 조절 */
-    color: #222222; /* 살짝 부드러운 다크 그레이 */
+    letter-spacing: 2px;
+    /* 너무 넓었던 자간을 적당히 조절 */
+    color: #222222;
+    /* 살짝 부드러운 다크 그레이 */
     margin: 0;
     padding-bottom: 20px;
     position: relative;
-    display: inline-block; /* 밑줄 길이를 글씨 길이에 맞추기 위해 */
+    display: inline-block;
+    /* 밑줄 길이를 글씨 길이에 맞추기 위해 */
 }
 
 /* 제목 아래에 들어가는 고급스러운 짧은 밑줄 포인트 */
@@ -31,9 +36,12 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px; /* 밑줄 길이 */
-    height: 2px; /* 밑줄 두께 */
-    background-color: #cda87c; /* 베이지/골드 톤으로 포인트 (원하면 다른 색으로 변경 가능) */
+    width: 50px;
+    /* 밑줄 길이 */
+    height: 2px;
+    /* 밑줄 두께 */
+    background-color: #cda87c;
+    /* 베이지/골드 톤으로 포인트 (원하면 다른 색으로 변경 가능) */
 }
 
 /* 전체 감싸는 테두리 및 여백 */
@@ -46,9 +54,12 @@
 
 .recipe-author {
     font-size: 15px;
-    color: #888; /* 너무 진하지 않은 회색으로 은은하게 */
-    text-align: center; /* 제목과 맞춰서 가운데 정렬 */
-    margin-top: 15px; /* 제목 밑줄(가짜 요소)과의 간격 */
+    color: #888;
+    /* 너무 진하지 않은 회색으로 은은하게 */
+    text-align: center;
+    /* 제목과 맞춰서 가운데 정렬 */
+    margin-top: 15px;
+    /* 제목 밑줄(가짜 요소)과의 간격 */
     font-weight: 300;
     font-family: 'Noto Sans KR', sans-serif;
     letter-spacing: 1px;
@@ -174,6 +185,7 @@
     width: 100%;
     /* 테이블 너비에 꽉 차게 */
 }
+
 /* ==========================================================================
    댓글 영역 디자인 (기존 레시피 상세 페이지 무드와 통일)
    ========================================================================== */
@@ -191,7 +203,8 @@
    1. 댓글 입력 폼 영역
 ----------------------------------- */
 .comment-insert-div {
-    border-top: 1px solid #777; /* 본문과 분리되는 상단 구분선 */
+    border-top: 1px solid #777;
+    /* 본문과 분리되는 상단 구분선 */
     padding-top: 40px;
     margin-top: 40px;
 }
@@ -227,31 +240,34 @@
 }
 
 .comment-title:focus {
-    border-color: #cda87c; /* 포커스 시 기존 골드 포인트 컬러 적용 */
+    border-color: #cda87c;
+    /* 포커스 시 기존 골드 포인트 컬러 적용 */
 }
 
 /* 댓글 목록 내용 (textarea) 디자인 및 크기 고정 */
 .comment-content {
     width: 100%;
-    height: 22px; 
-    resize: none; 
-    border: none; /* 읽기 전용 느낌으로 테두리 제거 */
-    background-color: transparent; /* 배경 투명하게 */
+    height: 22px;
+    resize: none;
+    border: none;
+    /* 읽기 전용 느낌으로 테두리 제거 */
+    background-color: transparent;
+    /* 배경 투명하게 */
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     color: #333;
     line-height: 1.5;
     outline: none;
     box-sizing: border-box;
-    
+
 }
 
-#comment-content{
+#comment-content {
     width: 100%;
-    height: 80px; 
-    resize: none; 
-    border: 1px solid #333; 
-    background-color: transparent; 
+    height: 80px;
+    resize: none;
+    border: 1px solid #333;
+    background-color: transparent;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     color: #333;
@@ -269,7 +285,8 @@
 .comment-register {
     display: block;
     width: 120px;
-    margin: 10px 0 0 auto; /* 우측 정렬 */
+    margin: 10px 0 0 auto;
+    /* 우측 정렬 */
     padding: 12px 0;
     background-color: #222;
     color: #fff;
@@ -306,7 +323,8 @@
 /* 각 댓글을 감싸는 테이블 */
 .read-comment-div table {
     width: 100%;
-    border-bottom: 1px solid #eee; /* 댓글 사이 연한 구분선 */
+    border-bottom: 1px solid #eee;
+    /* 댓글 사이 연한 구분선 */
     padding: 15px 0;
     margin-bottom: 15px;
     border-collapse: collapse;
@@ -338,7 +356,8 @@
     font-size: 14px;
     color: #222;
     outline: none;
-    pointer-events: none; /* 클릭 안 되게 막아서 텍스트처럼 연출 */
+    pointer-events: none;
+    /* 클릭 안 되게 막아서 텍스트처럼 연출 */
 }
 
 /* 버튼(수정/삭제) 영역을 우측으로 밀기 */
@@ -350,7 +369,8 @@
 
 .read-comment-div td:last-child form {
     display: inline-block;
-    margin-left: 5px; /* 수정, 삭제 버튼 사이 간격 */
+    margin-left: 5px;
+    /* 수정, 삭제 버튼 사이 간격 */
 }
 
 /* 수정, 삭제 버튼 세부 디자인 */
@@ -377,11 +397,14 @@
    ========================================================================== */
 .comment-main-title {
     max-width: 800px;
-    margin: 60px auto 10px; /* 위쪽 여백을 넉넉히 줘서 본문과 분리, 가운데 정렬 */
-    padding: 0 40px; /* 기존 영역들과 양옆 여백(40px) 맞춤 */
+    margin: 60px auto 10px;
+    /* 위쪽 여백을 넉넉히 줘서 본문과 분리, 가운데 정렬 */
+    padding: 0 40px;
+    /* 기존 영역들과 양옆 여백(40px) 맞춤 */
     box-sizing: border-box;
-    
-    font-family: 'Noto Serif KR', serif; /* 메인 제목과 어울리게 명조체 적용 */
+
+    font-family: 'Noto Serif KR', serif;
+    /* 메인 제목과 어울리게 명조체 적용 */
     font-size: 22px;
     font-weight: 600;
     color: #222;
@@ -393,10 +416,56 @@
     display: inline-block;
     width: 4px;
     height: 18px;
-    background-color: #cda87c; /* 기존 포인트 컬러 */
+    background-color: #cda87c;
     margin-right: 10px;
     vertical-align: middle;
     border-radius: 2px;
     position: relative;
-    top: -2px; /* 세로 중앙 정렬 살짝 맞춤 */
+    top: -2px;
+}
+
+
+.rating__result {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-10px) translateX(-5px);
+    z-index: -9;
+    font: 30px Arial, Helvetica, sans-serif;
+    color: #ebebeb8e;
+    pointer-events: none;
+}
+
+.rating__star {
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #dabd18b2;
+    transition: filter linear .3s;
+}
+
+.rating__star:hover {
+    filter: drop-shadow(1px 1px 4px gold);
+}
+
+.rate {
+    background: url(https://aldo814.github.io/jobcloud/html/images/user/star_bg02.png) no-repeat;
+    background-size: 100px 20px; 
+    width: 100px; /* 🌟 55% 대신 100px로 고정! */
+    height: 20px;
+    position: relative;
+    
+    /* 위치 조절용 추가 속성 */
+    display: inline-block; 
+    vertical-align: middle; 
+    margin-left: 5px; 
+    margin-bottom: 3px; 
+}
+
+.rate span {
+    position: absolute;
+    background: url(https://aldo814.github.io/jobcloud/html/images/user/star02.png) no-repeat;
+    background-size: 100px 20px; 
+    height: 20px;
+    left: 0;
+    top: 0;
 }

@@ -156,10 +156,7 @@ public class NoticeController {
         }
 
         List<String> fileNames = new ArrayList<>();
-
-        System.out.println("notice_id=" + vo.getNotice_id());
-        System.out.println("images="+ images);
-
+        
         if (images != null && !images.isEmpty()) {
             for (MultipartFile image : images) {
 
