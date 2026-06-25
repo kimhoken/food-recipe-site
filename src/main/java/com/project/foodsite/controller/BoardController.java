@@ -41,7 +41,7 @@ public class BoardController {
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);
 
-        // 레시피 후기 탭의 조회 
+        // 최근 레시피 후기 탭의 조회 
         List<ReviewVO> reviewList = reviewDao.reviewLatest();
         model.addAttribute("reviewList", reviewList);
 

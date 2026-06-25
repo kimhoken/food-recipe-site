@@ -14,4 +14,5 @@ public interface ReviewDAO {
 
     // 별점순(평점순)
     List<ReviewVO> reviewRating();
+
 }

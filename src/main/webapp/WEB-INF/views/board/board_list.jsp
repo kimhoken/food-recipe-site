@@ -129,7 +129,6 @@
             <jsp:param name="currentMenu" value="community" />
         </jsp:include>
 
-<!-- 8. 승연추가-->
     <!-- 커뮤니티 헤더 -->
         <div class="community-header-frame">
             <div class="community-title-box">
@@ -204,10 +203,6 @@
 
         </div>
 
-
-<!-- 9. 승연추가-->
-
-
 <!-- 최근 레시피 후기 -->
 
     <div class="review-area" id="reviewArea" style="display:none;">
@@ -251,9 +246,9 @@
 
                 <div class="review-info-top">
                     <h3 class="review-title">
-                        <a href="/review_view.do?review_id=${review.review_id}">
+                     
                             ${review.title}
-                        </a>
+                        
                     </h3>
 
                     <span class="review-rating">[★ ${review.rating}]</span>
@@ -266,7 +261,7 @@
                 </div>
 
                 <p class="review-body">
-                    ${review.content} <a href="/review_view.do?review_id=${review.review_id}" class="more-link">(더보기)</a>
+                    "${review.content}
                 </p>
 
             </div>

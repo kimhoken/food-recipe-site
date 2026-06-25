@@ -296,7 +296,10 @@
         </div>
 
         <div class="container main-page">
-            <div class="section-title">조회수 TOP 5 레시피</div>
+            <div class="section-title">
+                <h3>조회수 TOP 5 레시피</h3>
+        <!--       <h2>조회수로 검증된 베스트 레시피를 확인해보세요</h2>    --> 
+            </div>
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
@@ -338,7 +341,7 @@
                     </div>
                 </div>
 
-                <!-- 이미지 작게 5개 나오는 자라 -->
+                <!-- 이미지 작게 5개 나오는 자리 -->
                 <div class="today-sub-list">
                     <div class="today-sub-thumb"></div>
                     <div class="today-sub-thumb"></div>
@@ -350,25 +353,53 @@
         </div>
 
         <div class="container main-page">
-            <div class="section-title-space">
-                <div class="section-title">최근 레시피 후기 </div>
-                <!-- 링크 누르면 최근 등록한 레시피 더 보여주는곳으로 이동 -->
-                <a href="${pageContext.request.contextPath}/list.do?tab=review" class="more-btn">더보기 &gt;</a>
+            <div class="seasonal-header">
+                <span class="seasonal-badge">이달의 제철요리</span>
+                <h2 class="seasonal-title">계절의 맛을 담은 이달의 추천 요리</h2>
+                <p class="seasonal-subtitle">계절별로 잘 어울리는 메뉴를 깔끔한 카드 형태로 확인할 수 있습니다.</p>
             </div>
-            <div class="recipe-grid">
-                <!-- 등록일자 기준으로 조회 -->
-                <c:forEach var="recipe" items="${reg_recipes}" >
-                    <div class="recipe-card">
-                        <div class="recipe-img">
-                            <img src="/images/${recipe.thumbnail}"/>
-                        </div>
-                        <div class="recipe-info">
-                            <div class="recipe-name">${recipe.title}</div>
-                            <div class="recipe-author">👤 ${recipe.nickname}</div>
-                            <div class="recipe-meta"><span class="star-rating">★ 4.7</span><span>조회수 <fmt:formatNumber value="${recipe.view_count}"/></span></div>
-                        </div>
+
+            <div class="seasonal-banner">
+                <span class="banner-badge" id="seasonalBannerBadge">여름 추천</span>
+                <h3 class="banner-title" id="seasonalBannerTitle">무더위를 이겨내는 여름 제철요리</h3>
+                <p class="banner-desc" id="seasonalBannerDesc">신선한 제철 재료로 만든 시원하고 입맛 돋우는 여름 메뉴를 만나보세요.</p>
+            </div>
+
+            <div class="seasonal-tabs">
+                <button type="button" class="season-tab-item" onclick="changeSeason('spring', this)">봄</button>
+                <button type="button" class="season-tab-item active" onclick="changeSeason('summer', this)">여름</button>
+                <button type="button" class="season-tab-item" onclick="changeSeason('autumn', this)">가을</button>
+                <button type="button" class="season-tab-item" onclick="changeSeason('winter', this)">겨울</button>
+            </div>
+
+            <div class="seasonal-card-grid" id="seasonalCardGrid">
+                <div class="seasonal-card">
+                    <div class="sc-info">
+                        <span class="sc-badge">여름 메뉴</span>
+                        <h4 class="sc-title">오이냉국</h4>
+                        <p class="sc-desc">무더운 날씨에 시원하게 즐기기 좋은 여름철 대표 별미</p>
                     </div>
-                </c:forEach>
+                    <div class="sc-img"></div>
+                    <button type="button" class="secondary">레시피 둘러보기</button>
+                </div>
+                <div class="seasonal-card">
+                    <div class="sc-info">
+                        <span class="sc-badge">여름 메뉴</span>
+                        <h4 class="sc-title">콩국수</h4>
+                        <p class="sc-desc">고소한 콩의 풍미와 시원한 국물이 어우러진 든든한 한 끼</p>
+                    </div>
+                    <div class="sc-img"></div>
+                    <button type="button" class="secondary">레시피 둘러보기</button>
+                </div>
+                <div class="seasonal-card">
+                    <div class="sc-info">
+                        <span class="sc-badge">여름 메뉴</span>
+                        <h4 class="sc-title">민어 매운탕</h4>
+                        <p class="sc-desc">제철 민어의 깊은 맛을 얼큰하게 즐길 수 있는 보양식</p>             
+                    </div>
+                    <div class="sc-img"></div>
+                    <button type="button" class="secondary">레시피 둘러보기</button>
+                </div>
             </div>
         </div>
 

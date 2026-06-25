@@ -22,13 +22,7 @@
                             <p>1:1 문의 - 09:00 ~ 12:00, 13:00 ~ 17:30 / 주말·공휴일 휴무</p>
                         </div>
                     </div>
-                    <div class="sns-icons">
-                        <span class="sns-icon">▶</span>
-                        <span class="sns-icon">★</span>
-                        <span class="sns-icon">☆</span>
-                        <span class="sns-icon">◆</span>
-                        <span class="sns-icon">♬</span>
-                    </div>
+        
                 </div>
             </div>
 
