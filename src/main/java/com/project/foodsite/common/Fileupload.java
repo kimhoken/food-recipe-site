@@ -27,7 +27,8 @@ public class Fileupload {
             return null;
         }
 
-        File dir = new File( folder);
+        //예) C:/upload/recipe/
+        File dir = new File(uploadPath, folder);
 
         if(!dir.exists()){
             dir.mkdirs();
@@ -42,6 +43,7 @@ public class Fileupload {
         }
 
         file.transferTo(saveFile);
+        System.out.println("저장위치 = " + saveFile.getAbsolutePath());
 
         return filename;
 
