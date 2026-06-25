@@ -119,7 +119,7 @@
                 <table class="ingredient-table">
                     <tr>
                         <td rowspan="${size + 1}" class="thumb-cell">
-                            <div class="img-placeholder">썸네일 사진 들어가는 자리</div>
+                            <img src="/upload/recipe/${dto.thumbnail}" alt="썸네일">
                         </td>
                         <th colspan="2" class="section-title-cell">필요 재료</th>
                     </tr>

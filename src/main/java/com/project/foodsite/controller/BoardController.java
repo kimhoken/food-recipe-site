@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.ReviewDAO;
@@ -34,6 +35,7 @@ public class BoardController {
     private final RecipeDAO recipeDao;
     private final HttpSession session;
     private final ReviewDAO reviewDao;
+    private final Fileupload fileupload;
 
     // board list 조회
     @GetMapping("/list.do")
@@ -41,7 +43,7 @@ public class BoardController {
         List<BoardVO> list = boardDao.selectAll();
         model.addAttribute("list", list);
 
-        // 레시피 후기 탭의 조회 
+        // 레시피 후기 탭의 조회
         List<ReviewVO> reviewList = reviewDao.reviewLatest();
         model.addAttribute("reviewList", reviewList);
 
@@ -77,9 +79,16 @@ public class BoardController {
 
     // 내 레시피 등록하기
     @PostMapping("/myrecipe.do")
-    public String registerRecipe(RecipeDTO dto) {
-        // 등록 데이터 잘 들어오는지 확인용
+    public String registerRecipe(RecipeDTO dto) throws Exception{
         
+        String filename = fileupload.saveFile(dto.getMainImg(), "recipe");
+
+        System.out.println("저장된 파일명 = " + filename);
+
+        dto.setThumbnail(filename);
+
+        // 등록 데이터 잘 들어오는지 확인용
+
         System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
 
         System.out.println("선택한 foodId = " + dto.getFoodId());
