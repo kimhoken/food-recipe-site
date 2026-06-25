@@ -13,9 +13,7 @@ public class CacheWarmingListener {
 
     @EventListener(ApplicationReadyEvent.class)
     public void initCache(){
-        System.out.println("===========================load cache===========================");
         //서버 재실행시 최근 검색어에 상관없이 검색한 단어가 많은거 10개 검색
         ts.initCache();
-        System.out.println("===========================load success!!!===========================");
     }
 }

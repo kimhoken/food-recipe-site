@@ -31,6 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!-- 임의로 고침(안두면 메인 오류) -->
+    <!-- 
+        SELECT keyword FROM v_keyword_ranking
+        ORDER BY ranking DESC
+    -->
     <select id="getRecommand" resultType="String">
         SELECT '' AS keyword
     </select>

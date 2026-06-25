@@ -9,6 +9,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe-detail.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
         <meta charset="UTF-8">
         <title>오늘 뭐 먹지? - 레시피 상세보기</title>
         <script>
@@ -54,7 +55,8 @@
                     body: JSON.stringify({
                         content: content,
                         recipeId: recipe_id,
-                        memberId: member_id
+                        memberId: member_id,
+                        rating: f.rating.value
                     })  
                 })
                 .then(res => res.json())
@@ -103,7 +105,6 @@
                     }
                 })
             }
-
         </script>
     </head>
     <body>
@@ -112,6 +113,7 @@
             <h1>${dto.recipeTitle}</h1>
             <div class="recipe-author">작성자: ${dto.nickName}</div>
         </div>
+
         <div class="recipe-detail-wrap">
             <div class="recipe-top-section">
                 <table class="ingredient-table">
@@ -154,7 +156,6 @@
             </div>
         </div>
         
-        
         <c:if test="${not empty commentList}">
             <div class="comment-main-title">레시피 댓글</div>
             <div class="read-comment-div">
@@ -162,7 +163,13 @@
                     <table>
                         <tr>
                             <td>${vo.nickname}</td>
-                            <td><textarea class="comment-content" id="modi_content${vo.commentId}" readonly >${vo.content}</textarea></td>
+                            <td>
+                                <textarea class="comment-content" id="modi_content${vo.commentId}" readonly >${vo.content}</textarea>
+                                <c:set var="rates" value="${vo.rating * 20}%"/>
+                                <div class="rate">
+                                    <span style="width: ${rates};"></span>
+                                </div> 
+                            </td>
                             <c:if test="${vo.memberId eq sessionScope.user.member_id || sessionScope.user.member_id eq 2}">
                                 <td>
                                     <input type="hidden" value="등록" onClick="modiFin('${vo.commentId}')" id="send_btn${vo.commentId}" />
@@ -186,7 +193,19 @@
                 <div class="comment-insert-div">
                     <table>
                         <tr>
-                            <td>댓글 달기</td>
+                            <td>
+                                댓글 달기
+                                <input type="button" name="rating" id="rating" value="0">
+                                <div class="rating">
+                                    <span class="rating__result"></span>
+                                    <i class="rating__star far fa-star"></i>
+                                    <i class="rating__star far fa-star"></i>
+                                    <i class="rating__star far fa-star"></i>
+                                    <i class="rating__star far fa-star"></i>
+                                    <i class="rating__star far fa-star"></i>
+                                </div>
+                                <%-- 출처: https://sisiblog.tistory.com/355 [달삼쓰뱉:티스토리] --%>
+                            </td>
                             <td>
                                 <input type="hidden" name="member_id" value="${sessionScope.user.member_id}">
                                 <input type="hidden" name="recipe_id" value="${param.recipeId}">
@@ -203,5 +222,38 @@
             </form>
         </c:if>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+        <script>
+            const ratingStars = [...document.getElementsByClassName("rating__star")];
+            const ratingResult = document.querySelector(".rating__result");
+            
+            function printRatingResult(result, num = 0) {
+                result.textContent = num
+                document.getElementById("rating").value=num;
+            }
+
+            printRatingResult(ratingResult);
+
+            function executeRating(stars, result) {
+                const starClassActive = "rating__star fas fa-star";
+                const starClassUnactive = "rating__star far fa-star";
+                const starsLength = stars.length;
+                let i;
+                stars.map((star) => {
+                    star.onclick = () => {
+                        i = stars.indexOf(star);
+
+                        if (star.className.indexOf(starClassUnactive) !== -1) {
+                            printRatingResult(result, i + 1);
+                            for (i; i >= 0; --i) stars[i].className = starClassActive;
+                        } else {
+                            printRatingResult(result, i);
+                            for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
+                        }
+                    };
+                });
+            }
+
+            executeRating(ratingStars, ratingResult);
+        </script>
     </body>
 </html>

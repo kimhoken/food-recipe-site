@@ -160,7 +160,11 @@
                                                     <br>
                                                     👁 ${recipe.view_count}
                                                     &nbsp;&nbsp;
-                                                    ❤️ ${recipe.like_count}
+                                                    <%-- 06-24 평점기능 추가한 부분 --%>
+                                                    <c:set var="rates" value="${(recipe.rating * 10) * 2}%"/>
+                                                    <div class="rate">
+                                                        <span style="width: ${rates};"></span>
+                                                    </div> 
                                                 </div>
                                             </div>
                                         </div>
