@@ -1,9 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.project.foodsite.dao.ReportDAO">
 
+    <insert id="reportInsert" parameterType="report">
+        insert into report (
+            target_type,
+            reason,
+            report_title,
+            detail,
+            status,
+            created_date,
+            member_id,
+            board_id,
+            comment_id,
+            recipe_id,
+            review_id
+        )
+        values (
+            #{target_type},
+            #{reason},
+            #{report_title},
+            #{detail},
+            '처리대기',
+            NOW(),
+            #{member_id},
+            #{board_id},
+            #{comment_id},
+            #{recipe_id},
+            #{review_id}
+        )
+    </insert>
 
+    <select id="reportList" resultType="report">
+        select r.*, 
+        m.nickname,
+        m.name,
+        m.email,
+        m.profile_img
+        from report r
+        join member m
+            on r.member_id = m.member_id
+        order by r.report_id desc
+    </select>
 
 </mapper>

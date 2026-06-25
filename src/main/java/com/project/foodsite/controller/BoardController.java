@@ -79,7 +79,7 @@ public class BoardController {
     @PostMapping("/myrecipe.do")
     public String registerRecipe(RecipeDTO dto) {
         // 등록 데이터 잘 들어오는지 확인용
-
+        
         System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
 
         System.out.println("선택한 foodId = " + dto.getFoodId());
