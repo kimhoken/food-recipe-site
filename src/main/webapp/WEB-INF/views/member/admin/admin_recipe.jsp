@@ -36,6 +36,7 @@
                                 <option value="">카테고리 전체</option>
                                 <option value="recommend" ${searchrecipe.category_name eq 'recommend' ? 'selected' : ''
                                     }>상황별 추천</option>
+                                
                                 <option value="korean" ${searchrecipe.category_name eq 'korean' ? 'selected' : '' }>한식
                                 </option>
                                 <option value="western" ${searchrecipe.category_name eq 'western' ? 'selected' : '' }>양식
