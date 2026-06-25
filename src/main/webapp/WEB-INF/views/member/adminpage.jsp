@@ -294,7 +294,7 @@
                                         </li>
                                             
                                         <li>
-                                            <a href="/admin/recipecomment">레시피 후기</a>
+                                            <a href="/admin/review">레시피 후기</a>
                                         </li>
                                     </ul>
                                 </li>

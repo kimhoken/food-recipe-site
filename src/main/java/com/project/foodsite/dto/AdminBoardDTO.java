@@ -1,5 +1,7 @@
 package com.project.foodsite.dto;
 
+import java.sql.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -11,8 +13,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Alias("adminmember")
-public class AdminMemberDTO extends SearchDTO {
-    private String nickname, email, login_id, name, role, created_date, profile_img, memberintro, provider;
-    private int member_id, report_count, recipe_count, like_count, bookmark_count, comment_count;
+@Alias("adminboard")
+public class AdminBoardDTO extends SearchDTO{
+    private int board_id, view_count, comment_count;
+    private String title, content, borad_type, nickname, main_title, image;
+    private Date created_date, updated_date;
 }
