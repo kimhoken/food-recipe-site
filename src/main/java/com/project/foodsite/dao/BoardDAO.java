@@ -5,6 +5,7 @@ import java.util.List;
 import com.project.foodsite.vo.BoardVO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
+import com.project.foodsite.dto.AdminBoardDTO;
 import com.project.foodsite.dto.RecipeDTO;
 
 public interface BoardDAO {
@@ -27,4 +28,10 @@ public interface BoardDAO {
 
     int insertIngredient(IngredientVO vo); //재료추가 
     int insertCookOrder(CookOrderVO vo); //조리과정 추가
+
+    int boardCount(AdminBoardDTO Board); // 관리자 페이지 게시글 갯수 조회 (페이징)
+
+    List<AdminBoardDTO> BoardSearch(AdminBoardDTO Board); // 관리자 게시글 조회 및 검색
+
+
 }

@@ -2,15 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.ReviewDAO">
 
-<!-- 리뷰 최신순,인기순,평점순 -->
-   
+    <!-- 리뷰 최신순,인기순,평점순 -->
     <select id="reviewLatest" resultType="review">
-    SELECT r.*, m.nickname
-    FROM review r
-    JOIN member m ON r.member_id = m.member_id
-    WHERE r.status = 'N'
-    ORDER BY r.review_id ASC
-</select>
+        SELECT r.*, m.nickname
+        FROM review r
+        JOIN member m ON r.member_id = m.member_id
+        WHERE r.status = 'N'
+        ORDER BY r.review_id ASC
+    </select>
 
     <select id="reviewPopular" parameterType="string" resultType="review">
         SELECT r.*, m.nickname
@@ -18,10 +17,10 @@
         JOIN member m ON r.member_id = m.member_id
         WHERE r.status = 'N'
         <choose>
-            <when test="value == 'weekly'">
+            <when test="_parameter == 'weekly'">
                 AND r.created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
             </when>
-            <when test="value == 'monthly'">
+            <when test="_parameter == 'monthly'">
                 AND r.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
             </when>
         </choose>
@@ -36,4 +35,53 @@
         ORDER BY r.rating DESC, r.title ASC
     </select>
 
+    <!-- 레시피 후기 갯수 조회 -->
+    <select id="ReviewCount" parameterType="adminreview">
+        select count(*)
+        from review r
+        join member m on r.member_id = m.member_id
+        join recipe re on r.recipe_id = re.recipe_id
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+        and (m.nickname like #{keyword}
+            or re.title like #{keyword} )
+        </if>
+
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
+
+    </select>
+
+    <select id="ReviewSearch" parameterType="adminreview" resultType="adminreview">
+        select r.*, m.nickname, re.title AS main_title
+        from review r
+        join member m on r.member_id = m.member_id
+        join recipe re on r.recipe_id = re.recipe_id
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+        and (m.nickname like #{keyword}
+            or re.title like #{keyword} )
+        </if>
+
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
+
+        <choose>
+            <when test="sort == 'oldest'">
+                order by b.created_date asc
+            </when>
+            <when test="sort == 'latest'">
+                order by b.created_date desc
+            </when>
+            <when test="sort == 'view'">
+                order by b.view_count desc
+            </when>
+        </choose>
+        
+        limit #{size} offset #{offset}
+
+
+    </select>
 </mapper>

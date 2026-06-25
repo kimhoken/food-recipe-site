@@ -27,5 +27,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LIMIT #{size} OFFSET #{offest}
     </select>
 
+    <select id="commentCount" parameterType="admincomment">
+        select count(c.comment_id) 
+        from comment c
+        join member m on c.member_id = m.member_id
+        left join board b on c.board_id = b.board_id
+        left join recipe r on r.recipe_id = c.recipe_id
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+        and (
+            m.nickname like concat('%',#{keyword},'%')
+            or b.title like concat('%',#{keyword},'%')
+        )
+        </if>
+        <if test="status != null and status != '' ">
+        and c.status = #{status}
+        </if>       
+
+    </select>
+
+    <select id = "CommentSearch" parameterType="admincomment" resultType="admincomment">
+        select c.*, m.nickname, 
+        case 
+            when c.board_id is not null then b.title
+            when c.recipe_id is not null then r.title
+        end as main_title,
+
+        case 
+            when c.recipe_id is not null then r.thumbnail
+            else 'no_board.png'
+        end as thumbnail
+
+        from comment c
+        join member m on c.member_id = m.member_id
+        left join board b on c.board_id = b.board_id
+        left join recipe r on r.recipe_id = c.recipe_id
+        where 1=1
+
+        <if test="keyword != null and keyword != ''">
+        and (
+            m.nickname like concat('%',#{keyword},'%')
+            or b.title like concat('%',#{keyword},'%')
+        )
+        </if>
+        <if test="status != null and status != '' ">
+        and c.status = #{status}
+        </if>       
+        <choose>
+
+            <when test="sort == 'oldest'">
+                order by c.created_date ASC
+            </when>
+
+            <when test="sort == 'latest'">
+                order by c.created_date DESC
+            </when>
+
+            <when test="sort == 'status'">
+                order by c.status desc
+            </when>
+
+        </choose>        
+
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+
 
 </mapper>

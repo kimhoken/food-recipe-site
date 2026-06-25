@@ -1,8 +1,6 @@
 package com.project.foodsite.controller;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,6 @@ import com.project.foodsite.vo.ReviewVO;
 
 import lombok.RequiredArgsConstructor;
 
-import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.RecipeDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,14 +36,30 @@ public class BoardController {
 
     // board list 조회
     @GetMapping("/list.do")
-    public String boardList(Model model) {
-        List<BoardVO> list = boardDao.selectAll();
-        model.addAttribute("list", list);
+    public String boardList(Model model, String sort, String period, String btn) {        
 
         // 레시피 후기 탭의 조회
         List<ReviewVO> reviewList = reviewDao.reviewLatest();
         model.addAttribute("reviewList", reviewList);
+        //정렬조건이 없을경우
+        if(sort == null || sort.isEmpty()){
+            sort = "all";
+        }
 
+        if(sort.equals("rating")){
+            reviewList = reviewDao.reviewRating();
+        }else if(sort.equals("popular")){
+            reviewList = reviewDao.reviewPopular(period);
+        }else{
+            reviewList = reviewDao.reviewLatest();
+        }
+        
+        model.addAttribute("list", boardDao.selectAll());
+        model.addAttribute("reviewList", reviewList);
+        
+        model.addAttribute("sort", sort);
+        model.addAttribute("period", period);
+        model.addAttribute("btn", btn);
         return "board/board_list";
     }
 
@@ -59,6 +72,7 @@ public class BoardController {
         model.addAttribute("searchWord", search); // 검색어 보관
         return "board/board_list";
     }
+
     ///////////////////////////////////////////////////////////////////////////////////////
     // --------------이거 전체 레시피쪽으로 가서 수정해야함----------------------
 
@@ -70,9 +84,7 @@ public class BoardController {
 
         model.addAttribute("id", id);
 
-        model.addAttribute(
-                "foodList",
-                recipeDao.selectAllFood());
+        model.addAttribute("foodList", recipeDao.selectAllFood());
 
         return "board/board_regiRecipe";
     }
