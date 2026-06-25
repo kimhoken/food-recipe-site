@@ -2,6 +2,7 @@ package com.project.foodsite.dao;
 
 import java.util.List;
 
+import com.project.foodsite.dto.AdminReviewDTO;
 import com.project.foodsite.vo.ReviewVO;
 
 public interface ReviewDAO {
@@ -14,4 +15,12 @@ public interface ReviewDAO {
 
     // 별점순(평점순)
     List<ReviewVO> reviewRating();
+
+
+
+    // 관리자 총 레시피 후기 갯수 조회
+    int ReviewCount(AdminReviewDTO Review);
+
+    // 관리자 레시피 검색 (페이징 포함)
+    List<AdminReviewDTO> ReviewSearch(AdminReviewDTO Review);
 }

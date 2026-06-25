@@ -36,4 +36,53 @@
         ORDER BY r.rating DESC, r.title ASC
     </select>
 
+    <!-- 레시피 후기 갯수 조회 -->
+    <select id="ReviewCount" parameterType="adminreview">
+        select count(*)
+        from review r
+        join member m on r.member_id = m.member_id
+        join recipe re on r.recipe_id = re.recipe_id
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+        and (m.nickname like #{keyword}
+            or re.title like #{keyword} )
+        </if>
+
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
+
+    </select>
+
+    <select id="ReviewSearch" parameterType="adminreview" resultType="adminreview">
+        select r.*, m.nickname, re.title AS main_title
+        from review r
+        join member m on r.member_id = m.member_id
+        join recipe re on r.recipe_id = re.recipe_id
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+        and (m.nickname like #{keyword}
+            or re.title like #{keyword} )
+        </if>
+
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
+
+        <choose>
+            <when test="sort == 'oldest'">
+                order by b.created_date asc
+            </when>
+            <when test="sort == 'latest'">
+                order by b.created_date desc
+            </when>
+            <when test="sort == 'view'">
+                order by b.view_count desc
+            </when>
+        </choose>
+        
+        limit #{size} offset #{offset}
+
+
+    </select>
 </mapper>

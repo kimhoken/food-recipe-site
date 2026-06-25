@@ -173,10 +173,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 뷰 생성한 걸로 바꿈 -->
     <select id="RecipeList" parameterType="adminrecipe" resultType="recipe">
         SELECT
-            r.*,
-            r.nickname,
+            r.*,           
             c.category_name
-        FROM recipe_view
+        FROM recipe_view r
         JOIN category c ON r.category_id = c.category_id
         WHERE 1=1
 

@@ -1,11 +1,13 @@
 package com.project.foodsite.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.common.Paging;
@@ -29,7 +31,7 @@ public class AdminCommentController {
     private final CommentDAO commentDAO;
     private final AdminUtil adminUtil;
 
-    // 댓글 페이징 함수
+    // 댓글 페이징 함수 ( 검색 까지 들어가 있음 )
     private void commentPaging(Model model, AdminCommentDTO Comment){
         if(Comment.getPage() <= 0){
             Comment.setPage(1);
@@ -54,6 +56,7 @@ public class AdminCommentController {
     // 댓글 관리 페이지 이동 함수 
     @GetMapping("/admin/comment")
     public String commentlist(Model model, AdminCommentDTO Comment){
+
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
         model.addAttribute("profileuser",user);
@@ -63,7 +66,8 @@ public class AdminCommentController {
         adminUtil.setContentPage(model, "comment");
         return "member/adminpage";
     }
-     
+
+    
 
 
 
