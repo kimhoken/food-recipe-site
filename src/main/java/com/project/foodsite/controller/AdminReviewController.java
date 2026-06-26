@@ -52,7 +52,7 @@ public class AdminReviewController {
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
-        model.addAttribute("user", user);   
+        model.addAttribute("profileuser", user);   
 
         adminUtil.setContentPage(model, "review");
 
