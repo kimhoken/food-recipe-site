@@ -33,5 +33,6 @@ public interface BoardDAO {
 
     List<AdminBoardDTO> BoardSearch(AdminBoardDTO Board); // 관리자 게시글 조회 및 검색
 
+    AdminBoardDTO adminboarddetail(int board_id);
 
 }

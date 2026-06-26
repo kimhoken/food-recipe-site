@@ -3,6 +3,7 @@
 
         <head>
             <script>
+                let selcomment;
                 function entersearch(e) {
 
                     if (e.key === "Enter") {
@@ -21,8 +22,83 @@
                         headers:{"Content-Type": "application/x-www-form-urlencoded"},
                         body: 'comment_id='+comment_id
                     }).then(res=> res.json())
-                    .then(data =>{
-                        
+                    .then(dto =>{
+                        console.log(dto);
+
+                        setComment(dto);
+                    })
+                }
+
+                function setComment(dto){
+
+                    let status = '';
+
+                    selcomment = dto.comment_id;
+
+                    document.querySelector(".cm-btn-hidden").value='비공개 전환';
+                    document.querySelector(".cm-btn-delete").value='삭제'
+
+                    if(dto.status === 'ACTIVE'){
+                        status='공개';
+                    } else if(dto.status === 'HIDDEN'){
+                        status='비공개'
+                        document.querySelector(".cm-btn-hidden").value='공개 전환';
+                    } 
+                    if(dto.status === 'DELETE'){
+                        status='삭제';
+                        document.querySelector(".cm-btn-delete").value='복원';
+                    }
+
+                    setImg("model-img", "/upload/"+dto.thumbnail);
+                    setText("title",dto.title);
+                    setText("type",dto.type);
+                    setText("nickname",dto.nickname);
+                    setText("rating",dto.rating);
+                    setText("content",dto.content);
+                    setText("created",dto.created_date);
+                    setText("status",status);
+                    
+                }
+
+                function commenthidden(){
+                    if(!confirm("댓글을 비공개 처리 하시겠습니까?")){
+                        return;
+                    }
+
+                    fetch("/admin/comment/hidden",{
+                        method :'post',
+                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                        body:"comment_id=" + selcomment
+                    }).then(res=> res.json())
+                    .then(data=>{
+                        if( data.result > 0 && data.status==='HIDDEN' ){
+                            alert( "비공개 처리 되었습니다." );
+                        } else if( data.result > 0 && data.status === 'ACTIVE' ){
+                            alert( "공개 전환 되었습니다." );
+                        } else{
+                            alert("전환 할수 없습니다.");
+                        }
+                    })
+                }
+
+                function commentdelete(del){
+                    if(!confirm("댓글을 삭제 하시겠습니까?")){
+                        return;
+                    }
+
+                    fetch("/admin/comment/delete",{
+                        method :'post',
+                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                        body:"comment_id=" + selcomment 
+                    }).then(res=> res.json())
+                    .then(data=>{
+                        if( data.result > 0 && data.status === 'DELETE' ){
+                            alert("삭제 되었습니다.");
+                        } else if(data.result > 0 && data.status === 'ACTIVE'){
+                            alert("복원 되었습니다.");
+                        } else {
+                            alert("삭제/복원 할수 없습니다.");
+                        }
                     })
                 }
 
@@ -73,7 +149,7 @@
                                 </tr>
                                 <c:forEach var="comment" items="${list}">
 
-                                    <tr>
+                                    <tr onclick="comment_view('${comment.comment_id}')">
                                         <td>
                                             <c:choose>
 
@@ -142,38 +218,38 @@
 
                 <dl class="ma-detail-list">
 
-                    <dd class="model-img">
+                    <dd id="model-img" class="model-img">
                         
                         <img src="/upload/" />
                     </dd>
 
                     <dt>제목/</dt>
-                    <dd class="model-nickname"></dd>
+                    <dd id="model-title" class="model-title"></dd>
 
                     <dt>구분</dt>
-                    <dd class="model-type"></dd>
+                    <dd id="model-type" class="model-type"></dd>
 
                     <dt>작성자</dt>
-                    <dd class="model-id"></dd>
+                    <dd id="model-nickname" class="model-nickname"></dd>
 
                     <dt>작성일</dt>
-                    <dd class="model-email"></dd>
+                    <dd id="model-created" class="model-created"></dd>
 
                     <dt>평점</dt>
-                    <dd class="model-report"></dd>
+                    <dd id="model-rating" class="model-rating"></dd>
 
                     <dt>댓글 내용</dt>
-                    <dd class="model-status"></dd>
+                    <dd id="model-content" class="model-contnet"></dd>
 
                     <dt>상태</dt>
-                    <dd class="model-date"></dd>
+                    <dd id="model-status" class="model-status"></dd>
 
                 </dl>
 
                 <div class="ma-action">
-                    <input type="button" class="ma-btn ma-btn-stop" value="" onclick="" />
-                    <input type="button" class="ma-btn ma-btn-report" value="신고 내역 보기" onclick="" />
-                    <input type="button" class="ma-btn ma-btn-rank" value="" onclick="" />
+                    <input type="button" class="cm-btn cm-btn-hidden" value="" onclick="commenthidden()" />
+                    <input type="button" class="cm-btn cm-btn-delete" value="" onclick="commentdelete()" />
+                    
                 </div>
 
             </div>
