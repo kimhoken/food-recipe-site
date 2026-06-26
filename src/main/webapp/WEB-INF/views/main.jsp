@@ -92,7 +92,7 @@
                         let limit = Math.min(foodList.length, 4);
                         
                         for(let i=0 ; i<limit ; i++){
-                            html += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                            html += "<li><a href='/recipe_list.do?category=" + category + "&sort=latest'>" + foodList[i] + "</a></li>"
                         }
                         html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
                         

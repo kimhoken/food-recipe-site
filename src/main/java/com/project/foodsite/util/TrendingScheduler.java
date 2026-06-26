@@ -47,8 +47,8 @@ public class TrendingScheduler {
         List<String> finalRank = new ArrayList<>(combinedSet);
         lastRank = finalRank;
 
-        trendingService.updateTrendingKeywords(finalRank);
         System.out.println("=================실시간 검색어 업데이트 완료=================");
+        trendingService.updateTrendingKeywords(finalRank);
     }
 
 
