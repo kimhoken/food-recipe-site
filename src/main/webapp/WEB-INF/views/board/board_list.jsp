@@ -28,8 +28,9 @@
                 });
 
                 // 2. 컨트롤러에서 넘어온 모델 값 세팅 (빈 값일 경우 기본값 설정)
-                const sort = "${sort}";
+                const sort = "${sort}"
                 if(sort == ''){
+                    console.log("123")
                     sort ="latest";
                 }
                 const period = "${period}";
@@ -166,7 +167,7 @@
         </div>
 
         <!-- 게시판 -->
-        <div class="board-area" id="boardArea">
+        <div class="board-area" id="boardArea" style="display:none;">
             <c:if test="${not empty list}">
                 <table>
                     <thead>
@@ -218,7 +219,8 @@
                         <button type="button" class="sub-tab-btn" onclick="changePeriod('monthly', event)">월간</button>
                     </div>
                     <select id="mainSortSelect" class="sort-dropdown" onchange="handleMainSort(this.value)">
-                        <option value="latest" selected>최신순</option>
+                        <option value="all" >선택하기</option>
+                        <option value="latest">최신순</option>
                         <option value="popular">조회수 순</option>
                         <option value="rating">별점</option>
                     </select>
