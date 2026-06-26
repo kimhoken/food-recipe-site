@@ -13,9 +13,19 @@
 
                 function searchcomment() {
                     document.querySelector('form[action="/admin/comment"]').submit();
-                }        
+                }
 
-                
+                function comment_view(comment_id){
+                    fetch("/admin/comment/view",{
+                        method:'post',
+                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                        body: 'comment_id='+comment_id
+                    }).then(res=> res.json())
+                    .then(data =>{
+                        
+                    })
+                }
+
             </script>
         </head>
 
@@ -55,10 +65,10 @@
                             <table>
                                 <tr>
                                     <th>게시글명</th>
-                                    <th>댓글 제목</th>
                                     <th>댓글 내용</th>
                                     <th>작성자</th>
                                     <th>등록일</th>
+                                    <th>평점</th>
                                     <th>상태</th>
                                 </tr>
                                 <c:forEach var="comment" items="${list}">
@@ -77,15 +87,32 @@
 
                                             </c:choose>
 
-                                            <span>${comment.main_title}</span>
+                                            <span>${comment.title}</span>
                                         </td>
-                                        <td>${comment.title}</td>
                                         <td>
                                             ${comment.content}
                                         </td>
                                         <td>${comment.nickname}</td>
                                         <td>${comment.created_date}</td>
-                                        <td><span>${comment.status}</span></td>
+                                        <td>${comment.rating}</td>
+                                        <td>
+                                            <span>
+                                                <c:choose>
+                                                    <c:when test="${comment.status eq 'ACTIVE'}">
+                                                        공개
+                                                    </c:when>   
+                                                    
+                                                    <c:when test="${comment.status eq 'HIDDEN'}">
+                                                        비공개
+                                                    </c:when>
+
+                                                    <c:when test="${comment.status eq 'DELETE'}">
+                                                        삭제
+                                                    </c:when>
+                                                </c:choose>
+
+                                            </span>
+                                        </td>
 
                                     </tr>
 
@@ -105,6 +132,51 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="ma-detail-panel">
+                    <div class="ma-detail-header">
+                        <h3>댓글 상세</h3>
+                    </div>
+
+                </div>
+
+                <dl class="ma-detail-list">
+
+                    <dd class="model-img">
+                        
+                        <img src="/upload/" />
+                    </dd>
+
+                    <dt>제목/</dt>
+                    <dd class="model-nickname"></dd>
+
+                    <dt>구분</dt>
+                    <dd class="model-type"></dd>
+
+                    <dt>작성자</dt>
+                    <dd class="model-id"></dd>
+
+                    <dt>작성일</dt>
+                    <dd class="model-email"></dd>
+
+                    <dt>평점</dt>
+                    <dd class="model-report"></dd>
+
+                    <dt>댓글 내용</dt>
+                    <dd class="model-status"></dd>
+
+                    <dt>상태</dt>
+                    <dd class="model-date"></dd>
+
+                </dl>
+
+                <div class="ma-action">
+                    <input type="button" class="ma-btn ma-btn-stop" value="" onclick="" />
+                    <input type="button" class="ma-btn ma-btn-report" value="신고 내역 보기" onclick="" />
+                    <input type="button" class="ma-btn ma-btn-rank" value="" onclick="" />
+                </div>
+
+            </div>
 
             </div>
         </section>

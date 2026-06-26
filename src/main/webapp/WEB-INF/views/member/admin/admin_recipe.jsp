@@ -151,31 +151,31 @@
 
 
                     <div class="ra-title-box">
-                        <h3 id="model_title"></h3>
+                        <h3 id="model-title"></h3>
 
                         <dl class="ra-meta">
 
                             <dt>작성자</dt>
-                            <dd id="model_nickname"></dd>
+                            <dd id="model-nickname"></dd>
 
                             <dt>카테고리</dt>
-                            <dd id="model_category"></dd>
+                            <dd id="model-category"></dd>
 
                             <dt>등록일</dt>
-                            <dd id="model_created"></dd>
+                            <dd id="model-created"></dd>
 
                             <dt>수정일</dt>
-                            <dd id="model_modify"></dd>
+                            <dd id="model-modify"></dd>
 
                             <dt>조회수</dt>
-                            <dd id="model_count"></dd>
+                            <dd id="model-count"></dd>
 
 
                             <dt>좋아요</dt>
-                            <dd id="model_like"></dd>
+                            <dd id="model-like"></dd>
 
                             <dt>상태</dt>
-                            <dd id="model_status"></dd>
+                            <dd id="model-status"></dd>
 
                         </dl>
 
