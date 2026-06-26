@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY comment_id DESC
         LIMIT #{size} OFFSET #{offest}
     </select>
-
+    <!-- 관리자 댓글 총 갯수 조회 -->
     <select id="commentCount" parameterType="admincomment">
         select count(c.comment_id) 
         from comment c
@@ -47,12 +47,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
+    <!-- 관리자 댓글 검색(카테고리 포함) 및 조회  -->
     <select id = "CommentSearch" parameterType="admincomment" resultType="admincomment">
         select c.*, m.nickname, 
         case 
             when c.board_id is not null then b.title
             when c.recipe_id is not null then r.title
-        end as main_title,
+        end as title,
 
         case 
             when c.recipe_id is not null then r.thumbnail

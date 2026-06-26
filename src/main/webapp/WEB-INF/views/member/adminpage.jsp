@@ -37,14 +37,14 @@
 
                 // 레시피 상세보기 데이터 값 넣는 함수
                 function fileRecipe(recipe) {
-                    setText("model_title", recipe.title);
-                    setText("model_nickname", recipe.nickname);
-                    setText("model_category", recipe.category_name);
-                    setText("model_created", recipe.created_date);
-                    setText("model_modify", recipe.updated_date);
-                    setText("model_count", recipe.view_count);
-                    setText("model_like", recipe.like_count);
-                    setText("model_status", recipe.status);
+                    setText("title", recipe.title);
+                    setText("nickname", recipe.nickname);
+                    setText("category", recipe.category_name);
+                    setText("created", recipe.created_date);
+                    setText("modify", recipe.updated_date);
+                    setText("count", recipe.view_count);
+                    setText("like", recipe.like_count);
+                    setText("status", recipe.status);
 
                     setImg("model_img", "/upload/recipe/" + recipe.thumbnail);
 
@@ -83,14 +83,13 @@
         `);
                     });
                 }
-
                 // 상세보기 정보 입력 함수
                 function setText(id, value) {
-                    document.getElementById(id).textContent = value ?? "-";
+                    document.getElementById("model-"+id).textContent = value ?? "-";
                     if (value == 'public') {
-                        document.getElementById(id).textContent = "공개" ?? "-";
+                        document.getElementById("model-"+id).textContent = "공개" ?? "-";
                     } else if (value == 'private') {
-                        document.getElementById(id).textContent = "비공개" ?? "-";
+                        document.getElementById("model-"+id).textContent = "비공개" ?? "-";
                     }
                 }
                 function setImg(id, src) {

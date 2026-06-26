@@ -9,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Alias("admincomment")
 public class AdminCommentDTO extends SearchDTO {
-    private String nickname, title, content, created_date, main_title, thumbnail ;
+    private String nickname, title, content, created_date, thumbnail ;
     private double rating; 
 }
