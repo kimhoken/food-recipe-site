@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <head>
-        <script>
-            function entersearch(e) {
+        <head>
+            <script>
+                function entersearch(e) {
 
                     if (e.key === "Enter") {
                         searchreview();
@@ -14,8 +14,8 @@
                 function searchreview() {
                     document.querySelector('form[action="/admin/review"]').submit();
                 }        
-        </script>
-    </head>
+            </script>
+        </head>
         <section>
             <div>
                 <form action="/admin/review" method="get">
@@ -26,18 +26,19 @@
                             <small>회원들의 레시피 후기을 관리 할수 있습니다.</small>
                         </div>
                         <div>
-                            <input type="text" placeholder="게시글, 작성자를 입력하세요" name="keyword" onkeydown="entersearch(event)" />
-    
+                            <input type="text" placeholder="게시글, 작성자를 입력하세요" name="keyword"
+                                onkeydown="entersearch(event)" />
+
                             <select name="sort" onchange="searchreview()">
                                 <option value="">정렬</option>
                                 <option value="asc">오름차순</option>
                                 <option value="desc">내림차순</option>
                                 <option value="view">조회수순</option>
                             </select>
-    
-    
+
+
                         </div>
-    
+
                         <table>
                             <tr>
                                 <th>레시피명</th>
@@ -48,7 +49,7 @@
                                 <th>상태</th>
                             </tr>
                             <c:forEach var="review" items="${list}">
-    
+
                                 <tr>
                                     <td>
                                         <img src="/upload/review/${review.image}" />
@@ -60,10 +61,10 @@
                                     <td>${review.created_at}</td>
                                     <td>${review.status}</td>
                                 </tr>
-    
+
                             </c:forEach>
                         </table>
-    
+
                         <div>
                             <div>총 게시글: ${totalcount}</div>
                             <div>

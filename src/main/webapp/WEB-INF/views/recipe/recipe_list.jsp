@@ -150,7 +150,8 @@
                                 <c:forEach items="${recipeList}" var="recipe">
                                     <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
                                         <div class="recipe-card">
-                                            <img src="${pageContext.request.contextPath}/${recipe.thumbnail}"/>
+                                            <!--썸네일 이미지-->
+                                            <img src="/upload/recipe/${recipe.thumbnail}"/>
                                             <div class="recipe-info">
                                                 <div class="recipe-title">${recipe.title}(${recipe.food_name})</div>
                                                 <div class="recipe-meta">
