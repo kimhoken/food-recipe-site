@@ -28,8 +28,9 @@
                 });
 
                 // 2. 컨트롤러에서 넘어온 모델 값 세팅 (빈 값일 경우 기본값 설정)
-                const sort = "${sort}";
+                const sort = "${sort}"
                 if(sort == ''){
+                    console.log("123")
                     sort ="latest";
                 }
                 const period = "${period}";
@@ -106,7 +107,6 @@
         /* 7. 승연추가 */
             // 드롭다운,서브탭이 바뀔 때마다 데이터 비동기(?)로 요청
             function fetchReviewData(sort, period) {
-                console.log("서버 요청 -> 정렬:", sort, "| 기간:", period);
                 location.href="/list.do?sort="+sort+"&period="+(period == null ? "null" : period) + "&btn=review";
             }
         /* --------- 06-25 수정  ---------*/
@@ -158,7 +158,6 @@
                 <button id="boardBtn" class="community-btn ${btn eq 'board' ? 'active' : ''}" onclick="changeState(1)">
                     게시판 전체보기
                 </button>
-
                 <button id="reviewBtn" class="community-btn ${btn eq 'review' ? 'active' : ''}" onclick="changeState(2)">
                     최근 레시피 후기
                 </button>
@@ -166,7 +165,7 @@
         </div>
 
         <!-- 게시판 -->
-        <div class="board-area" id="boardArea">
+        <div class="board-area" id="boardArea" style="display:none;">
             <c:if test="${not empty list}">
                 <table>
                     <thead>
@@ -218,7 +217,8 @@
                         <button type="button" class="sub-tab-btn" onclick="changePeriod('monthly', event)">월간</button>
                     </div>
                     <select id="mainSortSelect" class="sort-dropdown" onchange="handleMainSort(this.value)">
-                        <option value="latest" selected>최신순</option>
+                        <option value="all">정렬기준</option>
+                        <option value="latest">최신순</option>
                         <option value="popular">조회수 순</option>
                         <option value="rating">별점</option>
                     </select>
@@ -232,7 +232,7 @@
                     <div class="review-card-image">
                         <c:choose>
                             <c:when test="${not empty review.image}">
-                                <img src="/upload/${review.image}" alt="후기 이미지">
+                                <img src="/upload/recipe/${review.image}" alt="후기 이미지">
                             </c:when>
                             <c:otherwise>
                                 <img src="/images/no_image.png" alt="이미지 없음">
@@ -254,7 +254,7 @@
                             <span class="review-views">조회수 ${review.view_count}</span>
                         </div>
                         <p class="review-body">
-                            ${review.content} <a href="/review_view.do?review_id=${review.review_id}" class="more-link">(더보기)</a>
+                            ${review.content} 
                         </p>
                     </div>
                 </div>

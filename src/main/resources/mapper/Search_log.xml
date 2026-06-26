@@ -12,10 +12,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTrendingKeywords" resultType="String">
         SELECT keyword
-        FROM search_log
-        WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
-        GROUP BY keyword
-        ORDER BY COUNT(keyword) DESC
+        FROM v_keyword_ranking
+        ORDER BY score DESC
         LIMIT 10
     </select>
 
@@ -33,10 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 임의로 고침(안두면 메인 오류) -->
     <!-- 
         SELECT keyword FROM v_keyword_ranking
-        ORDER BY ranking DESC
+        ORDER BY score DESC
     -->
     <select id="getRecommand" resultType="String">
-        SELECT '' AS keyword
+        SELECT keyword FROM v_keyword_ranking
+        ORDER BY score DESC
     </select>
 
 </mapper>

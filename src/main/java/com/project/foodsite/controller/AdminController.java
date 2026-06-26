@@ -2,7 +2,6 @@ package com.project.foodsite.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
-
-    @Autowired
-    HttpSession httpSession;
-  
+    private final HttpSession httpSession;
     private final RecipeDAO recipeDAO;
     
     // 관리자 페이지 이동 함수

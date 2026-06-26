@@ -55,7 +55,7 @@
                             <h3>고객센터</h3>
                             <div class="cs-buttons">
                                 <div class="cs-btn" onClick="location.href='/hidden.do'">📞 1833-8307</div>
-                                <div class="cs-btn">💬 1:1문의하기</div>
+                                <div class="cs-btn" onclick="location.href='/inquiry'">💬 1:1문의하기</div>
                             </div>
                             <div class="hours-info">
                                 <p><strong>운영시간</strong></p>

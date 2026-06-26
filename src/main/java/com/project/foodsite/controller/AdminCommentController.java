@@ -2,9 +2,7 @@ package com.project.foodsite.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +16,13 @@ import com.project.foodsite.dto.AdminCommentDTO;
 import com.project.foodsite.vo.CommentVO;
 import com.project.foodsite.vo.MemberVO;
 
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class AdminCommentController {
-
-    @Autowired
-    HttpSession httpSession;
-
+    private final HttpSession httpSession;
     private final CommentDAO commentDAO;
     private final AdminUtil adminUtil;
 
