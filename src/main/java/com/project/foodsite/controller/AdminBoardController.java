@@ -2,6 +2,7 @@ package com.project.foodsite.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,8 +65,52 @@ public class AdminBoardController {
     @ResponseBody
     public AdminBoardDTO board_view(int board_id){
 
-        return boardDAO.adminboarddetail(board_id);
+        return boardDAO.adminBoardDetail(board_id);
     }
 
+    @PostMapping("/admin/board/hidden")
+    @ResponseBody
+    public Map<String,Object> boardHidden( int board_id ) {
 
+        AdminBoardDTO Board = boardDAO.adminBoardDetail(board_id);
+
+        if (Board.getStatus().equals("ACTIVE") ){
+            Board.setStatus("HIDDEN");
+        } else if ( Board.getStatus().equals("HIDDEN")  ){
+            Board.setStatus("ACTIVE");
+        }
+
+        int res = boardDAO.boardStatus(Board);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("status", Board.getStatus());
+
+        return map;
+
+    }
+
+    @PostMapping("/admin/board/delete")
+    @ResponseBody
+    public Map<String,Object> boardDelete(int board_id){
+
+        AdminBoardDTO Board = boardDAO.adminBoardDetail(board_id);
+
+        if (Board.getStatus().equals("DELETE") ){
+            Board.setStatus("ACTIVE");
+        } else if ( Board.getStatus().equals("ACTIVE") || Board.getStatus().equals("HIDDEN") ){
+            Board.setStatus("DELETE");
+        }
+
+        int res = boardDAO.boardStatus(Board);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("status", Board.getStatus());
+
+        return map;
+
+    }
 }

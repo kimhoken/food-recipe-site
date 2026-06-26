@@ -1,10 +1,14 @@
 package com.project.foodsite.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.common.Paging;
@@ -59,6 +63,59 @@ public class AdminReviewController {
     }
 
 
+    @PostMapping("/admin/review/view")
+    @ResponseBody
+    public AdminReviewDTO reviewDetail(int review_id){
 
+        return reviewDAO.adminReviewDetail(review_id);
+
+    }
+
+    @PostMapping("/admin/review/hidden")
+    @ResponseBody
+    public Map<String,Object> reviewHidden(int review_id){
+
+        AdminReviewDTO Review = reviewDAO.adminReviewDetail(review_id);
+
+        if (Review.getStatus().equals("ACTIVE") ){
+            Review.setStatus("HIDDEN");
+        } else if ( Review.getStatus().equals("HIDDEN")  ){
+            Review.setStatus("ACTIVE");
+        }
+
+        int res = reviewDAO.reviewStatus(Review);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("status", Review.getStatus());
+
+        return map;
+
+    }
+
+
+    @PostMapping("/admin/review/delete")
+    @ResponseBody
+    public Map<String,Object> boardDelete(int review_id){
+
+        AdminReviewDTO Review = reviewDAO.adminReviewDetail(review_id);
+
+        if (Review.getStatus().equals("DELETE") ){
+            Review.setStatus("ACTIVE");
+        } else if ( Review.getStatus().equals("ACTIVE") || Review.getStatus().equals("HIDDEN") ){
+            Review.setStatus("DELETE");
+        }
+
+        int res = reviewDAO.reviewStatus(Review);
+
+        Map<String,Object> map = new HashMap<>();
+
+        map.put("result", res);
+        map.put("status", Review.getStatus());
+
+        return map;
+
+    }
 
 }

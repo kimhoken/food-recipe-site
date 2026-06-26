@@ -3,6 +3,8 @@
 
         <head>
             <script>
+                let selboard;
+
                 function entersearch(e) {
 
                     if (e.key === "Enter") {
@@ -15,7 +17,7 @@
                     document.querySelector('form[action="/admin/board"]').submit();
                 }
 
-                function board_view(board_id){
+                function board_view(board_id) {
                     fetch("/admin/board/view", {
                         method: 'post',
                         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -26,39 +28,76 @@
 
                             fileboard(dto);
 
+                            selboard = dto.board_id;
+
                             // 회원 정지 상태 변경 함수
-                            document.querySelector(".bd-btn-hidden").onclick=
-                            ()=> boardhidden(dto.member_id);
+                            document.querySelector(".bd-btn-hidden").onclick =
+                                () => boardhidden(dto.board_id);
                             // 신고 내역 보려 가는 함수 추가할 예정
-                            document.querySelector(".bd-btn-delete").onclick=
-                            ()=> boarddelete(dto.member_id);
+                            document.querySelector(".bd-btn-delete").onclick =
+                                () => boarddelete(dto.board_id);
                         })
-                    }
-                    
-                    function fileboard(dto){
-                        setText("title",dto.title);
-                        setText("user",dto.nickname);
-                        setText("type",dto.board_type);
-                        setText("content",dto.content);
-                        setText("view",dto.view_count);
-                        setText("comment",dto.comment_count);                    
-                        setText("created",dto.created_date);
-                        setText("update",dto.updated_date);
-                        setText("status",dto.status);
-                        document.querySelector(".bd-btn-hidden").value='공개 전환';
-                        document.querySelector(".bd-btn-delete").value='삭제';
+                }
 
-                        if(dto.status === 'HIDDEN'){
-                            document.querySelector(".bd-btn-hidden").value='비공개 전환'
-                        }
-                        
-                        if(dto.status === 'DELETE'){
-                            document.querySelector(".bd-btn-delete").value='복원'
-                        }
-                    }
-                    
+                function fileboard(dto) {
+                    setText("title", dto.title);
+                    setText("user", dto.nickname);
+                    setText("type", dto.board_type);
+                    setText("content", dto.content);
+                    setText("view", dto.view_count);
+                    setText("comment", dto.comment_count);
+                    setText("created", dto.created_date);
+                    setText("update", dto.updated_date);
+                    setText("status", dto.status);
+                    document.querySelector(".bd-btn-hidden").value = '공개 전환';
+                    document.querySelector(".bd-btn-delete").value = '삭제';
 
-                    </script>
+                    if (dto.status === 'HIDDEN') {
+                        document.querySelector(".bd-btn-hidden").value = '비공개 전환'
+                    }
+
+                    if (dto.status === 'DELETE') {
+                        document.querySelector(".bd-btn-delete").value = '복원'
+                    }
+                }
+
+                function boardhidden() {                    
+                    fetch("/admin/board/hidden", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'board_id=' + selboard
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.result > 0 && data.status === 'HIDDEN') {
+                                alert("비공개 처리 되었습니다.");
+                            } else if (data.result > 0 && data.status === 'ACTIVE') {
+                                alert("공개 처리 되었습니다.");
+                            } else{
+                                alert("공개 / 비공개 전환을 할수 없습니다.");
+                            }
+                        })
+                }
+
+                function boarddelete() {
+                    fetch("/admin/board/delete", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'board_id=' + selboard
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.result > 0 && data.status === 'DELETE') {
+                                alert("삭제 되었습니다.");
+                            } else if (data.result > 0 && data.status === 'ACTIVE') {
+                                alert("복원 되었습니다.");
+                            } else{
+                                alert("이스터에그");
+                            }
+                        })
+                }
+
+            </script>
         </head>
         <section>
             <div>
@@ -67,7 +106,7 @@
                     <small>회원들의 게시글을 관리 할수 있습니다.</small>
                 </div>
                 <div>
-                    <form action="/admin/board" method="get"> 
+                    <form action="/admin/board" method="get">
                         <div>
                             <input type="text" placeholder="게시글, 작성자를 입력하세요" name="keyword"
                                 onkeydown="entersearch(event)" />
@@ -133,7 +172,7 @@
 
                         <dt>작성자</dt>
                         <dd id="model-user" class="model-user"></dd>
-                        
+
                         <dt>카테고리</dt>
                         <dd id="model-type" class="model-type"></dd>
 
@@ -157,13 +196,14 @@
 
                         <dt>내용</dt>
                         <dd id="model-content" class="model-content"></dd>
-                        
+
                     </dl>
 
                     <div class="bd-action">
-                        <input type="button" class="bd-btn bd-btn-hidden" value="" onclick=""/>
-                        <input type="button" class="bd-btn bd-btn-delete" value=""  onclick=""/>
-                        
+
+                        <input type="button" class="bd-btn bd-btn-hidden" value="" onclick="boardhidden()" />
+                        <input type="button" class="bd-btn bd-btn-delete" value="" onclick="boarddelete()" />
+
                     </div>
 
                 </div>

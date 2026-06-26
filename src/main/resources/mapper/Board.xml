@@ -180,7 +180,7 @@
         limit #{size} offset #{offset}
     </select>
 
-    <select id="adminboarddetail" parameterType="adminboard" resultType="adminboard">
+    <select id="adminBoardDetail" parameterType="adminboard" resultType="adminboard">
         
         select b.*,
         m.nickname, 
@@ -195,5 +195,9 @@
         
     </select>
 
+    <update id="boardStatus" parameterType="adminboard">
+        update board set status = #{status}
+        where board_id = #{board_id}
+    </update>
 
 </mapper>

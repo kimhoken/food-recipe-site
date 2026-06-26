@@ -84,4 +84,21 @@
 
 
     </select>
+
+    <select id="adminReviewDetail" parameterType="adminreview" resultType="adminreview">
+
+        select re.*, m.nickname
+        from review re
+        join member m on re.member_id = m.member_id
+        left join recipe r on re.recipe_id = r.recipe_id
+        where re.review_id = #{review_id}
+        
+
+    </select>
+
+    <update id="reviewStatus" parameterType="adminreview">
+        update review set status = #{status}
+        where review_id = #{review_id}
+    </update>
+
 </mapper>
