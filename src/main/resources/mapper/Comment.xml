@@ -95,5 +95,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+    <!-- 관리자 댓글 상세 정보 조회 -->
+    <select id="selectComment" resultType="admincomment">
+        select c.*,
+        m.nickname, 
+
+        case 
+            when c.board_id is not null then b.title
+            when c.recipe_id is not null then r.title
+        end as title,
+
+        case 
+            when c.recipe_id is not null then r.thumbnail
+            else 'no_board.png'
+        end as thumbnail,
+
+        case
+            when c.board_id is not null then '게시글'
+            when c.recipe_id is not null then '레시피'
+        end as type    
+
+        from comment c
+        join member m on c.member_id = m.member_id
+        left join recipe r on r.recipe_id = c.recipe_id
+        left join board b on b.board_id = c.board_id
+        where comment_id = #{comment_id}
+
+    </select>
+
+
+    <update id="CommentHidden" parameterType="admincomment">
+        update comment set status = #{status} 
+        where comment_id = #{comment_id}
+    </update>
 
 </mapper>

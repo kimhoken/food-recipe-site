@@ -180,4 +180,20 @@
         limit #{size} offset #{offset}
     </select>
 
+    <select id="adminboarddetail" parameterType="adminboard" resultType="adminboard">
+        
+        select b.*,
+        m.nickname, 
+        (
+            select count(c.comment_id)
+            from comment c 
+            where b.board_id = c.board_id
+        ) as comment_count
+        from board b
+        join member m on b.member_id = m.member_id
+        where board_id = #{board_id}
+        
+    </select>
+
+
 </mapper>

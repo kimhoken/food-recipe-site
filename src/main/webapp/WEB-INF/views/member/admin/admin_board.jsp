@@ -15,7 +15,50 @@
                     document.querySelector('form[action="/admin/board"]').submit();
                 }
 
-            </script>
+                function board_view(board_id){
+                    fetch("/admin/board/view", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'board_id=' + board_id
+                    }).then(res => res.json())
+                        .then(dto => {
+                            console.log(dto);
+
+                            fileboard(dto);
+
+                            // 회원 정지 상태 변경 함수
+                            document.querySelector(".bd-btn-hidden").onclick=
+                            ()=> boardhidden(dto.member_id);
+                            // 신고 내역 보려 가는 함수 추가할 예정
+                            document.querySelector(".bd-btn-delete").onclick=
+                            ()=> boarddelete(dto.member_id);
+                        })
+                    }
+                    
+                    function fileboard(dto){
+                        setText("title",dto.title);
+                        setText("user",dto.nickname);
+                        setText("type",dto.board_type);
+                        setText("content",dto.content);
+                        setText("view",dto.view_count);
+                        setText("comment",dto.comment_count);                    
+                        setText("created",dto.created_date);
+                        setText("update",dto.updated_date);
+                        setText("status",dto.status);
+                        document.querySelector(".bd-btn-hidden").value='공개 전환';
+                        document.querySelector(".bd-btn-delete").value='삭제';
+
+                        if(dto.status === 'HIDDEN'){
+                            document.querySelector(".bd-btn-hidden").value='비공개 전환'
+                        }
+                        
+                        if(dto.status === 'DELETE'){
+                            document.querySelector(".bd-btn-delete").value='복원'
+                        }
+                    }
+                    
+
+                    </script>
         </head>
         <section>
             <div>
@@ -51,7 +94,7 @@
                             </tr>
                             <c:forEach var="board" items="${list}">
 
-                                <tr>
+                                <tr onclick="board_view('${board.board_id}')">
                                     <td>
                                         <img src="/upload/board/#" />
                                         <span>${board.title}</span>
@@ -78,48 +121,49 @@
                     </form>
 
                 </div>
-                <div class="ma-detail-panel">
-                    <div class="ma-detail-header">
+                <div class="bd-detail-panel">
+                    <div class="bd-detail-header">
                         <h3>게시글 상세</h3>
                     </div>
 
-                    <dl class="ma-detail-list">
+                    <dl class="bd-detail-list">
 
                         <dt>제목</dt>
-                        <dd class="model-title"></dd>
+                        <dd id="model-title" class="model-title"></dd>
 
                         <dt>작성자</dt>
-                        <dd class="model-user"></dd>
+                        <dd id="model-user" class="model-user"></dd>
                         
                         <dt>카테고리</dt>
-                        <dd class="model-category"></dd>
+                        <dd id="model-type" class="model-type"></dd>
 
                         <dt>작성일</dt>
-                        <dd class="model-date"></dd>
+                        <dd id="model-created" class="model-created"></dd>
+
+                        <dt>수정일</dt>
+                        <dd id="model-update" class="model-update"></dd>
 
                         <dt>조회수</dt>
-                        <dd class="model-view"></dd>
+                        <dd id="model-view" class="model-view"></dd>
 
                         <dt>댓글수</dt>
-                        <dd class="model-count"></dd>
+                        <dd id="model-comment" class="model-comment"></dd>
 
-                        <dt>좋아요수</dt>
-                        <dd class="model-like"></dd>
+                        <dt>신고수</dt>
+                        <dd id="model-report" class="model-report"></dd>
 
                         <dt>상태</dt>
-                        <dd class="model-status"></dd>
+                        <dd id="model-status" class="model-status"></dd>
 
                         <dt>내용</dt>
-                        <dd class="model-text"></dd>
-
-                        <dt>첨부 이미지</dt>
-                        <dd class="model-image"></dd>
+                        <dd id="model-content" class="model-content"></dd>
+                        
                     </dl>
 
-                    <div class="ma-action">
-                        <input type="button" class="ma-btn ma-btn-stop" value="" onclick=""/>
-                        <input type="button" class="ma-btn ma-btn-report" value="숨김"  onclick=""/>
-                        <input type="button" class="ma-btn ma-btn-rank" value="" onclick=""/>
+                    <div class="bd-action">
+                        <input type="button" class="bd-btn bd-btn-hidden" value="" onclick=""/>
+                        <input type="button" class="bd-btn bd-btn-delete" value=""  onclick=""/>
+                        
                     </div>
 
                 </div>

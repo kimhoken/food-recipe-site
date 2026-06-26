@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @Alias("adminboard")
 public class AdminBoardDTO extends SearchDTO{
     private int board_id, view_count, comment_count;
-    private String title, content, borad_type, nickname, main_title, image;
+    private String title, content, board_type, nickname, main_title, image;
     private Date created_date, updated_date;
 }

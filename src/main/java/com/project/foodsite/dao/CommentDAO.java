@@ -18,4 +18,7 @@ public interface CommentDAO {
 
     List<AdminCommentDTO> CommentSearch(AdminCommentDTO comment);
 
+    AdminCommentDTO selectComment(int comment_id);
+
+    int CommentHidden(AdminCommentDTO Comment);
 }

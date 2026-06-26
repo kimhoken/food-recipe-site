@@ -1,10 +1,13 @@
 package com.project.foodsite.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.common.Paging;
@@ -42,6 +45,7 @@ public class AdminBoardController {
         model.addAttribute("admincomment", Board);
 
     }
+
     @GetMapping("/admin/board")
     public String boardpage(Model model, AdminBoardDTO Board){
         
@@ -56,7 +60,12 @@ public class AdminBoardController {
         return "member/adminpage";
     }
 
-    
+    @PostMapping("/admin/board/view")
+    @ResponseBody
+    public AdminBoardDTO board_view(int board_id){
+
+        return boardDAO.adminboarddetail(board_id);
+    }
 
 
 }

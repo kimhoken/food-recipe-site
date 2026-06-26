@@ -1,5 +1,7 @@
 package com.project.foodsite.dto;
 
+import java.sql.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
@@ -9,6 +11,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Alias("admincomment")
 public class AdminCommentDTO extends SearchDTO {
-    private String nickname, title, content, created_date, thumbnail ;
+    private int comment_id;
+    private String nickname, title, content, thumbnail, type ;
     private double rating; 
+    private Date created_date;
 }

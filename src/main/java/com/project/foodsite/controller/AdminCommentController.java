@@ -1,15 +1,19 @@
 package com.project.foodsite.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.common.Paging;
 import com.project.foodsite.dao.CommentDAO;
 import com.project.foodsite.dto.AdminCommentDTO;
+import com.project.foodsite.vo.CommentVO;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
@@ -58,7 +62,58 @@ public class AdminCommentController {
         return "member/adminpage";
     }
 
+    // 댓글 상세 정보 조회
+    @PostMapping("/admin/comment/view")
+    @ResponseBody
+    public AdminCommentDTO comment_view(int comment_id){
+        
+        AdminCommentDTO Comment= commentDAO.selectComment(comment_id);
+              
+        return Comment;
+
+    }
     
+    @PostMapping("/admin/comment/hidden")
+    @ResponseBody
+    public Map<String,Object> hiddencomment(int comment_id){
+
+        AdminCommentDTO Comment = commentDAO.selectComment(comment_id);
+
+        if(Comment.getStatus().equals("ACTIVE")){
+            Comment.setStatus("HIDDEN");
+        }else if(Comment.getStatus().equals("HIDDEN")){
+            Comment.setStatus("ACTIVE");            
+        }
+
+        int res = commentDAO.CommentHidden(Comment);
+        
+        Map<String,Object> map = new HashMap<>();
+        map.put("result", res);
+        map.put("status", Comment.getStatus());
+    
+        return map;
+    }
+       
+    
+    @PostMapping("/admin/comment/delete")
+    @ResponseBody
+    public Map<String,Object> deletecomment(int comment_id){
+        
+        AdminCommentDTO Comment = commentDAO.selectComment(comment_id);
+        
+        if( Comment.getStatus().equals("DELETE") ){
+            Comment.setStatus("ACTIVE");
+        } else if( Comment.getStatus().equals("ACTIVE") || Comment.getStatus().equals("HIDDEN")){
+            Comment.setStatus("DELETE");
+        }
+        int res = commentDAO.CommentHidden(Comment);
+        
+        Map<String,Object> map = new HashMap<>();
+        map.put("result", res);
+        map.put("status", Comment.getStatus());
+
+        return map;
+    }
 
 
 
