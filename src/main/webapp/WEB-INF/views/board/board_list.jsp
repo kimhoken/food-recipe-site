@@ -232,7 +232,7 @@
                     <div class="review-card-image">
                         <c:choose>
                             <c:when test="${not empty review.image}">
-                                <img src="/upload/${review.image}" alt="후기 이미지">
+                                <img src="/upload/recipe/${review.image}" alt="후기 이미지">
                             </c:when>
                             <c:otherwise>
                                 <img src="/images/no_image.png" alt="이미지 없음">
@@ -254,7 +254,7 @@
                             <span class="review-views">조회수 ${review.view_count}</span>
                         </div>
                         <p class="review-body">
-                            ${review.content} <a href="/review_view.do?review_id=${review.review_id}" class="more-link">(더보기)</a>
+                            ${review.content} 
                         </p>
                     </div>
                 </div>
