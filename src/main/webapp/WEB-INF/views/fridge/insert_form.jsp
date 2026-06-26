@@ -255,7 +255,7 @@
                     <h3>고객센터</h3>
                     <div class="cs-buttons">
                         <div class="cs-btn">📞 1833-8307</div>
-                        <div class="cs-btn">💬 1:1문의하기</div>
+                        <div class="cs-btn" onclick="location.href='/inquiry'">💬 1:1문의하기</div>
                     </div>
                 </div>
             </div>

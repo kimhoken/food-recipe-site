@@ -2,9 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <jsp:include page="/WEB-INF/views/common/navibar.jsp">
     <jsp:param name="currentMenu" value="recipe" />
 </jsp:include>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
         <meta charset="UTF-8">
         <title>오늘 뭐 먹지? - 레시피 상세보기</title>
+
         <script>
             const del = (commentId)=>{
                 if(confirm("삭제하시겠습니까?")){
@@ -105,8 +108,28 @@
                     }
                 })
             }
+
+            // 댓글 ⋮ 버튼 클릭 시 드롭다운 열고 닫기
+            const toggleCommentMenu = (commentId) => {
+                const menu = document.getElementById("commentMenu" + commentId);
+
+                if(menu.style.display === "none" || menu.style.display === ""){
+                    menu.style.display = "block";
+                }else{
+                    menu.style.display = "none";
+                }
+            }
+
+            document.addEventListener("click", function(e) {
+                if(!e.target.closest(".comment-menu-wrap")){
+                    document.querySelectorAll(".comment-dropdown").forEach(menu => {
+                        menu.style.display = "none";
+                    });
+                }
+            });
         </script>
     </head>
+
     <body>
         <%-- 레시피의 조리순서, 재료, 사진 등을 보여주기 --%>
         <div class="title-wrap">
@@ -123,6 +146,7 @@
                         </td>
                         <th colspan="2" class="section-title-cell">필요 재료</th>
                     </tr>
+
                     <c:forEach var="vo" items="${ingredients}">
                         <tr class="ingredient-row">
                             <td class="ing-name">${vo.ingredient_name}</td>
@@ -143,9 +167,11 @@
                             </td>
                             <td class="step-num">순서 ${vo.order}</td>
                         </tr>
+
                         <tr class="step-row-bottom">
-                            <td class="step-desc">${vo.description} </td>
+                            <td class="step-desc">${vo.description}</td>
                         </tr>
+
                         <tr class="step-divider-row">
                             <td colspan="2">
                                 <hr class="step-line">
@@ -155,38 +181,60 @@
                 </table>
             </div>
         </div>
-        
+
         <c:if test="${not empty commentList}">
             <div class="comment-main-title">레시피 댓글</div>
+
             <div class="read-comment-div">
                 <c:forEach var="vo" items="${commentList}">
-                    <table>
+                    <%-- 관리자 페이지에서 #comment-댓글번호로 이동 가능하게 id 추가 --%>
+                    <table id="comment-${vo.commentId}">
                         <tr>
                             <td>${vo.nickname}</td>
+
                             <td>
-                                <textarea class="comment-content" id="modi_content${vo.commentId}" readonly >${vo.content}</textarea>
+                                <textarea class="comment-content" id="modi_content${vo.commentId}" readonly>${vo.content}</textarea>
+
                                 <c:set var="rates" value="${vo.rating * 20}%"/>
                                 <div class="rate">
                                     <span style="width: ${rates};"></span>
                                 </div> 
                             </td>
-                            <c:if test="${vo.memberId eq sessionScope.user.member_id || sessionScope.user.member_id eq 2}">
-                                <td>
-                                    <input type="hidden" value="등록" onClick="modiFin('${vo.commentId}')" id="send_btn${vo.commentId}" />
-                                    <input type="button" value="수정" onClick="modi('${vo.commentId}')" />
-                                    <input type="button" value="삭제" onClick="del('${vo.commentId}')"/>
-                                </td>
-                            </c:if>
+
+                            <td>
+                                <%-- 작성자만 수정 가능 --%>
+                                <c:if test="${vo.memberId eq sessionScope.user.member_id}">
+                                    <input type="button" value="수정" onclick="modi('${vo.commentId}')">
+                                </c:if>
+
+                                <%-- 작성자 또는 관리자 삭제 가능 --%>
+                                <c:if test="${vo.memberId eq sessionScope.user.member_id || sessionScope.user.role eq 'ADMIN'}">
+                                    <input type="button" value="삭제" onclick="del('${vo.commentId}')">
+                                </c:if>
+
+                                
+                                <div style="position:relative; display:inline-block;">
+                                    <button type="button" onclick="toggleCommentMenu('${vo.commentId}')">⋮</button>
+                                    <div id="commentMenu${vo.commentId}"
+                                           style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
+                                        <a href="/report/form.do?target_type=레시피 후기&recipe_id=${recipeId}&comment_id=${vo.commentId}">
+                                            신고
+                                        </a>
+                                    </div>
+                                </div>                   
+                            </td>
                         </tr>
                     </table>
                 </c:forEach>
             </div>
         </c:if>
+
         <c:if test="${empty commentList}">
             <div class="read-comment-div">
                 <h2>댓글을 작성해 첫 댓글의 주인공이 되어보세요!</h2>
             </div>
         </c:if>
+
         <c:if test="${not empty sessionScope.user}">
             <%-- 로그인했을때만 댓글달기 --%>
             <form action="/recipe_comment.do">
@@ -196,6 +244,7 @@
                             <td>
                                 댓글 달기
                                 <input type="button" name="rating" id="rating" value="0">
+
                                 <div class="rating">
                                     <span class="rating__result"></span>
                                     <i class="rating__star far fa-star"></i>
@@ -204,24 +253,34 @@
                                     <i class="rating__star far fa-star"></i>
                                     <i class="rating__star far fa-star"></i>
                                 </div>
+
                                 <%-- 출처: https://sisiblog.tistory.com/355 [달삼쓰뱉:티스토리] --%>
                             </td>
+
                             <td>
                                 <input type="hidden" name="member_id" value="${sessionScope.user.member_id}">
                                 <input type="hidden" name="recipe_id" value="${param.recipeId}">
                             </td>
                         </tr>
+
                         <tr>
-                            <td><textarea name="content" id="comment-content" placeholder="비방, 욕설 등의 댓글은 무통보 삭제될 수 있습니다." ></textarea></td>
+                            <td>
+                                <textarea name="content" id="comment-content" placeholder="비방, 욕설 등의 댓글은 무통보 삭제될 수 있습니다."></textarea>
+                            </td>
                         </tr>
+
                         <tr>
-                            <td><input type="button" value="등록" class="comment-register" onClick="register(this.form)"></td>
+                            <td>
+                                <input type="button" value="등록" class="comment-register" onClick="register(this.form)">
+                            </td>
                         </tr>
                     </table>
                 </div>
             </form>
         </c:if>
+
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+
         <script>
             const ratingStars = [...document.getElementsByClassName("rating__star")];
             const ratingResult = document.querySelector(".rating__result");
@@ -238,16 +297,23 @@
                 const starClassUnactive = "rating__star far fa-star";
                 const starsLength = stars.length;
                 let i;
+
                 stars.map((star) => {
                     star.onclick = () => {
                         i = stars.indexOf(star);
 
                         if (star.className.indexOf(starClassUnactive) !== -1) {
                             printRatingResult(result, i + 1);
-                            for (i; i >= 0; --i) stars[i].className = starClassActive;
+
+                            for (i; i >= 0; --i) {
+                                stars[i].className = starClassActive;
+                            }
                         } else {
                             printRatingResult(result, i);
-                            for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
+
+                            for (i; i < starsLength; ++i) {
+                                stars[i].className = starClassUnactive;
+                            }
                         }
                     };
                 });

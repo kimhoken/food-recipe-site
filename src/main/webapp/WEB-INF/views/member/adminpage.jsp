@@ -321,7 +321,7 @@
                             
                             <a class="admin-menu ${menu eq 'inquiry' ? 'active' :''}" href="/admin/inquiry">
                                 문의 관리</a>
-                            <a class="admin-menu ${menu eq 'report' ? 'active' :''}" href="/admin/report">
+                            <a class="admin-menu ${menu eq 'report' ? 'active' :''}" href="/report/admin/list.do">
                                 신고 관리</a>
                         </div>
 
