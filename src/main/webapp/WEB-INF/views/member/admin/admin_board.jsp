@@ -78,5 +78,50 @@
                     </form>
 
                 </div>
+                <div class="ma-detail-panel">
+                    <div class="ma-detail-header">
+                        <h3>게시글 상세</h3>
+                    </div>
+
+                    <dl class="ma-detail-list">
+
+                        <dt>제목</dt>
+                        <dd class="model-title"></dd>
+
+                        <dt>작성자</dt>
+                        <dd class="model-user"></dd>
+                        
+                        <dt>카테고리</dt>
+                        <dd class="model-category"></dd>
+
+                        <dt>작성일</dt>
+                        <dd class="model-date"></dd>
+
+                        <dt>조회수</dt>
+                        <dd class="model-view"></dd>
+
+                        <dt>댓글수</dt>
+                        <dd class="model-count"></dd>
+
+                        <dt>좋아요수</dt>
+                        <dd class="model-like"></dd>
+
+                        <dt>상태</dt>
+                        <dd class="model-status"></dd>
+
+                        <dt>내용</dt>
+                        <dd class="model-text"></dd>
+
+                        <dt>첨부 이미지</dt>
+                        <dd class="model-image"></dd>
+                    </dl>
+
+                    <div class="ma-action">
+                        <input type="button" class="ma-btn ma-btn-stop" value="" onclick=""/>
+                        <input type="button" class="ma-btn ma-btn-report" value="숨김"  onclick=""/>
+                        <input type="button" class="ma-btn ma-btn-rank" value="" onclick=""/>
+                    </div>
+
+                </div>
             </div>
         </section>

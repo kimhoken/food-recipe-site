@@ -29,9 +29,11 @@ public class CommentController {
     public Map<?, ?> recipeInsert(@RequestBody RecipeCommentVO vo){
         int res = recipeCommentDAO.insertComment(vo);
         String result = "fail";
+
         if(res != 0){
             result = "success";
         }
+        
         Map<String, String> map = new HashMap<>();
         map.put("result", result);
         return map;

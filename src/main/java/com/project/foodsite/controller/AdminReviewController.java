@@ -2,7 +2,6 @@ package com.project.foodsite.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AdminReviewController {
-    @Autowired
-    HttpSession httpSession;
-
+    private final HttpSession httpSession;
     private final ReviewDAO reviewDAO;
     private final AdminUtil adminUtil;
 
@@ -52,7 +49,7 @@ public class AdminReviewController {
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
-        model.addAttribute("user", user);   
+        model.addAttribute("profileuser", user);   
 
         adminUtil.setContentPage(model, "review");
 

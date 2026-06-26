@@ -287,7 +287,7 @@ public class MypageController {
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
      
-        String savePath = uploadPath + "/profile";
+        String savePath = "profile";
         System.out.println("경로:" + savePath);
         
         String filename = user.getProfile_img();
@@ -296,13 +296,13 @@ public class MypageController {
 
         if(filechange.equals("yes")){
 
-            fileupload.deleteFile(savePath, filename);
+            fileupload.deleteFile(filename, savePath);
 
             filename = "no_file.png";
 
         }else if(photo != null && !photo.isEmpty()){
 
-            fileupload.deleteFile(savePath, filename);
+            fileupload.deleteFile(filename,savePath);
             filename = fileupload.saveFile(photo, savePath);
 
         }else{

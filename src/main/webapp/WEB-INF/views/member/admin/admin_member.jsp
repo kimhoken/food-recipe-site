@@ -27,19 +27,19 @@
                 }
 
                 function filemember(dto) {
-                    setImg(dto.profile_img);
-                    setText(dto.name, "name");
-                    setText(dto.member_intro, "intro");
-                    setText(dto.nickname, "nickname");
-                    setText(dto.login_id, "id");
-                    setText(dto.email, "email");
-                    setText(dto.report_count, "report");                    
-                    setText(dto.created_date, "date");
-                    setText(dto.recipe_count, "recipe");
-                    setText(dto.comment_count, "comment");
-                    setText(dto.bookmark_count, "bookmark");
-                    setText(dto.like_count, "like");
-                    setText("신고 구현후 추가 예정", "up-report");
+                    setImg("model-img","/upload/profile/"+dto.profile_img);
+                    setText("name", dto.name);
+                    setText("intro", dto.memberintro ?? dto.member_intro);
+                    setText("nickname", dto.nickname);
+                    setText("id", dto.login_id);
+                    setText("email", dto.email);
+                    setText("report", dto.report_count);                    
+                    setText("date", dto.created_date);
+                    setText("recipe", dto.recipe_count);
+                    setText("comment", dto.comment_count);
+                    setText("bookmark", dto.bookmark_count);
+                    setText("like", dto.like_count);
+                    setText("up-report", "신고 구현후 추가 예정");
 
                     if(dto.status === 'ACTIVE'){
                         document.querySelector(".model-status").textContent = "정상";
@@ -57,12 +57,8 @@
 
                 }
 
-                function setText(value, element) {
-                    document.querySelector(".model-" + element).textContent = value;
-                }
-                function setImg(value) {
-                    document.querySelector(".ma-detail-img").src = "/upload/profile/" + value;
-                }
+                
+                 
 
                 function searchmember() {
                     document.querySelector('form[action="/admin/member"]').submit();
@@ -215,10 +211,10 @@
                     </div>
 
                     <div class="ma-profile-box">
-                        <img class="ma-detail-img" src="" />
+                        <img id="model-img" class="ma-detail-img" src="" />
                         <div class="ma-profile-info">
-                            <strong class="model-name">라이언</strong>
-                            <small class="model-intro">자기소개</small>
+                            <strong id="model-name" class="model-name">라이언</strong>
+                            <small id="model-intro" class="model-intro">자기소개</small>
                         </div>
 
                     </div>
@@ -226,37 +222,37 @@
                     <dl class="ma-detail-list">
 
                         <dt>닉네임</dt>
-                        <dd class="model-nickname"></dd>
+                        <dd id="model-nickname" class="model-nickname"></dd>
 
                         <dt>아이디</dt>
-                        <dd class="model-id"></dd>
+                        <dd id="model-id" class="model-id"></dd>
 
                         <dt>이메일</dt>
-                        <dd class="model-email"></dd>
+                        <dd id="model-email" class="model-email"></dd>
 
                         <dt>신고수</dt>
-                        <dd class="model-report"></dd>
+                        <dd id="model-report" class="model-report"></dd>
 
                         <dt>상태</dt>
-                        <dd class="model-status"></dd>
+                        <dd id="model-status" class="model-status"></dd>
 
                         <dt>가입일</dt>
-                        <dd class="model-date"></dd>
+                        <dd id="model-date" class="model-date"></dd>
 
                         <dt>작성 레시피 수</dt>
-                        <dd class="model-recipe"></dd>
+                        <dd id="model-recipe" class="model-recipe"></dd>
 
                         <dt>작성 댓글 수</dt>
-                        <dd class="model-comment"></dd>
+                        <dd id="model-comment" class="model-comment"></dd>
 
                         <dt>북마크 수</dt>
-                        <dd class="model-bookmark"></dd>
+                        <dd id="model-bookmark" class="model-bookmark"></dd>
 
                         <dt>좋아요 수</dt>
-                        <dd class="model-like"></dd>
+                        <dd id="model-like" class="model-like"></dd>
 
                         <dt>신고 누적 수</dt>
-                        <dd class="model-up-report"></dd>
+                        <dd id="model-up-report" class="model-up-report"></dd>
 
 
 
