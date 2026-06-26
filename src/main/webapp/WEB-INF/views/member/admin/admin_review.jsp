@@ -76,5 +76,42 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="ma-detail-panel">
+                    <div class="ma-detail-header">
+                        <h3>후기 상세</h3>
+                    </div>
+
+                    <dl class="ma-detail-list">
+
+                        <dt>대상 레시피</dt>
+                        <dd class="model-recipe"></dd>
+
+                        <dt>썸네일</dt>
+                        <dd class="model-thumbnail"></dd>
+
+                        <dt>작성자</dt>
+                        <dd class="model-user"></dd>
+
+                        <dt>작성일</dt>
+                        <dd class="model-date"></dd>
+
+                        <dt>평점</dt>
+                        <dd class="model-rating"></dd>
+
+                        <dt>상태</dt>
+                        <dd class="model-status"></dd>
+
+                        <dt>후기 내용</dt>
+                        <dd class="model-content"></dd>
+                    </dl>
+
+                    <div class="ma-action">
+                        <input type="button" class="ma-btn ma-btn-stop" value="" onclick="" />
+                        <input type="button" class="ma-btn ma-btn-report" value="신고 내역 보기" onclick="" />
+                        <input type="button" class="ma-btn ma-btn-rank" value="" onclick="" />
+                    </div>
+
+                </div>
             </div>
         </section>

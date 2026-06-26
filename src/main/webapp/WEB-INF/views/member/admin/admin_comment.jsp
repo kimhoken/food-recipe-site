@@ -106,5 +106,49 @@
                     </div>
                 </div>
 
+                <div class="ma-detail-panel">
+                    <div class="ma-detail-header">
+                        <h3>댓글 상세</h3>
+                    </div>
+                    
+                    </div>
+
+                    <dl class="ma-detail-list">
+
+                        <dd class="model-img">
+                            <img src="/upload"/>
+                        </dd>
+
+                        <dt>제목/</dt>
+                        <dd class="model-nickname"></dd>
+
+                        <dt>구분</dt>
+                        <dd class="model-type"></dd>
+
+                        <dt>작성자</dt>
+                        <dd class="model-id"></dd>
+
+                        <dt>작성일</dt>
+                        <dd class="model-email"></dd>
+
+                        <dt>평점</dt>
+                        <dd class="model-report"></dd>
+
+                        <dt>댓글 내용</dt>
+                        <dd class="model-status"></dd>
+
+                        <dt>상태</dt>
+                        <dd class="model-date"></dd>
+                     
+                    </dl>
+
+                    <div class="ma-action">
+                        <input type="button" class="ma-btn ma-btn-stop" value="" onclick=""/>
+                        <input type="button" class="ma-btn ma-btn-report" value="신고 내역 보기"  onclick=""/>
+                        <input type="button" class="ma-btn ma-btn-rank" value="" onclick=""/>
+                    </div>
+
+                </div>
+
             </div>
         </section>
