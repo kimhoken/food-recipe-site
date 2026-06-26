@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +25,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class AdminRecipeController {
-    
-    @Autowired
-    HttpSession httpSession;
 
+    private final HttpSession httpSession;
     private final AdminUtil adminUtil;
     private final RecipeDAO recipeDAO;
     private final CookOrderDAO cookOrderDAO;

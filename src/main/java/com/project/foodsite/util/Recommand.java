@@ -68,8 +68,6 @@ public class Recommand {
         return score;   
     }
 
-
-
     private int getDate(int month){
         switch(month){
             case 1: case 3: case 5: case 7: 
