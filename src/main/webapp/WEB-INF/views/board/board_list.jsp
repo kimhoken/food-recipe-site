@@ -107,7 +107,6 @@
         /* 7. 승연추가 */
             // 드롭다운,서브탭이 바뀔 때마다 데이터 비동기(?)로 요청
             function fetchReviewData(sort, period) {
-                console.log("서버 요청 -> 정렬:", sort, "| 기간:", period);
                 location.href="/list.do?sort="+sort+"&period="+(period == null ? "null" : period) + "&btn=review";
             }
         /* --------- 06-25 수정  ---------*/
@@ -159,7 +158,6 @@
                 <button id="boardBtn" class="community-btn ${btn eq 'board' ? 'active' : ''}" onclick="changeState(1)">
                     게시판 전체보기
                 </button>
-
                 <button id="reviewBtn" class="community-btn ${btn eq 'review' ? 'active' : ''}" onclick="changeState(2)">
                     최근 레시피 후기
                 </button>
@@ -219,7 +217,7 @@
                         <button type="button" class="sub-tab-btn" onclick="changePeriod('monthly', event)">월간</button>
                     </div>
                     <select id="mainSortSelect" class="sort-dropdown" onchange="handleMainSort(this.value)">
-                        <option value="all" >선택하기</option>
+                        <option value="all">정렬기준</option>
                         <option value="latest">최신순</option>
                         <option value="popular">조회수 순</option>
                         <option value="rating">별점</option>
