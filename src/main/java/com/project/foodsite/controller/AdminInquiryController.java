@@ -58,7 +58,7 @@ public class AdminInquiryController {
             allList.removeIf(vo -> !type.equals(vo.getType()));
         }
 
-       if ("oldest".equals(sort)) {
+        if ("oldest".equals(sort)) {
             allList.sort((a, b) ->
                 Long.compare(a.getInquiry_id(), b.getInquiry_id()));
 
@@ -98,6 +98,7 @@ public class AdminInquiryController {
         model.addAttribute("sort", sort);    
         model.addAttribute("type", type);     
 
+        model.addAttribute("profileuser", user);        
         model.addAttribute("menu", "inquiry");
         model.addAttribute("contentPage", "/WEB-INF/views/inquiry/adminInquiryList.jsp");
 

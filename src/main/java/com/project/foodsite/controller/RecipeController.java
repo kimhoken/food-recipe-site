@@ -7,12 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.foodsite.dao.BoardDAO;
-import com.project.foodsite.dao.RecipeCommentDAO;
+import com.project.foodsite.dao.CommonCommentDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.dto.RecipeDetailDTO;
 import com.project.foodsite.dto.RecipeSearchDTO;
-import com.project.foodsite.util.TrendingService;
+import com.project.foodsite.util.SearchLog;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class RecipeController {
     private final HttpSession session;
     private final SearchLogDAO searchLogDAO;
     private final BoardDAO boardDAO;
-    private final TrendingService trendingService;
-    private final RecipeCommentDAO recipeCommentDAO;
+    private final CommonCommentDAO commonCommentDAO;
+    private final SearchLog log;
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
@@ -71,7 +72,6 @@ public class RecipeController {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e1.getTitle().compareTo(e2.getTitle());
             });
-
         } else if (sort.equals("view")) {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e2.getView_count() - e1.getView_count();
@@ -152,18 +152,7 @@ public class RecipeController {
                         "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
             }
         }
-        @SuppressWarnings("unchecked")
-        Queue<String> currentQueue = (Queue<String>) session.getAttribute("searchQueue");
-        List<String> currentList = new LinkedList<>();
 
-        if (currentQueue != null && !currentQueue.isEmpty()) {
-            for (String val : currentQueue) {
-                currentList.add(val);
-            }
-        }
-
-        session.setAttribute("searchList", trendingService.getTrendingKeywords());
-        session.setAttribute("currentSearchList", currentList);
         //데이터가 꽤 많아지면 용량을 많이 차지하므로 해제해 용량 확보
         recipeList = null;
         return "recipe/recipe_list";
@@ -240,18 +229,7 @@ public class RecipeController {
         session.setAttribute("searchWord", search);
         session.setAttribute("select", select);
 
-        @SuppressWarnings("unchecked")
-        Queue<String> currentQueue = (Queue<String>) session.getAttribute("searchQueue");
-        List<String> currentList = new LinkedList<>();
-
-        if (currentQueue != null && !currentQueue.isEmpty()) {
-            for (String val : currentQueue) {
-                currentList.add(val);
-            }
-        }
-
-        session.setAttribute("searchList", trendingService.getTrendingKeywords());
-        session.setAttribute("currentSearchList", currentList);
+        log.getSearchLog();
 
         if (select.equals("review")) {
             model.addAttribute("list", boardDAO.search(search));
@@ -270,9 +248,14 @@ public class RecipeController {
      * @return jsp
      */
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, int recipeId){
-        model.addAttribute("recipeId", recipeId);
-        RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
+    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id){
+
+        if (recipe_id == null) {
+            return "redirect:/recipe_list.do";
+        }
+
+        model.addAttribute("recipe_id", recipe_id);
+        RecipeDetailDTO dto = recipeDao.getRecipe(recipe_id);
 
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
@@ -280,7 +263,7 @@ public class RecipeController {
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
-        model.addAttribute("commentList", recipeCommentDAO.getList(recipeId));
+        model.addAttribute("commentList", commonCommentDAO.getList(recipe_id));
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);

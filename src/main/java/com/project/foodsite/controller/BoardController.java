@@ -1,14 +1,13 @@
 package com.project.foodsite.controller;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.ReviewDAO;
@@ -20,7 +19,6 @@ import com.project.foodsite.vo.ReviewVO;
 
 import lombok.RequiredArgsConstructor;
 
-import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dto.RecipeDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,17 +32,34 @@ public class BoardController {
     private final RecipeDAO recipeDao;
     private final HttpSession session;
     private final ReviewDAO reviewDao;
+    private final Fileupload fileupload;
 
     // board list 조회
     @GetMapping("/list.do")
-    public String boardList(Model model) {
-        List<BoardVO> list = boardDao.selectAll();
-        model.addAttribute("list", list);
+    public String boardList(Model model, String sort, String period, String btn) {        
 
-        // 최근 레시피 후기 탭의 조회 
+        // 레시피 후기 탭의 조회
         List<ReviewVO> reviewList = reviewDao.reviewLatest();
         model.addAttribute("reviewList", reviewList);
+        //정렬조건이 없을경우
+        if(sort == null || sort.isEmpty()){
+            sort = "all";
+        }
 
+        if(sort.equals("rating")){
+            reviewList = reviewDao.reviewRating();
+        }else if(sort.equals("popular")){
+            reviewList = reviewDao.reviewPopular(period);
+        }else{
+            reviewList = reviewDao.reviewLatest();
+        }
+        
+        model.addAttribute("list", boardDao.selectAll());
+        model.addAttribute("reviewList", reviewList);
+        
+        model.addAttribute("sort", sort);
+        model.addAttribute("period", period);
+        model.addAttribute("btn", btn);
         return "board/board_list";
     }
 
@@ -57,6 +72,7 @@ public class BoardController {
         model.addAttribute("searchWord", search); // 검색어 보관
         return "board/board_list";
     }
+
     ///////////////////////////////////////////////////////////////////////////////////////
     // --------------이거 전체 레시피쪽으로 가서 수정해야함----------------------
 
@@ -68,16 +84,21 @@ public class BoardController {
 
         model.addAttribute("id", id);
 
-        model.addAttribute(
-                "foodList",
-                recipeDao.selectAllFood());
+        model.addAttribute("foodList", recipeDao.selectAllFood());
 
         return "board/board_regiRecipe";
     }
 
     // 내 레시피 등록하기
     @PostMapping("/myrecipe.do")
-    public String registerRecipe(RecipeDTO dto) {
+    public String registerRecipe(RecipeDTO dto) throws Exception{
+        
+        String filename = fileupload.saveFile(dto.getMainImg(), "recipe");
+
+        System.out.println("저장된 파일명 = " + filename);
+
+        dto.setThumbnail(filename);
+
         // 등록 데이터 잘 들어오는지 확인용
 
         System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());

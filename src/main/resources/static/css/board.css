@@ -2,7 +2,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
 /* ==========================================================================
-     커뮤니티 헤더 & 버튼(전체보기, 레시피후기)
+    커뮤니티 헤더 & 버튼(전체보기, 레시피후기)
 ========================================================================== */
 
 /* 커뮤니티 헤더 */
@@ -118,7 +118,12 @@
     justify-content: flex-end; 
     align-items: center;
     margin-bottom: 20px;
-    width: 100%; /* 부모 너비를 꽉 채우도록 보장 */
+    /* 아래 요소 추가 및 수정 */
+    width: 100%; 
+    max-width: 1000px; /* 리뷰 리스트와 동일한 최대 너비 부여 */
+    margin: 0 auto 20px auto; /* 가운데 정렬(auto) 및 하단 여백(20px) */
+    padding: 0 20px; /* 리뷰 리스트와 동일한 좌우 패딩 */
+    box-sizing: border-box; /* 패딩 사이즈를 전체 너비에 포함 */
 }
 
 .filter-controls {
@@ -172,12 +177,12 @@
     outline: none;
 }
 /* ==========================================================================
-     커뮤니티 최신레시피후기 목록 카드 출력
+    커뮤니티 최신레시피후기 목록 카드 출력
 ========================================================================== */
 
 /* 후기 리스트 전체 컨테이너 */
 .review-feed-list {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 20px; 
     width: 100%;

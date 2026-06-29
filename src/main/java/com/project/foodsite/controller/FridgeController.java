@@ -55,15 +55,7 @@ public class FridgeController {
     @ResponseBody
     public Map<String, Object> insertFin(@RequestBody List<FridgeItemVO> list){
         Map<String, Object> map = new HashMap<>();
-
-        int res = fdao.insertFridge(list);
-        
-        if(res != 0){
-            map.put("res", "success");
-        }else{
-            map.put("res", "fail");
-        }
-
+        map.put("res", fdao.insertFridge(list) != 0 ? "success" : "fail");
         return map;
     }//insertFin
 

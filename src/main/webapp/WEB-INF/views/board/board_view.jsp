@@ -48,6 +48,10 @@
                            onclick="if(confirm('삭제하시겠습니까?')){location.href='/delete.do?board_id=${board.board_id}'}">
                      
                     </c:if>       
+                    <a href="/report/form.do?target_type=게시판&board_id=${param.board_id}">
+                        신고하기
+                    </a>
+                    
                 </div>
             </div>
 

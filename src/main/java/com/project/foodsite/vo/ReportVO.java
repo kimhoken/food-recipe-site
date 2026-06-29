@@ -1,5 +1,7 @@
 package com.project.foodsite.vo;
 
+import java.util.Date;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +14,11 @@ import lombok.NoArgsConstructor;
 @Alias("report")
 public class ReportVO {
 
-    private int report_id, member_id, board_id, admin_id, comment_id, recipe_id, reported_count, report_count;
-    private String target_type, reason, detail, status, admin_memo;
-    private Data created_date, processed_date;
-    
+    private Integer board_id, comment_id, recipe_id, review_id;
+
+    private int report_id, member_id, admin_id, reported_count, report_count;
+
+    private String target_type, reason, detail, status, admin_memo, report_title, nickname, name, email, profile_img;;
+
+    private Date created_date, processed_date;
 }
