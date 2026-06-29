@@ -181,6 +181,12 @@
                 </table>
             </div>
         </div>
+        <div class="recipe-report-wrapx">
+            <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipeId}"
+            class="recipe-report-btn">
+                신고하기
+            </a>
+        </div>
 
         <c:if test="${not empty commentList}">
             <div class="comment-main-title">레시피 댓글</div>
