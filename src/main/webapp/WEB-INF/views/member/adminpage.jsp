@@ -244,11 +244,7 @@
 
                                     <ul class="profile-submenu">
                                         <li>
-                                            <a href="#">내 정보</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">알림</a>
+                                            <a href="/admin/mypage">내 정보</a>
                                         </li>
 
                                         <li>

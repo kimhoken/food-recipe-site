@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
     private final HttpSession httpSession;
     private final RecipeDAO recipeDAO;
+    private final AdminUtil adminUtil;
     
     // 관리자 페이지 이동 함수
     @GetMapping("/admin")
@@ -34,6 +36,19 @@ public class AdminController {
         return "member/adminpage";
 
     }
+
+    @GetMapping("/admin/mypage")
+    public String adminmypage(Model model){
+
+        MemberVO user = (MemberVO) httpSession.getAttribute("user");
+
+        model.addAttribute("profileuser",user);
+        
+        adminUtil.setContentPage(model, "mypage");
+
+        return "member/adminpage";
+
+    } 
 
     
 
