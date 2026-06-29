@@ -41,19 +41,19 @@
             <div class="footer-container">
                 <div class="footer-bottom-row">
                     <div class="company-info">
-                        <h4>주식회사 코코짱짱</h4>
+                        <h4>주식회사 테이스티글로벌</h4>
                         <p>
                             <span>상호 : KH 개발</span>
-                            <span>대표자 : 장승연</span>
-                            <span>개인정보관리책임자 : 장승연</span>
+                            <span>대표자 : 이대표</span>
+                            <span>개인정보관리책임자 : 김책임</span>
                             <span>사업자 등록번호 : 111-01-31111</span>
                         </p>
                         <p>
                             <span>통신판매업 신고 : 제 2015-경기성남-1940 호</span>
                             <span>전화 : 1833-1234</span>
-                            <span>팩스 : 031-8017-1800</span>
+                            <span>팩스 : 011-1111-1111</span>
                         </p>
-                        <p>주소 : 경기도 성남시 분당구 판교로 216길 92, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
+                        <p>주소 : 경기도 성남시 분당구 판교로 216길 01, kh타워 22층 2201호( 삼평동, 판교 에이치스퀘어 ) &nbsp;&nbsp; 이메일: kh@culture.net</p>
                     </div>
 
                     <div class="footer-logo-area">

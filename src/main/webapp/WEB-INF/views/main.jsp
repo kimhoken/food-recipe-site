@@ -250,35 +250,35 @@
         /* ============================ 여기까지 알림 관련 함수들 ============================ */
                 document.addEventListener('DOMContentLoaded', function() {
             
-            changeSeason('봄', document.querySelector('.season-tab-item.active'));
-        });
-
-        function changeSeason(season, el) {
-        
-            document.querySelectorAll('.season-tab-item').forEach(function(btn) {
-                btn.classList.remove('active');
+                changeSeason('봄', document.querySelector('.season-tab-item.active'));
             });
-            if (el) {
-                el.classList.add('active');
-            }
 
-            // 배너 정보 변경
-            fetch('/seasons_banner.do?season=' + encodeURIComponent(season))
-                .then(function(res) { return res.json(); })
-                .then(function(data) {
-                    if (data) {
-                        // [수정] 스네이크 케이스와 카멜 케이스 둘 다 안전하게 지원하도록 수정
-                        var bannerTitle = data.banner_title || data.bannerTitle || '';
-                        var bannerDesc = data.banner_desc || data.bannerDesc || '';
+            function changeSeason(season, el) {
+            
+                document.querySelectorAll('.season-tab-item').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                if (el) {
+                    el.classList.add('active');
+                }
 
-                        document.getElementById('seasonalBannerBadge').textContent = season + ' 추천';
-                        document.getElementById('seasonalBannerTitle').textContent = bannerTitle;
-                        document.getElementById('seasonalBannerDesc').textContent = bannerDesc;
-                    }
-                })
-                .catch(function(err) { console.error("배너 데이터를 가져오지 못했습니다:", err); });
+                // 배너 정보 변경
+                fetch('/seasons_banner.do?season=' + encodeURIComponent(season))
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data) {
+                        
+                            var bannerTitle = data.banner_title || data.bannerTitle || '';
+                            var bannerDesc = data.banner_desc || data.bannerDesc || '';
 
-            //  음식 카드 목록 변경
+                            document.getElementById('seasonalBannerBadge').textContent = season + ' 추천';
+                            document.getElementById('seasonalBannerTitle').textContent = bannerTitle;
+                            document.getElementById('seasonalBannerDesc').textContent = bannerDesc;
+                        }
+                    })
+                    .catch(function(err) { console.error("배너 데이터를 가져오지 못했습니다:", err); });
+
+            // 음식 카드 목록 변경
             fetch('/seasons_data.do?season=' + encodeURIComponent(season))
                 .then(function(res) { return res.json(); })
                 .then(function(list) {
@@ -286,41 +286,41 @@
                     grid.innerHTML = ''; 
 
                     if (!list || list.length === 0) {
+                        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 40px 0; color: #999;">해당 계절의 메뉴가 없습니다.</p>';
                         return; 
                     }
 
                     list.forEach(function(item) {
-                    
-                        var foodName = item.food_name || item.foodName || '이름 없음';
-                        var subDesc = item.sub_desc || item.subDesc || '';
-                        var foodId = item.food_id || item.foodId || 0;
-                        var customImage = item.custom_image || item.customImage;
 
-                        var imgHtml = '';
-                        if (customImage && customImage !== 'no_image') {
-                            imgHtml = '<img src="' + customImage + '" alt="' + foodName + '">';
-                        }
+                var foodName = item.foodName || '이름 없음';
+                var subDesc = item.subDesc || '';
+                var foodId = item.foodId || 0;
+                var customImage = item.customImage;
 
-                        var card = `
-                            <div class="seasonal-card">
-                                <span class="card-badge">${season} 메뉴</span>
-                                <div class="card-content">
-                                    <div class="card-info">
-                                        <h4 class="card-food-name">${foodName}</h4>
-                                        <p class="card-food-desc">${subDesc}</p>
-                                    </div>
-                                    <div class="card-thumb">${imgHtml}</div>
-                                </div>
-                                <a href="/food/detail?foodId=${foodId}" class="btn-recipe">레시피 둘러보기</a>
+                var imgHtml = '';
+                if (customImage && customImage !== 'no_image') {
+                    imgHtml = '<img src="' + customImage + '" alt="' + foodName + '">';
+                }
+
+                var card = `
+                    <div class="seasonal-card">
+                        <span class="card-badge">${season} 메뉴</span>
+                        <div class="card-content">
+                            <div class="card-info">
+                                <h4 class="card-food-name">${foodName}</h4>
+                                <p class="card-food-desc">${subDesc}</p>
                             </div>
-                        `;
+                            <div class="card-thumb">${imgHtml}</div>
+                        </div>
+                        <a href="/food/detail?foodId=${foodId}" class="btn-recipe">레시피 둘러보기</a>
+                    </div>
+                `;
 
-                        grid.innerHTML += card;
-                    });
+                grid.innerHTML += card;
+            });
                 })
-                .catch(function(err) { console.error("카드 데이터를 가져오지 못했습니다:", err); });
+                .catch(function(err) { console.error("카드 데이터 로드 실패:", err); });
         }
-      
 
             /* ============================ 여기까지 계절별 메뉴 추천 관련 함수들 ============================ */
         </script>
