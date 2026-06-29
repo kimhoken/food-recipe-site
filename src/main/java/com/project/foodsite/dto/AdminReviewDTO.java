@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class AdminReviewDTO extends  SearchDTO{
     private Date created_at, updated_at;
     private String title, content, image, main_title, nickname;
-    private int view_count;
+    private int view_count, review_id;
     private double rating;
 
 }

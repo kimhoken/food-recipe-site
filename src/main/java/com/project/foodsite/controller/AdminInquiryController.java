@@ -98,6 +98,7 @@ public class AdminInquiryController {
         model.addAttribute("sort", sort);    
         model.addAttribute("type", type);     
 
+        model.addAttribute("profileuser", user);        
         model.addAttribute("menu", "inquiry");
         model.addAttribute("contentPage", "/WEB-INF/views/inquiry/adminInquiryList.jsp");
 

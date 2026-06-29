@@ -2,8 +2,9 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <head>
-            
+
             <script>
+                let selreview;
 
                 function entersearch(e) {
 
@@ -15,7 +16,88 @@
 
                 function searchreview() {
                     document.querySelector('form[action="/admin/review"]').submit();
-                }        
+                }
+
+                function review_view(review_id) {
+                    fetch("/admin/review/view", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'review_id=' + review_id
+                    }).then(res => res.json())
+                        .then(dto => {
+                            console.log(dto);
+
+                            filereview(dto);
+
+                            selreview = dto.review_id;
+
+                            // 회원 정지 상태 변경 함수
+                            document.querySelector(".re-btn-hidden").onclick =
+                                () => reviewhidden(dto.review_id);
+                            // 신고 내역 보려 가는 함수 추가할 예정
+                            document.querySelector(".re-btn-delete").onclick =
+                                () => reviewdelete(dto.review_id);
+                        })
+                }
+
+                function filereview(dto) {
+                    setImg("model-image","/upload/review/"+dto.image);
+                    setText("title", dto.title);
+                    setText("user", dto.nickname);
+                    setText("content", dto.content);                
+                    setText("created", dto.created_at);
+                    setText("status", dto.status);
+                    setText("rating", dto.rating);
+                    setText("view", dto.view_count);
+
+                    document.querySelector(".re-btn-hidden").value = '공개 전환';
+                    document.querySelector(".re-btn-delete").value = '삭제';
+
+                    if (dto.status === 'HIDDEN') {
+                        document.querySelector(".re-btn-hidden").value = '비공개 전환'
+                    }
+
+                    if (dto.status === 'DELETE') {
+                        document.querySelector(".re-btn-delete").value = '복원'
+                    }
+                }
+
+                function reviewhidden() {                    
+                    fetch("/admin/review/hidden", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'review_id=' + selreview
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.result > 0 && data.status === 'HIDDEN') {
+                                alert("비공개 처리 되었습니다.");
+                            } else if (data.result > 0 && data.status === 'ACTIVE') {
+                                alert("공개 처리 되었습니다.");
+                            } else{
+                                alert("공개 / 비공개 전환을 할수 없습니다.");
+                            }
+                        })
+                }
+
+                function reviewdelete() {
+                    fetch("/admin/review/delete", {
+                        method: 'post',
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: 'review_id=' + selreview
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.result > 0 && data.status === 'DELETE') {
+                                alert("삭제 되었습니다.");
+                            } else if (data.result > 0 && data.status === 'ACTIVE') {
+                                alert("복원 되었습니다.");
+                            } else{
+                                alert("이스터에그");
+                            }
+                        })
+                }
+                
 
             </script>
 
@@ -61,7 +143,7 @@
 
                             <c:forEach var="review" items="${list}">
 
-                                <tr>
+                                <tr onclick="review_view('${review.review_id}')">
 
                                     <td>
                                         <img src="/upload/review/${review.image}" />
@@ -108,33 +190,37 @@
                     <dl class="ma-detail-list">
 
                         <dt>대상 레시피</dt>
-                        <dd class="model-recipe"></dd>
+                        <dd id="model-title" class="model-recipe"></dd>
 
                         <dt>썸네일</dt>
-                        <dd class="model-thumbnail"></dd>
+                        <dd class="model-thumbnail">
+                            <img id="model-image"/>
+                        </dd>
 
                         <dt>작성자</dt>
-                        <dd class="model-user"></dd>
+                        <dd id="model-user" class="model-user"></dd>
 
                         <dt>작성일</dt>
-                        <dd class="model-date"></dd>
+                        <dd id="model-created" class="model-date"></dd>
 
                         <dt>평점</dt>
-                        <dd class="model-rating"></dd>
+                        <dd id="model-rating" class="model-rating"></dd>
 
                         <dt>상태</dt>
-                        <dd class="model-status"></dd>
+                        <dd id="model-status" class="model-status"></dd>
+                        
+                        <dt>조회수</dt>
+                        <dd id="model-view" class="model-view"></dd>
 
                         <dt>후기 내용</dt>
-                        <dd class="model-content"></dd>
+                        <dd id="model-content" class="model-content"></dd>
                     </dl>
 
-                    <div class="ma-action">
+                    <div class="re-action">
 
-                        <input type="button" class="ma-btn ma-btn-stop" value="" onclick="" />
-                        <input type="button" class="ma-btn ma-btn-report" value="신고 내역 보기" onclick="" />
-                        <input type="button" class="ma-btn ma-btn-rank" value="" onclick="" />
-
+                        <input type="button" class="re-btn re-btn-hidden" value="" onclick="" />
+                        <input type="button" class="re-btn re-btn-delete" value="신고 내역 보기" onclick="" />
+                        
                     </div>
 
                 </div>

@@ -5,6 +5,7 @@ import java.util.*;
 import com.project.foodsite.dto.AdminReviewDTO;
 import com.project.foodsite.vo.ReviewVO;
 
+
 public interface ReviewDAO {
     List<ReviewVO> reviewLatest();                  // 최신순
     List<ReviewVO> reviewPopular(String period);    // 조회수순(전체, 주간, 월간)
@@ -15,4 +16,8 @@ public interface ReviewDAO {
 
     // 관리자 레시피 검색 (페이징 포함)
     List<AdminReviewDTO> ReviewSearch(AdminReviewDTO Review);
+
+    AdminReviewDTO adminReviewDetail(int review_id);
+
+    int reviewStatus(AdminReviewDTO Review);
 }
