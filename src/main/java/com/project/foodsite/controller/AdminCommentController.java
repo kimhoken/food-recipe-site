@@ -14,7 +14,6 @@ import com.project.foodsite.common.AdminUtil;
 import com.project.foodsite.common.Paging;
 import com.project.foodsite.dao.CommentDAO;
 import com.project.foodsite.dto.AdminCommentDTO;
-import com.project.foodsite.vo.CommentVO;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
