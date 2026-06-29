@@ -19,6 +19,25 @@
 
         
         <script>
+        /*============================ 추천 레시피 슬라이더 형식 관련 함수 ============================= */
+        document.addEventListener("DOMContentLoaded",function() {
+            let current = 0;
+            const slides = document.querySelectorAll(".recommend-slide");
+
+            if (slides.length === 0) {
+                return;
+            }
+
+            setInterval(() => {
+                slides[current].classList.remove('active');
+    
+                current = (current + 1) % slides.length;
+    
+                slides[current].classList.add('active');
+            }, 3000);
+        })
+
+
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
             // 선택한 카테고리들 열기
             function selectCategory(category){
@@ -411,12 +430,19 @@
             <div class="mid-box">
                 <h3 class="box-title">오늘의 추천 레시피</h3>
                 <div class="today-main">
-                    <div class="today-main-img"><%-- 이미지 들어갈 자리 --%></div>
-                    <div class="today-main-info">
-                        <h4>${today.title}</h4>
-                        <p>이런 메뉴는 어떠신가요?</p>
-                        <span class="author">👤 ${today.nickname}</span>
-                    </div>
+                    <c:forEach var="recipe" items="${recommend}" varStatus="status">
+                        <div class="recommend-slide ${status.first ? 'active' : ''}"
+                             onclick="location.href='/recipe_detail.do?recipe_id=${recipe.recipe_id}'">
+                            <div class="today-main-img">
+                                <img src="/upload/recipe/${recipe.thumbnail}"/>
+                            </div>
+                            <div class="today-main-info">
+                                <h4>${recipe.title}</h4>
+                                <p>이런 메뉴는 어떠신가요?</p>
+                                <span class="author">👤 ${recipe.nickname}</span>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <!-- 이미지 작게 5개 나오는 자리 -->

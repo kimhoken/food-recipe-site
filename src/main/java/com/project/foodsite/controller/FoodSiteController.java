@@ -33,8 +33,8 @@ public class FoodSiteController {
         //검색어는 처음 홈페이지 들어왔을때 그리고 레시피 검색했을때 세션에 저장
         //검색어 추천은 https://seungjjun.tistory.com/m/282 여기 참고하기
         
-        model.addAttribute("reg_recipes", rec.recentlyList());      //등록일자 기준으로 레시피를 불러옴
-        model.addAttribute("today", rec.randomList());              //오늘의 레시피를 한개 불러옴
+              //등록일자 기준으로 레시피를 불러옴
+        model.addAttribute("recommend", rec.recommendList());              //오늘의 레시피를 한개 불러옴
         model.addAttribute("view_recipes", rec.viewCountList());    //조회수를 기준으로 레시피를 불러옴
         log.getSearchLog();
         return "main";

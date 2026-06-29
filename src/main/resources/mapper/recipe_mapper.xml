@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <!-- 전체 레시피 개수 조회 -->
     <select id="size" resultType="int">
         SELECT COUNT(*) FROM recipe
+        where recommend = 1
     </select>
     
     <!-- 특정 레시피 1개 상세 조회 -->
@@ -88,12 +89,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM food f
         JOIN category c ON f.category_id = c.category_id
         WHERE REPLACE(c.category_name, ' ', '') = REPLACE(#{categoryName}, ' ', '')
-    </select>
-
-    <!-- 최근 등록된 레시피 5개 조회 (메인페이지용) -->
-    <select id="selectRecently" resultType="recipe">
-        SELECT * FROM recipe_view
-        ORDER BY r.created_date DESC LIMIT 5
     </select>
 
     <!-- 조회수/좋아요순 인기 레시피 5개 조회 (메인페이지용) -->
@@ -215,6 +210,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateRecipe" parameterType="recipe">
         update recipe set recommend = #{recommend} where recipe_id = #{recipe_id}
     </update>
+
+    <!-- 추천 레시피 리스트 불러오기-->
+    <select id="selectRecommedList" resultType="recipe">
+        select r.*, m.nickname
+        from recipe r
+        join member m on r.member_id = m.member_id
+        where recommend = 1
+        order by r.created_date desc, r.recipe_id desc
+        LIMIT 10
+    </select>
 
     <resultMap id="RecipeDetailMap" type="RecipeDetailDTO">
         

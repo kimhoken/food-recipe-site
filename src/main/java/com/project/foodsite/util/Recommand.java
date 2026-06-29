@@ -146,12 +146,14 @@ public class Recommand {
         return recipeList.subList(0, Math.min(10, recipeList.size()));
     }//RecipeVO
 
-    public List<RecipeVO> recentlyList(){
-        return recipeDAO.selectRecently();
-    }
+    
 
     public List<RecipeVO> viewCountList(){
         return recipeDAO.selectViewCount();
+    }
+
+    public List<RecipeVO> recommendList(){
+        return recipeDAO.selectRecommedList();
     }
     
 }

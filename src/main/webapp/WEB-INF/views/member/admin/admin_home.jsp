@@ -12,12 +12,12 @@
             <div class="summary-grid">
                 <div class="summary-card green">
                     <p>전체 회원 수</p>
-                    <strong>12</strong>
+                    <strong>${userTotal}</strong>
                     <span>인원수</span>
                 </div>
                 <div class="summary-card orange">
-                    <p>오늘 등록 레시피</p>
-                    <strong>12</strong>
+                    <p>전체 레시피</p>
+                    <strong>${recipeTotal}</strong>
                     <span>레시피 건수</span>
                 </div>
                 <div class="summary-card blue">
@@ -49,7 +49,7 @@
                     </tr>
                     <!-- forEach로 최근 등록된 레시피 출력  -->
                     <c:forEach var="recipe" items="${list}">
-                        <tr>
+                        <tr onclick="location.href='recipe_detail.do?recipe_id=${recipe.recipe_id}'">
                             <td>${recipe.rank_num}</td>
                             <td><img src="/upload/recipe/${recipe.thumbnail}" width="85px" height="85px"/>
                                 ${recipe.title}</td>

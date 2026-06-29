@@ -4,15 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import com.project.foodsite.dao.InquiryDAO;
+import com.project.foodsite.dao.MemberDAO;
+import com.project.foodsite.dao.RecipeDAO;
+import com.project.foodsite.dao.ReportDAO;
 import com.project.foodsite.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class AdminUtil {
     
     @Autowired
     HttpSession httpSession;
+
+    private final MemberDAO memberDAO;
+    private final RecipeDAO recipeDAO;
+    private final InquiryDAO inquiryDAO;
+    private final ReportDAO reportDAO;
+
 
     // 카테고리 매핑 함수
     public String categorymapping(String category) {
@@ -84,6 +96,18 @@ public class AdminUtil {
 
         model.addAttribute("contentPage", contentPage);
 
+    }
+
+    // 회원/ 레시피/ 문의/ 신고 갯수 함수
+    public void getTotalCount(Model model){
+
+        int userTotal = memberDAO.memberCount();
+
+        int recipeTotal = recipeDAO.RecipeCount(null);
+
+        model.addAttribute("userTotal",userTotal);
+        model.addAttribute("recipeTotal",recipeTotal);
+        
     }
 
 }
