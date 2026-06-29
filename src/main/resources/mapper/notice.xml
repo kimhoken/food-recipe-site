@@ -31,31 +31,6 @@
         where notice_id = #{notice_id}
     </select>
 
-    <select id="viewHistory" resultType="int">
-        select count(*)
-        from notice_view
-        where notice_id = #{notice_id}
-          and member_id = #{member_id}
-    </select>
-
-    <insert id="viewInsert">
-        insert into notice_view (
-            notice_id,
-            member_id,
-            viewed_date
-        ) values (
-            #{notice_id},
-            #{member_id},
-            now()
-        )
-    </insert>
-
-    <update id="userViewCount" parameterType="int">
-        update notice
-        set view_count = view_count + 1
-        where notice_id = #{notice_id}
-    </update>
-
     <insert id="notice_insert" parameterType="notice"
             useGeneratedKeys="true" keyProperty="notice_id">
         insert into notice (
