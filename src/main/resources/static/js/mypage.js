@@ -23,17 +23,7 @@ const logout = () => {
             })
     }
 }
-//파일 선택 유무
-function status() {
-    document.getElementById("filechange").value = "yes";
-}
 
-// 회원 정보 수정 함수
-function updateMember(f) {
-    //유효성 체크 추가할 예정
-    f.submit();
-
-}
 //비밀번호 재설정 페이지 확인 함수
 function pwdUserCheck() {
 
@@ -57,6 +47,7 @@ function pwdUserCheck() {
 }
 
 let pwd_valid = false;
+
 //비밀번호 재설정
 function send(f) {
 

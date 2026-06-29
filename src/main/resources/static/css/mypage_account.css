@@ -99,15 +99,17 @@
 }
 
 .update-label {
-    width: 130px;
+    width: 160px;
     padding-top: 12px;
     font-size: 15px;
     font-weight: 600;
     color: #374151;
+    flex-shrink: 0;
 }
 
 .update-control {
     flex: 1;
+    max-width: 620px;
 }
 
 .update-input,
@@ -138,7 +140,7 @@
     line-height: 1.5;
 }
 
-.profile-row {
+.profile-rows {
     align-items: center;
 }
 
