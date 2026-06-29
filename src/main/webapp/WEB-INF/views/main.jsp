@@ -95,7 +95,7 @@
                         let limit = Math.min(foodList.length, 4);
                         
                         for(let i=0 ; i<limit ; i++){
-                            html += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                            html += "<li><a href='/recipe_list.do?category=" + category + "&sort=latest'>" + foodList[i] + "</a></li>"
                         }
                         html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
                         
@@ -381,7 +381,7 @@
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
                         <div class="recipe-card">
-                            <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
+                            <a href="/recipe_detail.do?recipe_id=${recipe.recipe_id}">
                                 <div class="recipe-img">
                                     <img src="${pageContext.request.contextPath}/images/${recipe.thumbnail}"/>
                                 </div>

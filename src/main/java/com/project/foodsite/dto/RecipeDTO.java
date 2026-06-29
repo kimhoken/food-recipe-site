@@ -17,8 +17,11 @@ public class RecipeDTO {
     // 제목
     private String title;
 
-    // 대표이미지
+    // 레시피 글 등록 대표이미지
     private MultipartFile mainImg;
+
+    //썸네일
+    private String thumbnail;
 
     // 재료
     private List<String> ingredientName;

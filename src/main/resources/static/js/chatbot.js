@@ -10,7 +10,7 @@ function addBotMsg(text) {
 
     const botIcon = document.createElement('img');
     botIcon.className = 'bot-icon';
-    botIcon.src = '/image/bot.png';
+    botIcon.src = '/images/bot.png';
 
     const div = document.createElement('div');
     div.className = 'bot-msg';

@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 카테고리/조리시간 필터링 레시피 목록 조회  -->
     <select id="selectRecipeList" parameterType="RecipeSearchDTO" resultType="recipe">
-        SELECT DISTINCT r.*, f.food_name FROM recipe r
+        SELECT DISTINCT r.*, f.food_name FROM recipe_view r
         LEFT JOIN category c1 ON r.category_id = c1.category_id
         LEFT JOIN food f ON r.food_id = f.food_id
         LEFT JOIN category c2 ON f.category_id = c2.category_id
@@ -96,9 +96,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!-- 최근 등록된 레시피 5개 조회 (메인페이지용) -->
     <select id="selectRecently" resultType="recipe">
-        SELECT r.*, m.nickname FROM recipe r
-        JOIN member m ON r.member_id = m.member_id
-        ORDER BY created_date DESC LIMIT 5
+        SELECT * FROM recipe_view
+        ORDER BY r.created_date DESC LIMIT 5
     </select>
 
     <!-- 조회수/좋아요순 인기 레시피 5개 조회 (메인페이지용) -->
@@ -131,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="search" parameterType="String" resultType="recipe">
         <bind name="pattern" value="'%' + keyword + '%'"/>
-        SELECT DISTINCT r.*, f.food_name FROM recipe r
+        SELECT DISTINCT r.*, f.food_name FROM recipe_view r
         JOIN food f ON f.food_id = r.food_id
         WHERE r.title LIKE #{pattern} OR f.food_name LIKE #{pattern}
     </select>
@@ -157,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 OR m.nickname LIKE concat('%',#{keyword}, '%')
             )
         </if>
-         <if test="category != null and category != ''">
+        <if test="category != null and category != ''">
         AND c.category_name = #{category}
         </if>
 
@@ -170,21 +169,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if> 
 
     </select>
-
+    
+    <!-- 뷰 생성한 걸로 바꿈 -->
     <select id="RecipeList" parameterType="adminrecipe" resultType="recipe">
         SELECT
-        r.*,
-        m.nickname,
-        c.category_name        
-        FROM recipe r
-        JOIN member m ON r.member_id = m.member_id
+            r.*,           
+            c.category_name
+        FROM recipe_view r
         JOIN category c ON r.category_id = c.category_id
         WHERE 1=1
 
         <if test="keyword != null and keyword != ''">
             AND (
                 r.title LIKE CONCAT('%', #{keyword}, '%')
-                OR m.nickname LIKE CONCAT('%', #{keyword}, '%')
+                OR r.nickname LIKE CONCAT('%', #{keyword}, '%')
             )
         </if>
 
@@ -205,9 +203,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectrecipe" resultType="recipe">
-        select r.*, m.nickname, c.category_name, f.food_name
-        from recipe r
-        join member m on r.member_id = m.member_id
+        select r.*, c.category_name, f.food_name
+        from recipe_view r
         join category c on c.category_id = r.category_id
         join food f on r.food_id = f.food_id        
         where r.recipe_id = #{recipe_id}
@@ -253,7 +250,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </collection>
         
     </resultMap>
-
+    <!-- 레시피 상세보기용 -->
     <select id="getRecipe" resultMap="RecipeDetailMap">
         SELECT 
             r.recipe_id, r.title, r.cooking_time, r.view_count, r.like_count, 

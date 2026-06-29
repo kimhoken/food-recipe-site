@@ -1,11 +1,18 @@
 package com.project.foodsite.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+
+import com.project.foodsite.vo.MemberVO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Component
 public class AdminUtil {
     
+    @Autowired
+    HttpSession httpSession;
 
     // 카테고리 매핑 함수
     public String categorymapping(String category) {
@@ -45,13 +52,17 @@ public class AdminUtil {
     // 관리자 페이지 contentPage 설정 함수
     public void setContentPage(Model model, String menu) {
 
+        MemberVO user = (MemberVO)httpSession.getAttribute("user");
+
+        model.addAttribute("potfileuser",user);
+
         String contentPage = "/WEB-INF/views/member/admin/admin_home.jsp";
 
         if (menu.equals("member")) {
             contentPage = "/WEB-INF/views/member/admin/admin_member.jsp";
         } else if (menu.equals("recipe")) {
             contentPage = "/WEB-INF/views/member/admin/admin_recipe.jsp";
-        } else if (menu.equals("stats")) {
+        } else if (menu.equals("status")) {
             contentPage = "/WEB-INF/views/member/admin/admin_stats.jsp";
         } else if (menu.equals("inquiry")) {
             contentPage = "/WEB-INF/views/member/admin/admin_inquiry.jsp";
@@ -61,6 +72,14 @@ public class AdminUtil {
             contentPage = "/WEB-INF/views/member/admin/admin_info.jsp";
         } else if (menu.equals("notice")) {
             contentPage = "/WEB-INF/views/member/admin/admin_notice.jsp";
+        } else if (menu.equals("comment")){
+            contentPage = "/WEB-INF/views/member/admin/admin_comment.jsp";
+        } else if(menu.equals("review")){
+            contentPage = "/WEB-INF/views/member/admin/admin_review.jsp";            
+        } else if(menu.equals("board")){
+            contentPage = "/WEB-INF/views/member/admin/admin_board.jsp";            
+        } else if(menu.equals("mypage")){
+            contentPage = "/WEB-INF/views/member/admin/admin_mypage.jsp";
         }
 
         model.addAttribute("contentPage", contentPage);

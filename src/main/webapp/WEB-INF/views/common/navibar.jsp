@@ -35,7 +35,7 @@
                     })
                 }
             }
-             function send() {
+            function send() {
                 let f = document.frm;
                 //카테고리 선택 여부
                 let catChecked = false;

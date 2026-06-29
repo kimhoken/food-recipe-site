@@ -12,7 +12,7 @@
     <script>
         let files = [];
 
-        function send(f) {
+        function updateSend(f) {
             let title = f.title.value.trim();
             let content = f.content.value.trim();
 
@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="btn-area">
-                    <button type="button" class="submit-btn" onclick="send(this.form)">수정완료</button>
+                    <button type="button" class="submit-btn" onclick="updateSend(this.form)">수정완료</button>
                     <button type="button" class="back-btn" onclick="history.back()">뒤로가기</button>
                 </div>
 

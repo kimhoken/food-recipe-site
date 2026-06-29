@@ -9,36 +9,28 @@
         <script>
             let files = [];
 
-            function send(f) {
+            function noticeSend(f) {
                 if (f.title.value.trim() === "") {
                     alert("공지사항 제목을 입력하세요.");
                     f.title.focus();
-                    return;
+                    return false;
                 }
 
                 if (f.content.value.trim() === "") {
                     alert("공지사항 내용을 입력하세요.");
                     f.content.focus();
-                    return;
+                    return false;
                 }
 
-                const imageInput = document.getElementById("images");
-                const dataTransfer = new DataTransfer();
-
-                files.forEach(function(file) {
-                    dataTransfer.items.add(file);
-                });
-
-                imageInput.files = dataTransfer.files;
-
-                f.submit();
+                return true;
             }
 
             function renderPreview() {
                 const previewList = document.getElementById("preview-list");
                 previewList.innerHTML = "";
 
-                files.forEach(function(file, index) {
+                files.forEach(function(fileInfo, index) {
+                    const file = fileInfo.file;
                     const item = document.createElement("div");
                     item.className = "preview-item";
 
@@ -60,20 +52,50 @@
             }
 
             function removeFile(index) {
-                files.splice(index, 1);
+                const input = files[index].input;
+                files = files.filter(function(fileInfo) {
+                    return fileInfo.input !== input;
+                });
+                input.remove();
                 renderPreview();
+            }
+
+            function attachImageInput(imageInput) {
+                imageInput.addEventListener("change", function () {
+                    const selectedFiles = Array.from(this.files);
+
+                    if (selectedFiles.length === 0) {
+                        return;
+                    }
+
+                    const selectedInput = this;
+
+                    selectedFiles.forEach(function(file) {
+                        files.push({
+                            file: file,
+                            input: selectedInput
+                        });
+                    });
+
+                    selectedInput.removeAttribute("id");
+                    selectedInput.style.display = "none";
+
+                    const nextInput = document.createElement("input");
+                    nextInput.type = "file";
+                    nextInput.name = "images";
+                    nextInput.id = "images";
+                    nextInput.multiple = true;
+
+                    selectedInput.parentNode.insertBefore(nextInput, selectedInput.nextSibling);
+                    attachImageInput(nextInput);
+
+                    renderPreview();
+                });
             }
 
             window.onload = function () {
                 const imageInput = document.getElementById("images");
-
-                imageInput.addEventListener("change", function () {
-                    files = files.concat(Array.from(this.files));
-
-                    this.value = "";
-
-                    renderPreview();
-                });
+                attachImageInput(imageInput);
             };
         </script>
     </head>
@@ -92,7 +114,7 @@
                 </aside>
 
                 <section class="write-card">
-                    <form action="notice_add.do" method="post" enctype="multipart/form-data">
+                    <form action="notice_add.do" method="post" enctype="multipart/form-data" onsubmit="return noticeSend(this)">
 
                         <label>제목</label>
                         <input type="text" name="title" placeholder="제목을 입력해 주세요.">
@@ -107,7 +129,7 @@
                         <input type="file" name="images" id="images" multiple>
 
                         <div class="btn-area">
-                            <button type="button" onclick="send(this.form)">등록하기</button>
+                            <button type="submit">등록하기</button>
                             <button type="button" onclick="location.href='notice.do'">취소</button>
                         </div>
 

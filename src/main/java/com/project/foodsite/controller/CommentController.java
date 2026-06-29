@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.foodsite.dao.RecipeCommentDAO;
-import com.project.foodsite.vo.RecipeCommentVO;
+import com.project.foodsite.dao.CommonCommentDAO;
+import com.project.foodsite.vo.CommentVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final RecipeCommentDAO recipeCommentDAO;
+    private final CommonCommentDAO commonCommentDAO;
 
     /**
      * 레시피에 댓글하는 메서드
@@ -26,12 +26,14 @@ public class CommentController {
      */
     @PostMapping("/api/recomment/insert")
     @ResponseBody
-    public Map<?, ?> recipeInsert(@RequestBody RecipeCommentVO vo){
-        int res = recipeCommentDAO.insertComment(vo);
+    public Map<?, ?> recipeInsert(@RequestBody CommentVO vo){
+        int res = commonCommentDAO.insertComment(vo);
         String result = "fail";
+
         if(res != 0){
             result = "success";
         }
+        
         Map<String, String> map = new HashMap<>();
         map.put("result", result);
         return map;
@@ -40,7 +42,7 @@ public class CommentController {
     @DeleteMapping("/api/recomment/delete")
     @ResponseBody
     public Map<String, String> recommentDelete(@RequestBody Map<String, String> map){
-        String result = recipeCommentDAO.deleteComment(Integer.parseInt(map.get("commentId"))) != 0 ? "success" : "fail";
+        String result = commonCommentDAO.deleteComment(Integer.parseInt(map.get("commentId"))) != 0 ? "success" : "fail";
         map.put("result", result);
         return map;
     }
@@ -48,7 +50,7 @@ public class CommentController {
     @PostMapping("/api/recomment/update")
     @ResponseBody
     public Map<String, String> recommentUpdate(@RequestBody Map<String, String> map){
-        map.put("result", recipeCommentDAO.update(map) != 0 ? "success" : "fail");
+        map.put("result", commonCommentDAO.update(map) != 0 ? "success" : "fail");
         return map;
     }
 

@@ -30,12 +30,14 @@
         INSERT INTO recipe(
         title,
         member_id,
-        food_id
+        food_id,
+        thumbnail
     )
     VALUES(
         #{title},
         #{memberId},
-        #{foodId}
+        #{foodId},
+        #{thumbnail}
     )
     </insert>
 
@@ -124,6 +126,78 @@
     </insert>-->
 
 
+    <!-- 관리자 게시글 페이지 갯수 조회 -->
+    <select id="boardCount" parameterType="adminboard">
+        select count(b.board_id)
+        from board b 
+        join member m on b.member_id = m.member_id
+        where 1=1 
+        <if test="keyword != null and keyword != ''">
+            and(
+                m.nickname like concat('%',#{keyword},'%')
+                or b.title like concat('%', #{keyword}, '%')                
+            )
+        </if>
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
 
+    </select>
+    <!-- 게시글 상태, 키워드로 인해 검색되는 함수 (페이징 포함) -->
+    <select id="BoardSearch" parameterType="adminboard" resultType="adminboard" >
+        select b.*, m.nickname, 
+        (
+            select count(*)
+            from comment c            
+            where b.board_id = c.board_id       
+        ) AS comment_count
+        from board b
+        join member m on b.member_id = m.member_id
+        left join comment c on b.board_id = c.board_id
+        where 1=1
+        <if test="keyword != null and keyword != ''">
+            and(
+                m.nickname like concat('%',#{keyword},'%')
+                or b.title like concat('%', #{keyword}, '%')                
+            )
+        </if>
+        <if test="status != null and status != '' ">
+            and status = #{status}
+        </if>
+
+        <choose>
+            <when test="sort == 'oldest'">
+                order by b.created_date asc
+            </when>
+            <when test="sort == 'latest'">
+                order by b.created_date desc
+            </when>
+            <when test="sort == 'view'">
+                order by b.view_count desc
+            </when>
+        </choose>
+        
+        limit #{size} offset #{offset}
+    </select>
+
+    <select id="adminBoardDetail" parameterType="adminboard" resultType="adminboard">
+        
+        select b.*,
+        m.nickname, 
+        (
+            select count(c.comment_id)
+            from comment c 
+            where b.board_id = c.board_id
+        ) as comment_count
+        from board b
+        join member m on b.member_id = m.member_id
+        where board_id = #{board_id}
+        
+    </select>
+
+    <update id="boardStatus" parameterType="adminboard">
+        update board set status = #{status}
+        where board_id = #{board_id}
+    </update>
 
 </mapper>
