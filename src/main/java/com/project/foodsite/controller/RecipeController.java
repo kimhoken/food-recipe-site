@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.project.foodsite.dao.BoardDAO;
-import com.project.foodsite.dao.RecipeCommentDAO;
+import com.project.foodsite.dao.CommonCommentDAO;
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.SearchLogDAO;
 import com.project.foodsite.dto.RecipeDetailDTO;
@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class RecipeController {
     private final HttpSession session;
     private final SearchLogDAO searchLogDAO;
     private final BoardDAO boardDAO;
-    private final RecipeCommentDAO recipeCommentDAO;
+    private final CommonCommentDAO commonCommentDAO;
     private final SearchLog log;
 
     @GetMapping("/recipe_list.do")
@@ -247,9 +248,14 @@ public class RecipeController {
      * @return jsp
      */
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, int recipeId){
-        model.addAttribute("recipeId", recipeId);
-        RecipeDetailDTO dto = recipeDao.getRecipe(recipeId);
+    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id){
+
+        if (recipe_id == null) {
+            return "redirect:/recipe_list.do";
+        }
+
+        model.addAttribute("recipe_id", recipe_id);
+        RecipeDetailDTO dto = recipeDao.getRecipe(recipe_id);
 
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
@@ -257,7 +263,7 @@ public class RecipeController {
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
-        model.addAttribute("commentList", recipeCommentDAO.getList(recipeId));
+        model.addAttribute("commentList", commonCommentDAO.getList(recipe_id));
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);

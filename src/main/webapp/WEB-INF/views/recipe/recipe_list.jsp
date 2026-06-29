@@ -148,7 +148,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:forEach items="${recipeList}" var="recipe">
-                                    <a href="/recipe_detail.do?recipeId=${recipe.recipe_id}">
+                                    <a href="/recipe_detail.do?recipe_id=${recipe.recipe_id}">
                                         <div class="recipe-card">
                                             <!--썸네일 이미지-->
                                             <img src="/upload/recipe/${recipe.thumbnail}"/>
