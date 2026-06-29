@@ -771,3 +771,222 @@ footer {
     transform: translateY(-3px);
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22);
 }
+
+/* ==========================================================================
+   10. 이달의 제철 요리 
+   ========================================================================== */
+
+ /* ===== 제철요리 섹션 ===== */
+.seasonal-header {
+    margin-bottom: 36px;
+}
+
+.seasonal-badge {
+    display: inline-block;
+    background: #e8f5d6;
+    color: #2d6a1e;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+}
+
+.seasonal-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.seasonal-subtitle {
+    font-size: 14px;
+    color: #999;
+    font-weight: 400;
+}
+
+/* ===== 배너 ===== */
+.seasonal-banner {
+    background: linear-gradient(135deg, #f0f9e4 0%, #f8fdf4 60%, #ffffff 100%);
+    border-radius: 20px;
+    padding: 36px 44px;
+    margin-bottom: 36px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.banner-badge {
+    display: inline-block;
+    background: #e8f5d6;
+    color: #2d6a1e;
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.banner-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.banner-desc {
+    font-size: 14px;
+    color: #888;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* ===== 계절 탭 ===== */
+.seasonal-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.season-tab-item {
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: none;
+}
+
+.season-tab-item:hover {
+    border-color: #b5d99c;
+    color: #2d6a1e;
+    background: #f8fdf4;
+}
+
+.season-tab-item.active {
+    background: #2d6a1e;
+    color: #fff;
+    border-color: #2d6a1e;
+    box-shadow: 0 3px 10px rgba(45, 106, 30, 0.25);
+}
+
+/* ===== 음식 카드 그리드 ===== */
+.seasonal-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.seasonal-card {
+    background: #fff;
+    border: none;
+    border-radius: 18px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.seasonal-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.card-badge {
+    display: inline-block;
+    background: #e8f5d6;
+    color: #2d6a1e;
+    padding: 4px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    width: fit-content;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-food-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.card-food-desc {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.card-thumb {
+    width: 80px;
+    height: 80px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-recipe {
+    display: block;
+    text-align: center;
+    background: #e8f5d6;
+    color: #2d6a1e;
+    padding: 12px 0;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+}
+
+.btn-recipe:hover {
+    background: #d4edba;
+    box-shadow: 0 2px 8px rgba(45, 106, 30, 0.12);
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 992px) {
+    .seasonal-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .seasonal-card-grid {
+        grid-template-columns: 1fr;
+    }
+    .seasonal-title {
+        font-size: 22px;
+    }
+    .seasonal-banner {
+        padding: 24px 20px;
+    }
+}

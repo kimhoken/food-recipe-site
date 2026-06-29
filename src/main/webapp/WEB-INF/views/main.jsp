@@ -15,6 +15,9 @@
 
         <script src="/js/chatbot.js"></script>
         <script src="${pageContext.request.contextPath}/js/alarm.js"></script>
+
+
+        
         <script>
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
             // 선택한 카테고리들 열기
@@ -245,6 +248,81 @@
                 .catch(err => console.error('서버 전송 실패:', err));
             }
         /* ============================ 여기까지 알림 관련 함수들 ============================ */
+                document.addEventListener('DOMContentLoaded', function() {
+            
+            changeSeason('봄', document.querySelector('.season-tab-item.active'));
+        });
+
+        function changeSeason(season, el) {
+        
+            document.querySelectorAll('.season-tab-item').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            if (el) {
+                el.classList.add('active');
+            }
+
+            // 배너 정보 변경
+            fetch('/seasons_banner.do?season=' + encodeURIComponent(season))
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data) {
+                        // [수정] 스네이크 케이스와 카멜 케이스 둘 다 안전하게 지원하도록 수정
+                        var bannerTitle = data.banner_title || data.bannerTitle || '';
+                        var bannerDesc = data.banner_desc || data.bannerDesc || '';
+
+                        document.getElementById('seasonalBannerBadge').textContent = season + ' 추천';
+                        document.getElementById('seasonalBannerTitle').textContent = bannerTitle;
+                        document.getElementById('seasonalBannerDesc').textContent = bannerDesc;
+                    }
+                })
+                .catch(function(err) { console.error("배너 데이터를 가져오지 못했습니다:", err); });
+
+            //  음식 카드 목록 변경
+            fetch('/seasons_data.do?season=' + encodeURIComponent(season))
+                .then(function(res) { return res.json(); })
+                .then(function(list) {
+                    var grid = document.getElementById('seasonalCardGrid');
+                    grid.innerHTML = ''; 
+
+                    if (!list || list.length === 0) {
+                        return; 
+                    }
+
+                    list.forEach(function(item) {
+                    
+                        var foodName = item.food_name || item.foodName || '이름 없음';
+                        var subDesc = item.sub_desc || item.subDesc || '';
+                        var foodId = item.food_id || item.foodId || 0;
+                        var customImage = item.custom_image || item.customImage;
+
+                        var imgHtml = '';
+                        if (customImage && customImage !== 'no_image') {
+                            imgHtml = '<img src="' + customImage + '" alt="' + foodName + '">';
+                        }
+
+                        var card = `
+                            <div class="seasonal-card">
+                                <span class="card-badge">${season} 메뉴</span>
+                                <div class="card-content">
+                                    <div class="card-info">
+                                        <h4 class="card-food-name">${foodName}</h4>
+                                        <p class="card-food-desc">${subDesc}</p>
+                                    </div>
+                                    <div class="card-thumb">${imgHtml}</div>
+                                </div>
+                                <a href="/food/detail?foodId=${foodId}" class="btn-recipe">레시피 둘러보기</a>
+                            </div>
+                        `;
+
+                        grid.innerHTML += card;
+                    });
+                })
+                .catch(function(err) { console.error("카드 데이터를 가져오지 못했습니다:", err); });
+        }
+      
+
+            /* ============================ 여기까지 계절별 메뉴 추천 관련 함수들 ============================ */
         </script>
     </head>
     <body>
@@ -353,55 +431,30 @@
         </div>
 
         <div class="container main-page">
-            <div class="seasonal-header">
-                <span class="seasonal-badge">이달의 제철요리</span>
-                <h2 class="seasonal-title">계절의 맛을 담은 이달의 추천 요리</h2>
-                <p class="seasonal-subtitle">계절별로 잘 어울리는 메뉴를 깔끔한 카드 형태로 확인할 수 있습니다.</p>
-            </div>
-
-            <div class="seasonal-banner">
-                <span class="banner-badge" id="seasonalBannerBadge">여름 추천</span>
-                <h3 class="banner-title" id="seasonalBannerTitle">무더위를 이겨내는 여름 제철요리</h3>
-                <p class="banner-desc" id="seasonalBannerDesc">신선한 제철 재료로 만든 시원하고 입맛 돋우는 여름 메뉴를 만나보세요.</p>
-            </div>
-
-            <div class="seasonal-tabs">
-                <button type="button" class="season-tab-item" onclick="changeSeason('spring', this)">봄</button>
-                <button type="button" class="season-tab-item active" onclick="changeSeason('summer', this)">여름</button>
-                <button type="button" class="season-tab-item" onclick="changeSeason('autumn', this)">가을</button>
-                <button type="button" class="season-tab-item" onclick="changeSeason('winter', this)">겨울</button>
-            </div>
-
-            <div class="seasonal-card-grid" id="seasonalCardGrid">
-                <div class="seasonal-card">
-                    <div class="sc-info">
-                        <span class="sc-badge">여름 메뉴</span>
-                        <h4 class="sc-title">오이냉국</h4>
-                        <p class="sc-desc">무더운 날씨에 시원하게 즐기기 좋은 여름철 대표 별미</p>
-                    </div>
-                    <div class="sc-img"></div>
-                    <button type="button" class="secondary">레시피 둘러보기</button>
-                </div>
-                <div class="seasonal-card">
-                    <div class="sc-info">
-                        <span class="sc-badge">여름 메뉴</span>
-                        <h4 class="sc-title">콩국수</h4>
-                        <p class="sc-desc">고소한 콩의 풍미와 시원한 국물이 어우러진 든든한 한 끼</p>
-                    </div>
-                    <div class="sc-img"></div>
-                    <button type="button" class="secondary">레시피 둘러보기</button>
-                </div>
-                <div class="seasonal-card">
-                    <div class="sc-info">
-                        <span class="sc-badge">여름 메뉴</span>
-                        <h4 class="sc-title">민어 매운탕</h4>
-                        <p class="sc-desc">제철 민어의 깊은 맛을 얼큰하게 즐길 수 있는 보양식</p>             
-                    </div>
-                    <div class="sc-img"></div>
-                    <button type="button" class="secondary">레시피 둘러보기</button>
-                </div>
-            </div>
+        <div class="seasonal-header">
+            <span class="seasonal-badge">이달의 제철요리</span>
+            <h2 class="seasonal-title">계절의 맛을 담은 이달의 추천 요리</h2>
+            <p class="seasonal-subtitle">계절별로 잘 어울리는 메뉴를 깔끔한 카드 형태로 확인할 수 있습니다.</p>
         </div>
+
+        <div class="seasonal-banner">
+            <span class="banner-badge" id="seasonalBannerBadge">봄 추천</span>
+            <h3 class="banner-title" id="seasonalBannerTitle">산뜻하게 시작하는 봄 제철요리</h3>
+            <p class="banner-desc" id="seasonalBannerDesc">향긋한 채소와 가벼운 식감이 살아 있는 봄 메뉴를 모았습니다.</p>
+        </div>
+
+        <div class="seasonal-tabs">
+            <button type="button" class="season-tab-item active" onclick="changeSeason('봄', this)">봄</button>
+            <button type="button" class="season-tab-item" onclick="changeSeason('여름', this)">여름</button>
+            <button type="button" class="season-tab-item" onclick="changeSeason('가을', this)">가을</button>
+            <button type="button" class="season-tab-item" onclick="changeSeason('겨울', this)">겨울</button>
+        </div>
+
+        <div class="seasonal-card-grid" id="seasonalCardGrid"></div>
+    </div>
+
+        
+
 
         <%-- <div class="info-bar">
             <div class="info-item">🍳 <span>쉽고 간단한 레시피<br><small>누구나 따라할 수 있어요</small></span></div>
