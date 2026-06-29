@@ -146,8 +146,7 @@
             <jsp:param name="currentMenu" value="community" />
         </jsp:include>
 
-        <!-- 8. 승연추가-->
-        <!-- 커뮤니티 헤더 -->
+    <!-- 커뮤니티 헤더 -->
         <div class="community-header-frame">
             <div class="community-title-box">
                 <h1>커뮤니티</h1>

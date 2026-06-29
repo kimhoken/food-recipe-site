@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.foodsite.dao.ReviewDAO">
 
-    <!-- 리뷰 최신순,인기순,평점순 -->
+<!-- ========== 리뷰 최신순,인기순,평점순 ========== -->
+   
     <select id="reviewLatest" resultType="review">
         SELECT r.*, m.nickname
         FROM review r

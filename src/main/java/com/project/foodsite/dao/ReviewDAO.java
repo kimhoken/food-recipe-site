@@ -19,5 +19,8 @@ public interface ReviewDAO {
 
     AdminReviewDTO adminReviewDetail(int review_id);
 
+    // 별점순(평점순)
+    List<ReviewVO> reviewRating();
+
     int reviewStatus(AdminReviewDTO Review);
 }
