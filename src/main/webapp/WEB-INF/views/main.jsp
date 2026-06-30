@@ -39,6 +39,47 @@
 
 
         /* ============================ 여기부터 카테고리 모달창 관련 함수들 ============================ */
+        /* ============================  카테고리 키워드 클릭 시 기존 검색 기능처럼 검색되게 하는 함수 ============================ */
+            function escapeHtml(value) {
+                return String(value)
+                    .replaceAll("&", "&amp;")
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll('"', "&quot;")
+                    .replaceAll("'", "&#039;");
+            }
+
+            function goRecipeSearch(keyword) {
+                //  모달에서 누른 음식명을 검색창 검색어처럼 사용
+                const searchKeyword = keyword ? keyword.trim() : "";
+
+                if (searchKeyword === "") {
+                    return;
+                }
+
+                //  navibar.jsp 안에 있는 검색 input을 찾아서 기존 검색 form을 그대로 submit
+                // input name이 search_text / keyword / search 중 하나여도 동작하게 처리
+                const searchInput =
+                    document.querySelector("input[name='search_text']") ||
+                    document.querySelector("input[name='keyword']") ||
+                    document.querySelector("input[name='search']");
+
+                if (searchInput) {
+                    const searchForm = searchInput.closest("form");
+
+                    searchInput.value = searchKeyword;
+
+                    if (searchForm) {
+                        searchForm.submit();
+                        return;
+                    }
+                }
+
+                //  혹시 검색 form을 못 찾았을 때만 사용하는 예비 이동 코드
+                // 검색창 form이 정상적으로 있으면 위에서 submit되므로 이 부분은 거의 실행되지 않음
+                location.href = "${pageContext.request.contextPath}/recipe_list.do?search_text=" + encodeURIComponent(searchKeyword);
+            }
+
             // 선택한 카테고리들 열기
             function selectCategory(category){
                 document.getElementById("categoryModal").style.display = 'flex';
@@ -114,7 +155,12 @@
                         let limit = Math.min(foodList.length, 4);
                         
                         for(let i=0 ; i<limit ; i++){
-                            html += "<li><a href='/recipe_list.do?category=" + category + "&sort=latest'>" + foodList[i] + "</a></li>"
+                            // 기존처럼 URL을 직접 박는 방식이 아니라, 검색창 검색 기능을 재사용하도록 변경
+                            html += "<li><button type='button' class='category-search-btn' data-keyword='" 
+                                 + escapeHtml(foodList[i]) 
+                                 + "' onclick='goRecipeSearch(this.dataset.keyword)'>" 
+                                 + escapeHtml(foodList[i]) 
+                                 + "</button></li>";
                         }
                         html += "<li><input type='button' value='더보기 -&gt' onClick='openDetailCategory( \"" + subCategoryName + "\")'></li>";
                         
@@ -173,7 +219,12 @@
                         
                         for(let i=0 ; i<foodList.length ; i++){
                             if(subName == subCategoryName){
-                                mainHtml += "<li><a href='#'>" + foodList[i] + "</a></li>"
+                                // 상세보기 모달의 음식명도 클릭하면 검색 기능처럼 동작하도록 변경
+                                mainHtml += "<li><button type='button' class='category-search-btn' data-keyword='" 
+                                         + escapeHtml(foodList[i]) 
+                                         + "' onclick='goRecipeSearch(this.dataset.keyword)'>" 
+                                         + escapeHtml(foodList[i]) 
+                                         + "</button></li>";
                             }
                         }
                         
@@ -395,7 +446,7 @@
         <div class="container main-page">
             <div class="section-title">
                 <h3>조회수 TOP 5 레시피</h3>
-        <!--       <h2>조회수로 검증된 베스트 레시피를 확인해보세요</h2>    --> 
+        <!--    <h2>조회수로 검증된 베스트 레시피를 확인해보세요</h2>    --> 
             </div>
                 <div class="recipe-grid">
                     <c:forEach var="recipe" items="${view_recipes}" varStatus="status">
@@ -478,16 +529,15 @@
 
         <div class="seasonal-card-grid" id="seasonalCardGrid"></div>
     </div>
-
         
 
 
-        <%-- <div class="info-bar">
+        <div class="info-bar">
             <div class="info-item">🍳 <span>쉽고 간단한 레시피<br><small>누구나 따라할 수 있어요</small></span></div>
             <div class="info-item">🍱 <span>다양한 카테고리<br><small>원하는 메뉴를 쉽게 찾아보세요</small></span></div>
             <div class="info-item">🥕 <span>냉장고 재료 활용<br><small>남은 재료로 알뜰하게 요리해요</small></span></div>
             <div class="info-item">💬 <span>요리로 소통해요<br><small>후기와 팁을 공유해보세요</small></span></div>
-        </div> --%>
+        </div>
 
         <!-- footer 회사 정보 jsp 파일 include -->
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

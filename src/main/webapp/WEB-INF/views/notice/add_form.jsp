@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="/css/notice_add.css">
 
         <script>
-            let files = [];
+            let selectedFiles = []; 
 
             function noticeSend(f) {
                 if (f.title.value.trim() === "") {
@@ -25,12 +25,19 @@
                 return true;
             }
 
+            //  이미지 선택 시 파일 목록 저장
+            function changeImages(input) {
+                selectedFiles = Array.from(input.files);
+                renderPreview();
+                updateFileInput();
+            }
+
+            //  선택한 이미지 미리보기 출력
             function renderPreview() {
                 const previewList = document.getElementById("preview-list");
                 previewList.innerHTML = "";
 
-                files.forEach(function(fileInfo, index) {
-                    const file = fileInfo.file;
+                selectedFiles.forEach(function(file, index) {
                     const item = document.createElement("div");
                     item.className = "preview-item";
 
@@ -51,52 +58,24 @@
                 });
             }
 
+            //  X 버튼 클릭 시 선택 파일 제거
             function removeFile(index) {
-                const input = files[index].input;
-                files = files.filter(function(fileInfo) {
-                    return fileInfo.input !== input;
-                });
-                input.remove();
+                selectedFiles.splice(index, 1);
                 renderPreview();
+                updateFileInput();
             }
 
-            function attachImageInput(imageInput) {
-                imageInput.addEventListener("change", function () {
-                    const selectedFiles = Array.from(this.files);
+            //  실제 input 파일 목록 갱신
+            function updateFileInput() {
+                const input = document.getElementById("images");
+                const dataTransfer = new DataTransfer();
 
-                    if (selectedFiles.length === 0) {
-                        return;
-                    }
-
-                    const selectedInput = this;
-
-                    selectedFiles.forEach(function(file) {
-                        files.push({
-                            file: file,
-                            input: selectedInput
-                        });
-                    });
-
-                    selectedInput.removeAttribute("id");
-                    selectedInput.style.display = "none";
-
-                    const nextInput = document.createElement("input");
-                    nextInput.type = "file";
-                    nextInput.name = "images";
-                    nextInput.id = "images";
-                    nextInput.multiple = true;
-
-                    selectedInput.parentNode.insertBefore(nextInput, selectedInput.nextSibling);
-                    attachImageInput(nextInput);
-
-                    renderPreview();
+                selectedFiles.forEach(function(file) {
+                    dataTransfer.items.add(file);
                 });
-            }
 
-            window.onload = function () {
-                const imageInput = document.getElementById("images");
-                attachImageInput(imageInput);
-            };
+                input.files = dataTransfer.files;
+            }
         </script>
     </head>
 
@@ -126,7 +105,7 @@
 
                         <div id="preview-list"></div>
 
-                        <input type="file" name="images" id="images" multiple>
+                        <input type="file" name="images" id="images" multiple accept="image/*" onchange="changeImages(this)"> 
 
                         <div class="btn-area">
                             <button type="submit">등록하기</button>
