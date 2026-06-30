@@ -22,7 +22,7 @@
                 </div>
                 <div class="summary-card blue">
                     <p>문의대기</p>
-                    <strong>12</strong>
+                    <strong>${inquiryTotal}</strong>
                     <span> 건수</span>
                 </div>
                 <div class="summary-card red">

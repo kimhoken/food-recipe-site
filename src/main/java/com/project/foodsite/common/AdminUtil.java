@@ -105,8 +105,11 @@ public class AdminUtil {
 
         int recipeTotal = recipeDAO.RecipeCount(null);
 
+        int inquiryTotal = inquiryDAO.inquiryCount();
+
         model.addAttribute("userTotal",userTotal);
         model.addAttribute("recipeTotal",recipeTotal);
+        model.addAttribute("inquiryTotal", inquiryTotal);
         
     }
 

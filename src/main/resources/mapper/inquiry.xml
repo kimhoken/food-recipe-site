@@ -86,4 +86,10 @@
         order by inquiry_id desc
     </select>
     
+    <select id="inquiryCount" >
+        select count(*)
+        from inquiry
+        where status = 'n'
+    </select>
+
 </mapper>
