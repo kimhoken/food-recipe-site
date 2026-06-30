@@ -13,12 +13,6 @@ public interface NoticeDAO {
 
     NoticeVO noticeView(int notice_id);
 
-    int viewHistory(int notice_id, int member_id);
-
-    int viewInsert(int notice_id, int member_id);
-
-    int userViewCount(int notice_id);
-
     int notice_insert(NoticeVO vo);
 
     int notice_img_insert(ImgVO img);

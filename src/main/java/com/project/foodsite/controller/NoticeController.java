@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.foodsite.common.ViewCount; 
 import com.project.foodsite.dao.NoticeDAO;
 import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.MemberVO;
@@ -29,6 +30,7 @@ public class NoticeController {
     
     private final NoticeDAO noticeDao;
     private final HttpSession session;
+    private final ViewCount viewCount; 
 
 
     @GetMapping("/notice.do")
@@ -85,31 +87,7 @@ public class NoticeController {
     @GetMapping("/notice_detail.do")
     public String viewNotice(Model model, int notice_id) {
 
-        MemberVO user = (MemberVO) session.getAttribute("user");
-
-        if (user != null) {
-            int result = noticeDao.viewHistory(notice_id, user.getMember_id());
-
-            if (result == 0) {
-                noticeDao.userViewCount(notice_id);
-                noticeDao.viewInsert(notice_id, user.getMember_id());
-            }
-
-        } else {
-            String viewedNotice = (String) session.getAttribute("viewedNotice");
-
-            if (viewedNotice == null) {
-                viewedNotice = "";
-            }
-
-            String currentNotice = "[" + notice_id + "]";
-
-            if (!viewedNotice.contains(currentNotice)) {
-                noticeDao.userViewCount(notice_id);
-                viewedNotice += currentNotice;
-                session.setAttribute("viewedNotice", viewedNotice);
-            }
-        }
+        viewCount.increaseNotice(notice_id); // 수정
 
         NoticeVO vo = noticeDao.noticeView(notice_id);
 
