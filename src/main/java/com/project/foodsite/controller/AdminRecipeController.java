@@ -146,10 +146,10 @@ public class AdminRecipeController {
     public Map<String, Object> recipestatus(int recipe_id) {
 
         RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
-        if (recipe.getStatus().equals("public")) {
-            recipe.setStatus("private");
-        } else if (recipe.getStatus().equals("private")) {
-            recipe.setStatus("public");
+        if (recipe.getStatus().equals("ACTIVE")) {
+            recipe.setStatus("HIDDEN");
+        } else if (recipe.getStatus().equals("HIDDEN")) {
+            recipe.setStatus("ACTIVE");
         }
 
         int res = recipeDAO.updateStatus(recipe);
@@ -168,10 +168,10 @@ public class AdminRecipeController {
     public Map<String, Object> recipe_delete(int recipe_id) {
 
         RecipeVO recipe = recipeDAO.selectrecipe(recipe_id);
-        if (!recipe.getStatus().equals("delete")) {
-            recipe.setStatus("delete");
+        if (!recipe.getStatus().equals("DELETE")) {
+            recipe.setStatus("DELETE");
         } else {
-            recipe.setStatus("public");
+            recipe.setStatus("ACTIVE");
         }
 
         int res = recipeDAO.updateStatus(recipe);

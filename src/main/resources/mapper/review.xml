@@ -8,7 +8,7 @@
         SELECT r.*, m.nickname
         FROM review r
         JOIN member m ON r.member_id = m.member_id
-        WHERE r.status = 'N'
+        WHERE r.status = 'ACTIVE'
         ORDER BY r.review_id ASC
     </select>
 
@@ -16,7 +16,7 @@
         SELECT r.*, m.nickname
         FROM review r
         JOIN member m ON r.member_id = m.member_id
-        WHERE r.status = 'N'
+        WHERE r.status = 'ACTIVE'
         <choose>
             <when test="_parameter == 'weekly'">
                 AND r.created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
@@ -32,7 +32,7 @@
         SELECT r.*, m.nickname
         FROM review r
         JOIN member m ON r.member_id = m.member_id
-        WHERE r.status = 'N'
+        WHERE r.status = 'ACTIVE'
         ORDER BY r.rating DESC, r.title ASC
     </select>
 
@@ -54,6 +54,7 @@
 
     </select>
 
+    <!-- 관리자 페이지 레시피 후기 조회 (검색 및 카테고리) -->
     <select id="ReviewSearch" parameterType="adminreview" resultType="adminreview">
         select r.*, m.nickname, re.title AS main_title
         from review r
@@ -86,6 +87,7 @@
 
     </select>
 
+    <!-- 관리자 페이지 레시피 후기 상세정보 조회 -->
     <select id="adminReviewDetail" parameterType="adminreview" resultType="adminreview">
 
         select re.*, m.nickname
@@ -97,6 +99,7 @@
 
     </select>
 
+    <!-- 레시피 후기 공개 전환 / 삭제 변환 -->
     <update id="reviewStatus" parameterType="adminreview">
         update review set status = #{status}
         where review_id = #{review_id}

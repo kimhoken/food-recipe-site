@@ -74,8 +74,11 @@ body{
     line-height:1.8;
 }
 
-.content-box{
+.inquiry-table td.content-box{
     white-space:pre-wrap;
+    text-align:left;
+    vertical-align:top;
+    padding-top:16px;
 }
 
 .image-list{
@@ -122,4 +125,29 @@ body{
     color:#6b665a;
     font-weight:700;
     cursor:pointer;
+}
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    justify-content: center;
+    align-items: center;
+}
+
+.image-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: 24px;
+    right: 34px;
+    color: white;
+    font-size: 38px;
+    font-weight: bold;
+    cursor: pointer;
 }

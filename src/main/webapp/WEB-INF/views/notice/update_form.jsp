@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/notice_update.css">
 
     <script>
-        let files = [];
+        let selectedFiles = []; 
 
         function updateSend(f) {
             let title = f.title.value.trim();
@@ -28,15 +28,7 @@
                 return;
             }
 
-            const imageInput = document.getElementById("images");
-            const dataTransfer = new DataTransfer();
-
-            files.forEach(function(file) {
-                dataTransfer.items.add(file);
-            });
-
-            imageInput.files = dataTransfer.files;
-
+            updateFileInput(); 
             f.submit();
         }
 
@@ -53,17 +45,20 @@
             btn.closest(".img-item").remove();
         }
 
+        // 새 이미지 선택 시 기존 선택 목록에 추가
+        function changeImages(input) {
+            selectedFiles = selectedFiles.concat(Array.from(input.files));
+            input.value = "";
+            renderPreview();
+            updateFileInput();
+        }
+
+        // 새 이미지 미리보기 출력
         function renderPreview() {
             const previewList = document.getElementById("preview-list");
-            const imageInput = document.getElementById("images");
-
             previewList.innerHTML = "";
 
-            const dataTransfer = new DataTransfer();
-
-            files.forEach(function(file, index) {
-                dataTransfer.items.add(file);
-
+            selectedFiles.forEach(function(file, index) {
                 const item = document.createElement("div");
                 item.className = "img-item";
 
@@ -83,27 +78,26 @@
                 item.appendChild(img);
                 previewList.appendChild(item);
             });
+        }
+
+        // 새로 선택한 이미지 X 삭제
+        function removeNewFile(index) {
+            selectedFiles.splice(index, 1);
+            renderPreview();
+            updateFileInput();
+        }
+
+        // 실제 input 파일 목록 갱신
+        function updateFileInput() {
+            const imageInput = document.getElementById("images");
+            const dataTransfer = new DataTransfer();
+
+            selectedFiles.forEach(function(file) {
+                dataTransfer.items.add(file);
+            });
 
             imageInput.files = dataTransfer.files;
         }
-
-        function removeNewFile(index) {
-            files.splice(index, 1);
-            renderPreview();
-        }
-
-        window.onload = function () {
-            const imageInput = document.getElementById("images");
-
-            imageInput.addEventListener("change", function () {
-            
-                files = files.concat(Array.from(this.files));
-
-                this.value = "";
-
-                renderPreview();
-            });
-        };
     </script>
 </head>
 
@@ -150,12 +144,10 @@
                         </div>
                     </c:if>
 
-                    
                     <div id="preview-list"></div>
 
                     <div class="file-box">
-                        
-                        <input type="file" name="images" id="images" multiple>
+                        <input type="file" name="images"  id="images"  multiple accept="image/*" onchange="changeImages(this)"> 
                     </div>
                 </div>
 
