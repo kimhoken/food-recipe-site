@@ -24,9 +24,6 @@ public class RecipeVO {
     private String created_date; //작성일
     private String updated_date;  //수정일
     private int member_id;
-    private int bookmark_id;
-    private int nutrition_id;
-    private int category_id; 
     private int food_id; //음식번호
     private boolean recommend; //추천 레시피 유무
     

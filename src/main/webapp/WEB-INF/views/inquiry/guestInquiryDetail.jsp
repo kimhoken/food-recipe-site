@@ -41,9 +41,7 @@
 
             <tr>
                 <th>문의내용</th>
-                <td class="content-box">
-                    ${vo.content}
-                </td>
+                <td class="content-box">${vo.content}</td>
             </tr>
 
             <c:if test="${not empty imgList}">
@@ -52,7 +50,10 @@
                     <td>
                         <div class="image-list">
                             <c:forEach var="img" items="${imgList}">
-                                <img src="/upload/${img.image_list}" alt="첨부이미지">
+                                <img src="/upload/${img.image_list}"
+                                     alt="첨부이미지"
+                                     onclick="openImageModal(this.src)"
+                                     style="cursor:pointer;">
                             </c:forEach>
 
                         </div>
@@ -143,4 +144,19 @@
 </div>
 
 </body>
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="image-modal-close">&times;</span>
+    <img id="modalImage" class="image-modal-content">
+</div>
+
+<script>
+    function openImageModal(src) {
+        document.getElementById("imageModal").style.display = "flex";
+        document.getElementById("modalImage").src = src;
+    }
+
+    function closeImageModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+</script>
 </html>

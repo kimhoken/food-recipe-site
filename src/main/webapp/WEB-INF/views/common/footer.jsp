@@ -30,8 +30,8 @@
                 <!-- 상단 링크 바 (내부 링크 수정 없음) -->
                 <div class="footer-nav-bar">
                     <div class="nav-links">
-                        <a href="#"><strong>이용약관</strong></a>
-                        <a href="#"><strong>개인정보처리방침</strong></a>
+                        <a href="/terms.do"><strong>이용약관</strong></a>
+                        <a href="/privacy.do"><strong>개인정보처리방침</strong></a>
                         <a href="/notice.do">공지사항</a>
                         <a href="#">자주묻는질문</a>
                     </div>

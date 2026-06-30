@@ -972,3 +972,10 @@ footer {
 }
 
 
+
+.recommend-slide {
+    display: none;
+}
+.recommend-slide.active{
+    display: block;
+}

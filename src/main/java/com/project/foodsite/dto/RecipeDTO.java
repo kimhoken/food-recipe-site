@@ -38,7 +38,6 @@ public class RecipeDTO {
     private Long memberId;
 
     private Integer foodId;
-    private Integer categoryId;
 
     // 레시피 저장
     private Long recipeId;

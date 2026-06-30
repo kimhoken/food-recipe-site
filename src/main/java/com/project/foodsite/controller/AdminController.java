@@ -29,6 +29,8 @@ public class AdminController {
 
         List<RecipeVO> recentlyRecipe = recipeDAO.recentlyrecipe();
 
+        adminUtil.getTotalCount(model);
+
         model.addAttribute("profileuser", user);
         model.addAttribute("list",recentlyRecipe);
         model.addAttribute("contentPage", "/WEB-INF/views/member/admin/admin_home.jsp");
