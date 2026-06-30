@@ -12,13 +12,14 @@ import lombok.NoArgsConstructor;
 @Alias("seasons")
 public class SeasonsVO {
 
-    private int seasonId;
-    private String seasonName;  //봄,여름,가을,겨울
-    private String bannerTitle; //배너 메인 타이틀
-    private String bannerDesc; //배너 서브 설명
-    private long foodId; //음식ID
-    private String subDesc; //음식 한 줄 설명
-    private String customImage; //이미지
+    private int season_id;
+    private String season_name;      // 봄, 여름, 가을, 겨울
+    private String banner_title;     // 배너 메인 타이틀
+    private String banner_desc;      // 배너 서브 설명
+    private long food_id;            // 음식 ID (food 테이블 참조)
+    private String sub_desc;         // 음식 한 줄 설명
+    private String custom_image;     // 이미지
 
-    private String foodName; //food 테이블 음식명 
+    private String food_name;        // food 테이블에서 JOIN
+
 }
