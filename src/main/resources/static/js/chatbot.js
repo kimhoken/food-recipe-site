@@ -54,7 +54,7 @@ function resetChatbot() {
 
     chatBody.innerHTML = `
         <div class="bot-row">
-            <img src="/image/bot.png" class="bot-icon">
+            <img src="/images/bot.png" class="bot-icon">
             <div class="bot-msg">
                 안녕하세요! 무엇을 도와드릴까요?
             </div>

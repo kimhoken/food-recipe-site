@@ -15,7 +15,7 @@
         <div class="chatbot-wrap" id="chatbotWrap">
 
             <div class="chat-header">
-                <img src="/image/bot.png" class="bot-icon">
+                <img src="/images/bot.png" class="bot-icon">
                 <span>도우미봇</span>
                 <button type="button" class="chat-close-btn" onclick="closeChatbot()">x</button>
             </div>
@@ -23,7 +23,7 @@
             <div class="chat-body" id="chatBody">
 
                 <div class="bot-row">
-                    <img src="/image/bot.png" class="bot-icon">
+                    <img src="/images/bot.png" class="bot-icon">
                     <div class="bot-msg">
                         안녕하세요! 무엇을 도와드릴까요?
                     </div>

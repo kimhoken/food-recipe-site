@@ -77,9 +77,8 @@
             }
 
             const modi = (commentId) => {
-                let btn = document.getElementById('send_btn' + commentId);
                 let content = document.getElementById('modi_content' + commentId);
-                btn.type="button";
+
                 content.readOnly=false;
                 content.style="border:1px solid #333;";
                 content.focus();
@@ -181,6 +180,7 @@
                 </table>
             </div>
         </div>
+
         <div class="recipe-report-wrapx">
             <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipeId}"
             class="recipe-report-btn">
@@ -194,12 +194,12 @@
             <div class="read-comment-div">
                 <c:forEach var="vo" items="${commentList}">
                     <%-- 관리자 페이지에서 #comment-댓글번호로 이동 가능하게 id 추가 --%>
-                    <table id="comment-${vo.commentId}">
+                    <table id="comment-${vo.comment_id}">
                         <tr>
                             <td>${vo.nickname}</td>
 
                             <td>
-                                <textarea class="comment-content" id="modi_content${vo.commentId}" readonly>${vo.content}</textarea>
+                                <textarea class="comment-content" id="modi_content${vo.comment_id}" readonly>${vo.content}</textarea>
 
                                 <c:set var="rates" value="${vo.rating * 20}%"/>
                                 <div class="rate">
@@ -209,21 +209,22 @@
 
                             <td>
                                 <%-- 작성자만 수정 가능 --%>
-                                <c:if test="${vo.memberId eq sessionScope.user.member_id}">
-                                    <input type="button" value="수정" onclick="modi('${vo.commentId}')">
+                                <c:if test="${vo.member_id eq sessionScope.user.member_id}">
+                                    <input type="button" value="수정" onclick="modi('${vo.comment_id}')">
+                                    <input type="button" value="수정완료" onclick="modiFin('${vo.comment_id}')">
                                 </c:if>
 
                                 <%-- 작성자 또는 관리자 삭제 가능 --%>
-                                <c:if test="${vo.memberId eq sessionScope.user.member_id || sessionScope.user.role eq 'ADMIN'}">
-                                    <input type="button" value="삭제" onclick="del('${vo.commentId}')">
+                                <c:if test="${vo.member_id eq sessionScope.user.member_id || sessionScope.user.role eq 'ADMIN'}">
+                                    <input type="button" value="삭제" onclick="del('${vo.comment_id}')">
                                 </c:if>
 
-                                
-                                <div style="position:relative; display:inline-block;">
-                                    <button type="button" onclick="toggleCommentMenu('${vo.commentId}')">⋮</button>
-                                    <div id="commentMenu${vo.commentId}"
+                                <div class="comment-menu-wrap" style="position:relative; display:inline-block;">
+                                    <button type="button" onclick="toggleCommentMenu('${vo.comment_id}')">⋮</button>
+                                    <div id="commentMenu${vo.comment_id}"
+                                           class="comment-dropdown"
                                            style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
-                                        <a href="/report/form.do?target_type=레시피 후기&recipe_id=${recipeId}&comment_id=${vo.commentId}">
+                                        <a href="/report/form.do?target_type=레시피 후기&recipe_id=${param.recipeId}&comment_id=${vo.comment_id}">
                                             신고
                                         </a>
                                     </div>

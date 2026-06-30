@@ -387,4 +387,14 @@ public class MypageController {
             return "no";
         }        
     }
+    @GetMapping("/terms.do")
+    public String terms() {
+        return "etc/terms";
+    }
+
+    @GetMapping("/privacy.do")
+    public String privacy() {
+        return "etc/privacy";
+    }
+
 }
