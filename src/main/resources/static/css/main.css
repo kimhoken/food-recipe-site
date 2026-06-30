@@ -27,8 +27,8 @@ a {
 
 .container {
     max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
+    margin: 100px;
+    padding: 10px 20px;
 }
 
 .section-title {
@@ -580,7 +580,7 @@ header {
 }
 
 /* ==========================================================================
-   8. 푸터 스타일 
+   8. 푸터 스타일 (2단 좌우 정렬 수정본)
    ========================================================================== */
 footer {
     width: 100%;
@@ -592,17 +592,20 @@ footer {
     margin-top: 40px;
 }
 
+/* 1. 전체를 감싸는 바깥 상자: 좌우로 넓게 배치 */
 .footer-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: space-between; /* 왼쪽(고객센터)과 오른쪽(회사정보)을 양 끝으로 분리 */
+    align-items: flex-start;        /* 상단 기준 정렬 */
+    gap: 40px;
 }
 
-.footer-top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 40px 0 30px 0;
+/* 2. 왼쪽: 고객센터 영역 */
+.cs-section {
+    flex-shrink: 0; /* 좌측 영역이 찌그러지지 않도록 고정 */
 }
 
 .cs-section h3 {
@@ -648,40 +651,30 @@ footer {
     margin-bottom: 2px;
 }
 
-.sns-icons {
+/* 3. 오른쪽: 약관 링크 + 회사 정보를 묶어주는 세로 상자 */
+.footer-right-block {
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    gap: 30px; /* 링크들과 회사 정보 사이의 세로 여백 */
+    align-items: flex-start; /* 2번 이미지처럼 우측 블록 내용들을 왼쪽 정렬 */
+    flex-grow: 1;
+    max-width: 900px; /* 너무 퍼지지 않게 적절히 조절 */
+    align-items: flex-end;
 }
 
-.sns-icon {
-    width: 32px;
-    height: 32px;
-    background-color: #475569;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-/* --- 중단 회색 바 --- */
+/* 4. 우측 상단: 이용약관 등 메뉴 링크 바 */
 .footer-nav-bar {
     width: 100%;
-    background-color: white;
-    padding: 12px 0;
-    border-top: 1px none #e2e8f0;
-    border-bottom: 1px none #e2e8f0;
 }
 
-/* 중단 링크 태그들에 마우스 호버 시 하단 밑줄 */
 .nav-links {
     display: flex;
     gap: 20px;
     align-items: center;
     color: #475569;
     font-size: 13px;
+    font-weight: bold; /* 2번 이미지에서 글자가 좀 더 진해 보여서 추가 */
+    justify-content: flex-end;
 }
 
 .nav-links a {
@@ -694,17 +687,10 @@ footer {
     text-decoration: underline;
 }
 
-.partner-mail {
-    margin-left: auto;
-    color: #333;
-}
-
-/* --- 하단 회사정보 영역 --- */
-.footer-bottom-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 35px 0 40px 0;
+/* 5. 우측 하단: 회사 정보 */
+.company-info {
+    width: 100%;
+    text-align: right;
 }
 
 .company-info h4 {
@@ -722,11 +708,13 @@ footer {
 
 .company-info p span {
     margin-right: 15px;
+    display: inline-block; /* 여백이 잘 먹도록 설정 */
 }
 
 .copyright {
     font-size: 11px;
     color: #94a3b8;
+    margin-top: 10px;
 }
 
 /* ==========================================================================
