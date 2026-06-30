@@ -55,4 +55,8 @@ public interface RecipeDAO {
     List<Map<String,Object>> selectAllFood();
 
     List<RecipeVO> selectRecommedList();
+
+    // 레시피 삭제
+    int deleteRecipe(int recipeId);
+
 } 
