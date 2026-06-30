@@ -26,8 +26,9 @@ public interface BoardDAO {
 
     int insertBoard(BoardVO vo); // 커뮤니티 글쓰기
 
-    int insertIngredient(IngredientVO vo); //재료추가 
-    int insertCookOrder(CookOrderVO vo); //조리과정 추가
+    int insertIngredient(IngredientVO vo); // 재료추가
+
+    int insertCookOrder(CookOrderVO vo); // 조리과정 추가
 
     int boardCount(AdminBoardDTO Board); // 관리자 페이지 게시글 갯수 조회 (페이징)
 

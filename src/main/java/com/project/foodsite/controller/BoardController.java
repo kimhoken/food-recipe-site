@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
@@ -36,27 +37,27 @@ public class BoardController {
 
     // board list 조회
     @GetMapping("/list.do")
-    public String boardList(Model model, String sort, String period, String btn) {        
+    public String boardList(Model model, String sort, String period, String btn) {
 
         // 레시피 후기 탭의 조회
         List<ReviewVO> reviewList = reviewDao.reviewLatest();
         model.addAttribute("reviewList", reviewList);
-        //정렬조건이 없을경우
-        if(sort == null || sort.isEmpty()){
+        // 정렬조건이 없을경우
+        if (sort == null || sort.isEmpty()) {
             sort = "all";
         }
 
-        if(sort.equals("rating")){
+        if (sort.equals("rating")) {
             reviewList = reviewDao.reviewRating();
-        }else if(sort.equals("popular")){
+        } else if (sort.equals("popular")) {
             reviewList = reviewDao.reviewPopular(period);
-        }else{
+        } else {
             reviewList = reviewDao.reviewLatest();
         }
-        
+
         model.addAttribute("list", boardDao.selectAll());
         model.addAttribute("reviewList", reviewList);
-        
+
         model.addAttribute("sort", sort);
         model.addAttribute("period", period);
         model.addAttribute("btn", btn);
@@ -91,8 +92,8 @@ public class BoardController {
 
     // 내 레시피 등록하기
     @PostMapping("/myrecipe.do")
-    public String registerRecipe(RecipeDTO dto) throws Exception{
-        
+    public String registerRecipe(RecipeDTO dto) throws Exception {
+
         String filename = fileupload.saveFile(dto.getMainImg(), "recipe");
 
         System.out.println("저장된 파일명 = " + filename);
@@ -150,6 +151,15 @@ public class BoardController {
             order.setOrder(i + 1);
             order.setDescription(dto.getStep().get(i));
             order.setRecipe_id(dto.getRecipeId().intValue());
+
+            //파일 저장
+            MultipartFile img = dto.getStepImg().get(i);
+
+            if (img != null && !img.isEmpty()) {
+                String cookOderImg = fileupload.saveFile(img, "recipe");
+
+                order.setCook_image(cookOderImg);
+            }
 
             boardDao.insertCookOrder(order);
         }

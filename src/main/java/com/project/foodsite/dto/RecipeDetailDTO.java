@@ -34,4 +34,7 @@ public class RecipeDetailDTO {
 
     //멤버테이블의 닉네임
     private String nickName;
+
+    //작성자의 memberId
+    private Long memberId;
 }

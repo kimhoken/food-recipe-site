@@ -15,6 +15,7 @@ import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.util.SearchLog;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
+import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,12 +64,12 @@ public class RecipeController {
         int totalCount = recipeDao.selectRecipeCount(searchDTO);
         model.addAttribute("totalPage", (totalCount + 8) / 9);
 
-        //레시피 전체를 불러와서 여기서 가공 후 프런트로 전송
+        // 레시피 전체를 불러와서 여기서 가공 후 프런트로 전송
         List<RecipeVO> recipeList = recipeDao.selectRecipeList(searchDTO);
 
         String sort = searchDTO.getSort();
-        //카테고리 미선택시 최신순으로 정렬됨
-        if(sort.equals("name")){
+        // 카테고리 미선택시 최신순으로 정렬됨
+        if (sort.equals("name")) {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e1.getTitle().compareTo(e2.getTitle());
             });
@@ -80,10 +81,10 @@ public class RecipeController {
             Collections.sort(recipeList, (e1, e2) -> {
                 return e2.getLike_count() - e1.getLike_count();
             });
-        }else{
-            //등록일자가 같을 경우 이름순으로 정렬
+        } else {
+            // 등록일자가 같을 경우 이름순으로 정렬
             Collections.sort(recipeList, (e1, e2) -> {
-                if(e1.getCreated_date().compareTo(e2.getCreated_date()) == 0){
+                if (e1.getCreated_date().compareTo(e2.getCreated_date()) == 0) {
                     return e2.getTitle().compareTo(e1.getTitle());
                 }
                 return e2.getCreated_date().compareTo(e1.getCreated_date());
@@ -94,16 +95,16 @@ public class RecipeController {
         int start = 1;
         List<RecipeVO> resultList = new LinkedList<>();
 
-        if(offSet != 9){
+        if (offSet != 9) {
             start = offSet - 8;
         }
         /*
-        * page == 1 -> offSet = 9
-        * page == 2 -> offSet = 18(10 ~ 18)
-        * page == 3 -> offSet = 27(19 ~ 27)
-        */
-        for(int i = start ; i <= offSet ; i++){
-            if(recipeList.size() <= i){
+         * page == 1 -> offSet = 9
+         * page == 2 -> offSet = 18(10 ~ 18)
+         * page == 3 -> offSet = 27(19 ~ 27)
+         */
+        for (int i = start; i <= offSet; i++) {
+            if (recipeList.size() <= i) {
                 break;
             }
             resultList.add(recipeList.get(i));
@@ -153,7 +154,7 @@ public class RecipeController {
             }
         }
 
-        //데이터가 꽤 많아지면 용량을 많이 차지하므로 해제해 용량 확보
+        // 데이터가 꽤 많아지면 용량을 많이 차지하므로 해제해 용량 확보
         recipeList = null;
         return "recipe/recipe_list";
     }
@@ -243,12 +244,13 @@ public class RecipeController {
 
     /**
      * 레시피 상세정보 조회
-     * @param model binding을 위한 파라미터
-     * @param recipeId 레시피조회를 위한  ID
+     * 
+     * @param model    binding을 위한 파라미터
+     * @param recipeId 레시피조회를 위한 ID
      * @return jsp
      */
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id){
+    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id) {
 
         if (recipe_id == null) {
             return "redirect:/recipe_list.do";
@@ -259,7 +261,7 @@ public class RecipeController {
 
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
-        
+
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
@@ -271,6 +273,11 @@ public class RecipeController {
         return "recipe/recipe_detail";
     }
 
-
+    // 레시피 삭제
+    @GetMapping("/recipe_delete.do")
+    public String deleteRecipe(int recipeId) {
+        recipeDao.deleteRecipe(recipeId);
+        return "redirect:/recipe_list.do";
+    }
 
 }

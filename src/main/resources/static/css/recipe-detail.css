@@ -166,6 +166,8 @@
     line-height: 1.6;
     /* 각 순서마다 밑에 여백 주기 (텍스트 쪽) */
     padding-bottom: 40px;
+    /*엔터값 적용*/
+    white-space: pre-line;
 }
 
 /* -----------------------------------
@@ -468,4 +470,22 @@
     height: 20px;
     left: 0;
     top: 0;
+}
+
+
+
+/* 썸네일 및 조리과정 이미지 상세보기 사이즈*/
+
+.thumbnail-img{
+    width: 500px;
+}
+
+.cook-img{
+    max-width: 500px;
+    width: 110%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px auto 20px;
+    display: block;
 }

@@ -20,7 +20,7 @@ public class SeasonsController {
     
     private final SeasonsDAO seasonsDao;
 
-    // 계절별 음식 목록 조회 
+    // 계절별 음식 목록 조회 (AJAX)
     @ResponseBody
     @GetMapping("/seasons_data.do")
     public List<SeasonsVO> seasonData(String season) {
@@ -31,7 +31,7 @@ public class SeasonsController {
         return seasonsDao.seasonFoodList(map);
     }
 
-    // 계절별 배너 정보 조회 
+    // 계절별 배너 정보 조회 (AJAX)
     @ResponseBody
     @GetMapping("/seasons_banner.do")
     public SeasonsVO seasonBanner(String season) {
@@ -41,8 +41,5 @@ public class SeasonsController {
 
         return seasonsDao.seasonBanner(map);
     }
-    
+
 }
-
-
-
