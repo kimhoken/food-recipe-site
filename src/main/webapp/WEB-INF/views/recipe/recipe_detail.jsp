@@ -41,9 +41,7 @@
                                     })
                             }
                         }
-                    })
-                }
-            }
+           
 
             const register = (f) => {
                 let content = f.content.value;
