@@ -983,3 +983,12 @@ footer {
         padding: 24px 20px;
     }
 }
+
+
+
+.recommend-slide {
+    display: none;
+}
+.recommend-slide.active{
+    display: block;
+}

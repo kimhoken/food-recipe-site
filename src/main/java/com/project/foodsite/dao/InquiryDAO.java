@@ -20,4 +20,6 @@ public interface InquiryDAO {
 
     List<InquiryVO> myInquiryList(int member_id);
 
+    int inquiryCount();
+
 }
