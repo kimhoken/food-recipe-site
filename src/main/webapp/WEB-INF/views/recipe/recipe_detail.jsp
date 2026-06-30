@@ -188,6 +188,20 @@
             </a>
         </div>
 
+        <div class="recipe-bookmark-wrap">
+            <a href="#"
+               class="recipe-bookmark-btn">
+                북마크
+            </a>
+        </div>
+
+        <div class="recipe-review-wrap">
+            <a href="/review/insert?recipe_id=${param.recipe_id}"
+               class="recipe-review-btn">
+               레시피 후기 작성하기
+            </a>
+        </div>
+
         <c:if test="${not empty commentList}">
             <div class="comment-main-title">레시피 댓글</div>
 

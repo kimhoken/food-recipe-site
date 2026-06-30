@@ -23,4 +23,6 @@ public interface ReviewDAO {
     List<ReviewVO> reviewRating();
 
     int reviewStatus(AdminReviewDTO Review);
+
+    int reviewInsert(ReviewVO review);
 }

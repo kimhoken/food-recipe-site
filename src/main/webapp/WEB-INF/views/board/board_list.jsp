@@ -230,8 +230,8 @@
                 <div class="review-card">
                     <div class="review-card-image">
                         <c:choose>
-                            <c:when test="${not empty review.image}">
-                                <img src="/upload/recipe/${review.image}" alt="후기 이미지">
+                            <c:when test="${not empty review.thumbnail}">
+                                <img src="/upload/review/${review.thumbnail}" alt="후기 이미지">
                             </c:when>
                             <c:otherwise>
                                 <img src="/images/no_image.png" alt="이미지 없음">
@@ -258,6 +258,9 @@
                     </div>
                 </div>
             </c:forEach>
+            <div>
+                페이징 예정
+            </div>
         </div>
         <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
         <!-- 챗봇 -->
