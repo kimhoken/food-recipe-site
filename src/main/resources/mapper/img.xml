@@ -26,4 +26,9 @@
         values ( #{image_list}, #{review_id} )
     </insert>        
 
+    <delete id="img_delete">
+        delete from img 
+        where review_id = #{review_id}
+    </delete>
+
 </mapper>

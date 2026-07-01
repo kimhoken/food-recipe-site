@@ -1,5 +1,8 @@
 package com.project.foodsite.controller;
 
+import com.project.foodsite.common.ViewCount;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.dao.ReviewDAO;
+import com.project.foodsite.dto.ReviewDetailDTO;
 import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
@@ -31,13 +35,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReviewController {
 
+    private final ViewCount viewCount;
+
     @Autowired
     HttpSession httpSession;
     
     private final ReviewDAO reviewDao;
     private final RecipeDAO recipeDao;
     private final Fileupload fileupload;
-    private final ImgDAO imgDAO; 
+    private final ImgDAO imgDAO;
+
+    // ReviewController(ViewCount viewCount) {
+    //     this.viewCount = viewCount;
+    // } 
 
     @GetMapping("/review/insert")
     public String review_insert_page( Model model ,int recipe_id ){
@@ -74,7 +84,7 @@ public class ReviewController {
                     return  map;
                 }
                 
-                long review_id = review.getRecipe_id();
+                long review_id = review.getReview_id();
 
                 if(filenames != null && !filenames.isEmpty()){
 
@@ -102,7 +112,53 @@ public class ReviewController {
             map.put("result","error");
             return map;
         }
+    }
+
+    @PostMapping("/review/detail")
+    @ResponseBody
+    public ReviewDetailDTO reviewdetail(long review_id){
+
+        MemberVO user = (MemberVO)httpSession.getAttribute("user");
+
+        viewCount.increaseReview((int)review_id);
+
+        ReviewDetailDTO review = reviewDao.selectreview(review_id);
+
+
+        if(review.getImage_list() != null && !review.getImage_list().isBlank()){
+            review.setImgList(Arrays.asList(review.getImage_list().split(",")));
+        }
+
+        if(user == null){
+            review.setOwner(false);
+        }else{
+            review.setOwner((int)review.getMember_id() == user.getMember_id());
+        }        
+
+        return review;
+    }
+
+    @PostMapping("/review/delete")
+    @ResponseBody
+    public Map<String, Object> reviewDelete( long review_id ) {
         
+        Map<String, Object> map = new HashMap<>();
+
+        ReviewDetailDTO review = reviewdetail(review_id);
+
+        if (review.getImage_list() != null && review.getImage_list().isBlank()){
+            fileupload.deleteFiles(review.getImage_list(), "review");
+        }
+
+        imgDAO.img_delete((int)review.getReview_id());
+
+        map.put("title", review.getTitle());
+
+        int res = reviewDao.deletereview(review_id);
+
+        map.put("result", res);
+
+        return map;
 
 
     }

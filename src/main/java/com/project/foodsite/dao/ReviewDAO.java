@@ -3,6 +3,7 @@ package com.project.foodsite.dao;
 import java.util.*;
 
 import com.project.foodsite.dto.AdminReviewDTO;
+import com.project.foodsite.dto.ReviewDetailDTO;
 import com.project.foodsite.vo.ReviewVO;
 
 
@@ -25,4 +26,10 @@ public interface ReviewDAO {
     int reviewStatus(AdminReviewDTO Review);
 
     int reviewInsert(ReviewVO review);
+
+    ReviewDetailDTO selectreview(long review_id);
+
+    int deletereview(long review_id);
+
+
 }
