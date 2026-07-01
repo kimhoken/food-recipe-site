@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
+import com.project.foodsite.dao.CommonCommentDAO; 
 import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
@@ -34,6 +35,7 @@ public class BoardController {
     private final HttpSession session;
     private final ReviewDAO reviewDao;
     private final Fileupload fileupload;
+    private final CommonCommentDAO commonCommentDAO; 
 
     // board list 조회
     @GetMapping("/list.do")
@@ -217,6 +219,9 @@ public class BoardController {
         System.out.println("조회결과 = " + board);
 
         model.addAttribute("board", board);
+
+        // 커뮤니티 게시글에 달린 댓글 목록 조회
+        model.addAttribute("commentList", commonCommentDAO.getBoardList(board_id));
 
         return "board/board_view";
     }

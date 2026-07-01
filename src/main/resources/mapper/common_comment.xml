@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 기본패키지 + dao로 설정해야함
+    ex) com.kh.dept.dao.DeptDAO
+    -->
+<mapper namespace="com.project.foodsite.dao.CommonCommentDAO">
+
+   <!-- 댓글 공통 등록: 레시피 댓글은 recipeId 사용, 커뮤니티 댓글은 boardId 사용 -->
+   <insert id="insertComment" parameterType="java.util.Map">
+        INSERT INTO comment(recipe_id, board_id, content, member_id, rating)
+        VALUES(#{recipeId}, #{boardId}, #{content}, #{memberId}, #{rating})
+    </insert>
+
+    <!-- 레시피 댓글 목록 조회 -->
+    <select id="getRecipeList" parameterType="int" resultType="comment">
+        SELECT 
+            c.comment_id,
+            c.content,
+            c.recipe_id,
+            c.board_id,
+            c.member_id,
+            c.rating,
+            c.status,
+            c.created_date,
+            m.nickname
+        FROM comment c
+        LEFT JOIN member m ON c.member_id = m.member_id
+        WHERE c.recipe_id = #{value}
+        ORDER BY c.comment_id
+    </select>
+
+    <!-- 커뮤니티 댓글 목록 조회 -->
+    <select id="getBoardList" parameterType="int" resultType="comment">
+        SELECT 
+            c.comment_id,
+            c.content,
+            c.recipe_id,
+            c.board_id,
+            c.member_id,
+            c.rating,
+            c.status,
+            c.created_date,
+            m.nickname
+        FROM comment c
+        LEFT JOIN member m ON c.member_id = m.member_id
+        WHERE c.board_id = #{value}
+        ORDER BY c.comment_id
+    </select>
+
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM comment
+        WHERE comment_id = #{value}
+    </delete>
+
+    <update id="update" parameterType="java.util.Map">
+        UPDATE comment
+        SET content = #{content}
+        WHERE comment_id = #{commentId}
+    </update>
+</mapper>
