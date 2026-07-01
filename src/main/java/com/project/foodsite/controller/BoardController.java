@@ -156,10 +156,13 @@ public class BoardController {
             MultipartFile img = dto.getStepImg().get(i);
 
             if (img != null && !img.isEmpty()) {
-                String cookOderImg = fileupload.saveFile(img, "recipe");
+                String cookOrderImg = fileupload.saveFile(img, "recipe");
 
-                order.setCook_image(cookOderImg);
+                order.setCook_image(cookOrderImg);
             }
+
+            //조리시간 들어오는지 확인
+            System.out.println("조리시간 : " + dto.getCooking_time());
 
             boardDao.insertCookOrder(order);
         }
