@@ -31,12 +31,14 @@
         title,
         member_id,
         food_id,
+        cooking_time,
         thumbnail
     )
     VALUES(
         #{title},
         #{memberId},
         #{foodId},
+        #{cooking_time},
         #{thumbnail}
     )
     </insert>
@@ -202,9 +204,5 @@
         update board set status = #{status}
         where board_id = #{board_id}
     </update>
-
-
-    
-     
 
 </mapper>
