@@ -6,7 +6,7 @@ import java.util.Map;
 import com.project.foodsite.vo.CommentVO;
 
 public interface CommonCommentDAO {
-    int insertComment(CommentVO vo);
+    int insertComment(Map<?, ?> map);
     List<CommentVO> getList(int recipe_id);
     int deleteComment(int commentId);
     int update(Map<?, ?> map);

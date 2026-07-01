@@ -89,7 +89,7 @@
                 let content = document.getElementById('modi_content' + commentId);
                 content.readOnly = true;
                 fetch("/api/recomment/update", {
-                    method:"post",
+                    method:"put",
                     headers: {
                         "Content-Type": "application/json"
                     },
@@ -181,24 +181,24 @@
                 </table>
             </div>
         </div>
-        <div class="recipe-report-wrapx">
-            <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipeId}"
+        <%-- <div class="recipe-report-wrapx">
+            <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipe_id}"
             class="recipe-report-btn">
                 신고하기
             </a>
-        </div>
+        </div> --%>
 
         <div class="recipe-bookmark-wrap">
             <a href="#"
-               class="recipe-bookmark-btn">
+                class="recipe-bookmark-btn">
                 북마크
             </a>
         </div>
 
         <div class="recipe-review-wrap">
             <a href="/review/insert?recipe_id=${param.recipe_id}"
-               class="recipe-review-btn">
-               레시피 후기 작성하기
+                class="recipe-review-btn">
+                레시피 후기 작성하기
             </a>
         </div>
 
@@ -207,13 +207,13 @@
 
             <div class="read-comment-div">
                 <c:forEach var="vo" items="${commentList}">
-                    <%-- 관리자 페이지에서 #comment-댓글번호로 이동 가능하게 id 추가 --%>
-                    <table id="comment-${vo.commentId}">
+
+                    <table id="comment-${vo.comment_id}">
                         <tr>
                             <td>${vo.nickname}</td>
 
                             <td>
-                                <textarea class="comment-content" id="modi_content${vo.commentId}" readonly>${vo.content}</textarea>
+                                <textarea class="comment-content" id="modi_content${vo.comment_id}" readonly>${vo.content}</textarea>
 
                                 <c:set var="rates" value="${vo.rating * 20}%"/>
                                 <div class="rate">
@@ -222,24 +222,28 @@
                             </td>
 
                             <td>
-                                <%-- 작성자만 수정 가능 --%>
-                                <c:if test="${vo.memberId eq sessionScope.user.member_id}">
-                                    <input type="button" value="수정" onclick="modi('${vo.commentId}')">
-                                </c:if>
-
-                                <%-- 작성자 또는 관리자 삭제 가능 --%>
-                                <c:if test="${vo.memberId eq sessionScope.user.member_id || sessionScope.user.role eq 'ADMIN'}">
-                                    <input type="button" value="삭제" onclick="del('${vo.commentId}')">
-                                </c:if>
-
-                                
+                                <input type="hidden" id="send_btn${vo.comment_id}" value="등록" onClick="modiFin('${vo.comment_id}')">
                                 <div style="position:relative; display:inline-block;">
-                                    <button type="button" onclick="toggleCommentMenu('${vo.commentId}')">⋮</button>
-                                    <div id="commentMenu${vo.commentId}"
-                                           style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
-                                        <a href="/report/form.do?target_type=레시피 후기&recipe_id=${recipeId}&comment_id=${vo.commentId}">
-                                            신고
-                                        </a>
+                                    <button type="button" class="comment-toggle-btn" onclick="toggleCommentMenu('${vo.comment_id}')">⋮</button>
+                                    <div id="commentMenu${vo.comment_id}"
+                                            style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
+                                        <ul>
+                                            <li>
+                                                <a href="/report/form.do?target_type=레시피 후기&recipe_id=${vo.recipe_id}&comment_id=${vo.comment_id}">
+                                                    신고
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <c:if test="${vo.member_id eq sessionScope.user.member_id}">
+                                                    <a href="javascript:void(0);" onclick="modi('${vo.comment_id}')">수정</a>
+                                                </c:if>
+                                            </li>
+                                            <li>
+                                                <c:if test="${vo.member_id eq sessionScope.user.member_id || sessionScope.user.role eq 'ADMIN'}">
+                                                    <a href="javascript:void(0);" onclick="del('${vo.comment_id}')">삭제</a>
+                                                </c:if>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>                   
                             </td>
@@ -256,14 +260,13 @@
         </c:if>
 
         <c:if test="${not empty sessionScope.user}">
-            <%-- 로그인했을때만 댓글달기 --%>
-            <form action="/recipe_comment.do">
+            <form>
                 <div class="comment-insert-div">
                     <table>
                         <tr>
                             <td>
                                 댓글 달기
-                                <input type="button" name="rating" id="rating" value="0">
+                                <input type="hidden" name="rating" id="rating" value="0"/>
 
                                 <div class="rating">
                                     <span class="rating__result"></span>
@@ -274,12 +277,11 @@
                                     <i class="rating__star far fa-star"></i>
                                 </div>
 
-                                <%-- 출처: https://sisiblog.tistory.com/355 [달삼쓰뱉:티스토리] --%>
                             </td>
 
                             <td>
                                 <input type="hidden" name="member_id" value="${sessionScope.user.member_id}">
-                                <input type="hidden" name="recipe_id" value="${param.recipeId}">
+                                <input type="hidden" name="recipe_id" value="${param.recipe_id}">
                             </td>
                         </tr>
 
@@ -305,12 +307,12 @@
             const ratingStars = [...document.getElementsByClassName("rating__star")];
             const ratingResult = document.querySelector(".rating__result");
             
-            function printRatingResult(result, num = 0) {
+            function printRatingResult(result, num) {
                 result.textContent = num
                 document.getElementById("rating").value=num;
             }
 
-            printRatingResult(ratingResult);
+            printRatingResult(ratingResult, 0);
 
             function executeRating(stars, result) {
                 const starClassActive = "rating__star fas fa-star";
