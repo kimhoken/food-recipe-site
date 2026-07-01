@@ -225,8 +225,7 @@
                                 <input type="hidden" id="send_btn${vo.comment_id}" value="등록" onClick="modiFin('${vo.comment_id}')">
                                 <div style="position:relative; display:inline-block;">
                                     <button type="button" class="comment-toggle-btn" onclick="toggleCommentMenu('${vo.comment_id}')">⋮</button>
-                                    <div id="commentMenu${vo.comment_id}"
-                                            style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
+                                    <div id="commentMenu${vo.comment_id}" style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
                                         <ul>
                                             <li>
                                                 <a href="/report/form.do?target_type=레시피 후기&recipe_id=${vo.recipe_id}&comment_id=${vo.comment_id}">
