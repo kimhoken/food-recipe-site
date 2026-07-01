@@ -285,7 +285,13 @@
 
                             <h4>후기 상세</h4>
                             <p>${review.content}</p>
+                            <c:if test="${recipe.}">
 
+                                <c:forEach var="">
+    
+                                </c:forEach>
+
+                            </c:if>
                             <input type="button" value="닫기" onclick="closeReviewModal(this)" />
 
                         </div>

@@ -194,7 +194,7 @@
 
 /* 개별 후기 카드  */
 .review-card {
-    display: flex;
+    display: block;
     background-color: #ffffff; 
     border: 1px solid #e2e8f0; 
     overflow: hidden;
@@ -316,6 +316,11 @@
     opacity: 1;
     padding: 22px 24px;
     border-top: 1px solid #e3e8dc;
+}
+
+.review-card-main{
+    display: flex;
+    width: 100%;
 }
 
 
