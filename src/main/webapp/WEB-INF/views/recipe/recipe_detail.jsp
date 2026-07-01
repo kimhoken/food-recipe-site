@@ -12,6 +12,7 @@
     <head>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe-detail.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        <link rel="stylesheet" href="/css/chatbot.css" />
         <meta charset="UTF-8">
         <title>오늘 뭐 먹지? - 레시피 상세보기</title>
         <script src="/js/chatbot.js"></script>
