@@ -36,7 +36,6 @@ public class RecipeController {
 
     @GetMapping("/recipe_list.do")
     public String recipeList(RecipeSearchDTO searchDTO, Model model) {
-
         String category = searchDTO.getCategory();
 
         // 1. 카테고리 미선택 시 빈 상태 반환
@@ -56,8 +55,6 @@ public class RecipeController {
         if (searchDTO.getSort() == null || searchDTO.getSort().isEmpty()) {
             searchDTO.setSort("latest");
         }
-
-        List<String> times = searchDTO.getCookTimes();
 
         // 3. 페이징 처리 및 데이터 조회
         int totalCount = recipeDao.selectRecipeCount(searchDTO);
@@ -94,6 +91,34 @@ public class RecipeController {
         int start = 1;
         List<RecipeVO> resultList = new LinkedList<>();
 
+        /*
+        10 20 30 40 50 60 61
+        조리시간이 선택되었을 경우 시간 사이인 것만 선택
+        */
+        List<String> times = searchDTO.getCookTimes();
+        List<RecipeVO> timeList = null;
+        if(times != null && !times.isEmpty()){
+            Queue<Integer> queue = new LinkedList<>();
+            timeList = new LinkedList<>();
+            for(String val : times){
+                //선택된 것을 큐에 차례대로 담음
+                queue.add(Integer.parseInt(val));
+            }
+            while(!queue.isEmpty()){
+                int minute = queue.poll();
+                int min = minute - 10;
+                for(RecipeVO vo : recipeList){
+                    if(minute == 61 && vo.getMin() >= minute-1 ){
+                        timeList.add(vo);
+                        continue;
+                    }
+                    if(vo.getMin() >= min && vo.getMin() <= minute){
+                        timeList.add(vo);
+                    }
+                }
+            }
+        }
+
         if (offSet != 9) {
             start = offSet - 8;
         }
@@ -103,55 +128,24 @@ public class RecipeController {
          * page == 3 -> offSet = 27(19 ~ 27)
          */
         for (int i = start; i <= offSet; i++) {
-            if (recipeList.size() <= i) {
-                break;
+            if(timeList != null){
+                if(timeList.size() <= i) break;
+                resultList.add(timeList.get(i));
+            }else{
+                if (recipeList.size() <= i) {
+                    break;
+                }
+                resultList.add(recipeList.get(i));
             }
-            resultList.add(recipeList.get(i));
+        }
+
+        if(resultList.size() == 0){
+            model.addAttribute("emptyMsg", "선택한 조건에 맞는 레시피가 없습니다....");
         }
 
         model.addAttribute("recipeList", resultList);
         model.addAttribute("recipeSearchDTO", searchDTO);
         model.addAttribute("sort", sort);
-
-        // 4. 조리시간 선택 후 결과가 아예 없을 때 메시지 처리
-        if (times != null && !times.isEmpty() && recipeList.isEmpty()) {
-
-            // 단일 선택했을 때 (체크박스를 딱 하나만 골랐는데 데이터가 없을 때)
-            if (times.size() == 1) {
-                String selectedVal = times.get(0);
-                String timeText = "";
-
-                switch (selectedVal) {
-                    case "10":
-                        timeText = "10분 이하";
-                        break;
-                    case "20":
-                        timeText = "10~20분";
-                        break;
-                    case "30":
-                        timeText = "20~30분";
-                        break;
-                    case "60":
-                        timeText = "30~60분";
-                        break;
-                    case "61":
-                        timeText = "60분 이상";
-                        break;
-                    default:
-                        timeText = "선택한";
-                        break;
-                }
-
-                // 60분 이상을 포함하여 모든 단일 선택 시
-                model.addAttribute("emptyMsg",
-                        "'" + category + "' 카테고리의 " + timeText + " 조리시간에 해당하는 레시피가 없습니다.");
-            }
-            // 복수 선택했을 때
-            else {
-                model.addAttribute("emptyMsg",
-                        "'" + category + "' 카테고리의 선택한 조리시간에 해당하는 레시피가 없습니다.");
-            }
-        }
 
         // 데이터가 꽤 많아지면 용량을 많이 차지하므로 해제해 용량 확보
         recipeList = null;
