@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Alias("img")
 public class ImgVO {
 
-    private Integer img_id, notice_id, inquiry_id;
+    private Integer img_id, notice_id, inquiry_id, review_id;
     private String image_list ;
 }

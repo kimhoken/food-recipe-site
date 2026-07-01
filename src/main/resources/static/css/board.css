@@ -301,6 +301,23 @@
     text-decoration: underline;
 }
 
+.review-expand-box {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 24px;
+    background: #fafbf7;
+    border-top: 1px solid transparent;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
+}
+
+.review-card.open .review-expand-box {
+    max-height: 300px;
+    opacity: 1;
+    padding: 22px 24px;
+    border-top: 1px solid #e3e8dc;
+}
+
 
 /* ==========================================================================
     게시판 영역 스타일 (.board-area 클래스 안에서만 작동하도록 격리)
