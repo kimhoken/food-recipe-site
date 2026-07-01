@@ -6,8 +6,14 @@ import java.util.Map;
 import com.project.foodsite.vo.CommentVO;
 
 public interface CommonCommentDAO {
-    int insertComment(CommentVO vo);
-    List<CommentVO> getList(int recipe_id);
-    int deleteComment(int commentId);
+
+    int insertComment(Map<?, ?> map);
+
+    List<CommentVO> getRecipeList(int recipe_id);
+
+    List<CommentVO> getBoardList(int board_id);
+
+    int deleteComment(int comment_id);
+
     int update(Map<?, ?> map);
 }

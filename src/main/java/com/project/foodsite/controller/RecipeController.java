@@ -15,7 +15,6 @@ import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.util.SearchLog;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
-import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -265,7 +264,7 @@ public class RecipeController {
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
-        model.addAttribute("commentList", commonCommentDAO.getList(recipe_id));
+        model.addAttribute("commentList", commonCommentDAO.getRecipeList(recipe_id));
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);
