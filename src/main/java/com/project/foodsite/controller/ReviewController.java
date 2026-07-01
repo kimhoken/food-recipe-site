@@ -93,7 +93,7 @@ public class ReviewController {
                     img.setImage_list(filenames);
                     img.setReview_id((int) review_id);
     
-                    imgDAO.img_insert(img);
+                    imgDAO.img_insert_review(img);
                 }
 
                 map.put("result", "success");

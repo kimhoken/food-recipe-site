@@ -32,7 +32,7 @@
                         .then(data => {
                             if (data.result == "success") {
                                 alert("레시피 후기 등록 성공!");
-                                location.href = '/board_list.do';
+                                location.href = '/list.do';
                             } else if (data.result == "fail") {
                                 alert("실패!!");
                             } else {
