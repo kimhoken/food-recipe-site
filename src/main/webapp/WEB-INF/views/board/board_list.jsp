@@ -214,6 +214,10 @@
                     })
 
                 }
+
+                function modifyReview(review_id){
+                    ;
+                }
             </script>
         </head>
 
@@ -355,7 +359,9 @@
                             <div class="review-model-btn">
                                
                                 <div class="owner-btn" style="display: none;">
-                                    <input type="button" value="수정" onclick="modifyReview('${review.review_id}')" />
+                                    <input type="button" 
+                                           value="수정" 
+                                           onclick="location.href='/review/modify?review_id=${review.review_id}'" />
                                     <input type="button" value="삭제" onclick="deleteReview('${review.review_id}')" />
                                 </div>
 

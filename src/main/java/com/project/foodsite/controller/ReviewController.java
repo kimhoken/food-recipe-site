@@ -1,7 +1,6 @@
 package com.project.foodsite.controller;
 
 import com.project.foodsite.common.ViewCount;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -160,6 +159,12 @@ public class ReviewController {
 
         return map;
 
+
+    }
+
+    @GetMapping("/review/modify")
+    public String reviewmodify(long review_id){
+        return "";
 
     }
 
