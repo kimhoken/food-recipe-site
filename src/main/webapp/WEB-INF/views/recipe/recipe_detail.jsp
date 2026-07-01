@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
         <meta charset="UTF-8">
         <title>오늘 뭐 먹지? - 레시피 상세보기</title>
-
+        <script src="/js/chatbot.js"></script>
         <script>
             const del = (commentId)=>{
                 if(confirm("삭제하시겠습니까?")){
@@ -266,7 +266,6 @@
                             <td>
                                 댓글 달기
                                 <input type="hidden" name="rating" id="rating" value="0"/>
-
                                 <div class="rating">
                                     <span class="rating__result"></span>
                                     <i class="rating__star far fa-star"></i>
@@ -275,7 +274,6 @@
                                     <i class="rating__star far fa-star"></i>
                                     <i class="rating__star far fa-star"></i>
                                 </div>
-
                             </td>
 
                             <td>
@@ -331,7 +329,7 @@
                             }
                         } else {
                             printRatingResult(result, i);
-
+                            
                             for (i; i < starsLength; ++i) {
                                 stars[i].className = starClassUnactive;
                             }
@@ -342,5 +340,6 @@
 
             executeRating(ratingStars, ratingResult);
         </script>
+        <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
     </body>
 </html>
