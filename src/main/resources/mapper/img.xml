@@ -19,4 +19,11 @@
         where inquiry_id = #{inquiry_id}
         order by img_id asc
     </select>
+
+    <insert id="img_insert_review" parameterType="img"
+            useGeneratedKeys="true" keyProperty="img_id">
+        insert into img (image_list, review_id)
+        values ( #{image_list}, #{review_id} )
+    </insert>        
+
 </mapper>

@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ex) com.kh.dept.dao.DeptDAO
     -->
 <mapper namespace="com.project.foodsite.dao.CommonCommentDAO">
-	<insert id="insertComment" parameterType="comment">
+	<insert id="insertComment" parameterType="java.util.Map">
         INSERT INTO comment(recipe_id, content, member_id, rating)
         VALUES(#{recipeId}, #{content}, #{memberId}, #{rating})
     </insert>
@@ -35,6 +35,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="update" parameterType="java.util.Map">
         UPDATE comment
         SET content = #{content}
-        WHERE comment_id = #{comment_id}
+        WHERE comment_id = #{commentId}
     </update>
 </mapper>

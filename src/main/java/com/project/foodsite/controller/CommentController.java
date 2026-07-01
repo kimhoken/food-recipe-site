@@ -1,15 +1,15 @@
 package com.project.foodsite.controller;
 
-import java.util.*;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.foodsite.dao.CommonCommentDAO;
-import com.project.foodsite.vo.CommentVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,16 +26,8 @@ public class CommentController {
      */
     @PostMapping("/api/recomment/insert")
     @ResponseBody
-    public Map<?, ?> recipeInsert(@RequestBody CommentVO vo){
-        int res = commonCommentDAO.insertComment(vo);
-        String result = "fail";
-
-        if(res != 0){
-            result = "success";
-        }
-        
-        Map<String, String> map = new HashMap<>();
-        map.put("result", result);
+    public Map<?, ?> recipeInsert(@RequestBody Map<String, String> map){
+        map.put("result", commonCommentDAO.insertComment(map) != 0 ? "success" : "fail");
         return map;
     }
 
@@ -47,7 +39,7 @@ public class CommentController {
         return map;
     }
     
-    @PostMapping("/api/recomment/update")
+    @PutMapping("/api/recomment/update")
     @ResponseBody
     public Map<String, String> recommentUpdate(@RequestBody Map<String, String> map){
         map.put("result", commonCommentDAO.update(map) != 0 ? "success" : "fail");

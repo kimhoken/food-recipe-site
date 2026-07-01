@@ -105,4 +105,32 @@
         where review_id = #{review_id}
     </update>
 
+    <!-- 레시피 후기 생성 -->
+    <insert id="reviewInsert" 
+            parameterType="review"
+            useGeneratedKeys="true"
+            keyProperty="review_id">
+
+        insert into review (            
+            member_id,
+            recipe_id,
+            thumbnail,
+            title,
+            content,
+            rating
+        )
+        values (            
+            #{member_id},
+            #{recipe_id},
+            #{thumbnail},
+            #{title},
+            #{content},
+            #{rating}
+              )
+    </insert>
+
+
+
+
+
 </mapper>
