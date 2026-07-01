@@ -27,9 +27,9 @@ public interface ReviewDAO {
 
     int reviewInsert(ReviewVO review);
 
-    ReviewDetailDTO selectreview(long review_id);
+    ReviewDetailDTO selectreview(int review_id);
 
-    int deletereview(long review_id);
+    int deletereview(int review_id);
 
 
 }

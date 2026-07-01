@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.dao.ReviewDAO;
+import com.project.foodsite.dto.AdminReviewDTO;
 import com.project.foodsite.dto.ReviewDetailDTO;
 import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.MemberVO;
@@ -83,14 +84,14 @@ public class ReviewController {
                     return  map;
                 }
                 
-                long review_id = review.getReview_id();
+                int review_id = review.getReview_id();
 
                 if(filenames != null && !filenames.isEmpty()){
 
                     ImgVO img = new ImgVO();
     
                     img.setImage_list(filenames);
-                    img.setReview_id((int) review_id);
+                    img.setReview_id(review_id);
     
                     imgDAO.img_insert_review(img);
                 }
@@ -115,11 +116,11 @@ public class ReviewController {
 
     @PostMapping("/review/detail")
     @ResponseBody
-    public ReviewDetailDTO reviewdetail(long review_id){
+    public ReviewDetailDTO reviewdetail(int review_id){
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
 
-        viewCount.increaseReview((int)review_id);
+        viewCount.increaseReview(review_id);
 
         ReviewDetailDTO review = reviewDao.selectreview(review_id);
 
@@ -131,7 +132,7 @@ public class ReviewController {
         if(user == null){
             review.setOwner(false);
         }else{
-            review.setOwner((int)review.getMember_id() == user.getMember_id());
+            review.setOwner(review.getMember_id() == user.getMember_id());
         }        
 
         return review;
@@ -139,7 +140,7 @@ public class ReviewController {
 
     @PostMapping("/review/delete")
     @ResponseBody
-    public Map<String, Object> reviewDelete( long review_id ) {
+    public Map<String, Object> reviewDelete( int review_id ) {
         
         Map<String, Object> map = new HashMap<>();
 
@@ -149,7 +150,7 @@ public class ReviewController {
             fileupload.deleteFiles(review.getImage_list(), "review");
         }
 
-        imgDAO.img_delete((int)review.getReview_id());
+        imgDAO.img_delete(review.getReview_id());
 
         map.put("title", review.getTitle());
 
@@ -163,8 +164,13 @@ public class ReviewController {
     }
 
     @GetMapping("/review/modify")
-    public String reviewmodify(long review_id){
-        return "";
+    public String reviewmodify( Model model, int review_id ){
+
+        AdminReviewDTO review = reviewDao.adminReviewDetail(review_id);
+
+        model.addAttribute("review", review);
+
+        return "review/review_modify";
 
     }
 

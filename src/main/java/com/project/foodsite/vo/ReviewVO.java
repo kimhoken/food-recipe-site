@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Alias("review")
 public class ReviewVO {
-    private long review_id;          // 후기 번호
-    private long recipe_id;          // 레시피 번호
-    private long member_id;          // 회원 번호
-    private long img_id;            // 이미지 번호
+    private int review_id;          // 후기 번호
+    private int recipe_id;          // 레시피 번호
+    private int member_id;          // 회원 번호
+    private int img_id;            // 이미지 번호
     private String title;           // 후기 제목
     private String content;         // 후기 내용
     private String thumbnail;           // 후기 대표 이미지

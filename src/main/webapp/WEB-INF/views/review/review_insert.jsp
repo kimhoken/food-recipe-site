@@ -7,6 +7,7 @@
 
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+            <link rel="stylesheet" href="css/review.css"/>
             <script>
                 function review_send(f) {
                     let rating = f.rating.value;
@@ -41,6 +42,26 @@
                         })
 
                 }
+
+                document.getElementById("reviewPhotos").addEventListener("change",function () {
+                    const previewBox = document.getElementById("previewBox");
+                    previewBox.innerHTML = "";
+
+                    const files = this.files;
+
+                    if (!files || files.length === 0) return;
+
+                    Array.from(files).forEach(file =>{
+                        const img = document.createElement("img");
+                        img.src = URL.createObjectURL(file);
+                        img.className = "preview-img";
+
+                        previewBox.appendChild(img);
+
+                    })
+
+
+                })
 
                 
 
@@ -99,7 +120,8 @@
 
                         <div>
                             후기 사진
-                            <input type="file" name="photo" multiple />
+                            <input type="file" id="reviewPhotos" name="photo" multiple />
+                            <div id="previewBox" class="preview-box"></div>
                         </div>
                     </div>
 
