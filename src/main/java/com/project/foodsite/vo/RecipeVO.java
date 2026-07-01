@@ -1,5 +1,7 @@
 package com.project.foodsite.vo;
 
+import java.util.StringTokenizer;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -37,6 +39,11 @@ public class RecipeVO {
     
     public void addScore(int score){
         this.score += score;
+    }
+
+    public int getMin(){
+        StringTokenizer st = new StringTokenizer(this.cooking_time, "분");
+        return Integer.parseInt(st.nextToken());
     }
 
 }
