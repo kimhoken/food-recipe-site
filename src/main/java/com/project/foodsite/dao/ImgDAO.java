@@ -15,4 +15,6 @@ public interface ImgDAO {
     int img_delete(int img_id);
 
     int img_insert_review(ImgVO vo);
+
+    int img_update(ImgVO vo);
 }

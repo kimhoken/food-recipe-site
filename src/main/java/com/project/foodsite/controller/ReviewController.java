@@ -1,6 +1,8 @@
 package com.project.foodsite.controller;
 
 import com.project.foodsite.common.ViewCount;
+
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -166,11 +168,30 @@ public class ReviewController {
     @GetMapping("/review/modify")
     public String reviewmodify( Model model, int review_id ){
 
-        AdminReviewDTO review = reviewDao.adminReviewDetail(review_id);
+        ReviewDetailDTO review = reviewDao.selectreview(review_id);
+
+        if(review.getImage_list() != null && !review.getImage_list().isBlank()){
+            review.setImgList(Arrays.asList(review.getImage_list().split(",")));
+        }
 
         model.addAttribute("review", review);
 
         return "review/review_modify";
+
+    }
+
+    @PostMapping("/review/modify")
+    @ResponseBody
+    public Map<String,Object> reviewModifyFin(ReviewVO review, String deleteImages){
+        Map<String,Object> map =  new HashMap<>();
+
+        ImgVO img = imgDAO.img_select(review.getImg_id());
+
+        img.setImage_list(deleteImages);
+
+        imgDAO.img_update(img);
+       
+        return map;
 
     }
 

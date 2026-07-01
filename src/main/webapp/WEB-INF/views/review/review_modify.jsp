@@ -8,7 +8,56 @@
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
             <script>
-                
+                const deleteImages=[];
+
+                document.addEventListener("DOMContentLoaded", () => {
+
+                    console.log('${review.rating}');
+                    const fileInput = document.getElementById("reviewPhotos");
+                    const previewBox = document.getElementById("previewBox");
+                    
+
+                    fileInput.addEventListener("change", function () {
+                        
+                        Array.from(this.files).forEach(file => {
+                            const img = document.createElement("img");
+                            img.src = URL.createObjectURL(file);
+                            img.className = "preview-img";
+                            previewBox.appendChild(img);
+                        })
+
+
+                    });
+                })
+
+                function deleteImage() {
+                    document.querySelectorAll(".delete-check:checked")
+                        .forEach(check => {
+
+                            deleteImages.push(check.value);
+
+                            check.closest(".preview-item").remove();
+
+                        });
+                    
+                    console.log(deleteImages);    
+                }
+
+                function review_modify(f){
+                    const formdata = new FormData(f);
+
+                    formdata.set("deleteImages", deleteImages.join(","));
+
+                    fetch("/review/modify",{
+                        method: 'post',
+                        body:formdata
+                    })
+                    .then(res => res.json())
+                    .then( data => {
+                        
+                    })
+
+                }
             </script>
         </head>
 
@@ -22,6 +71,7 @@
 
                 <form enctype="multipart/form-data" method="post">
                     <input type="hidden" name="recipe_id" value="${param.recipe_id}" />
+                    <input type="hidden" name="deleteImages" id="deleteImages"/>
 
 
                     <div>
@@ -39,7 +89,7 @@
 
                         <div>
                             평점 <span>*</span>
-                            <input type="hidden" name="rating" id="rating" value="0">
+                            <input type="hidden" name="rating" id="rating" value="${review.rating}">
 
                             <div class="rating">
                                 <span class="rating__result">0</span>
@@ -54,23 +104,42 @@
 
                         <div>
                             후기 제목 <span>*</span>
-                            <input type="text" name="title" />
+                            <input type="text" name="title" value="${review.title}" />
                         </div>
 
                         <div>
                             후기 내용 <span>*</span>
-                            <textarea name="content"></textarea>
+                            <textarea name="content">${review.content}</textarea>
                         </div>
 
                         <div>
                             후기 사진
-                            <input type="file" name="photo" multiple />
+                            <input type="file" id="reviewPhotos" name="photo" multiple />
+                            <div id="previewBox" class="preview-box">
+                                
+                                <c:forEach var="img" items="${review.imgList}">
+                                    <div class="preview-item">
+
+                                        <input type="checkbox"
+                                               class="delete-check"
+                                               value="${img}"/>
+
+                                        <img src="/upload/review/${img}" class="preview-img"/>
+
+                                    </div>
+                                </c:forEach>
+
+                                <input type="button" 
+                                       value="선택 삭제"
+                                       onclick="deleteImage()"/>
+
+                            </div>
                         </div>
                     </div>
 
                     <div>
                         <input type="button" value="취소" onclick="history.back()" />
-                        <input type="button" value="후기 등록" onclick="review_send(this.form)" />
+                        <input type="button" value="후기 수정" onclick="review_modify(this.form)" />
                     </div>
 
                 </form>
@@ -81,40 +150,40 @@
         <script>
             const ratingStars = [...document.getElementsByClassName("rating__star")];
             const ratingResult = document.querySelector(".rating__result");
+            const ratingInput = document.getElementById("rating");
+
 
             function printRatingResult(result, num = 0) {
                 result.textContent = num
-                document.getElementById("rating").value = num;
+                ratingInput.value = num;
             }
 
-            printRatingResult(ratingResult);
+            function paintStars(num) {
+                ratingStars.forEach((star, index) => {
+                    star.className = index < num
+                        ? "rating__star fas fa-star"
+                        : "rating__star far fa-star";
+                });
+            }
+
+            const initialRating = Number(ratingInput.value || 0);
+            printRatingResult(ratingResult, initialRating);
+            paintStars(initialRating);
 
             function executeRating(stars, result) {
-                const starClassActive = "rating__star fas fa-star";
-                const starClassUnactive = "rating__star far fa-star";
                 const starsLength = stars.length;
-                let i;
 
-                stars.map((star) => {
+                stars.forEach((star, index) => {
                     star.onclick = () => {
-                        i = stars.indexOf(star);
+                        const currentRating = Number(ratingInput.value || 0);
+                        const nextRating = currentRating === index + 1 ? index : index + 1;
 
-                        if (star.className.indexOf(starClassUnactive) !== -1) {
-                            printRatingResult(result, i + 1);
-
-                            for (i; i >= 0; --i) {
-                                stars[i].className = starClassActive;
-                            }
-                        } else {
-                            printRatingResult(result, i);
-
-                            for (i; i < starsLength; ++i) {
-                                stars[i].className = starClassUnactive;
-                            }
-                        }
+                        printRatingResult(result, nextRating);
+                        paintStars(nextRating);
                     };
                 });
             }
+
 
             executeRating(ratingStars, ratingResult);
 
