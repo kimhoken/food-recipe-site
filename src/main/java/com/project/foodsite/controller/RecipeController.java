@@ -15,7 +15,6 @@ import com.project.foodsite.dto.RecipeSearchDTO;
 import com.project.foodsite.util.SearchLog;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
-import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.RecipeVO;
 
 import jakarta.servlet.http.HttpServletRequest;
