@@ -67,7 +67,7 @@
         <jsp:include page="/WEB-INF/views/common/navibar.jsp">
             <jsp:param name="currentMenu" value="recipe" />
         </jsp:include>
-        <form name="frm" action="${pageContext.request.contextPath}/recipe_list.do" method="get">
+        <form name="frm" action="/recipe_list.do" method="get">
             <div class="recipe-container">
                 <!-- 왼쪽 -->
                 <aside class="filter-area">
@@ -107,8 +107,7 @@
                                 <c:if test="${time eq '61'}"><c:set var="chk61" value="checked"/></c:if>
                             </c:forEach>
                         </c:if>
-
-                        <%-- 세팅된 변수를 EL로 넣어주기만 하면 끝 --%>
+                        
                         <label><input type="checkbox" name="cookTimes" value="10" ${chk10}> 10분 이하</label>                                                                              
                         <label><input type="checkbox" name="cookTimes" value="20" ${chk20}> 10~20분</label>
                         <label><input type="checkbox" name="cookTimes" value="30" ${chk30}> 20~30분</label>
@@ -191,8 +190,22 @@
                             <c:if test="${not empty sort}">
                                 <c:set var="nowSort" value="&sort=${sort}" />
                             </c:if>
-                            
-                            <%-- 2. 이전 버튼 (미리 만든 cookTimesQuery를 concat으로 붙이기) --%>
+
+                            <%-- 1. 반복되는 cookTimes 쿼리 스트링 누적해서 이어 붙이기 --%>
+                            <c:set var="cookTimesQuery" value="" />
+                            <c:if test="${not empty recipeSearchDTO.cookTimes}">
+                                <c:forEach var="t" items="${recipeSearchDTO.cookTimes}">
+                                    <%-- 기존 cookTimesQuery 뒤에 새로운 값을 계속 붙여줌 --%>
+                                    <c:set var="cookTimesQuery" value="${cookTimesQuery}&cookTimes=${t}" />
+                                </c:forEach>
+                            </c:if>
+
+                            <c:set var="nowSort" value="" />
+                            <c:if test="${not empty sort}">
+                                <c:set var="nowSort" value="&sort=${sort}" />
+                            </c:if>
+
+                            <%-- 2. 이전 버튼 --%>
                             <a href="${curPage > 1 ? '/recipe_list.do?page='.concat(curPage - 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(nowSort) : '#'}"
                             class="arrow ${curPage == 1 ? 'disabled' : ''}">◀</a>
 
@@ -203,17 +216,18 @@
                                 <c:set var="endP" value="1" />
                             </c:if>
 
-                            <%-- 3. 페이지 번호 (여기도 cookTimesQuery 변수 사용) --%>
+                            <%-- 3. 페이지 번호 --%>
                             <c:forEach var="i" begin="${startP}" end="${endP}">
-                                <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}${nowSort}"
+                                <a href="/recipe_list.do?page=${i}&category=${recipeSearchDTO.category}${cookTimesQuery}${nowSort}"
                                 class="${i == curPage ? 'active' : ''}">
                                 ${i}
                                 </a>
                             </c:forEach>
 
                             <%-- 4. 다음 버튼 --%>
-                            <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat(nowSort): '#'}"
+                            <a href="${curPage < totalPage ? '/recipe_list.do?page='.concat(curPage + 1).concat('&category=').concat(recipeSearchDTO.category).concat(cookTimesQuery).concat(nowSort): '#'}"
                             class="arrow ${curPage == totalPage || totalPage <= 1 ? 'disabled' : ''}">▶</a>
+
                         </div>
                     </c:if>
                 </section>

@@ -12,9 +12,10 @@
     <head>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/recipe-detail.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        <link rel="stylesheet" href="/css/chatbot.css" />
         <meta charset="UTF-8">
         <title>오늘 뭐 먹지? - 레시피 상세보기</title>
-
+        <script src="/js/chatbot.js"></script>
         <script>
             const del = (commentId)=>{
                 if(confirm("삭제하시겠습니까?")){
@@ -163,8 +164,10 @@
                     <c:forEach var="vo" items="${orderList}">
                         <tr class="step-row-top">
                             <td rowspan="2" class="step-thumb-cell">
-                                <div class="img-placeholder">사진 들어가는 자리</div>
-                            </td>
+                                <c:if test="${not empty vo.cook_image}"> 
+                                                <img src="/upload/recipe/${vo.cook_image}" class="cook-img"> 
+                                            </c:if>
+                            </td> 
                             <td class="step-num">순서 ${vo.order}</td>
                         </tr>
 
@@ -181,6 +184,15 @@
                 </table>
             </div>
         </div>
+
+        <!-- 작성자만 삭제 가능 -->
+                        <c:if test="${not empty sessionScope.user && sessionScope.user.member_id == dto.memberId}">
+                            <a href="/recipe_delete.do?recipeId=${dto.recipeId}" class="recipe-delete-btn"
+                                onclick="return confirm('삭제하시겠습니까?');">
+                                삭제
+                            </a>
+                        </c:if>
+
         <%-- <div class="recipe-report-wrapx">
             <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipe_id}"
             class="recipe-report-btn">
@@ -225,8 +237,7 @@
                                 <input type="hidden" id="send_btn${vo.comment_id}" value="등록" onClick="modiFin('${vo.comment_id}')">
                                 <div style="position:relative; display:inline-block;">
                                     <button type="button" class="comment-toggle-btn" onclick="toggleCommentMenu('${vo.comment_id}')">⋮</button>
-                                    <div id="commentMenu${vo.comment_id}"
-                                            style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
+                                    <div id="commentMenu${vo.comment_id}" style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
                                         <ul>
                                             <li>
                                                 <a href="/report/form.do?target_type=레시피 후기&recipe_id=${vo.recipe_id}&comment_id=${vo.comment_id}">
@@ -267,7 +278,6 @@
                             <td>
                                 댓글 달기
                                 <input type="hidden" name="rating" id="rating" value="0"/>
-
                                 <div class="rating">
                                     <span class="rating__result"></span>
                                     <i class="rating__star far fa-star"></i>
@@ -276,7 +286,6 @@
                                     <i class="rating__star far fa-star"></i>
                                     <i class="rating__star far fa-star"></i>
                                 </div>
-
                             </td>
 
                             <td>
@@ -332,7 +341,7 @@
                             }
                         } else {
                             printRatingResult(result, i);
-
+                            
                             for (i; i < starsLength; ++i) {
                                 stars[i].className = starClassUnactive;
                             }
@@ -343,5 +352,6 @@
 
             executeRating(ratingStars, ratingResult);
         </script>
+        <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
     </body>
 </html>

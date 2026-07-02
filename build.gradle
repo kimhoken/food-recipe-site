@@ -3,6 +3,7 @@ plugins {
 	id 'war'
 	id 'org.springframework.boot' version '4.0.6'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'maven-publish'
 }
 
 group = 'com.project'
@@ -74,4 +75,25 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.web
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            // GitHub Actions가 실행될 때 리포지토리 주소를 자동으로 넣어줌 (예: https://maven.pkg.github.com/유저명/레포명)
+            url = uri("https://maven.pkg.github.com/${System.getenv('https://github.com/kimhoken/food-recipe-site')}")
+            
+            // GitHub Actions에서 주입해 주는 토큰과 유저명을 사용해 인증
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
