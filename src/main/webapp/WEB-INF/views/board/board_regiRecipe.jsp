@@ -295,7 +295,6 @@
             <h1>제목</h1>
             <input type="text" name="title" class="recipe-title" placeholder="레시피 제목을 입력하세요">
 
-
             <h1>대표 이미지</h1>
 
             <!--파일 선택 시 미리보기 함수 호출-->
