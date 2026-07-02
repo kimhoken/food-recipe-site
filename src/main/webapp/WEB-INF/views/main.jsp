@@ -346,7 +346,7 @@
                         list.forEach(function(item) {
                             var imgHtml = '';
                             if (item.custom_image && item.custom_image !== 'no_image') {
-                                imgHtml = '<img src="' + item.custom_image + '" alt="' + item.food_name + '">';
+                                imgHtml = '<img src="/food_img/' + item.custom_image + '" alt="' + item.food_name + '">';
                             }
 
                             var card = ''
@@ -359,7 +359,7 @@
                                 +     '</div>'
                                 +     '<div class="card-thumb">' + imgHtml + '</div>'
                                 +   '</div>'
-                                +   '<a href="/recipe_list.do?foodId=' + item.food_id + '" class="btn-recipe">레시피 둘러보기</a>'
+                                +   '<a href="/recipe_detail.do?recipe_id=' + item.food_id + '" class="btn-recipe">레시피 둘러보기</a>'
                                 + '</div>';
 
                             grid.innerHTML += card;
@@ -420,7 +420,7 @@
         <div class="container main-page">
             <div class="seasonal-header">
                 <span class="seasonal-badge">조회수 TOP5</span> 
-                <h2 class="seasonal-title">지금 수많은 주방에서 찾은 이달의 인기 요리</h2>  
+                <h2 class="seasonal-title">이달의 TOP 5 인기 요리</h2>  
                 <p class="seasonal-subtitle">조회수로 검증된 베스트 레시피를 확인해보세요</p>  
             </div>
 
