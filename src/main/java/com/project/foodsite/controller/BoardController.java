@@ -6,14 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
+import com.project.foodsite.dao.CategoryDAO;
 import com.project.foodsite.dao.CommonCommentDAO; 
-import com.project.foodsite.dao.RecipeDAO;
 import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.CategoryVO;
 import com.project.foodsite.vo.CookOrderVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.MemberVO;
@@ -25,18 +27,19 @@ import com.project.foodsite.dto.RecipeDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardDAO boardDao;
-    private final RecipeDAO recipeDao;
     private final HttpSession session;
     private final ReviewDAO reviewDao;
     private final Fileupload fileupload;
     private final CommonCommentDAO commonCommentDAO; 
-
+    private final CategoryDAO categoryDAO;
     // board list 조회
     @GetMapping("/list.do")
     public String boardList(Model model, String sort, String period, String btn) {
@@ -84,11 +87,8 @@ public class BoardController {
     // recipe 등록 폼
     @GetMapping("/regiRecipe.do")
     public String recipeForm(Model model, String id) {
-
         model.addAttribute("id", id);
-
-        model.addAttribute("foodList", recipeDao.selectAllFood());
-
+        model.addAttribute("bigList", categoryDAO.getCategoryName());
         return "board/board_regiRecipe";
     }
 
@@ -285,5 +285,16 @@ public class BoardController {
 
         return "redirect:/list.do";
     }
+
+    @PostMapping("/api/category")
+    @ResponseBody
+    public Map<?, ?> getCategory(@RequestBody Map<String, Object> map) {
+        List<CategoryVO> list = categoryDAO.getSubName((String)map.get("category"));
+        String res = list.size() > 0 ? "success" : "fail";
+        map.put("list", list);
+        map.put("result", res);
+        return map;
+    }
+    
 
 }
