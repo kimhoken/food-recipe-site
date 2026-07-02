@@ -26,6 +26,29 @@
         function closeUserModal() {
             document.getElementById("userModal").style.display = "none";
         }
+
+        function openReportDetailModal(reportId) {
+            document.getElementById("detailModalTarget").innerText =
+                document.getElementById("reportTarget-" + reportId).innerText;
+
+            document.getElementById("detailModalStatus").innerText =
+                document.getElementById("reportStatus-" + reportId).innerText;
+
+            document.getElementById("detailModalReason").innerText =
+                document.getElementById("reportReason-" + reportId).innerText;
+
+            document.getElementById("detailModalTitle").innerText =
+                document.getElementById("reportTitle-" + reportId).innerText;
+
+            document.getElementById("detailModalContent").innerText =
+                document.getElementById("reportDetail-" + reportId).innerText;
+
+            document.getElementById("reportDetailModal").style.display = "block";
+        }
+
+        function closeReportDetailModal() {
+            document.getElementById("reportDetailModal").style.display = "none";
+        }
     </script>
 </head>
 
@@ -58,33 +81,48 @@
         <c:forEach var="vo" items="${list}">
             <tr>
                 <td>${vo.report_id}</td>
-                <td>${vo.target_type}</td>
+
+                <td>
+                    <c:choose>
+                        <c:when test="${vo.target_type eq '리뷰'}">
+                            후기
+                        </c:when>
+                        <c:otherwise>
+                            ${vo.target_type}
+                        </c:otherwise>
+                    </c:choose>
+                </td>
 
                 <td>
                     <c:choose>
 
-                        <c:when test="${vo.target_type eq '게시판'}">
+                        <c:when test="${vo.target_type eq '커뮤니티'}">
                             <a href="/view.do?board_id=${vo.board_id}">
                                 게시글 보러가기
                             </a>
                         </c:when>
 
-                        <c:when test="${vo.target_type eq '게시판 댓글'}">
+                        <c:when test="${vo.target_type eq '커뮤니티 댓글'}">
                             <a href="/view.do?board_id=${vo.board_id}#comment-${vo.comment_id}">
-                                게시판 댓글 보러가기
+                                게시글 댓글 보러가기
                             </a>
                         </c:when>
 
                         <c:when test="${vo.target_type eq '레시피'}">
-                            <a href="/recipe_detail.do?recipeId=${vo.recipe_id}">
+                            <a href="/recipe_detail.do?recipe_id=${vo.recipe_id}">
                                 레시피 보러가기
                             </a>
                         </c:when>
 
-                        <%-- 수정: 레시피 후기는 comment_id를 commentId 파라미터로 전달 --%>
-                        <c:when test="${vo.target_type eq '레시피 후기'}">
-                            <a href="/recipe_detail.do?recipeId=${vo.recipe_id}&commentId=${vo.comment_id}">
+                        <c:when test="${vo.target_type eq '레시피 댓글'}">
+                            <a href="/recipe_detail.do?recipe_id=${vo.recipe_id}#comment-${vo.comment_id}">
                                 레시피 댓글 보러가기
+                            </a>
+                        </c:when>
+
+                        <c:when test="${vo.target_type eq '리뷰'}">
+                            <a href="/list.do?btn=review">
+                                후기 보러가기
                             </a>
                         </c:when>
 
@@ -96,7 +134,25 @@
                 </td>
 
                 <td>${vo.reason}</td>
-                <td>${vo.report_title}</td>
+
+                <td>
+                    <button type="button"
+                            onclick="openReportDetailModal('${vo.report_id}')">
+                        ${vo.report_title}
+                    </button>
+
+                    <span id="reportTarget-${vo.report_id}" style="display:none;">
+                        <c:choose>
+                            <c:when test="${vo.target_type eq '리뷰'}">후기</c:when>
+                            <c:otherwise>${vo.target_type}</c:otherwise>
+                        </c:choose>
+                    </span>
+                    <span id="reportStatus-${vo.report_id}" style="display:none;">${vo.status}</span>
+                    <span id="reportReason-${vo.report_id}" style="display:none;">${vo.reason}</span>
+                    <span id="reportTitle-${vo.report_id}" style="display:none;">${vo.report_title}</span>
+                    <span id="reportDetail-${vo.report_id}" style="display:none;">${vo.detail}</span>
+                </td>
+
                 <td>${vo.status}</td>
 
                 <td>
@@ -111,7 +167,12 @@
                 </td>
 
                 <td>
-                    <input type="button" value="경고부여">
+                    <form action="/report/admin/warning.do" method="post" style="display:inline;">
+                        <input type="hidden" name="report_id" value="${vo.report_id}">
+                        <input type="submit" value="경고부여"
+                               onclick="return confirm('해당 신고 대상 작성자에게 경고 1회를 부여하시겠습니까?');">
+                    </form>
+
                     <input type="button" value="신고취소">
                 </td>
             </tr>
@@ -138,6 +199,30 @@
         <p>이메일: <span id="modalEmail"></span></p>
 
         <input type="button" value="닫기" onclick="closeUserModal()">
+    </div>
+</div>
+
+<div id="reportDetailModal"
+     style="display:none; position:fixed; left:0; top:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.4); z-index:9999;">
+
+    <div style="background:white; width:460px; margin:160px auto; padding:25px; border-radius:10px;">
+
+        <h3>신고 상세 내용</h3>
+
+        <p>신고 대상: <span id="detailModalTarget"></span></p>
+        <p>상태: <span id="detailModalStatus"></span></p>
+        <p>신고 사유: <span id="detailModalReason"></span></p>
+        <p>신고 제목: <span id="detailModalTitle"></span></p>
+
+        <div id="detailModalContent"
+             style="min-height:100px; padding:15px; border:1px solid #ddd; background:#fafafa;
+                    white-space:pre-wrap; word-break:keep-all; line-height:1.7;">
+        </div>
+
+        <br>
+
+        <input type="button" value="닫기" onclick="closeReportDetailModal()">
     </div>
 </div>
 

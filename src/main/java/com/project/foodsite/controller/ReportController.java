@@ -30,6 +30,24 @@ public class ReportController {
             model.addAttribute("board", board);
         }
 
+        if (vo.getRecipe_id() != null) {
+            ReportVO recipe = reportDao.selectRecipeForReport(vo.getRecipe_id());
+            model.addAttribute("recipe", recipe);
+        }
+
+        if (vo.getComment_id() != null) {
+            ReportVO comment = reportDao.selectCommentForReport(vo.getComment_id());
+            model.addAttribute("comment", comment);
+        }
+
+        if (vo.getReview_id() != null) {
+            ReportVO review = reportDao.selectReviewForReport(vo.getReview_id());
+            model.addAttribute("review", review);
+        }
+
+        setTargetType(vo);
+        model.addAttribute("report", vo);
+
         return "report/report_form";
     }
 
@@ -54,7 +72,17 @@ public class ReportController {
             return "redirect:/main_list.do";
         }
 
+        setTargetType(vo);
+
         reportDao.reportInsert(vo);
+
+        int count = reportDao.sameMemberSameTargetPendingReportCount(vo);
+
+        if (count >= 3) {
+            reportDao.updateMemberReportCount(vo.getMember_id());
+
+            reportDao.updateSameMemberSameTargetReportStatusWarning(vo);
+        }
 
         return "redirect:/main_list.do";
     }
@@ -65,12 +93,52 @@ public class ReportController {
         MemberVO user = (MemberVO) session.getAttribute("user");
 
         if (user == null || !"ADMIN".equals(user.getRole())) {
-            return "report/report_adminList";
+            return "redirect:/main_list.do";
         }
 
         List<ReportVO> list = reportDao.reportList();
         model.addAttribute("list", list);
 
         return "report/report_adminList";
+    }
+
+    @PostMapping("/report/admin/warning.do")
+    public String reportWarning(ReportVO vo) {
+
+        MemberVO user = (MemberVO) session.getAttribute("user");
+
+        if (user == null || !"ADMIN".equals(user.getRole())) {
+            return "redirect:/main_list.do";
+        }
+
+        ReportVO report = reportDao.selectReportOne(vo.getReport_id());
+
+        if (report == null) {
+            return "redirect:/report/admin/list.do";
+        }
+
+        Integer reportedMemberId = reportDao.selectReportedMemberId(report);
+
+        if (reportedMemberId != null) {
+            reportDao.updateMemberReportCount(reportedMemberId);
+            reportDao.updateReportStatusWarning(vo.getReport_id());
+        }
+
+        return "redirect:/report/admin/list.do";
+    }
+
+    private void setTargetType(ReportVO vo) {
+
+        if (vo.getReview_id() != null) {
+            vo.setTarget_type("리뷰");
+        } else if (vo.getRecipe_id() != null && vo.getComment_id() != null) {
+            vo.setTarget_type("레시피 댓글");
+        } else if (vo.getRecipe_id() != null) {
+            vo.setTarget_type("레시피");
+        } else if (vo.getBoard_id() != null && vo.getComment_id() != null) {
+            vo.setTarget_type("커뮤니티 댓글");
+        } else if (vo.getBoard_id() != null) {
+            vo.setTarget_type("커뮤니티");
+        }
     }
 }

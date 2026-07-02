@@ -12,5 +12,22 @@ public interface ReportDAO {
     List<ReportVO> reportList();
 
     BoardVO selectBoardForReport(Integer board_id);
-}
 
+    ReportVO selectRecipeForReport(Integer recipe_id);
+
+    ReportVO selectReviewForReport(Integer review_id);
+
+    ReportVO selectCommentForReport(Integer comment_id);
+
+    ReportVO selectReportOne(Integer report_id);
+
+    Integer selectReportedMemberId(ReportVO vo);
+
+    int updateMemberReportCount(Integer member_id);
+
+    int updateReportStatusWarning(Integer report_id);
+
+    int sameMemberSameTargetPendingReportCount(ReportVO vo);
+
+    int updateSameMemberSameTargetReportStatusWarning(ReportVO vo);
+}

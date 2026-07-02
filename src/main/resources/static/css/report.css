@@ -1,0 +1,270 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f6f6f6;
+    color: #222;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.report-page {
+    min-height: 100vh;
+    padding: 70px 0;
+}
+
+.report-wrap {
+    width: 700px;
+    margin: 0 auto;
+    padding: 42px 46px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.report-title-box {
+    text-align: center;
+    margin-bottom: 34px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.report-title-box h2 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.report-title-box p {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.report-target-box {
+    margin-bottom: 28px;
+}
+
+.report-target-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #777;
+}
+
+.report-target-title {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #222;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.report-target-title:hover {
+    text-decoration: underline;
+}
+
+.report-link-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.report-link-btn:hover {
+    color: #000;
+}
+
+.form-row {
+    margin-bottom: 22px;
+}
+
+.form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-row select,
+.form-row input[type="text"],
+.form-row textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-row select,
+.form-row input[type="text"] {
+    height: 44px;
+    padding: 0 12px;
+}
+
+.form-row textarea {
+    min-height: 170px;
+    padding: 12px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.form-row select:focus,
+.form-row input[type="text"]:focus,
+.form-row textarea:focus {
+    border-color: #666;
+}
+
+.report-btn-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.report-submit-btn,
+.report-cancel-btn {
+    width: 120px;
+    height: 42px;
+    border: 1px solid #bbb;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.report-submit-btn {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.report-submit-btn:hover {
+    background: #222;
+}
+
+.report-cancel-btn:hover {
+    background: #f2f2f2;
+}
+
+/* 댓글 미리보기 모달 */
+.comment-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,.45);
+
+    /* 수정: 화면 정중앙 배치 */
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-modal-box {
+    /* 수정: absolute 제거 */
+    width: 420px;
+    max-width: 90%;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.comment-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.comment-modal-header button {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #777;
+}
+
+.comment-modal-meta {
+    padding: 16px 26px 7px;
+    font-size: 13px;
+    color: #777;
+}
+
+.comment-modal-content {
+    display: block !important;
+    width: auto !important;
+    margin: 0 26px 24px !important;
+    min-height: 120px;
+    max-height: 220px;
+    padding: 18px 20px !important;
+
+    border: 1px solid #ddd;
+    background: #fafafa;
+
+    text-align: left !important;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-y: auto;
+
+    font-size: 14px;
+    color: #333;
+}
+
+/* 부모 쪽 중앙정렬 영향 차단 */
+.comment-modal-box,
+.comment-modal-box div {
+    text-align: left;
+}
+
+/* 제목만 다시 중앙 */
+.comment-modal-header {
+    text-align: center !important;
+}
+
+.comment-modal-header h3 {
+    text-align: center !important;
+}
+
+/* 닫기 버튼은 오른쪽 */
+.comment-modal-header button {
+    text-align: center !important;
+}
+
+/* 하단 버튼은 중앙 */
+.comment-modal-footer {
+    text-align: center !important;
+}
+/* 모달 하단 닫기 버튼 영역 여백 */
+.comment-modal-footer {
+    padding: 0 22px 24px !important;
+    text-align: center !important;
+}
+
+/* 모달 닫기 버튼 디자인 */
+.comment-modal-footer button {
+    width: 90px;
+    height: 38px;
+    border: none;
+    background: #333;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.comment-modal-footer button:hover {
+    background: #222;
+}
