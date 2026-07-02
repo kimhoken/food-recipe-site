@@ -100,29 +100,7 @@ public class BoardController {
 
         String filename = fileupload.saveFile(dto.getMainImg(), "recipe");
 
-        System.out.println("저장된 파일명 = " + filename);
-
         dto.setThumbnail(filename);
-
-        // 등록 데이터 잘 들어오는지 확인용
-
-        System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
-
-        System.out.println("선택한 foodId = " + dto.getFoodId());
-        System.out.println("생성된 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 foodId = " + dto.getFoodId());
-
-        System.out.println("제목 : " + dto.getTitle());
-
-        System.out.println("재료명 : " + dto.getIngredientName());
-        System.out.println("수량 : " + dto.getAmount());
-        System.out.println("단위 : " + dto.getUnit());
-
-        System.out.println("조리순서 : " + dto.getStep());
-
-        System.out.println(dto.getMemberId());
-        System.out.println(dto.getRecipeId());
 
         // 1. 레시피테이블에 레시피 등록
         boardDao.insertRecipe(dto);
@@ -145,8 +123,6 @@ public class BoardController {
             boardDao.insertIngredient(ingredient);
         }
 
-        System.out.println("생성된 recipe_id : " + dto.getRecipeId());
-
         // 3. 조리과정 저장
         for (int i = 0; i < dto.getStep().size(); i++) {
 
@@ -166,7 +142,6 @@ public class BoardController {
             }
 
             //조리시간 들어오는지 확인
-            System.out.println("조리시간 : " + dto.getCooking_time());
 
             boardDao.insertCookOrder(order);
         }
@@ -184,7 +159,6 @@ public class BoardController {
 
     @GetMapping("/view.do")
     public String boardView(int board_id, Model model, HttpServletRequest req) {
-        System.out.println("받은 board_id = " + board_id);
 
         @SuppressWarnings("unchecked")
         HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>()
@@ -218,7 +192,7 @@ public class BoardController {
 
         // 게시글 조회
         BoardVO board = boardDao.selectOne(board_id);
-        System.out.println("조회결과 = " + board);
+
 
         model.addAttribute("board", board);
 
@@ -242,7 +216,6 @@ public class BoardController {
 
         int res = boardDao.update(vo);
 
-        System.out.println("수정 결과 : " + res);
 
         return "redirect:/view.do?board_id=" + vo.getBoard_id();
     }
@@ -256,12 +229,8 @@ public class BoardController {
 
         BoardVO board = boardDao.selectOne(board_id);
 
-        System.out.println("로그인 사용자 : " + user.getMember_id());
-        System.out.println("게시글 작성자 : " + board.getMember_id());
-
         int res = boardDao.delete(board_id);
 
-        System.out.println("삭제 결과 : " + res);
 
         return "redirect:/list.do";
     }

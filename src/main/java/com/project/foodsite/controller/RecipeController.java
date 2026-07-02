@@ -239,7 +239,7 @@ public class RecipeController {
      * @return jsp
      */
     @GetMapping("/recipe_detail.do")
-    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id) {
+    public String recipeDetail(Model model, @RequestParam(value = "recipe_id", required = false) Integer recipe_id, HttpServletRequest req) {
 
         if (recipe_id == null) {
             return "redirect:/recipe_list.do";
@@ -248,12 +248,29 @@ public class RecipeController {
         model.addAttribute("recipe_id", recipe_id);
         RecipeDetailDTO dto = recipeDao.getRecipe(recipe_id);
 
+        //조회수 증가
+        //IP를 키, 레시피 아이디를 value로 저장
+        @SuppressWarnings("unchecked")
+        Map<String, List<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>()
+                : (Map<String, List<Integer>>) session.getAttribute("viewMap");
+        
+        //맵에 ip자체가 없을 경우 또는 ip가 키값으로 있지만 value 리스트에 recipe_id가 없을 경우
+        if(!map.containsKey(req.getRemoteAddr()) || !map.get(req.getRemoteAddr()).contains(recipe_id) ){
+            //검색의 편의를 위해 arrayList 사용
+            map.computeIfAbsent(req.getRemoteAddr(), k -> new ArrayList<>()).add(recipe_id);
+            recipeDao.updateViewCount(recipe_id);
+        }
+
         List<IngredientVO> ilist = dto.getIngredientList();
         List<CookOrderVO> olist = dto.getCookOrderList();
 
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
+
+        session.setAttribute("viewMap", map);
+        session.setMaxInactiveInterval(3600);
+
         model.addAttribute("commentList", commonCommentDAO.getRecipeList(recipe_id));
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);

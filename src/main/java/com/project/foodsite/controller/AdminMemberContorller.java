@@ -80,8 +80,6 @@ public class AdminMemberContorller {
         
         MemberVO user = memberDAO.getUserByMemberId(member_id);
 
-        System.out.println(user);
-
         if(user.getStatus().equals("ACTIVE")){
             user.setStatus("SUSPEND");
         }else if(user.getStatus().equals("SUSPEND")){
