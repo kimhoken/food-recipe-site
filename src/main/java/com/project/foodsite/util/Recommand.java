@@ -140,8 +140,6 @@ public class Recommand {
             return e2.getScore() - e1.getScore();
         });
 
-        System.out.println("------------------------레시피 불러오기 성공------------------------");
-        System.out.println("size: " + recipeList.size());
         //점수가 높은 레시피 10개 추천 10개 보다 적으면 그거까지만 추천
         return recipeList.subList(0, Math.min(10, recipeList.size()));
     }//RecipeVO
