@@ -21,4 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY food_id ASC
     </select>
 
+    <select id="getFoodName" parameterType="String" resultType="food">
+        SELECT * FROM food WHERE category_id = #{category_id}
+    </select>
 </mapper>

@@ -47,8 +47,7 @@
                 
                 f.submit();
             }
-            
-            
+
             //썸네일 미리보기
             function previewImage(input) {
                 
@@ -86,7 +85,6 @@
                 
                 reader.readAsDataURL(file);
             }
-            
             
             //재료 추가 함수
             function addIngredient() {
@@ -168,7 +166,6 @@
                 
                 btn.closest("tr").remove();
             }
-            
             
             //조리순서 번호를 1부터 다시 매기는 함수
             function updateStepNumbers() {
@@ -258,6 +255,30 @@
                     }
                 })
             }
+
+            function getFoodList(){
+                const subCategory = document.getElementById("subCategory");
+                let foodName = document.getElementById("foodName");
+                fetch("/api/food", {
+                    method:"POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        categoryId: subCategory.value,
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.result == "success"){
+                        let options = data.list.map(item => 
+                            "<option value=" + item.food_id + ">" + item.food_name + "</option>"
+                        ).join('');
+                        let defaultOption = "<option value='' selected>음식을 선택해주세요</option>";
+                        foodName.innerHTML = defaultOption + options;
+                    }
+                })
+            }
         </script>
         <style>
             textarea {
@@ -286,15 +307,19 @@
             <!-- 카테고리 대분류/중분류로 나눠서 진행-->
             <div class="section">
                 <h2>음식 선택</h2>
-                <select name="foodId" id="category" required onChange="selectCategory()">
+                <select id="category" required onChange="selectCategory()">
                     <option value="" selected>대분류를 선택해주세요</option>
                     <c:forEach var="name" items="${bigList}">
                         <option value="${name.categoryName}">${name.categoryName}</option>
                     </c:forEach>
                 </select>
 
-                <select name="subCategory" id="subCategory" required>
+                <select id="subCategory" onChange="getFoodList()" required>
                     <option value="" selected>대분류를 먼저 선택해주세요</option>
+                </select>
+                
+                <select name="foodId" id="foodName">
+                    <option value="" selected>대분류/중분류를 먼저 선택해주세요</option>
                 </select>
             </div>
 

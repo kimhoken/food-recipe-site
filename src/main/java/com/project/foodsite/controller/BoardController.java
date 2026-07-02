@@ -12,11 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
 import com.project.foodsite.dao.CategoryDAO;
-import com.project.foodsite.dao.CommonCommentDAO; 
+import com.project.foodsite.dao.CommonCommentDAO;
 import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
 import com.project.foodsite.vo.CategoryVO;
 import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.FoodVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.ReviewVO;
@@ -40,6 +41,7 @@ public class BoardController {
     private final Fileupload fileupload;
     private final CommonCommentDAO commonCommentDAO; 
     private final CategoryDAO categoryDAO;
+
     // board list 조회
     @GetMapping("/list.do")
     public String boardList(Model model, String sort, String period, String btn) {
@@ -296,5 +298,13 @@ public class BoardController {
         return map;
     }
     
+    @PostMapping("/api/food")
+    @ResponseBody
+    public Map<?, ?> getFood(@RequestBody Map<String, Object> map){
+        List<FoodVO> list = categoryDAO.getFoodName((String)map.get("categoryId"));
+        map.put("list", list);
+        map.put("result", list.size() > 0 ? "success" : "fail");
+        return map;
+    }
 
 }
