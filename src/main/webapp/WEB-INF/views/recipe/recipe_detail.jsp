@@ -143,7 +143,7 @@
                 <table class="ingredient-table">
                     <tr>
                         <td rowspan="${size + 1}" class="thumb-cell">
-                            <img src="/upload/recipe/${dto.thumbnail}" alt="썸네일">
+                            <img src="/upload/recipe/${dto.thumbnail}" alt="썸네일" class="thumbnail-img">
                         </td>
                         <th colspan="2" class="section-title-cell">필요 재료</th>
                     </tr>
@@ -164,9 +164,10 @@
                     <c:forEach var="vo" items="${orderList}">
                         <tr class="step-row-top">
                             <td rowspan="2" class="step-thumb-cell">
+                                <!--이미지 삽입-->
                                 <c:if test="${not empty vo.cook_image}"> 
-                                                <img src="/upload/recipe/${vo.cook_image}" class="cook-img"> 
-                                            </c:if>
+                                    <img src="/upload/recipe/${vo.cook_image}" class="cook-img">
+                                </c:if>           
                             </td> 
                             <td class="step-num">순서 ${vo.order}</td>
                         </tr>
@@ -185,20 +186,26 @@
             </div>
         </div>
 
-        <!-- 작성자만 삭제 가능 -->
-                        <c:if test="${not empty sessionScope.user && sessionScope.user.member_id == dto.memberId}">
-                            <a href="/recipe_delete.do?recipeId=${dto.recipeId}" class="recipe-delete-btn"
-                                onclick="return confirm('삭제하시겠습니까?');">
-                                삭제
-                            </a>
-                        </c:if>
+        <!-- 작성자만 수정 가능 -->
+        <c:if test="${not empty sessionScope.user && sessionScope.user.member_id == dto.memberId}">
+            <div class="recipe-btn-wrap">
+                <a href="/recipe_update.do?recipeId=${dto.recipeId}" class="recipe-update-btn">
+                수정
+            </a>
 
-        <%-- <div class="recipe-report-wrapx">
+        <!-- 작성자만 삭제 가능 -->
+            <a href="/recipe_delete.do?recipeId=${dto.recipeId}" class="recipe-delete-btn" onclick="return confirm('삭제하시겠습니까?');">
+                삭제
+            </a>
+            </div>
+        </c:if>
+
+        <div class="recipe-report-wrapx">
             <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipe_id}"
             class="recipe-report-btn">
                 신고하기
             </a>
-        </div> --%>
+        </div>
 
         <div class="recipe-bookmark-wrap">
             <a href="#"
@@ -233,6 +240,7 @@
                                 </div> 
                             </td>
 
+                            <!-- 댓글 신고, 수정, 삭제 -->
                             <td>
                                 <input type="hidden" id="send_btn${vo.comment_id}" value="등록" onClick="modiFin('${vo.comment_id}')">
                                 <div style="position:relative; display:inline-block;">
