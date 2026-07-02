@@ -11,9 +11,9 @@
                         </div>
 
                         <div class="home-activity-tab">
-                            <span class="home-tab-btn active" onclick="btn_change('recipe')">레시피</span>
-                            <span class="home-tab-btn" onclick="btn_change('comment')">댓글</span>
-                            <span class="home-tab-btn" onclick="btn_change('bookmark')">북마크</span>
+                            <span class="home-tab-btn ${param.menu eq 'recipe' ? 'active' : ''}" onclick="btn_change('recipe')">레시피</span>
+                            <span class="home-tab-btn ${param.menu eq 'cooment' ? 'active' : ''}" onclick="btn_change('comment')">댓글</span>
+                            <span class="home-tab-btn ${param.menu eq 'bookmark' ? 'active' : ''}" onclick="btn_change('bookmark')">북마크</span>
                         </div>
                         <div id="recipebox" class="home-activity-list">
                             <h3>최근 작성 레시피</h3>

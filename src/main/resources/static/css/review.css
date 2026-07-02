@@ -1,7 +1,244 @@
+/* Review write */
+.review-write-page {
+    max-width: 960px;
+    margin: 72px auto 90px;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.review-write-head {
+    margin-bottom: 24px;
+}
+
+.review-write-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #617a55;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.review-write-head h3 {
+    margin: 0 0 8px;
+    color: #1f2a1d;
+    font-size: 32px;
+    line-height: 1.25;
+}
+
+.review-write-head small {
+    color: #66715f;
+    font-size: 15px;
+}
+
+.review-write-form {
+    padding: 28px;
+    border: 1px solid #dfe7d7;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(49, 64, 43, 0.08);
+}
+
+.review-write-layout {
+    display: grid;
+    gap: 24px;
+}
+
+.review-recipe-card {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 20px;
+    align-items: stretch;
+    padding: 16px;
+    border: 1px solid #e3ebdc;
+    border-radius: 8px;
+    background: #f8faf5;
+}
+
+.review-recipe-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #edf1e8;
+}
+
+.review-recipe-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+}
+
+.review-recipe-label {
+    color: #617a55;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.review-recipe-info h4 {
+    margin: 8px 0 14px;
+    color: #1f2a1d;
+    font-size: 23px;
+    line-height: 1.35;
+}
+
+.review-recipe-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.review-recipe-meta span {
+    padding: 7px 10px;
+    border: 1px solid #d5dfcc;
+    border-radius: 999px;
+    background: #fff;
+    color: #52634b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.review-field {
+    display: grid;
+    gap: 10px;
+}
+
+.review-field label {
+    color: #263322;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.review-field label span {
+    color: #d8583f;
+}
+
+.review-field input[type="text"],
+.review-field textarea {
+    width: 100%;
+    border: 1px solid #ccd8c4;
+    border-radius: 8px;
+    background: #fff;
+    color: #202820;
+    font-size: 15px;
+    box-sizing: border-box;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.review-field input[type="text"] {
+    height: 48px;
+    padding: 0 14px;
+}
+
+.review-field textarea {
+    min-height: 180px;
+    padding: 14px;
+    line-height: 1.7;
+    resize: vertical;
+}
+
+.review-field input[type="text"]:focus,
+.review-field textarea:focus {
+    border-color: #617a55;
+    box-shadow: 0 0 0 3px rgba(97, 122, 85, 0.14);
+}
+
+.review-rating-field {
+    grid-template-columns: 90px minmax(0, 1fr);
+    align-items: center;
+}
+
+.review-rating-field label {
+    margin-top: 2px;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating__result {
+    min-width: 28px;
+    color: #617a55;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.rating__star {
+    color: #d0d8c9;
+    font-size: 24px;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+.rating__star.fas,
+.rating__star:hover {
+    color: #f0a928;
+}
+
+.review-file-label {
+    width: fit-content;
+    padding: 10px 16px;
+    border: 1px solid #cbd8c2;
+    border-radius: 8px;
+    background: #f8faf5;
+    color: #46573e;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.review-file-label:hover {
+    border-color: #617a55;
+    background: #eef4ea;
+}
+
+.review-file-input {
+    display: none;
+}
+
+.review-write-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #e4eadf;
+}
+
+.review-btn {
+    min-width: 108px;
+    height: 44px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.review-btn-sub {
+    border: 1px solid #cfd9c6;
+    background: #fff;
+    color: #52634b;
+}
+
+.review-btn-main {
+    border: 1px solid #617a55;
+    background: #617a55;
+    color: #fff;
+}
+
+.review-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Upload preview */
 .preview-box {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
+    gap: 10px;
     margin-top: 12px;
 }
 
@@ -9,6 +246,441 @@
     width: 90px;
     height: 90px;
     object-fit: cover;
-    border-radius: 10px;
     border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Filter */
+.review-filter-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.filter-controls,
+.sub-tabs.show,
+.review-info-top,
+.review-info-meta,
+.review-model-btn,
+.owner-btn,
+.guest-btn {
+    display: flex;
+}
+
+.filter-controls {
+    align-items: center;
+    gap: 15px;
+}
+
+.sub-tabs {
+    display: none;
+    gap: 8px;
+}
+
+.sub-tab-btn {
+    padding: 6px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: #f5f5f5;
+    color: #666;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sub-tab-btn:hover {
+    background: #e8e8e8;
+}
+
+.sub-tab-btn.active {
+    border-color: #617a55;
+    background: #617a55;
+    color: #fff;
+    font-weight: 700;
+}
+
+.sort-dropdown {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Card */
+.review-feed-list {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.review-card {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: 0.2s ease;
+}
+
+.review-card:hover {
+    border-color: #6b7a5f;
+    box-shadow: 0 6px 16px rgba(107, 122, 95, 0.12);
+    transform: translateY(-2px);
+}
+
+.review-card-main {
+    display: flex;
+}
+
+.review-card-image {
+    width: 150px;
+    min-width: 150px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f7f7f7;
+}
+
+.review-card-image img,
+.model-imgs img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.review-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 20px 28px;
+}
+
+.review-info-top {
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+.review-title {
+    min-width: 0;
+    margin: 0;
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.review-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.review-title a:hover {
+    color: #6b7a5f;
+}
+
+.review-rating {
+    color: #2d3748;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.review-info-meta {
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    color: #718096;
+    font-size: 14px;
+}
+
+.review-divider {
+    color: #cbd5e0;
+}
+
+.review-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    margin: 0;
+    overflow: hidden;
+    color: #4a5568;
+    font-size: 15px;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+/* Detail */
+.review-expand-box {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 32px;
+    border-top: 1px solid transparent;
+    background: linear-gradient(180deg, #fbfcf8 0%, #f5f7ef 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease;
+}
+
+.review-card.open .review-expand-box {
+    max-height: 680px;
+    opacity: 1;
+    overflow-y: auto;
+    padding: 30px 34px 28px;
+    border-top-color: #dfe6d7;
+}
+
+#model-tag {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 22px;
+    padding: 16px;
+    border: 1px solid #e2e8dc;
+    border-radius: 8px;
+    background: #fff;
+    color: inherit;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+#model-tag:hover {
+    border-color: #9bae8b;
+    box-shadow: 0 8px 20px rgba(94, 113, 76, 0.12);
+    transform: translateY(-1px);
+}
+
+.model-img {
+    display: block;
+    width: 128px;
+    height: 96px;
+    object-fit: cover;
+    border: 1px solid #d9dfd1;
+    border-radius: 8px;
+    background: #f1f3ec;
+}
+
+#model-recipetitle {
+    min-width: 0;
+    margin: 0;
+    color: #26351f;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+#model-recipetitle,
+.model-content {
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
+.model-rating {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 34px;
+    margin: 0 0 18px;
+    padding: 7px 13px;
+    border: 1px solid #d9e4cf;
+    border-radius: 999px;
+    background: #eef3e8;
+    color: #566f43;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.model-rating::before {
+    content: "\2605";
+    margin-right: 6px;
+    color: #e3a43b;
+}
+
+.model-content {
+    margin: 0 0 24px;
+    padding: 20px 22px;
+    border: 1px solid #e5eadf;
+    border-radius: 8px;
+    background: #fff;
+    color: #3f4a38;
+    font-size: 15px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.model-imgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 12px;
+    margin: 0 0 26px;
+}
+
+.model-imgs:empty {
+    display: none;
+}
+
+.model-imgs img {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    border: 1px solid #dfe5d8;
+    border-radius: 8px;
+    background: #f4f5f0;
+    transition: 0.2s ease;
+}
+
+.model-imgs img:hover {
+    box-shadow: 0 8px 18px rgba(54, 71, 43, 0.16);
+    transform: translateY(-2px);
+}
+
+.review-model-btn {
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid #e2e8dc;
+}
+
+.owner-btn,
+.guest-btn {
+    gap: 10px;
+}
+
+.owner-btn input,
+.guest-btn input {
+    min-width: 76px;
+    padding: 9px 18px;
+    border: 1px solid #cfd9c6;
+    border-radius: 8px;
+    background: #fff;
+    color: #4f6342;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.owner-btn input:hover,
+.guest-btn input:hover {
+    border-color: #6b7a5f;
+    background: #6b7a5f;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+    .review-filter-wrap {
+        justify-content: flex-start;
+    }
+
+    .filter-controls {
+        flex-wrap: wrap;
+    }
+
+    .review-card-main,
+    .review-info-top {
+        flex-direction: column;
+    }
+
+    .review-card-image {
+        width: 100%;
+        min-width: 0;
+        aspect-ratio: 16 / 9;
+    }
+
+    .review-info-top {
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .review-card.open .review-expand-box {
+        padding: 22px 18px;
+    }
+
+    #model-tag {
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 14px;
+        padding: 12px;
+    }
+
+    .model-img {
+        width: 96px;
+        height: 78px;
+    }
+
+    #model-recipetitle {
+        font-size: 17px;
+    }
+
+    .model-content {
+        padding: 16px;
+    }
+}
+
+.image-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.8);
+    z-index: 9999;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.image-modal.show {
+    display: flex;
+}
+
+.image-modal-img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    cursor: zoom-out;
+}
+
+@media (max-width: 720px) {
+    .review-write-page {
+        margin: 44px auto 64px;
+        padding: 0 16px;
+    }
+
+    .review-write-form {
+        padding: 18px;
+    }
+
+    .review-write-head h3 {
+        font-size: 26px;
+    }
+
+    .review-recipe-card {
+        grid-template-columns: 1fr;
+    }
+
+    .review-rating-field {
+        grid-template-columns: 1fr;
+    }
+
+    .review-write-actions {
+        flex-direction: column-reverse;
+    }
+
+    .review-btn {
+        width: 100%;
+    }
 }

@@ -37,10 +37,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    private final ViewCount viewCount;
-
-    @Autowired
-    HttpSession httpSession;
+    private final ViewCount viewCount;    
+    private final HttpSession httpSession;
     
     private final ReviewDAO reviewDao;
     private final RecipeDAO recipeDao;

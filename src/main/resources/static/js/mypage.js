@@ -247,16 +247,33 @@ function disableuser(f) {
 }
 
 function btn_change(type) {
+    const boxes = ["recipe", "comment", "bookmark"];
     let see_btn = document.getElementById("see-btn");
-
-    document.getElementById("recipebox").style.display="none";
-    document.getElementById("commentbox").style.display="none";
-    document.getElementById("bookmarkbox").style.display="none";
-
-    let url = "/mypage.do?menu="+type;
     
-    see_btn.onclick = () => location.href = url;
+    boxes.forEach( name => {
+        const box = document.getElementById(name+"box");
+        if(box){
+            box.style.display = name == type ? "block" : "none";
+        }
+    });
 
-    document.getElementById(type+"box").style.display="block";
+    document.querySelectorAll(".home-tab-btn").forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    const tabs = document.querySelectorAll(".home-tab-btn");
+    const activeTab = tabs[boxes.indexOf(type)];
+
+    if( activeTab ) {
+        activeTab.classList.add("active");
+    }
+
+    if (see_btn) {
+        see_btn.onclick = () => location.href= "/mypage.do?menu=" +type;
+    }
+    
 
 }
+
+
+
