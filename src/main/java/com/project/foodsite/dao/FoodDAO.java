@@ -12,5 +12,6 @@ public interface FoodDAO {
     //음식 전체 목록 조회
     List<FoodVO> foodListAll();
 
+    List<FoodVO> getFoodName(String categoryId);
     
 }

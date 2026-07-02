@@ -26,4 +26,6 @@ public interface ViewCountDAO {
 
     //  게시판 조회수 증가
     int increaseBoardViewCount(int board_id);
+
+    int increaseReviewViewCount(int review_id);
 }

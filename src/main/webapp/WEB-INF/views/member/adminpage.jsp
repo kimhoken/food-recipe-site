@@ -6,6 +6,8 @@
         <head>
             <link rel="stylesheet" href="${pageContent.request.contentPath}/css/admin.css" />
 
+            <script src="/js/util.js"></script>
+
             <script>
                 let recipedetailrecipe;
                 let recipeStatus;
@@ -83,19 +85,7 @@
         `);
                     });
                 }
-                // 상세보기 정보 입력 함수
-                function setText(id, value) {
-                    document.getElementById("model-"+id).textContent = value ?? "-";
-                    if (value == 'public') {
-                        document.getElementById("model-"+id).textContent = "공개" ?? "-";
-                    } else if (value == 'private') {
-                        document.getElementById("model-"+id).textContent = "비공개" ?? "-";
-                    }
-                }
-                function setImg(id, src) {
-                    document.getElementById(id).src = src;
-                }
-
+                
                 // 레시피 공개/ 비공개 함수
                 function recipeprivate() {
                     if (confirm("정말로 비공개 처리 하시겠습니까?")) {

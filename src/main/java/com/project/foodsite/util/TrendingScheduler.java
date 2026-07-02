@@ -22,7 +22,6 @@ public class TrendingScheduler {
     @PostConstruct
     public void init(){
         trendingService.initCache();
-        System.out.println("=================초기 실시간 검색어 세팅 완료=================");
     }
 
     @Scheduled(fixedDelay = 300000)
@@ -47,7 +46,6 @@ public class TrendingScheduler {
         List<String> finalRank = new ArrayList<>(combinedSet);
         lastRank = finalRank;
 
-        System.out.println("=================실시간 검색어 업데이트 완료=================");
         trendingService.updateTrendingKeywords(finalRank);
     }
 

@@ -43,7 +43,6 @@ public class Fileupload {
         }
 
         file.transferTo(saveFile);
-        System.out.println("저장위치 = " + saveFile.getAbsolutePath());
 
         return filename;
 
