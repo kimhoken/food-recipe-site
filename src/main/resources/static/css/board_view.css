@@ -107,15 +107,15 @@
    댓글 영역 디자인
    ========================================================================== */
 
-/* 댓글 제목 */
 .comment-main-title {
-    margin: 90px 0 18px; 
+    margin: 90px 0 18px;
     padding-top: 30px;
     border-top: 1px solid #e5e5e5;
     font-size: 20px;
     font-weight: 700;
     color: #222;
 }
+
 .comment-main-title::before {
     content: "";
     display: inline-block;
@@ -129,35 +129,23 @@
     top: -2px;
 }
 
-/* 댓글 목록 / 입력 영역 */
-.read-comment-div,
-.comment-insert-div {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* 댓글 목록 */
 .read-comment-div {
-    padding-top: 15px;
-    padding-bottom: 35px;
+    margin-bottom: 35px;
 }
 
-/* 댓글 없을 때 */
 .read-comment-div h2 {
     text-align: center;
-    font-size: 17px;
-    color: #888;
+    padding: 45px 0;
+    font-size: 16px;
+    color: #999;
     font-weight: 400;
-    margin: 45px 0;
 }
 
-/* 댓글 하나 */
 .read-comment-div table {
     width: 100%;
-    border-bottom: 1px solid #eee;
-    padding: 15px 0;
-    margin-bottom: 12px;
     border-collapse: collapse;
+    border-bottom: 1px solid #eeeeee;
+    table-layout: fixed;
 }
 
 .read-comment-div td {
@@ -165,56 +153,73 @@
     vertical-align: middle;
 }
 
-/* 닉네임 */
 .read-comment-div td:first-child {
     width: 90px;
-    font-weight: 500;
-    color: #666;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+
+.read-comment-div td:nth-child(2) {
+    width: auto;
+}
+
+.read-comment-div td:last-child {
+    width: 50px;
+    text-align: right;
+    position: relative;
+    overflow: visible;
 }
 
 /* 댓글 내용 */
 .comment-content {
     width: 100%;
-    height: 24px;
+    min-height: 62px;
+    max-height: 90px;
     resize: none;
     border: none;
     outline: none;
     background: transparent;
     font-size: 14px;
     color: #333;
-    line-height: 24px;
+    line-height: 1.6;
     padding: 0;
     box-sizing: border-box;
-    vertical-align: middle;
+    overflow-y: auto;
 }
 
-/* 댓글 메뉴 영역 */
-.read-comment-div td:last-child {
-    width: 60px;
-    text-align: right;
-    white-space: nowrap;
-}
-
+/* ⋮ 버튼 */
 .comment-toggle-btn {
+    width: 30px;
+    height: 30px;
     border: none;
+    border-radius: 50%;
     background: transparent;
     font-size: 18px;
-    cursor: pointer;
     color: #555;
-    padding: 4px 8px;
+    cursor: pointer;
+    line-height: 30px;
+    text-align: center;
 }
 
 .comment-toggle-btn:hover {
-    color: #222;
+    background: #f1f4ee;
+    color: #4a663f;
 }
 
+/* 드롭다운 감싸는 박스 */
 .comment-dropdown {
-    min-width: 64px;
+    min-width: 82px;
     padding: 4px 0 !important;
-    z-index: 30;
+    z-index: 999;
     border-radius: 6px;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+    overflow: visible;
 }
+
+/* 드롭다운 내부 목록 */
 .comment-dropdown ul {
     margin: 0;
     padding: 0;
@@ -222,29 +227,37 @@
 }
 
 .comment-dropdown li {
+    display: block;
+    width: 100%;
     padding: 0;
-    line-height: 1;
+    margin: 0;
+    line-height: normal;
+    text-align: left;
 }
 
 .comment-dropdown a {
     display: block;
-    padding: 8px 18px;
+    width: 100%;
+    padding: 7px 12px;
     color: #333;
     font-size: 13px;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 1.4;
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
 .comment-dropdown a:hover {
-    color: #5a7e4d;
-    font-weight: 600;
+    background: #f3f8ee;
+    color: #4a663f;
+    font-weight: 700;
 }
 
 /* 댓글 입력 영역 */
 .comment-insert-div {
+    margin-top: 35px;
+    padding-top: 30px;
     border-top: 1px solid #777;
-    padding-top: 35px;
-    margin-top: 30px;
 }
 
 .comment-insert-div table {
@@ -254,45 +267,44 @@
 
 .comment-insert-div td {
     padding-bottom: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
 }
 
 /* 댓글 입력 textarea */
 #comment-content {
     width: 100%;
-    height: 80px;
+    height: 90px;
     resize: none;
-    border: 1px solid #333;
-    background-color: transparent;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    color: #333;
-    line-height: 1.5;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     outline: none;
-    padding: 8px;
+    font-size: 14px;
+    line-height: 1.6;
     box-sizing: border-box;
 }
 
 #comment-content:focus {
-    border-color: #cda87c;
+    border-color: #5a7e4d;
 }
 
 /* 댓글 등록 버튼 */
 .comment-register {
     display: block;
     width: 120px;
-    margin: 10px 0 0 auto;
+    margin: 12px 0 0 auto;
     padding: 12px 0;
-    background-color: #222 !important;
+    border: none !important;
+    border-radius: 24px !important;
+    background: #222 !important;
     color: #fff !important;
-    border: none;
-    border-radius: 20px !important;
-    font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .comment-register:hover {
-    background-color: #5a7e4d !important;
+    background: #5a7e4d !important;
 }

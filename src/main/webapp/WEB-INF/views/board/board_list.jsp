@@ -366,7 +366,9 @@
                                 </div>
 
                                 <div class="guest-btn" style="display: none;">
-                                    <input type="button" value="신고" onclick="" />
+                                    <input type="button" 
+                                           value="신고" 
+                                           onclick="location.href='/report/form.do?review_id=${review.review_id}'" />
                                 </div>
                         
                                
