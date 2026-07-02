@@ -147,6 +147,5 @@
         where review_id =#{review_id}
     </delete>
 
-
-
+   
 </mapper>

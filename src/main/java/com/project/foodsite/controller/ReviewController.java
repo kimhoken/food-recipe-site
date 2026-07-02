@@ -3,6 +3,7 @@ package com.project.foodsite.controller;
 import com.project.foodsite.common.ViewCount;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -183,14 +184,28 @@ public class ReviewController {
     @PostMapping("/review/modify")
     @ResponseBody
     public Map<String,Object> reviewModifyFin(ReviewVO review, String deleteImages){
+
         Map<String,Object> map =  new HashMap<>();
 
         ImgVO img = imgDAO.img_select(review.getImg_id());
 
-        img.setImage_list(deleteImages);
+        List<String> imageList= new ArrayList<>(Arrays.asList(img.getImage_list().split(",")));        
+        List<String> deleteList = new ArrayList<>(Arrays.asList(deleteImages.split(",")));
+        
+        imageList.removeAll(deleteList);
 
-        imgDAO.img_update(img);
-       
+        img.setImage_list(String.join(",", imageList));
+
+        int res = imgDAO.img_update(img);
+
+        if( res > 0 ) {
+            fileupload.deleteFiles(deleteImages, "review");
+        }
+
+        int review_res = reviewDao.reviewUpdate(review);
+
+        map.put("result", res);
+        // map.put("");
         return map;
 
     }

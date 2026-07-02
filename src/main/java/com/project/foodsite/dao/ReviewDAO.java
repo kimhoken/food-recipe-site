@@ -31,5 +31,6 @@ public interface ReviewDAO {
 
     int deletereview(int review_id);
 
+    int reviewUpdate( ReviewVO review );
 
 }
