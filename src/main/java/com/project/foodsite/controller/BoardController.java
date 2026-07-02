@@ -6,15 +6,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.common.Fileupload;
 import com.project.foodsite.dao.BoardDAO;
-import com.project.foodsite.dao.CommonCommentDAO; 
-import com.project.foodsite.dao.RecipeDAO;
+import com.project.foodsite.dao.CategoryDAO;
+import com.project.foodsite.dao.CommonCommentDAO;
 import com.project.foodsite.dao.ReviewDAO;
 import com.project.foodsite.vo.BoardVO;
+import com.project.foodsite.vo.CategoryVO;
 import com.project.foodsite.vo.CookOrderVO;
+import com.project.foodsite.vo.FoodVO;
 import com.project.foodsite.vo.IngredientVO;
 import com.project.foodsite.vo.MemberVO;
 import com.project.foodsite.vo.ReviewVO;
@@ -25,17 +28,19 @@ import com.project.foodsite.dto.RecipeDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardDAO boardDao;
-    private final RecipeDAO recipeDao;
     private final HttpSession session;
     private final ReviewDAO reviewDao;
     private final Fileupload fileupload;
     private final CommonCommentDAO commonCommentDAO; 
+    private final CategoryDAO categoryDAO;
 
     // board list 조회
     @GetMapping("/list.do")
@@ -84,11 +89,8 @@ public class BoardController {
     // recipe 등록 폼
     @GetMapping("/regiRecipe.do")
     public String recipeForm(Model model, String id) {
-
         model.addAttribute("id", id);
-
-        model.addAttribute("foodList", recipeDao.selectAllFood());
-
+        model.addAttribute("bigList", categoryDAO.getCategoryName());
         return "board/board_regiRecipe";
     }
 
@@ -98,29 +100,7 @@ public class BoardController {
 
         String filename = fileupload.saveFile(dto.getMainImg(), "recipe");
 
-        System.out.println("저장된 파일명 = " + filename);
-
         dto.setThumbnail(filename);
-
-        // 등록 데이터 잘 들어오는지 확인용
-
-        System.out.println("대표이미지 : " + dto.getMainImg().getOriginalFilename());
-
-        System.out.println("선택한 foodId = " + dto.getFoodId());
-        System.out.println("생성된 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 recipeId = " + dto.getRecipeId());
-        System.out.println("insert 후 foodId = " + dto.getFoodId());
-
-        System.out.println("제목 : " + dto.getTitle());
-
-        System.out.println("재료명 : " + dto.getIngredientName());
-        System.out.println("수량 : " + dto.getAmount());
-        System.out.println("단위 : " + dto.getUnit());
-
-        System.out.println("조리순서 : " + dto.getStep());
-
-        System.out.println(dto.getMemberId());
-        System.out.println(dto.getRecipeId());
 
         // 1. 레시피테이블에 레시피 등록
         boardDao.insertRecipe(dto);
@@ -143,8 +123,6 @@ public class BoardController {
             boardDao.insertIngredient(ingredient);
         }
 
-        System.out.println("생성된 recipe_id : " + dto.getRecipeId());
-
         // 3. 조리과정 저장
         for (int i = 0; i < dto.getStep().size(); i++) {
 
@@ -164,7 +142,6 @@ public class BoardController {
             }
 
             //조리시간 들어오는지 확인
-            System.out.println("조리시간 : " + dto.getCooking_time());
 
             boardDao.insertCookOrder(order);
         }
@@ -182,7 +159,6 @@ public class BoardController {
 
     @GetMapping("/view.do")
     public String boardView(int board_id, Model model, HttpServletRequest req) {
-        System.out.println("받은 board_id = " + board_id);
 
         @SuppressWarnings("unchecked")
         HashMap<String, LinkedList<Integer>> map = session.getAttribute("viewMap") == null ? new HashMap<>()
@@ -216,7 +192,7 @@ public class BoardController {
 
         // 게시글 조회
         BoardVO board = boardDao.selectOne(board_id);
-        System.out.println("조회결과 = " + board);
+
 
         model.addAttribute("board", board);
 
@@ -237,30 +213,15 @@ public class BoardController {
     // 상세보기 수정
     @PostMapping("/update.do")
     public String update(BoardVO vo) {
-
-        int res = boardDao.update(vo);
-
-        System.out.println("수정 결과 : " + res);
-
+        boardDao.update(vo);
         return "redirect:/view.do?board_id=" + vo.getBoard_id();
     }
 
     // 상세보기 삭제
     @GetMapping("/delete.do")
-    public String delete(int board_id,
-            HttpSession session) {
-
-        MemberVO user = (MemberVO) session.getAttribute("user");
-
-        BoardVO board = boardDao.selectOne(board_id);
-
-        System.out.println("로그인 사용자 : " + user.getMember_id());
-        System.out.println("게시글 작성자 : " + board.getMember_id());
-
-        int res = boardDao.delete(board_id);
-
-        System.out.println("삭제 결과 : " + res);
-
+    public String delete(int board_id, HttpSession session) {
+        boardDao.selectOne(board_id);
+        boardDao.delete(board_id);
         return "redirect:/list.do";
     }
 
@@ -284,6 +245,25 @@ public class BoardController {
         boardDao.insertBoard(vo);
 
         return "redirect:/list.do";
+    }
+
+    @PostMapping("/api/category")
+    @ResponseBody
+    public Map<?, ?> getCategory(@RequestBody Map<String, Object> map) {
+        List<CategoryVO> list = categoryDAO.getSubName((String)map.get("category"));
+        String res = list.size() > 0 ? "success" : "fail";
+        map.put("list", list);
+        map.put("result", res);
+        return map;
+    }
+    
+    @PostMapping("/api/food")
+    @ResponseBody
+    public Map<?, ?> getFood(@RequestBody Map<String, Object> map){
+        List<FoodVO> list = categoryDAO.getFoodName((String)map.get("categoryId"));
+        map.put("list", list);
+        map.put("result", list.size() > 0 ? "success" : "fail");
+        return map;
     }
 
 }

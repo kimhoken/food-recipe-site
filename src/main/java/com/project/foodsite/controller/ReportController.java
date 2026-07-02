@@ -54,14 +54,6 @@ public class ReportController {
             return "redirect:/main_list.do";
         }
 
-        System.out.println("===== 신고 등록 값 확인 =====");
-        System.out.println("target_type = " + vo.getTarget_type());
-        System.out.println("board_id = " + vo.getBoard_id());
-        System.out.println("comment_id = " + vo.getComment_id());
-        System.out.println("recipe_id = " + vo.getRecipe_id());
-        System.out.println("review_id = " + vo.getReview_id());
-        System.out.println("member_id = " + vo.getMember_id());
-        
         reportDao.reportInsert(vo);
 
         return "redirect:/main_list.do";

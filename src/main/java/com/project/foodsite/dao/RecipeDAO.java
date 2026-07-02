@@ -58,5 +58,7 @@ public interface RecipeDAO {
 
     // 레시피 삭제
     int deleteRecipe(int recipeId);
-
+    
+    //조회수 증가
+    int updateViewCount(int recipe_id);
 } 

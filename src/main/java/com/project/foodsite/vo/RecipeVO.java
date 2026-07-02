@@ -43,7 +43,13 @@ public class RecipeVO {
 
     public int getMin(){
         StringTokenizer st = new StringTokenizer(this.cooking_time, "분");
-        return Integer.parseInt(st.nextToken());
+        String str = st.nextToken();
+        if(str.contains("~")){
+            st = new StringTokenizer(str, "~");
+            return Math.max(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        }else{
+            return Integer.parseInt(str);
+        }
     }
 
 }
