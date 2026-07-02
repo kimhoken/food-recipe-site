@@ -2,7 +2,7 @@ package com.project.foodsite.controller;
 
 import com.project.foodsite.common.ViewCount;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.foodsite.dao.ReviewDAO;
-import com.project.foodsite.dto.AdminReviewDTO;
 import com.project.foodsite.dto.ReviewDetailDTO;
 import com.project.foodsite.vo.ImgVO;
 import com.project.foodsite.vo.MemberVO;
@@ -187,13 +186,35 @@ public class ReviewController {
 
         Map<String,Object> map =  new HashMap<>();
 
+        
+
         ImgVO img = imgDAO.img_select(review.getImg_id());
+        
+        if(img == null) {
+            map.put("review_res", 0);
+            map.put("text","음.. img 널값이야");
+            return map;
+        }
 
         List<String> imageList= new ArrayList<>(Arrays.asList(img.getImage_list().split(",")));        
         List<String> deleteList = new ArrayList<>(Arrays.asList(deleteImages.split(",")));
         
         imageList.removeAll(deleteList);
 
+        if(review.getPhoto() != null && !review.getPhoto().isEmpty()){
+            try {
+                String newImages = fileupload.saveFiles(review.getPhoto(), "review");
+
+                imageList.addAll(Arrays.asList(newImages.split(",")));
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+                map.put("img_res", 0);
+                map.put("test", "img 저장 실패");
+            }
+        }
+        
         img.setImage_list(String.join(",", imageList));
 
         int res = imgDAO.img_update(img);
@@ -204,8 +225,9 @@ public class ReviewController {
 
         int review_res = reviewDao.reviewUpdate(review);
 
-        map.put("result", res);
-        // map.put("");
+        map.put("img_res", res);
+        map.put("review_res",review_res);
+
         return map;
 
     }

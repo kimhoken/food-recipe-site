@@ -134,6 +134,7 @@
                m.nickname,
                r.thumbnail AS recipe_thumbnail,
                r.title AS recipe_title,
+               i.img_id AS img_id,
                i.image_list AS  image_list
         from review re
         join member m on m.member_id = re.member_id
@@ -147,5 +148,9 @@
         where review_id =#{review_id}
     </delete>
 
+    <update id="reviewUpdate">
+        update review set title = #{title}, content = #{content}, rating = #{rating}, updated_at = now()
+        where review_id = #{review_id}
+    </update>
    
 </mapper>
