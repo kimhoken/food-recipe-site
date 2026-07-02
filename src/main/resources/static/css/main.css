@@ -335,6 +335,88 @@ header {
     background: #edf3ea;
 }
 
+/* 전체보기 모달 첫 화면 음식명이 길어져도 줄바꿈되지 않게 처리 */
+.menu-group .category-search-btn {
+    display: inline-block;
+    max-width: 115px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+/* 전체보기 모달 첫 화면 음식명에 마우스를 올렸을 때 효과 */
+.menu-group .category-search-btn:hover {
+    color: #4a663f;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+/* 전체보기 모달의 더보기 버튼은 음식명 버튼 스타일 영향을 받지 않도록 분리 */
+.menu-group input[type="button"] {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 8px;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* 더보기 클릭 후 상세 모달 음식명 목록을 왼쪽부터 정렬 */
+.main-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+
+/* 더보기 클릭 후 상세 모달 내부 음식명만 버튼처럼 처리 */
+.main-list .category-search-btn {
+    width: 100%;
+    min-height: 50px;
+    background: #ffffff;
+    border: 1px solid #e7eddf;
+    border-radius: 999px;
+    padding: 12px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 더보기 클릭 후 상세 모달 내부 음식명 버튼에 마우스를 올렸을 때 효과 */
+.main-list .category-search-btn:hover {
+    background: #f3f8ee;
+    border-color: #cbdcbd;
+    color: #4a663f;
+    font-weight: 700;
+    transform: translateY(-2px);
+}
+
 /* ==========================================================================
    5. 레시피 카드 그리드 레이아웃 
    ========================================================================== */

@@ -23,6 +23,9 @@ public class RecipeDTO {
     //썸네일
     private String thumbnail;
 
+    //조리시간
+    private String cooking_time;
+
     // 재료
     private List<String> ingredientName;
     private List<String> amount;

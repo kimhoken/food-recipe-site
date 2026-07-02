@@ -164,8 +164,10 @@
                     <c:forEach var="vo" items="${orderList}">
                         <tr class="step-row-top">
                             <td rowspan="2" class="step-thumb-cell">
-                                <div class="img-placeholder">사진 들어가는 자리</div>
-                            </td>
+                                <c:if test="${not empty vo.cook_image}"> 
+                                                <img src="/upload/recipe/${vo.cook_image}" class="cook-img"> 
+                                            </c:if>
+                            </td> 
                             <td class="step-num">순서 ${vo.order}</td>
                         </tr>
 
@@ -182,6 +184,15 @@
                 </table>
             </div>
         </div>
+
+        <!-- 작성자만 삭제 가능 -->
+                        <c:if test="${not empty sessionScope.user && sessionScope.user.member_id == dto.memberId}">
+                            <a href="/recipe_delete.do?recipeId=${dto.recipeId}" class="recipe-delete-btn"
+                                onclick="return confirm('삭제하시겠습니까?');">
+                                삭제
+                            </a>
+                        </c:if>
+
         <%-- <div class="recipe-report-wrapx">
             <a href="/report/form.do?target_type=레시피&recipe_id=${param.recipe_id}"
             class="recipe-report-btn">

@@ -258,7 +258,7 @@ public class RecipeController {
         Collections.sort(olist, (e1, e2) -> {
             return e1.getOrder() - e2.getOrder();
         });
-        model.addAttribute("commentList", commonCommentDAO.getList(recipe_id));
+        model.addAttribute("commentList", commonCommentDAO.getRecipeList(recipe_id));
         model.addAttribute("dto", dto);
         model.addAttribute("orderList", olist);
         model.addAttribute("ingredients", ilist);
