@@ -7,6 +7,7 @@
 
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+            <link rel="stylesheet" href="css/review.css" />
             <script>
                 function review_send(f) {
                     let rating = f.rating.value;
@@ -32,7 +33,7 @@
                         .then(data => {
                             if (data.result == "success") {
                                 alert("레시피 후기 등록 성공!");
-                                location.href = '/board_list.do';
+                                location.href = '/list.do';
                             } else if (data.result == "fail") {
                                 alert("실패!!");
                             } else {
@@ -42,7 +43,26 @@
 
                 }
 
-                
+                document.addEventListener("DOMContentLoaded", () => {
+                    const fileInput = document.getElementById("reviewPhotos");
+                    const previewBox = document.getElementById("previewBox");
+                    previewBox.innerHTML = "";
+
+                    fileInput.addEventListener("change", function () {
+                        previewBox.innerHTML = "";
+
+                        Array.from(this.files).forEach(file => {
+                            const img = document.createElement("img");
+                            img.src = URL.createObjectURL(file);
+                            img.className = "preview-img";
+                            previewBox.appendChild(img);
+                        })
+
+
+                    });
+                })
+
+
 
             </script>
         </head>
@@ -99,7 +119,8 @@
 
                         <div>
                             후기 사진
-                            <input type="file" name="photo" multiple />
+                            <input type="file" id="reviewPhotos" name="photo" multiple />
+                            <div id="previewBox" class="preview-box"></div>
                         </div>
                     </div>
 
@@ -114,44 +135,44 @@
         </body>
 
         <script>
-            const ratingStars = [...document.getElementsByClassName("rating__star")];
-                const ratingResult = document.querySelector(".rating__result");
+                    const ratingStars = [...document.getElementsByClassName("rating__star")];
+                    const ratingResult = document.querySelector(".rating__result");
 
-                function printRatingResult(result, num = 0) {
-                    result.textContent = num
-                    document.getElementById("rating").value = num;
-                }
+                    function printRatingResult(result, num = 0) {
+                        result.textContent = num
+                        document.getElementById("rating").value = num;
+                    }
 
-                printRatingResult(ratingResult);
+                    printRatingResult(ratingResult);
 
-                function executeRating(stars, result) {
-                    const starClassActive = "rating__star fas fa-star";
-                    const starClassUnactive = "rating__star far fa-star";
-                    const starsLength = stars.length;
-                    let i;
+                    function executeRating(stars, result) {
+                        const starClassActive = "rating__star fas fa-star";
+                        const starClassUnactive = "rating__star far fa-star";
+                        const starsLength = stars.length;
+                        let i;
 
-                    stars.map((star) => {
-                        star.onclick = () => {
-                            i = stars.indexOf(star);
+                        stars.map((star) => {
+                            star.onclick = () => {
+                                i = stars.indexOf(star);
 
-                            if (star.className.indexOf(starClassUnactive) !== -1) {
-                                printRatingResult(result, i + 1);
+                                if (star.className.indexOf(starClassUnactive) !== -1) {
+                                    printRatingResult(result, i + 1);
 
-                                for (i; i >= 0; --i) {
-                                    stars[i].className = starClassActive;
+                                    for (i; i >= 0; --i) {
+                                        stars[i].className = starClassActive;
+                                    }
+                                } else {
+                                    printRatingResult(result, i);
+
+                                    for (i; i < starsLength; ++i) {
+                                        stars[i].className = starClassUnactive;
+                                    }
                                 }
-                            } else {
-                                printRatingResult(result, i);
+                            };
+                        });
+                    }
 
-                                for (i; i < starsLength; ++i) {
-                                    stars[i].className = starClassUnactive;
-                                }
-                            }
-                        };
-                    });
-                }
-
-                executeRating(ratingStars, ratingResult);
+                    executeRating(ratingStars, ratingResult);
 
         </script>
 

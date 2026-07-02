@@ -24,6 +24,11 @@
             useGeneratedKeys="true" keyProperty="img_id">
         insert into img (image_list, review_id)
         values ( #{image_list}, #{review_id} )
-    </insert>        
+    </insert>            
+
+    <delete id="img_delete">
+        delete from img 
+        where review_id = #{review_id}
+    </delete>
 
 </mapper>

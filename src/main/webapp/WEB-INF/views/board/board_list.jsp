@@ -11,6 +11,7 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
             <link rel="stylesheet" href="/css/chatbot.css" />
             <script src="/js/chatbot.js"></script>
+            <script src="${pageContext.request.contextPath}/js/util.js"></script>
 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
@@ -140,7 +141,7 @@
                     }
                 }
 
-                function toggleReviewModal(card) {
+                function toggleReviewModal(card, review_id) {
                     const isOpen = card.classList.contains("open");
 
                     document.querySelectorAll(".review-card.open").forEach(item => {
@@ -150,10 +151,72 @@
                     if (!isOpen) {
                         card.classList.add("open");
                     }
+
+                    fetch("/review/detail",{
+                        method:'post',
+                        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                        body: "review_id="+review_id
+                    }).then(res=> res.json())
+                    .then(dto => {
+                        console.log(dto);
+
+                        setModal(dto);
+
+                        const viewspan = card.querySelector(".review-views");
+                        if (viewspan) {
+                            viewspan.textContent = "조회수 "+ dto.view_count;
+                        }
+
+                        const ownerbtn = card.querySelector(".owner-btn");
+                        const guestbtn = card.querySelector(".guest-btn");
+                        if (dto.owner) {
+                            ownerbtn.style.display="block";
+                        } else {
+                            guestbtn.style.display="block";
+                        }
+                    })
+
+                }
+
+                function setModal(dto){
+                    setImg("model-img","/upload/review/"+dto.recipe_thumbnail);
+                    setText("recipetitle",dto.recipe_title);
+                    setText("title",dto.title);
+                    setText("content", dto.content);
+                    setText("rating", dto.rating);
+                    setImgs("model-imgs",dto.imgList);
+                    setA("tag","/recipe_detail.do?recipe_id="+dto.recipe_id);
+
                 }
 
                 function closeReviewModal(button) {
                     button.closest(".review-card").classList.remove("open");
+                }
+
+                function deleteReview(review_id){
+
+                    if(!confirm("삭제 하시겠습니까?")) {
+                        return;
+                    }
+
+                    fetch("/review/delete",{
+                        method:'post',
+                        headers:{"Content-Type": "application/x-www-form-urlencoded"},
+                        body:"review_id="+review_id
+                    }).then(res => res.json())
+                    .then(data => {
+                        if( data.result > 0 ){
+                            alert( data.title + "삭제 되었습니다.");
+                            location.reload();
+                        } else {
+                            alert( "삭제가 되지 않았습니다." );
+                        }
+                    })
+
+                }
+
+                function modifyReview(review_id){
+                    ;
                 }
             </script>
         </head>
@@ -249,7 +312,7 @@
             <!-- 후기 리스트들 -->
             <div id="reviewFeedList" class="review-feed-list">
                 <c:forEach var="review" items="${reviewList}">
-                    <div class="review-card" onclick="toggleReviewModal(this)">
+                    <div class="review-card" onclick="toggleReviewModal(this, '${review.review_id}')">
 
                         <div class="review-card-main">
 
@@ -282,11 +345,33 @@
                         </div>
 
                         <div class="review-expand-box" onclick="event.stopPropagation()">
+                            <a id="model-tag" href="#">
+                                <div>
+                                    <img id ='model-img' class="model-img"/>
+                                </div>
+                                <h4 id="model-recipetitle">레시피 이름</h4>
+                            </a>
+                            
+                            <p id="model-content" class="model-content"></p>
+                            <div id="model-imgs" class="model-imgs">이미지 나열</div>
+                                                       
+                            <div id="model-rating" class="model-rating">평점</div>
+                            <div class="review-model-btn">
+                               
+                                <div class="owner-btn" style="display: none;">
+                                    <input type="button" 
+                                           value="수정" 
+                                           onclick="location.href='/review/modify?review_id=${review.review_id}'" />
+                                    <input type="button" value="삭제" onclick="deleteReview('${review.review_id}')" />
+                                </div>
 
-                            <h4>후기 상세</h4>
-                            <p>${review.content}</p>
+                                <div class="guest-btn" style="display: none;">
+                                    <input type="button" value="신고" onclick="" />
+                                </div>
+                        
+                               
 
-                            <input type="button" value="닫기" onclick="closeReviewModal(this)" />
+                            </div>
 
                         </div>
 

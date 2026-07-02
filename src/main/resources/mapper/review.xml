@@ -128,9 +128,24 @@
             #{rating}
               )
     </insert>
+    
+    <select id="selectreview" resultType="reviewdetail">
+        select re.*, 
+               m.nickname,
+               r.thumbnail AS recipe_thumbnail,
+               r.title AS recipe_title,
+               i.image_list AS  image_list
+        from review re
+        join member m on m.member_id = re.member_id
+        join recipe r on r.recipe_id = re.recipe_id
+        join img i on re.review_id = i.review_id
+        where re.review_id = #{review_id}       
+    </select>
 
+    <delete id="deletereview">
+        delete from review
+        where review_id =#{review_id}
+    </delete>
 
-
-
-
+   
 </mapper>
