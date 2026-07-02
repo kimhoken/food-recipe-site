@@ -346,7 +346,7 @@
                         list.forEach(function(item) {
                             var imgHtml = '';
                             if (item.custom_image && item.custom_image !== 'no_image') {
-                                imgHtml = '<img src="' + item.custom_image + '" alt="' + item.food_name + '">';
+                                imgHtml = '<img src="/food_img/' + item.custom_image + '" alt="' + item.food_name + '">';
                             }
 
                             var card = ''
@@ -359,7 +359,7 @@
                                 +     '</div>'
                                 +     '<div class="card-thumb">' + imgHtml + '</div>'
                                 +   '</div>'
-                                +   '<a href="/recipe_list.do?foodId=' + item.food_id + '" class="btn-recipe">레시피 둘러보기</a>'
+                                +   '<a href="/recipe_detail.do?recipe_id=' + item.food_id + '" class="btn-recipe">레시피 둘러보기</a>'
                                 + '</div>';
 
                             grid.innerHTML += card;
