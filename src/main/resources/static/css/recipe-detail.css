@@ -206,7 +206,6 @@
 ----------------------------------- */
 .comment-insert-div {
     border-top: 1px solid #777;
-    /* 본문과 분리되는 상단 구분선 */
     padding-top: 40px;
     margin-top: 40px;
 }
@@ -216,66 +215,42 @@
     border-collapse: collapse;
 }
 
-.comment-insert-div th {
-    text-align: left;
-    font-size: 15px;
-    font-weight: 500;
-    color: #222;
-    padding-bottom: 10px;
-    width: 80px;
-}
-
 .comment-insert-div td {
     padding-bottom: 10px;
 }
 
-/* 댓글 제목 입력칸 */
-.comment-title {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.comment-title:focus {
-    border-color: #cda87c;
-    /* 포커스 시 기존 골드 포인트 컬러 적용 */
-}
-
-/* 댓글 목록 내용 (textarea) 디자인 및 크기 고정 */
+/* 댓글 목록 내용 */
 .comment-content {
     width: 100%;
-    height: 22px;
+    min-height: 44px;
+    max-height: 90px;
     resize: none;
     border: none;
-    /* 읽기 전용 느낌으로 테두리 제거 */
     background-color: transparent;
-    /* 배경 투명하게 */
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     color: #333;
-    line-height: 1.5;
+    line-height: 1.6;
     outline: none;
+    padding: 0;
     box-sizing: border-box;
-
+    overflow-y: auto;
 }
 
+/* 댓글 입력창 */
 #comment-content {
     width: 100%;
-    height: 80px;
+    height: 90px;
     resize: none;
     border: 1px solid #333;
+    border-radius: 8px;
     background-color: transparent;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     color: #333;
-    line-height: 1.5;
+    line-height: 1.6;
     outline: none;
-    padding: 5px;
+    padding: 12px;
     box-sizing: border-box;
 }
 
@@ -287,12 +262,12 @@
 .comment-register {
     display: block;
     width: 120px;
-    margin: 10px 0 0 auto;
-    /* 우측 정렬 */
+    margin: 12px 0 0 auto;
     padding: 12px 0;
     background-color: #222;
     color: #fff;
     border: none;
+    border-radius: 24px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -312,7 +287,6 @@
     padding-bottom: 60px;
 }
 
-/* 첫 댓글이 없을 때 안내 문구 */
 .read-comment-div h2 {
     text-align: center;
     font-size: 18px;
@@ -322,97 +296,53 @@
     letter-spacing: 0.5px;
 }
 
-/* 각 댓글을 감싸는 테이블 */
 .read-comment-div table {
     width: 100%;
     border-bottom: 1px solid #eee;
-    /* 댓글 사이 연한 구분선 */
-    padding: 15px 0;
     margin-bottom: 15px;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
-/* 댓글 목록 테이블 셀 디자인 */
 .read-comment-div td {
-    padding: 12px 5px;
+    padding: 16px 8px;
     font-size: 14px;
     color: #333;
     vertical-align: middle;
 }
 
-/* '제목', '작성자' 텍스트 라벨칸 */
-.read-comment-div td:nth-child(1),
-.read-comment-div td:nth-child(3) {
+.read-comment-div td:first-child {
+    width: 90px;
     font-weight: 500;
     color: #666;
-    width: 60px;
     text-align: left;
 }
 
-/* 입력칸(input)으로 되어있는 값을 일반 텍스트처럼 보이도록 처리 */
-.read-comment-div input[type="text"] {
-    width: 100%;
-    border: none;
-    background: transparent;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    color: #222;
-    outline: none;
-    pointer-events: none;
-    /* 클릭 안 되게 막아서 텍스트처럼 연출 */
+.read-comment-div td:nth-child(2) {
+    width: auto;
 }
 
-/* 버튼(수정/삭제) 영역을 우측으로 밀기 */
 .read-comment-div td:last-child {
-    width: 120px;
+    width: 55px;
     text-align: right;
     white-space: nowrap;
+    overflow: visible;
 }
-
-.read-comment-div td:last-child form {
-    display: inline-block;
-    margin-left: 5px;
-    /* 수정, 삭제 버튼 사이 간격 */
-}
-
-/* 수정, 삭제 버튼 세부 디자인 */
-.read-comment-div input[type="button"] {
-    padding: 6px 14px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    color: #555;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    transition: all 0.2s ease;
-}
-
-.read-comment-div input[type="button"]:hover {
-    background-color: #eee;
-    border-color: #ccc;
-    color: #222;
-}
-
 
 /* ==========================================================================
     댓글 영역 메인 타이틀 디자인
    ========================================================================== */
 .comment-main-title {
     max-width: 800px;
-    margin: 60px auto 10px;
-    /* 위쪽 여백을 넉넉히 줘서 본문과 분리, 가운데 정렬 */
+    margin: 90px auto 10px;
     padding: 0 40px;
-    /* 기존 영역들과 양옆 여백(40px) 맞춤 */
     box-sizing: border-box;
-
     font-family: 'Noto Serif KR', serif;
-    /* 메인 제목과 어울리게 명조체 적용 */
     font-size: 22px;
     font-weight: 600;
     color: #222;
 }
 
-/* 텍스트 왼쪽에 들어가는 고급스러운 골드 세로선 포인트 */
 .comment-main-title::before {
     content: "";
     display: inline-block;
@@ -426,7 +356,7 @@
     top: -2px;
 }
 
-
+/* 별점 표시 */
 .rating__result {
     position: absolute;
     top: 0;
@@ -451,43 +381,23 @@
 
 .rate {
     background: url(https://aldo814.github.io/jobcloud/html/images/user/star_bg02.png) no-repeat;
-    background-size: 100px 20px; 
-    width: 100px; /* 🌟 55% 대신 100px로 고정! */
+    background-size: 100px 20px;
+    width: 100px;
     height: 20px;
     position: relative;
-    
-    /* 위치 조절용 추가 속성 */
-    display: inline-block; 
-    vertical-align: middle; 
-    margin-left: 5px; 
-    margin-bottom: 3px; 
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-bottom: 3px;
 }
 
 .rate span {
     position: absolute;
     background: url(https://aldo814.github.io/jobcloud/html/images/user/star02.png) no-repeat;
-    background-size: 100px 20px; 
+    background-size: 100px 20px;
     height: 20px;
     left: 0;
     top: 0;
-}
-
-
-
-/* 썸네일 및 조리과정 이미지 상세보기 사이즈*/
-
-.thumbnail-img{
-    width: 500px;
-}
-
-.cook-img{
-    max-width: 500px;
-    width: 110%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 10px auto 20px;
-    display: block;
 }
 
 /* ==========================================================================
@@ -499,41 +409,38 @@
     display: inline-block;
 }
 
-/* 토글 버튼 (⋮) 네모 박스 완전 제거 */
 .comment-toggle-btn {
-    background: transparent; /* 배경 투명하게 */
-    border: none; /* 기본 테두리 없애기 */
-    outline: none; /* 클릭했을 때 생기는 테두리 없애기 */
+    background: transparent;
+    border: none;
+    outline: none;
     font-size: 18px;
     font-weight: bold;
     color: #888;
     cursor: pointer;
     padding: 5px 10px;
-    transition: color 0.2s ease; /* 배경 말고 글자색만 부드럽게 변하도록 */
+    transition: color 0.2s ease;
 }
 
-/* 마우스 올렸을 때 네모난 배경 안 생기고 글자색만 진해지게 */
 .comment-toggle-btn:hover {
     background: transparent;
     color: #222;
 }
 
-/* 드롭다운 메뉴 컨테이너 */
 .comment-dropdown {
     display: none;
     position: absolute;
     right: 0;
-    top: 30px; /* 버튼 바로 아래 위치 */
+    top: 30px;
     background-color: #fff;
     border: 1px solid #eaeaea;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     min-width: 90px;
-    padding: 5px 0;
-    z-index: 10;
+    padding: 4px 0 !important;
+    z-index: 999;
+    overflow: visible;
 }
 
-/* 리스트 기본 속성 제거 */
 .comment-dropdown ul {
     list-style: none;
     margin: 0;
@@ -541,15 +448,19 @@
 }
 
 .comment-dropdown li {
-    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    line-height: normal;
 }
 
-/* 드롭다운 안의 텍스트/버튼 디자인 */
 .comment-dropdown a,
 .comment-dropdown input[type="button"].toggle-btn {
     display: block;
     width: 100%;
-    padding: 10px 15px;
+    padding: 8px 12px;
     box-sizing: border-box;
     background: transparent;
     border: none;
@@ -558,10 +469,10 @@
     font-family: 'Noto Sans KR', sans-serif;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
-/* 마우스 올렸을 때 살짝 회색 배경 */
 .comment-dropdown a:hover,
 .comment-dropdown input[type="button"].toggle-btn:hover {
     background-color: #f8f8f8;

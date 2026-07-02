@@ -89,16 +89,12 @@ public class AdminRecipeController {
     @PostMapping("/admin/recipe/search")
     @ResponseBody
     public Map<String, Object> recipesearch(AdminRecipeDTO adminRecipeDTO, Model model) {
-
-        System.out.println("keyword = " + adminRecipeDTO.getKeyword());
-        System.out.println("status = " + adminRecipeDTO.getStatus());
         
         
         if (adminRecipeDTO.getPage() <= 0) {
             adminRecipeDTO.setPage(1);
         }
         adminRecipeDTO.setCategory_name(adminUtil.categorymapping(adminRecipeDTO.getCategory_name()));
-        System.out.println("category = " + adminRecipeDTO.getCategory_name());
         
         int totalcount = recipeDAO.RecipeCount(adminRecipeDTO);
 

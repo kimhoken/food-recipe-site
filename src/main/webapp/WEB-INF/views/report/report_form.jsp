@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+    <link rel="stylesheet" href="/css/report.css">
+
     <c:if test="${empty param.board_id and empty param.comment_id and empty param.recipe_id and empty param.review_id}">
         <script>
             alert("신고 대상이 없습니다.");
@@ -24,72 +25,143 @@
     </c:when>
 
     <c:otherwise>
-        <h2>신고하기</h2>
 
-        <form action="/report/insert.do" method="post">
+        <div class="report-page">
+            <div class="report-wrap">
 
-            <input type="hidden" name="target_type" value="${param.target_type}">
-            <input type="hidden" name="board_id" value="${param.board_id}">
-            <input type="hidden" name="comment_id" value="${param.comment_id}">
-            <input type="hidden" name="recipe_id" value="${param.recipe_id}">
-            <input type="hidden" name="review_id" value="${param.review_id}">
+                <div class="report-title-box">
+                    <h2>신고하기</h2>
+                    <p>부적절한 게시물이나 댓글을 신고할 수 있습니다.</p>
+                </div>
 
-            <c:if test="${not empty board}">
-                신고 게시글:
-                <a href="/view.do?board_id=${board.board_id}">
-                    ${board.title}
-                </a>
-            </c:if>
+                <form action="/report/insert.do" method="post" class="report-form">
 
-            <c:if test="${param.target_type eq '게시판 댓글' and not empty param.comment_id}">
-                신고 댓글:
-                <a href="/view.do?board_id=${param.board_id}">
-                    댓글 보러가기
-                </a>
-            </c:if>
+                    <input type="hidden" name="target_type" value="${report.target_type}">
 
-           <c:if test="${param.target_type eq '레시피' and not empty param.recipe_id}">
-                신고 레시피:
-                <a href="/recipe_detail.do?recipeId=${param.recipe_id}">
-                    레시피 보러가기
-                </a>
-            </c:if>
+                    <input type="hidden" name="board_id" value="${param.board_id}">
+                    <input type="hidden" name="comment_id" value="${param.comment_id}">
+                    <input type="hidden" name="recipe_id" value="${param.recipe_id}">
+                    <input type="hidden" name="review_id" value="${param.review_id}">
 
-            <c:if test="${param.target_type eq '레시피 후기' and not empty param.comment_id}">
-                신고 후기:
-                <a href="/recipe_detail.do?recipeId=${param.recipe_id}&commentId=${param.comment_id}">
-                    후기 보러가기
-                </a>
-            </c:if>
+                    <c:if test="${report.target_type eq '커뮤니티' and not empty board}">
+                        <div class="report-target-box">
+                            <div class="report-target-label">신고 대상 게시글</div>
 
+                            <a href="/view.do?board_id=${board.board_id}" class="report-target-title">
+                                ${board.title}
+                            </a>
+                        </div>
+                    </c:if>
 
-            <p>
-                신고 사유
-                <select name="reason" required>
-                    <option value="">선택하세요</option>
-                    <option value="욕설/비방">욕설/비방</option>
-                    <option value="광고/도배">광고/도배</option>
-                    <option value="음란물">음란물</option>
-                    <option value="허위정보">허위정보</option>
-                    <option value="기타">기타</option>
-                </select>
-            </p>
+                    <c:if test="${report.target_type eq '커뮤니티 댓글'}">
+                        <div class="report-target-box">
+                            <div class="report-target-label">신고 대상 게시글 댓글</div>
 
-            <p>
-                신고제목
-                <input type="text" name="report_title" maxlength="50" required>
-            </p>
+                            <button type="button"
+                                    class="report-target-title report-link-btn"
+                                    onclick="openCommentModal()">
+                                댓글 보러가기
+                            </button>
+                        </div>
+                    </c:if>
 
-            <p>
-                신고 상세 내용
-                <textarea name="detail" rows="8" cols="50"
-                          placeholder="신고 상세 내용을 입력하세요"></textarea>
-            </p>
+                    <c:if test="${report.target_type eq '레시피'}">
+                        <div class="report-target-box">
+                            <div class="report-target-label">신고 대상 레시피</div>
 
-            <input type="submit" value="신고하기">
-            <input type="button" value="취소" onclick="history.back()">
+                            <a href="/recipe_detail.do?recipe_id=${param.recipe_id}" class="report-target-title">
+                                ${recipe.report_title}
+                            </a>
+                        </div>
+                    </c:if>
 
-        </form>
+                    <c:if test="${report.target_type eq '레시피 댓글'}">
+                        <div class="report-target-box">
+                            <div class="report-target-label">신고 대상 레시피 댓글</div>
+
+                            <button type="button"
+                                    class="report-target-title report-link-btn"
+                                    onclick="openCommentModal()">
+                                댓글 보러가기
+                            </button>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${report.target_type eq '리뷰'}">
+                        <div class="report-target-box">
+                            <div class="report-target-label">신고 대상 후기게시판</div>
+
+                            <a href="/list.do?btn=review" class="report-target-title">
+                                ${review.report_title}
+                            </a>
+                        </div>
+                    </c:if>
+
+                    <div class="form-row">
+                        <label>신고 사유</label>
+                        <select name="reason" required>
+                            <option value="">선택하세요</option>
+                            <option value="욕설/비방">욕설/비방</option>
+                            <option value="광고/도배">광고/도배</option>
+                            <option value="음란물">음란물</option>
+                            <option value="허위정보">허위정보</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <label>신고 제목</label>
+                        <input type="text" name="report_title" maxlength="50" required
+                               placeholder="신고 제목을 입력하세요">
+                    </div>
+
+                    <div class="form-row">
+                        <label>신고 상세 내용</label>
+                        <textarea name="detail" rows="8"
+                                  placeholder="신고 상세 내용을 입력하세요"></textarea>
+                    </div>
+
+                    <div class="report-btn-wrap">
+                        <input type="submit" value="신고하기" class="report-submit-btn">
+                        <input type="button" value="취소" onclick="history.back()" class="report-cancel-btn">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div id="commentModal" class="comment-modal">
+            <div class="comment-modal-box">
+
+                <div class="comment-modal-header">
+                    <h3>신고 대상 댓글</h3>
+                    <button type="button" onclick="closeCommentModal()">×</button>
+                </div>
+
+                <div class="comment-modal-meta">
+                    댓글 작성자: ${comment.nickname}
+                </div>
+
+                <div class="comment-modal-content">${comment.detail}</div>
+
+                <div class="comment-modal-footer">
+                    <button type="button" onclick="closeCommentModal()">닫기</button>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+
+            function openCommentModal() {
+                document.getElementById("commentModal").style.display = "flex";
+            }
+
+            function closeCommentModal() {
+                document.getElementById("commentModal").style.display = "none";
+            }
+        </script>
+
     </c:otherwise>
 
 </c:choose>

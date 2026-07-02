@@ -45,6 +45,12 @@
                 return;
             }
 
+            if (content.length > 150) {
+                alert("댓글은 150자 이내로 작성해주세요.");
+                f.content.focus();
+                return;
+            }
+
             fetch("/api/recomment/insert", {
                 method: "post",
                 headers: {
@@ -84,6 +90,13 @@
 
         const modiFin = (commentId) => {
             let content = document.getElementById("modi_content" + commentId);
+
+            if (content.value.length > 150) {
+                alert("댓글은 150자 이내로 작성해주세요.");
+                content.focus();
+                return;
+            }
+
             content.readOnly = true;
 
             fetch("/api/recomment/update", {
@@ -177,7 +190,11 @@
                             <td>${vo.nickname}</td>
 
                             <td>
-                                <textarea class="comment-content" id="modi_content${vo.comment_id}" readonly>${vo.content}</textarea>
+
+                                <textarea class="comment-content"
+                                          id="modi_content${vo.comment_id}"
+                                          maxlength="150"
+                                          readonly>${vo.content}</textarea>
                             </td>
 
                             <td>
@@ -188,7 +205,7 @@
 
                                     <div id="commentMenu${vo.comment_id}"
                                          class="comment-dropdown"
-                                         style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc; padding:8px;">
+                                         style="display:none; position:absolute; right:0; background:white; border:1px solid #ccc;">
                                         <ul>
                                             <li>
                                                 <a href="/report/form.do?target_type=댓글&board_id=${board.board_id}&comment_id=${vo.comment_id}">
@@ -240,7 +257,10 @@
 
                         <tr>
                             <td>
-                                <textarea name="content" id="comment-content" placeholder="비방, 욕설 등의 댓글은 무통보 삭제될 수 있습니다."></textarea>
+                                <textarea name="content"
+                                          id="comment-content"
+                                          maxlength="150"
+                                          placeholder="비방, 욕설 등의 댓글은 무통보 삭제될 수 있습니다."></textarea>
                             </td>
                         </tr>
 

@@ -18,7 +18,7 @@ public class ReportVO {
 
     private int report_id, member_id, admin_id, reported_count, report_count;
 
-    private String target_type, reason, detail, status, admin_memo, report_title, nickname, name, email, profile_img;;
+    private String target_type, reason, detail, status, admin_memo, report_title, nickname, name, email, profile_img;
 
     private Date created_date, processed_date;
 }

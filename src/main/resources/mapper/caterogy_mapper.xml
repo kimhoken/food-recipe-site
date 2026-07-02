@@ -28,5 +28,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY c.sort_order
     </select>
 
+    <select id="getSubName" parameterType="String" resultType="category">
+        SELECT category_id, sub_category_name subCategoryName
+        FROM category 
+        WHERE category_name = #{category}
+    </select>
+    
+    <select id="getCategoryName" resultType="category">
+        SELECT DISTINCT category_name categoryName
+        FROM category
+    </select>
     
 </mapper>

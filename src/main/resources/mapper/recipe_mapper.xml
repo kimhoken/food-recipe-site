@@ -289,4 +289,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE recipe_id = #{recipeId}
     </delete>
 
+    <update id="updateViewCount" parameterType="int">
+        UPDATE recipe
+        SET view_count = view_count + 1
+        WHERE recipe_id = #{recipeId}
+    </update>
+
 </mapper>
