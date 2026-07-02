@@ -44,13 +44,13 @@
 
                     <div class="menu-section">
                         <div class="sub-title">회원 정보</div>
-                        <div><a href="/mypage.do?menu=account">
+                        <div><a href="/mypage.do?menu=account" class="menu-item ${param.menu eq 'account' ? 'active' : ''}">
                                 <!-- <img src="/images/user.png" width="32px" height="32px" /> -->
                                 회원정보</a></div>
-                        <div><a href="/mypage.do?menu=pwd">
+                        <div><a href="/mypage.do?menu=pwd" class="menu-item ${param.menu eq 'pwd' ? 'active' : ''}">
                                 <!-- <img src="/images/padlock.png" width="32px" height="32px" /> -->
                                 비밀번호 변경</a></div>
-                        <div><a href="/mypage.do?menu=del">
+                        <div><a href="/mypage.do?menu=del" class="menu-item ${param.menu eq 'del' ? 'active' : ''}">
                                 <!-- <img src="/images/delete_user.png" /> -->
                                 회원 탈퇴</a></div>
                     </div>
@@ -58,13 +58,13 @@
 
                     <div class="menu-section">
                         <div class="sub-title"><a href="/mypage.do?menu=activity">내활동</a></div>
-                        <div><a href="/mypage.do?menu=recipe">
+                        <div><a href="/mypage.do?menu=recipe" class="menu-item ${param.menu eq 'recipe' ? 'active' : ''}">
                                 <!-- <img src="images/document2.png" /> -->
                                 작성한 레시피</a></div>
-                        <div><a href="/mypage.do?menu=comment">
+                        <div><a href="/mypage.do?menu=comment" class="menu-item ${param.menu eq 'comment' ? 'active' : ''}">
                                 <!-- <img src="/images/chat.png" /> -->
                                 작성한 댓글</a></div>
-                        <div><a href="/mypage.do?menu=bookmark">
+                        <div><a href="/mypage.do?menu=bookmark" class="menu-item ${param.menu eq 'bookmark' ? 'active' : ''}">
                                 <!-- <img src="/images/bookmark2.png" /> -->
                                 북마크</a></div>
 
@@ -72,7 +72,7 @@
 
                     <div class="menu-section">
                         <div class="sub-title">고객지원</div>
-                        <div><a href="/mypage.do?menu=inquiry">
+                        <div><a href="/mypage.do?menu=inquiry" class="menu-item ${param.menu eq 'inquiry' ? 'active' : ''}">
                                 <!-- <img src="/images/help.png" /> -->
                                 문의 내역</a></div>
                     </div>

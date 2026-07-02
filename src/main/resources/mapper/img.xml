@@ -31,4 +31,9 @@
         where review_id = #{review_id}
     </delete>
 
+    <update id="img_update" parameterType="img" >
+        update img set  image_list = #{image_list}
+        where img_id = #{img_id}
+    </update>
+
 </mapper>

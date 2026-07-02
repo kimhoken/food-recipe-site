@@ -9,6 +9,7 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board.css" />
             <link rel="stylesheet" href="/css/main.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/search_bar.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/review.css"/>
             <link rel="stylesheet" href="/css/chatbot.css" />
             <script src="/js/chatbot.js"></script>
             <script src="${pageContext.request.contextPath}/js/util.js"></script>
@@ -160,7 +161,7 @@
                     .then(dto => {
                         console.log(dto);
 
-                        setModal(dto);
+                        setModal(dto, card);
 
                         const viewspan = card.querySelector(".review-views");
                         if (viewspan) {
@@ -178,14 +179,14 @@
 
                 }
 
-                function setModal(dto){
-                    setImg("model-img","/upload/review/"+dto.recipe_thumbnail);
-                    setText("recipetitle",dto.recipe_title);
-                    setText("title",dto.title);
-                    setText("content", dto.content);
-                    setText("rating", dto.rating);
-                    setImgs("model-imgs",dto.imgList);
-                    setA("tag","/recipe_detail.do?recipe_id="+dto.recipe_id);
+                function setModal(dto, card){
+                    setImg("model-img","/upload/review/"+dto.recipe_thumbnail, card);
+                    setText("recipetitle",dto.recipe_title, card);
+                    setText("title",dto.title, card);
+                    setText("content", dto.content, card);
+                    setText("rating", dto.rating, card);
+                    setImgs("model-imgs",dto.imgList, card);
+                    setA("tag","/recipe_detail.do?recipe_id="+dto.recipe_id, card);
 
                 }
 
@@ -215,9 +216,17 @@
 
                 }
 
-                function modifyReview(review_id){
-                    ;
-                }
+                function openImageModal(src){
+
+                    document.getElementById("imageModalImg").src=src;
+                    document.getElementById("imageModal").classList.add("show");
+                }    
+
+                function closeImageModal(){
+                    
+                    document.getElementById("imageModal").classList.remove("show");
+                }    
+
             </script>
         </head>
 
@@ -351,11 +360,11 @@
                                 </div>
                                 <h4 id="model-recipetitle">레시피 이름</h4>
                             </a>
+                            <div id="model-rating" class="model-rating">평점</div>
                             
                             <p id="model-content" class="model-content"></p>
                             <div id="model-imgs" class="model-imgs">이미지 나열</div>
                                                        
-                            <div id="model-rating" class="model-rating">평점</div>
                             <div class="review-model-btn">
                                
                                 <div class="owner-btn" style="display: none;">
@@ -387,6 +396,12 @@
             <jsp:include page="/WEB-INF/views/common/footer.jsp" />
             <!-- 챗봇 -->
             <jsp:include page="/WEB-INF/views/chatbot/chatbot_main.jsp" />
+
+            <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+                <img id="imageModalImg" class="image-modal-img"/>
+            </div>
         </body>
+
+        
 
         </html>

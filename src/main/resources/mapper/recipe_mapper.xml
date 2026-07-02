@@ -12,8 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <!-- 특정 레시피 1개 상세 조회 -->
     <select id="selectOne" parameterType="int" resultType="recipe">
-        SELECT r.*, m.nickname FROM recipe r
+        SELECT r.*, m.nickname, c.category_name FROM recipe r
         JOIN member m ON r.member_id = m.member_id
+        JOIN food f ON r.food_id = f.food_id
+        JOIN category c ON f.category_id = c.category_id
         WHERE recipe_id = #{num}
     </select>
     

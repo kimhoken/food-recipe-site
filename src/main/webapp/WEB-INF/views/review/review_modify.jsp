@@ -54,7 +54,19 @@
                     })
                     .then(res => res.json())
                     .then( data => {
-                        
+                        if (data.img_res > 0) {
+                            alert("이미지 삭제 완료");
+                        } else {
+                            alert("이미지 변경 X");
+                        }
+                        if(data.review_res > 0 ){
+                            alert("수정이 완료 되었습니다.");
+                            location.href="/list.do";
+                        } else {
+                            alert("수정 실패");
+                            alert(data.text);
+
+                        }
                     })
 
                 }
@@ -70,7 +82,8 @@
                 </div>
 
                 <form enctype="multipart/form-data" method="post">
-                    <input type="hidden" name="recipe_id" value="${param.recipe_id}" />
+                    <input type="hidden" name="review_id" value="${review.review_id}" />
+                    <input type="hidden" name="img_id" value="${review.img_id}" />
                     <input type="hidden" name="deleteImages" id="deleteImages"/>
 
 
@@ -81,8 +94,7 @@
                             <img src="#" />
                             <div>${recipe.title}</div>
                             <div>카테고리</div>
-                            <div>${recipe.cooking_time}</div>
-                            <div>${recipe.difficulty}</div>
+                            <div>${recipe.cooking_time}</div>                            
                             <div>레시피 소개글</div>
 
                         </div>

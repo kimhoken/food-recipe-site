@@ -45,7 +45,9 @@ function setImgs(id, imglist, rootElement) {
 
     imglist.forEach(img => {
         box.innerHTML += `
-            <img src="/upload/review/${img}"/>
+            <img src="/upload/review/${img}"
+                 class="modal-review-img"
+                 onclick="openImageModal(this.src)">
         `;
     });
 }

@@ -105,20 +105,32 @@ a {
 }
 
 .logout-btn {
-    width: 100%;
-    height: 46px;
-    margin-top: 24px;
-    border: 1px solid #6FAF64;
+     width: 100%;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    margin-top: 18px;
+
+    border: 1px solid #c9c7bd;
     border-radius: 10px;
-    background: #fff;
-    color: #2F7D32;
+
+    background: #fafafa;
+
     font-size: 15px;
     font-weight: 700;
+    color: #222;
+
     cursor: pointer;
+    transition: 0.22s ease;
 }
 
 .logout-btn:hover {
-    background: #EEF5E8;
+    background: #f2f1e8;
+    color: #6f6b32;
 }
 
 .mypage-right {
@@ -311,6 +323,12 @@ a {
     color: #222;
     cursor: pointer;
     position: relative;
+}
+
+.home-tab-btn:hover{
+    color: #6f6b32;
+    background: #f5f4ed;
+    border-radius: 10px 10px 0 0;
 }
 
 .home-tab-btn.active {
