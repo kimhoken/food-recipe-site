@@ -213,25 +213,15 @@ public class BoardController {
     // 상세보기 수정
     @PostMapping("/update.do")
     public String update(BoardVO vo) {
-
-        int res = boardDao.update(vo);
-
-
+        boardDao.update(vo);
         return "redirect:/view.do?board_id=" + vo.getBoard_id();
     }
 
     // 상세보기 삭제
     @GetMapping("/delete.do")
-    public String delete(int board_id,
-            HttpSession session) {
-
-        MemberVO user = (MemberVO) session.getAttribute("user");
-
-        BoardVO board = boardDao.selectOne(board_id);
-
-        int res = boardDao.delete(board_id);
-
-
+    public String delete(int board_id, HttpSession session) {
+        boardDao.selectOne(board_id);
+        boardDao.delete(board_id);
         return "redirect:/list.do";
     }
 

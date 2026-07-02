@@ -51,7 +51,6 @@ public class WebPushController {
     // 주소창에 http://localhost:5000/api/push/test-send 치면 바로 발송
     @GetMapping("/test-send")
     public ResponseEntity<String> testSend() {
-        System.out.println("=== 임시 테스트 발송 시작 ===");
         
         // 우리가 WebPushService에 만들어 둔 3일 임박 알림 메서드 강제 실행
         webPushService.sendAllExpirationAlarms(); 

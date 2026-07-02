@@ -23,7 +23,6 @@ public class Config{
     public void init() {
         // 암호화 프로바이더 등록 (서버 뜰 때 최초 1회 무조건 실행돼야 함)
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            System.out.println("--------------------------key load success!!!----------------------------");
             Security.addProvider(new BouncyCastleProvider());
         }
     }

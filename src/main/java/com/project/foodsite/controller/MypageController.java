@@ -286,10 +286,7 @@ public class MypageController {
     public String update(MemberVO vo, String filechange) throws Exception{
 
         MemberVO user = (MemberVO)httpSession.getAttribute("user");
-     
         String savePath = "profile";
-        System.out.println("경로:" + savePath);
-        
         String filename = user.getProfile_img();
 
         MultipartFile photo = vo.getPhoto();
